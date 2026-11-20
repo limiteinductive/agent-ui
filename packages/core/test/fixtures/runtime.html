@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>runtime</title>
+<script type="application/json" id="expect">{"all": ["UI-RUNTIME-ERROR", "UI-RESOURCE-FAILED"]}</script>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page><ui-stack>
+  <img src="does-not-exist.png" alt="missing">
+  <p>Page with a thrown error and a broken image.</p>
+</ui-stack></ui-page>
+<script>undefinedFunction();</script>
+</body></html>

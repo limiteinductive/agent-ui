@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aliases</title>
+<script type="application/json" id="expect">{"all": ["UI-ALIAS"]}</script>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page><ui-stack gap="medium">
+  <ui-panel pad="lg">Panel is an alias of card; pad of padding.</ui-panel>
+  <ui-grid columns-md="2" columns-lg="3"><ui-card>a</ui-card><ui-card>b</ui-card><ui-card>c</ui-card></ui-grid>
+  <ui-button tone="primary">Tone is an alias of variant</ui-button>
+  <ui-stack horizontal gap="small"><span>a</span><span>b</span></ui-stack>
+</ui-stack></ui-page></body></html>

@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>skew</title>
+<script type="application/json" id="expect">{"all": ["UI-VERSION-SKEW", "UI-DUPLICATE"]}</script>
+<style>:root { --ui-version: "0.0.9" }</style>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page><p>Stylesheet from another version, and the script loaded twice.</p></ui-page>
+<script src="../../dist/agent-ui.js"></script>
+</body></html>

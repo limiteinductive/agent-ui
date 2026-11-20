@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>agent-ui demo</title>
+<script src="../dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="sm" wrap>
+        <strong>agent-ui</strong>
+        <ui-row gap="sm">
+          <a href="#layout">Layout</a>
+          <a href="#forms">Forms</a>
+          <ui-button size="sm" variant="ghost" id="scheme">Toggle scheme</ui-button>
+        </ui-row>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container>
+      <ui-stack gap="xl">
+        <ui-stack gap="sm">
+          <h1>Layout that tells you when it breaks</h1>
+          <p>Native HTML is styled. Layout is a handful of <code>ui-*</code> elements. Open the console: the report says <em>0 errors</em>.</p>
+        </ui-stack>
+
+        <section id="layout">
+          <ui-stack>
+            <h2>Card grid</h2>
+            <ui-grid max-columns="3">
+              <ui-card>
+                <h3>Free</h3>
+                <p>For trying it out.</p>
+                <ui-button>Start</ui-button>
+              </ui-card>
+              <ui-card elevated>
+                <h3>Pro</h3>
+                <p>For teams that ship every day.</p>
+                <ui-button variant="primary">Buy</ui-button>
+              </ui-card>
+              <ui-card inverse>
+                <h3>Enterprise</h3>
+                <p>Inverse card: the opposite scheme.</p>
+                <ui-button variant="outline">Contact</ui-button>
+              </ui-card>
+            </ui-grid>
+          </ui-stack>
+        </section>
+
+        <section>
+          <ui-stack>
+            <h2>Side + main</h2>
+            <ui-row wrap align="start">
+              <ui-card sunken>
+                <ui-stack gap="xs">
+                  <strong>Filters</strong>
+                  <label><input type="checkbox" checked> Open</label>
+                  <label><input type="checkbox"> Closed</label>
+                </ui-stack>
+              </ui-card>
+              <ui-card grow>
+                <ui-row justify="space-between">
+                  <h3>Results</h3>
+                  <ui-button size="sm" loading>Refreshing</ui-button>
+                </ui-row>
+                <table>
+                  <thead><tr><th>Name</th><th>Status</th><th>Owner</th></tr></thead>
+                  <tbody>
+                    <tr><td>Billing export</td><td>Open</td><td>Kim</td></tr>
+                    <tr><td>Dark mode</td><td>Closed</td><td>Ada</td></tr>
+                  </tbody>
+                </table>
+              </ui-card>
+            </ui-row>
+          </ui-stack>
+        </section>
+
+        <section>
+          <ui-stack>
+            <h2>Rows that adapt</h2>
+            <ui-row wrap gap="sm">
+              <ui-button size="sm" rounded>design</ui-button>
+              <ui-button size="sm" rounded>frontend</ui-button>
+              <ui-button size="sm" rounded>accessibility</ui-button>
+              <ui-button size="sm" rounded>performance</ui-button>
+              <ui-button size="sm" rounded>diagnostics</ui-button>
+            </ui-row>
+            <ui-row stack-below="md">
+              <ui-card variant="success"><strong>Stat</strong><p>3 fixed</p></ui-card>
+              <ui-card variant="warning"><strong>Stat</strong><p>1 remain</p></ui-card>
+              <ui-card variant="info"><strong>Stat</strong><p>0 new</p></ui-card>
+            </ui-row>
+            <ui-row scroll item-width="sm">
+              <ui-card>One</ui-card><ui-card>Two</ui-card><ui-card>Three</ui-card>
+              <ui-card>Four</ui-card><ui-card>Five</ui-card><ui-card>Six</ui-card>
+            </ui-row>
+          </ui-stack>
+        </section>
+
+        <section>
+          <ui-stack>
+            <h2>Overlay</h2>
+            <ui-overlay>
+              <div style="aspect-ratio: 16 / 5; background: linear-gradient(135deg, var(--ui-primary), var(--ui-info, var(--ui-primary))); border-radius: var(--ui-radius-lg)"></div>
+              <ui-stack align="start" justify="end" padding="lg">
+                <ui-card rounded="full" padding="xs"><small>Badge over media</small></ui-card>
+              </ui-stack>
+            </ui-overlay>
+          </ui-stack>
+        </section>
+
+        <section id="forms">
+          <ui-card>
+            <form>
+              <ui-stack>
+                <h2>Form</h2>
+                <ui-grid max-columns="2" min-item-width="sm">
+                  <label>Name <input name="name" required></label>
+                  <label>Email <input name="email" type="email"></label>
+                </ui-grid>
+                <label>Plan
+                  <select name="plan"><option>Free</option><option>Pro</option></select>
+                </label>
+                <label>Notes <textarea name="notes" rows="3"></textarea></label>
+                <label><input type="checkbox" role="switch" name="news"> Newsletter</label>
+                <ui-row justify="end" gap="sm">
+                  <ui-button type="reset" variant="ghost">Reset</ui-button>
+                  <ui-button disabled>Disabled</ui-button>
+                  <ui-button type="submit" variant="primary">Submit</ui-button>
+                </ui-row>
+              </ui-stack>
+            </form>
+          </ui-card>
+        </section>
+
+        <section>
+          <ui-stack>
+            <h2>Calendar (exact columns)</h2>
+            <ui-grid columns="7" gap="xs" id="cal"></ui-grid>
+          </ui-stack>
+        </section>
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container><small>MIT · agent-ui</small></ui-container>
+  </footer>
+</ui-page>
+<script>
+  const cal = document.getElementById('cal');
+  for (let d = 1; d <= 28; d++) {
+    const c = document.createElement('ui-card');
+    c.setAttribute('padding', 'xs');
+    c.textContent = d;
+    cal.append(c);
+  }
+  document.getElementById('scheme').addEventListener('click', () => {
+    const de = document.documentElement;
+    const dark = (de.dataset.scheme ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+    de.dataset.scheme = dark ? 'light' : 'dark';
+  });
+  document.querySelector('form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log('submitted', Object.fromEntries(new FormData(e.target)));
+  });
+</script>
+</body>
+</html>

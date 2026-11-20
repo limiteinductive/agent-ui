@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>clean</title>
+<script type="application/json" id="expect">{"all": []}</script>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page>
+<header><ui-container><ui-row justify="space-between"><strong>Acme</strong><nav><a href="#">Docs</a></nav></ui-row></ui-container></header>
+<main><ui-container><ui-stack gap="lg">
+  <h1>Plans</h1>
+  <ui-grid max-columns="3">
+    <ui-card><h3>Free</h3><p>For trying it out.</p><ui-button>Start</ui-button></ui-card>
+    <ui-card elevated><h3>Pro</h3><p>For teams.</p><ui-button variant="primary">Buy</ui-button></ui-card>
+    <ui-card inverse><h3>Max</h3><p>Everything.</p><ui-button variant="outline">Contact</ui-button></ui-card>
+  </ui-grid>
+  <ui-row wrap><ui-card sunken><p>Side</p></ui-card><ui-card grow><p>Main column</p></ui-card></ui-row>
+  <ui-row stack-below="md"><ui-card>One</ui-card><ui-card>Two</ui-card></ui-row>
+  <pre><code>const x = 1;</code></pre>
+</ui-stack></ui-container></main>
+</ui-page></body></html>

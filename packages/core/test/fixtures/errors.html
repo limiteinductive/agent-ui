@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>errors</title>
+<script type="application/json" id="expect">{"all": ["UI-BAD-VALUE", "UI-UNKNOWN-ELEMENT", "UI-PREFER-NATIVE", "UI-UNKNOWN-ATTR", "UI-CONFLICT", "UI-MISPLACED-ATTR", "UI-NESTED-ROOT", "row/space-between-many"]}</script>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page><ui-stack>
+  <ui-stack gap="huge"><p>bad scale value</p></ui-stack>
+  <ui-grid columns="200px 1fr"><div>a</div><div>b</div></ui-grid>
+  <ui-button variant="primay">typo</ui-button>
+  <ui-heading>planned, not shipped</ui-heading>
+  <ui-foo>unknown</ui-foo>
+  <ui-link href="#">prefer native</ui-link>
+  <ui-card shadow>unknown attr</ui-card>
+  <ui-row wrap scroll><span>conflict</span></ui-row>
+  <ui-stack wrap><span>row attr on vertical stack</span></ui-stack>
+  <div><p grow>grow outside a stack</p></div>
+  <ui-row justify="space-between"><b>a</b><b>b</b><b>c</b><b>d</b><b>e</b></ui-row>
+  <ui-page>nested root</ui-page>
+</ui-stack></ui-page></body></html>
