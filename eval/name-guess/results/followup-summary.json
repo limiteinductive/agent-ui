@@ -1,0 +1,828 @@
+{
+  "run": "followup",
+  "set": "followup",
+  "models": [
+    "gpt-5.6",
+    "gpt-6.2",
+    "haiku",
+    "opus",
+    "sonnet"
+  ],
+  "tags": {
+    "page-root": {
+      "candidate": "ui-page",
+      "guesses": {
+        "ui-app": 8,
+        "ui-page": 8,
+        "ui-layout": 4
+      }
+    },
+    "absolute-date": {
+      "candidate": "ui-time",
+      "guesses": {
+        "ui-date": 10,
+        "ui-datetime": 5,
+        "ui-time": 2,
+        "ui-format-date": 2,
+        "ui-date-time": 1
+      }
+    },
+    "overlap": {
+      "candidate": "ui-layers",
+      "guesses": {
+        "ui-stack": 8,
+        "ui-video-thumbnail": 8,
+        "ui-thumbnail": 2,
+        "ui-overlay": 2
+      }
+    },
+    "field-wrapper": {
+      "candidate": "ui-field",
+      "guesses": {
+        "ui-field": 20
+      }
+    },
+    "modal": {
+      "candidate": "ui-dialog",
+      "guesses": {
+        "ui-dialog": 9,
+        "ui-modal": 8,
+        "ui-confirm-dialog": 1,
+        "ui-confirm": 1,
+        "ui-confirmation": 1
+      }
+    }
+  },
+  "native": {
+    "native.heading": {
+      "native": 4,
+      "n": 20,
+      "full": {
+        "<ui-heading level=\"2\">": 15,
+        "<h2>": 4,
+        "<ui-card title=\"Recent orders\">": 1
+      }
+    },
+    "native.muted-text": {
+      "native": 2,
+      "n": 20,
+      "full": {
+        "<ui-text muted>": 6,
+        "<ui-text variant=\"muted\">": 4,
+        "<ui-text size=\"small\" color=\"muted\">": 2,
+        "<ui-text size=\"sm\" muted>": 2,
+        "<ui-text size=\"sm\" variant=\"muted\">": 2,
+        "<small>": 2,
+        "<ui-text size=\"small\" muted>": 2
+      }
+    },
+    "native.table": {
+      "native": 1,
+      "n": 20,
+      "full": {
+        "<ui-table columns=\"number,customer,date,total\">": 6,
+        "<ui-table>": 4,
+        "<ui-table striped>": 2,
+        "<ui-table striped hoverable>": 2,
+        "<ui-table columns=\"amount,status\">": 2,
+        "<ui-data-table columns=\"number,customer,date,total\">": 1,
+        "<table>": 1,
+        "<ui-table columns=\"invoice amount status\">": 1,
+        "<ui-table columns=\"invoice,amount,status\" aria-label=\"Recent invoices\">": 1
+      }
+    },
+    "native.link": {
+      "native": 7,
+      "n": 20,
+      "full": {
+        "<ui-link href=\"/forgot-password\">": 6,
+        "<ui-link href=\"/account/settings\">": 5,
+        "<a href=\"/settings/account\">": 3,
+        "<ui-link href=\"/forgot-password\" size=\"small\" variant=\"subtle\">": 2,
+        "<a href=\"/account/settings\">": 2,
+        "<a href=\"/forgot-password\">": 2
+      }
+    },
+    "native.list": {
+      "native": 7,
+      "n": 20,
+      "full": {
+        "<ul>": 7,
+        "<ui-list type=\"bullet\">": 4,
+        "<ui-feature-list>": 3,
+        "<ui-plan-features>": 3,
+        "<ui-pricing-features>": 2,
+        "<ui-list type=\"bulleted\">": 1
+      }
+    },
+    "native.input": {
+      "native": 4,
+      "n": 20,
+      "full": {
+        "<ui-input type=\"email\">": 4,
+        "<ui-input type=\"email\" name=\"email\" placeholder=\"Email address\">": 2,
+        "<ui-input type=\"password\" name=\"password\" label=\"Password\" autocomplete=\"current-password\" required>": 2,
+        "<ui-input type=\"password\" name=\"password\" label=\"Password\" required>": 2,
+        "<input type=\"email\">": 2,
+        "<input type=\"password\" name=\"password\" autocomplete=\"current-password\">": 2,
+        "<ui-input type=\"password\">": 2,
+        "<ui-input type=\"email\" name=\"email\" label=\"Email\" placeholder=\"you@example.com\">": 1,
+        "<ui-input type=\"email\" name=\"email\" label=\"Email\">": 1,
+        "<ui-password-input name=\"password\" required>": 1,
+        "<ui-input type=\"password\" name=\"password\" required>": 1
+      }
+    },
+    "native.toggle": {
+      "native": 0,
+      "n": 20,
+      "full": {
+        "<ui-switch name=\"setting\" checked>": 5,
+        "<ui-switch name=\"email-notifications\" label=\"Email notifications\">": 4,
+        "<ui-switch label=\"Email notifications\">": 4,
+        "<ui-switch>": 2,
+        "<ui-toggle>": 2,
+        "<ui-switch name=\"setting\" label=\"Setting\">": 1,
+        "<ui-switch label=\"Email notifications\" name=\"email-notifications\" checked>": 1,
+        "<ui-switch label=\"Email notifications\" name=\"email-notifications\">": 1
+      }
+    },
+    "native.button": {
+      "native": 0,
+      "n": 20,
+      "full": {
+        "<ui-button variant=\"primary\">": 9,
+        "<ui-button type=\"submit\" variant=\"primary\">": 7,
+        "<ui-button variant=\"primary\" type=\"submit\">": 3,
+        "<ui-button variant=\"primary\" emphasis=\"high\">": 1
+      }
+    },
+    "native.card": {
+      "native": 0,
+      "n": 20,
+      "full": {
+        "<ui-card>": 12,
+        "<ui-panel>": 3,
+        "<ui-product-card image name price>": 2,
+        "<ui-panel variant=\"filled\">": 1,
+        "<ui-product image=\"product.jpg\" name=\"Product Name\" price=\"$0.00\">": 1,
+        "<ui-product image=\"...\" name=\"...\" price=\"...\">": 1
+      }
+    },
+    "native.metric": {
+      "native": 0,
+      "n": 20,
+      "full": {
+        "<ui-stat label=\"Revenue\" value=\"$48,200\" change=\"+12%\" trend=\"up\">": 4,
+        "<ui-stat label=\"Revenue\" value=\"$12,400\" change=\"+8%\" trend=\"up\">": 2,
+        "<ui-tile label=\"Revenue\" value=\"$12,400\" change=\"8%\" trend=\"up\">": 2,
+        "<ui-stat label=\"Revenue\" value=\"$12,400\" change=\"8%\" trend=\"up\">": 2,
+        "<ui-stat>": 1,
+        "<ui-stat-card>": 1,
+        "<ui-stat-tile label=\"Revenue\" value=\"12,430\" change=\"+8.2%\" previous=\"11,487\">": 1,
+        "<ui-stat value=\"1,284\" label=\"Active users\" change=\"+12.5%\" trend=\"up\">": 1,
+        "<ui-stat label=\"Revenue\" value=\"$42,000\" change=\"+8%\">": 1,
+        "<ui-stat label=\"Revenue\" value=\"$12,400\" change=\"+8%\">": 1,
+        "<ui-stat label=\"Revenue\" value=\"$24,500\" change=\"+8%\">": 1,
+        "<ui-stat label=\"Revenue\" value=\"$124K\" change=\"+12%\">": 1,
+        "<ui-stat label=\"...\" value=\"...\" change=\"...\">": 1,
+        "<ui-stat label=\"Revenue\" value=\"$12,400\" trend=\"up 8%\">": 1
+      }
+    },
+    "native.avatar": {
+      "native": 0,
+      "n": 20,
+      "full": {
+        "<ui-avatar src=\"user.jpg\" alt=\"User\" size=\"small\">": 2,
+        "<ui-avatar src=\"user.jpg\" alt=\"User\" size=\"sm\" shape=\"circle\">": 2,
+        "<ui-avatar src=\"user.jpg\" alt=\"Profile picture\" size=\"md\">": 2,
+        "<ui-avatar size=\"small\" shape=\"circle\">": 2,
+        "<ui-avatar src=\"/images/current-user.jpg\" alt=\"Your profile picture\">": 2,
+        "<ui-avatar src=\"user.jpg\" alt=\"Your profile picture\" size=\"sm\">": 1,
+        "<ui-avatar src=\"/avatar.jpg\" alt=\"User avatar\" size=\"sm\">": 1,
+        "<ui-avatar src alt>": 1,
+        "<ui-avatar size=\"sm\" shape=\"circle\" src=\"user.jpg\">": 1,
+        "<ui-avatar src=\"user.jpg\" alt=\"User\" size=\"small\" shape=\"circle\">": 1,
+        "<ui-avatar src=\"/images/user.jpg\" alt=\"Your profile picture\">": 1,
+        "<ui-avatar size=\"small\">": 1,
+        "<ui-avatar size=\"small\" src=\"user.jpg\">": 1,
+        "<ui-avatar user=\"current\">": 1,
+        "<ui-avatar>": 1
+      }
+    }
+  },
+  "attrs": {
+    "attr.row.true-center": {
+      "candidate": "justify=\"space-between\"",
+      "attrs": {
+        "justify=\"space-between\"": 9,
+        "balanced": 1
+      },
+      "tags": {
+        "ui-row": 10
+      }
+    },
+    "attr.row.push-apart": {
+      "candidate": "justify=\"space-between\"",
+      "attrs": {
+        "justify=\"space-between\"": 9,
+        "justify=\"between\"": 1
+      },
+      "tags": {
+        "ui-row": 10
+      }
+    },
+    "attr.row.wrap": {
+      "candidate": "wrap",
+      "attrs": {
+        "wrap": 10
+      },
+      "tags": {
+        "ui-row": 10
+      }
+    },
+    "attr.row.rail": {
+      "candidate": "scrollable",
+      "attrs": {
+        "scroll": 7,
+        "scrollable": 3
+      },
+      "tags": {
+        "ui-row": 10
+      }
+    },
+    "attr.row.threshold": {
+      "candidate": "threshold",
+      "attrs": {
+        "stack-below=\"40rem\"": 6,
+        "wrap-below=\"40rem\"": 1,
+        "collapse=\"40rem\"": 1,
+        "collapse-at=\"40rem\"": 1,
+        "stack-at=\"40rem\"": 1
+      },
+      "tags": {
+        "ui-row": 10
+      }
+    },
+    "attr.row.equal": {
+      "candidate": "—",
+      "attrs": {
+        "equal": 8,
+        "equal-width": 2
+      },
+      "tags": {
+        "ui-row": 10
+      }
+    },
+    "attr.row.item-width": {
+      "candidate": "item-width",
+      "attrs": {
+        "scrollable": 10,
+        "card-width=\"18rem\"": 6,
+        "item-width=\"18rem\"": 4
+      },
+      "tags": {
+        "ui-row": 10
+      }
+    },
+    "attr.row.limit": {
+      "candidate": "limit",
+      "attrs": {
+        "threshold=\"40rem\"": 10,
+        "limit=\"4\"": 5,
+        "max-items=\"4\"": 3,
+        "max-panels=\"4\"": 2
+      },
+      "tags": {
+        "ui-row": 10
+      }
+    },
+    "attr.row.grow": {
+      "candidate": "grow",
+      "attrs": {
+        "grow": 9,
+        "ui-grow": 1
+      },
+      "tags": {
+        "main": 10
+      }
+    },
+    "attr.stack.horizontal": {
+      "candidate": "direction=\"horizontal\"",
+      "attrs": {
+        "direction=\"horizontal\"": 5,
+        "horizontal": 4,
+        "direction=\"row\"": 1
+      },
+      "tags": {
+        "ui-stack": 10
+      }
+    },
+    "attr.grid.exact": {
+      "candidate": "columns=\"7\"",
+      "attrs": {
+        "columns=\"7\"": 10,
+        "fixed": 1
+      },
+      "tags": {
+        "ui-grid": 10
+      }
+    },
+    "attr.grid.cap": {
+      "candidate": "columns=\"4\"",
+      "attrs": {
+        "max-columns=\"4\"": 5,
+        "columns=\"4\"": 5,
+        "responsive": 4,
+        "min-card-width=\"16rem\"": 1,
+        "columns-sm=\"2\"": 1,
+        "columns-xs=\"1\"": 1
+      },
+      "tags": {
+        "ui-grid": 10
+      }
+    }
+  },
+  "values": {},
+  "interpret": {
+    "interpret.grid-columns-narrow": {
+      "expected": "B",
+      "answers": {
+        "B": 2,
+        "A": 6,
+        "E": 2
+      }
+    },
+    "interpret.row-narrow": {
+      "expected": "B",
+      "answers": {
+        "B": 7,
+        "A": 2,
+        "E": 1
+      }
+    },
+    "interpret.row-three-center": {
+      "expected": "A",
+      "answers": {
+        "B": 8,
+        "A": 2
+      }
+    },
+    "interpret.row-scrollable": {
+      "expected": "A",
+      "answers": {
+        "A": 10
+      }
+    },
+    "interpret.row-threshold": {
+      "expected": "A",
+      "answers": {
+        "A": 10
+      }
+    },
+    "interpret.child-grow": {
+      "expected": "A",
+      "answers": {
+        "A": 10
+      }
+    },
+    "interpret.card-elevated": {
+      "expected": "A",
+      "answers": {
+        "A": 10
+      }
+    },
+    "interpret.button-ghost": {
+      "expected": "A",
+      "answers": {
+        "A": 9,
+        "C": 1
+      }
+    },
+    "interpret.bleed": {
+      "expected": "A",
+      "answers": {
+        "A": 10
+      }
+    },
+    "interpret.max-lines": {
+      "expected": "A",
+      "answers": {
+        "A": 10
+      }
+    }
+  },
+  "pages": {
+    "uiTags": {
+      "ui-page": 4,
+      "ui-container": 6,
+      "ui-heading": 25,
+      "ui-card": 39,
+      "ui-stack": 30,
+      "ui-field": 38,
+      "ui-input": 26,
+      "ui-avatar": 8,
+      "ui-file-upload": 7,
+      "ui-switch": 23,
+      "ui-text": 17,
+      "ui-button": 50,
+      "ui-divider": 6,
+      "ui-header": 5,
+      "ui-card-header": 10,
+      "ui-card-body": 6,
+      "ui-section": 13,
+      "ui-toggle": 9,
+      "ui-layout": 8,
+      "ui-spacer": 7,
+      "ui-dropdown": 4,
+      "ui-menu": 7,
+      "ui-menu-item": 22,
+      "ui-grid": 12,
+      "ui-badge": 57,
+      "ui-panel": 9,
+      "ui-sidebar": 4,
+      "ui-form": 4,
+      "ui-select": 17,
+      "ui-checkbox": 23,
+      "ui-stat": 24,
+      "ui-option": 10,
+      "ui-topbar": 6,
+      "ui-brand": 6,
+      "ui-menu-divider": 2,
+      "ui-metric": 8,
+      "ui-pagination": 2,
+      "ui-checkbox-group": 3,
+      "ui-app": 3,
+      "ui-icon": 2,
+      "ui-main": 2,
+      "ui-table": 6,
+      "ui-fieldset": 2,
+      "ui-menu-button": 1,
+      "ui-stat-grid": 1,
+      "ui-card-actions": 1,
+      "ui-multi-select": 1,
+      "ui-avatar-upload": 1,
+      "ui-upload": 1,
+      "ui-shell": 1,
+      "ui-label": 4,
+      "ui-value": 4,
+      "ui-change": 4,
+      "ui-toolbar": 1
+    },
+    "invented": {
+      "ui-heading": 25,
+      "ui-input": 26,
+      "ui-avatar": 8,
+      "ui-file-upload": 7,
+      "ui-switch": 23,
+      "ui-text": 17,
+      "ui-header": 5,
+      "ui-card-header": 10,
+      "ui-card-body": 6,
+      "ui-section": 13,
+      "ui-toggle": 9,
+      "ui-spacer": 7,
+      "ui-dropdown": 4,
+      "ui-menu": 7,
+      "ui-menu-item": 22,
+      "ui-sidebar": 4,
+      "ui-form": 4,
+      "ui-select": 17,
+      "ui-checkbox": 23,
+      "ui-stat": 24,
+      "ui-option": 10,
+      "ui-topbar": 6,
+      "ui-brand": 6,
+      "ui-menu-divider": 2,
+      "ui-metric": 8,
+      "ui-pagination": 2,
+      "ui-checkbox-group": 3,
+      "ui-app": 3,
+      "ui-main": 2,
+      "ui-table": 6,
+      "ui-fieldset": 2,
+      "ui-menu-button": 1,
+      "ui-stat-grid": 1,
+      "ui-card-actions": 1,
+      "ui-multi-select": 1,
+      "ui-avatar-upload": 1,
+      "ui-upload": 1,
+      "ui-label": 4,
+      "ui-value": 4,
+      "ui-change": 4,
+      "ui-toolbar": 1
+    },
+    "aliased": {
+      "ui-panel": 9,
+      "ui-shell": 1
+    },
+    "uiAttrs": {
+      "max-width": 2,
+      "level": 25,
+      "slot": 35,
+      "direction": 17,
+      "gap": 39,
+      "label": 108,
+      "type": 58,
+      "name": 107,
+      "placeholder": 17,
+      "required": 16,
+      "size": 18,
+      "accept": 8,
+      "checked": 25,
+      "variant": 104,
+      "justify": 5,
+      "hint": 3,
+      "max-size": 2,
+      "src": 1,
+      "alt": 1,
+      "confirm": 1,
+      "for": 3,
+      "id": 3,
+      "align": 4,
+      "columns": 16,
+      "span": 3,
+      "value": 67,
+      "href": 5,
+      "weight": 4,
+      "position": 3,
+      "selected": 1,
+      "change": 24,
+      "trend": 24,
+      "period": 8,
+      "title": 10,
+      "tone": 20,
+      "page": 2,
+      "total-pages": 1,
+      "multiple": 1,
+      "full-width": 2,
+      "striped": 2,
+      "legend": 2,
+      "initials": 1,
+      "avatar": 1,
+      "placement": 1,
+      "layout": 1,
+      "change-period": 4,
+      "format": 4,
+      "heading": 4,
+      "pages": 1,
+      "block": 2,
+      "autocomplete": 6,
+      "form": 2,
+      "hidden": 1,
+      "on": 1,
+      "aria-haspopup": 1,
+      "aria-label": 1,
+      "comparison": 4,
+      "sidebar": 1,
+      "width": 1
+    },
+    "uiAttrVals": {
+      "max-width=\"md\"": 2,
+      "level=\"1\"": 4,
+      "level=\"2\"": 15,
+      "slot=\"header\"": 9,
+      "direction=\"vertical\"": 4,
+      "gap=\"md\"": 14,
+      "label=\"Name\"": 10,
+      "type=\"text\"": 9,
+      "name=\"name\"": 9,
+      "placeholder=\"Your name\"": 3,
+      "label=\"Email\"": 10,
+      "type=\"email\"": 9,
+      "name=\"email\"": 9,
+      "placeholder=\"you@example.com\"": 3,
+      "label=\"Avatar\"": 8,
+      "size=\"lg\"": 4,
+      "name=\"Your Name\"": 1,
+      "name=\"avatar\"": 9,
+      "accept=\"image/*\"": 7,
+      "name=\"email-notifications\"": 3,
+      "label=\"Email notifications\"": 7,
+      "name=\"push-notifications\"": 3,
+      "label=\"Push notifications\"": 7,
+      "name=\"weekly-digest\"": 1,
+      "label=\"Weekly digest\"": 1,
+      "variant=\"danger\"": 24,
+      "type=\"button\"": 7,
+      "direction=\"horizontal\"": 9,
+      "justify=\"end\"": 4,
+      "variant=\"primary\"": 20,
+      "type=\"submit\"": 21,
+      "gap=\"lg\"": 6,
+      "name=\"avatar-preview\"": 1,
+      "name=\"notify-email\"": 5,
+      "name=\"notify-push\"": 5,
+      "name=\"notify-sms\"": 1,
+      "label=\"SMS notifications\"": 2,
+      "size=\"md\"": 2,
+      "hint=\"PNG or JPG, up to 2 MB.\"": 2,
+      "name=\"notify-weekly\"": 1,
+      "gap=\"sm\"": 1,
+      "name=\"notify-marketing\"": 2,
+      "label=\"Marketing emails\"": 1,
+      "max-size=\"5MB\"": 1,
+      "slot=\"preview\"": 1,
+      "src=\"/img/avatar.png\"": 1,
+      "alt=\"Current avatar\"": 1,
+      "variant=\"muted\"": 11,
+      "for=\"name\"": 1,
+      "id=\"name\"": 1,
+      "placeholder=\"Jane Doe\"": 1,
+      "for=\"email\"": 1,
+      "id=\"email\"": 1,
+      "placeholder=\"jane@example.com\"": 1,
+      "for=\"avatar\"": 1,
+      "align=\"center\"": 2,
+      "name=\"Jane Doe\"": 1,
+      "id=\"avatar\"": 1,
+      "accept=\"image/png, image/jpeg\"": 1,
+      "max-size=\"2MB\"": 1,
+      "name=\"notify-newsletter\"": 1,
+      "level=\"3\"": 3,
+      "slot=\"trigger\"": 6,
+      "variant=\"ghost\"": 13,
+      "columns=\"4\"": 10,
+      "variant=\"success\"": 21,
+      "columns=\"3\"": 3,
+      "span=\"2\"": 3,
+      "variant=\"warning\"": 6,
+      "level=\"4\"": 3,
+      "label=\"Date range\"": 9,
+      "name=\"range\"": 7,
+      "label=\"Status\"": 5,
+      "name=\"status\"": 19,
+      "value=\"paid\"": 7,
+      "value=\"pending\"": 7,
+      "value=\"refunded\"": 7,
+      "label=\"Search\"": 4,
+      "type=\"search\"": 5,
+      "name=\"q\"": 3,
+      "placeholder=\"Customer or order #\"": 2,
+      "type=\"reset\"": 5,
+      "align=\"end\"": 2,
+      "name=\"Jane Doe\"": 2,
+      "size=\"small\"": 5,
+      "href=\"/profile\"": 1,
+      "href=\"/settings\"": 1,
+      "href=\"/logout\"": 1,
+      "gap=\"medium\"": 12,
+      "slot=\"label\"": 4,
+      "slot=\"value\"": 4,
+      "size=\"xlarge\"": 4,
+      "weight=\"bold\"": 4,
+      "slot=\"change\"": 8,
+      "position=\"end\"": 3,
+      "value=\"7d\"": 4,
+      "value=\"30d\"": 2,
+      "value=\"90d\"": 1,
+      "label=\"Min. total\"": 1,
+      "type=\"number\"": 2,
+      "name=\"min\"": 2,
+      "placeholder=\"0\"": 1,
+      "gap=\"small\"": 3,
+      "variant=\"secondary\"": 5,
+      "size=\"sm\"": 3,
+      "columns=\"1fr 16rem\"": 1,
+      "label=\"Revenue\"": 7,
+      "value=\"$128,450\"": 1,
+      "change=\"+12.4%\"": 4,
+      "trend=\"up\"": 16,
+      "period=\"vs last week\"": 8,
+      "label=\"Orders\"": 7,
+      "value=\"1,932\"": 1,
+      "change=\"+3.1%\"": 2,
+      "label=\"Average order\"": 1,
+      "value=\"$66.49\"": 1,
+      "change=\"-1.8%\"": 2,
+      "trend=\"down\"": 8,
+      "label=\"Refund rate\"": 3,
+      "value=\"2.3%\"": 1,
+      "change=\"+0.4 pts\"": 1,
+      "title=\"Recent orders\"": 2,
+      "slot=\"actions\"": 1,
+      "tone=\"success\"": 12,
+      "tone=\"warning\"": 4,
+      "tone=\"danger\"": 3,
+      "slot=\"footer\"": 1,
+      "page=\"1\"": 2,
+      "total-pages=\"39\"": 1,
+      "title=\"Filters\"": 2,
+      "label=\"Channel\"": 1,
+      "name=\"channel\"": 1,
+      "label=\"Minimum order\"": 1,
+      "placeholder=\"0.00\"": 1,
+      "name=\"Alex Morgan\"": 1,
+      "name=\"chevron-down\"": 2,
+      "value=\"$48,210\"": 2,
+      "value=\"1,284\"": 3,
+      "change=\"+5.1%\"": 2,
+      "label=\"Conversion rate\"": 2,
+      "value=\"3.2%\"": 2,
+      "change=\"-0.4%\"": 2,
+      "label=\"Avg. order value\"": 2,
+      "value=\"$37.55\"": 2,
+      "change=\"+2.0%\"": 1,
+      "variant=\"info\"": 2,
+      "label=\"Region\"": 3,
+      "name=\"region\"": 3,
+      "legend=\"Order status\"": 1,
+      "value=\"shipped\"": 2,
+      "label=\"Customer\"": 2,
+      "name=\"customer\"": 2,
+      "placeholder=\"Search by name\"": 2,
+      "name=\"compare\"": 1,
+      "initials=\"BT\"": 1,
+      "change=\"+1.8%\"": 1,
+      "legend=\"Status\"": 1,
+      "name=\"repeat-only\"": 1,
+      "label=\"Ada Lovelace\"": 1,
+      "avatar=\"AL\"": 1,
+      "placement=\"bottom-end\"": 1,
+      "value=\"profile\"": 1,
+      "value=\"settings\"": 1,
+      "value=\"signout\"": 1,
+      "layout=\"sidebar-right\"": 1,
+      "value=\"$128,430\"": 1,
+      "change-period=\"vs last week\"": 4,
+      "format=\"currency\"": 2,
+      "value=\"1,842\"": 1,
+      "format=\"integer\"": 1,
+      "label=\"Average order value\"": 3,
+      "value=\"$69.72\"": 1,
+      "value=\"2.4%\"": 2,
+      "change=\"+0.3 pts\"": 1,
+      "format=\"percent\"": 1,
+      "heading=\"Recent orders\"": 2,
+      "pages=\"37\"": 1,
+      "heading=\"Filters\"": 2,
+      "value=\"24h\"": 1,
+      "value=\"custom\"": 1,
+      "placeholder=\"All regions\"": 1,
+      "value=\"na\"": 1,
+      "value=\"eu\"": 1,
+      "value=\"apac\"": 1,
+      "placeholder=\"Order or customer\"": 2,
+      "autocomplete=\"name\"": 3,
+      "autocomplete=\"email\"": 3,
+      "name=\"email_notifications\"": 2,
+      "name=\"push_notifications\"": 2,
+      "label=\"Product updates\"": 2,
+      "name=\"product_updates\"": 2,
+      "label=\"Profile picture\"": 1,
+      "form=\"settings-form\"": 2,
+      "title=\"Profile\"": 2,
+      "title=\"Notifications\"": 2,
+      "name=\"sms-notifications\"": 1,
+      "title=\"Danger zone\"": 2,
+      "slot=\"end\"": 1,
+      "aria-haspopup=\"menu\"": 1,
+      "aria-label=\"User menu\"": 1,
+      "value=\"$24,680\"": 1,
+      "change=\"+8.2%\"": 2,
+      "comparison=\"vs. last week\"": 4,
+      "value=\"384\"": 1,
+      "change=\"+5.5%\"": 1,
+      "value=\"$64.27\"": 1,
+      "change=\"+2.6%\"": 1,
+      "value=\"1.4%\"": 1,
+      "change=\"−0.3 percentage points\"": 1,
+      "sidebar=\"right\"": 1,
+      "variant=\"neutral\"": 2,
+      "name=\"period\"": 1,
+      "label=\"Order status\"": 2,
+      "name=\"marketing-notifications\"": 1,
+      "label=\"Marketing notifications\"": 1,
+      "justify=\"space-between\"": 1,
+      "href=\"/account\"": 1,
+      "value=\"$24,860\"": 1,
+      "value=\"312\"": 1,
+      "value=\"$79.68\"": 1,
+      "label=\"Return rate\"": 1,
+      "label=\"Jane Doe\"": 1,
+      "gap=\"large\"": 1,
+      "value=\"$84,240\"": 1,
+      "change=\"+12.5%\"": 1,
+      "label=\"Customers\"": 1,
+      "value=\"642\"": 1,
+      "change=\"+4.7%\"": 1,
+      "label=\"Refunds\"": 1,
+      "value=\"$2,180\"": 1,
+      "change=\"-3.1%\"": 1,
+      "columns=\"main sidebar\"": 1,
+      "name=\"date-range\"": 1,
+      "value=\"last-7-days\"": 1,
+      "name=\"search\"": 1,
+      "columns=\"1fr 280px\"": 1,
+      "gap=\"24\"": 1,
+      "gap=\"16\"": 1,
+      "direction=\"up\"": 3,
+      "direction=\"down\"": 1,
+      "tone=\"muted\"": 1,
+      "width=\"full\"": 1
+    },
+    "responsive": {},
+    "classN": 0,
+    "styleN": 0,
+    "elN": 1092
+  }
+}

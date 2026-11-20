@@ -1,0 +1,16 @@
+{
+  "name": "name-guess-eval",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node -e \"import('./sets.ts').then(m=>m.check())\"",
+    "run": "node run.ts",
+    "report": "node analyze.ts"
+  },
+  "dependencies": {
+    "parse5": "^8.1.1"
+  },
+  "devDependencies": {
+    "@openai/codex": "^0.171.0"
+  }
+}

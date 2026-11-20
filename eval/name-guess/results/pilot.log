@@ -1,0 +1,12 @@
+gpt-5.6: 206 calls
+  20 ok, 0 failed
+  40 ok, 0 failed
+  60 ok, 0 failed
+  80 ok, 0 failed
+  100 ok, 0 failed
+  120 ok, 0 failed
+  140 ok, 0 failed
+  160 ok, 0 failed
+  180 ok, 0 failed
+  200 ok, 0 failed
+done: 206 ok, 0 failed -> results/pilot.jsonl

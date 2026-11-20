@@ -1,0 +1,949 @@
+{
+  "run": "gpt",
+  "models": [
+    "gpt-5.6",
+    "gpt-6.2"
+  ],
+  "tags": {
+    "vertical": {
+      "candidate": "ui-stack",
+      "guesses": {
+        "ui-stack": 8
+      }
+    },
+    "wrap-row": {
+      "candidate": "ui-cluster",
+      "guesses": {
+        "ui-chip-group": 3,
+        "ui-flex": 2,
+        "ui-row": 2,
+        "ui-stack": 1
+      }
+    },
+    "push-apart": {
+      "candidate": "ui-split",
+      "guesses": {
+        "ui-row": 4,
+        "ui-toolbar": 4
+      }
+    },
+    "auto-columns": {
+      "candidate": "ui-grid",
+      "guesses": {
+        "ui-grid": 5,
+        "ui-gallery": 3
+      }
+    },
+    "side-main": {
+      "candidate": "ui-sidebar",
+      "guesses": {
+        "ui-layout": 4,
+        "ui-settings-layout": 2,
+        "ui-sidebar": 2
+      }
+    },
+    "row-to-column": {
+      "candidate": "ui-switcher",
+      "guesses": {
+        "ui-grid": 6,
+        "ui-row": 1,
+        "ui-stack": 1
+      }
+    },
+    "h-scroll": {
+      "candidate": "ui-reel",
+      "guesses": {
+        "ui-row": 5,
+        "ui-scroll": 2,
+        "ui-scroll-area": 1
+      }
+    },
+    "max-width": {
+      "candidate": "ui-page",
+      "guesses": {
+        "ui-container": 8
+      }
+    },
+    "overlap": {
+      "candidate": "ui-layers",
+      "guesses": {
+        "ui-hero": 4,
+        "ui-overlay": 3,
+        "ui-stack": 1
+      }
+    },
+    "aspect": {
+      "candidate": "ui-frame",
+      "guesses": {
+        "ui-aspect-ratio": 6,
+        "ui-video-thumbnail": 2
+      }
+    },
+    "scroll-region": {
+      "candidate": "ui-scroll",
+      "guesses": {
+        "ui-log-viewer": 4,
+        "ui-scroll": 2,
+        "ui-scroll-area": 2
+      }
+    },
+    "app-layout": {
+      "candidate": "ui-shell",
+      "guesses": {
+        "ui-layout": 5,
+        "ui-app-shell": 2,
+        "ui-app-layout": 1
+      }
+    },
+    "panel": {
+      "candidate": "ui-surface",
+      "guesses": {
+        "ui-card": 5,
+        "ui-panel": 3
+      }
+    },
+    "long-text": {
+      "candidate": "ui-prose",
+      "guesses": {
+        "ui-prose": 6,
+        "ui-markdown": 1,
+        "ui-markdown-content": 1
+      }
+    },
+    "form-field": {
+      "candidate": "ui-field",
+      "guesses": {
+        "ui-input": 4,
+        "ui-field": 2,
+        "ui-form-field": 2
+      }
+    },
+    "icon": {
+      "candidate": "ui-icon",
+      "guesses": {
+        "ui-icon": 8
+      }
+    },
+    "number": {
+      "candidate": "ui-num",
+      "guesses": {
+        "ui-number": 4,
+        "ui-format-number": 4
+      }
+    },
+    "relative-time": {
+      "candidate": "ui-time",
+      "guesses": {
+        "ui-date": 4,
+        "ui-time": 2,
+        "ui-relative-time": 2
+      }
+    },
+    "status-label": {
+      "candidate": "ui-badge",
+      "guesses": {
+        "ui-badge": 8
+      }
+    },
+    "primary-action": {
+      "candidate": "button",
+      "guesses": {
+        "ui-button": 8
+      }
+    },
+    "divider": {
+      "candidate": "ui-divider",
+      "guesses": {
+        "ui-divider": 6,
+        "ui-menu-divider": 2
+      }
+    },
+    "loading-placeholder": {
+      "candidate": "ui-skeleton",
+      "guesses": {
+        "ui-skeleton": 8
+      }
+    },
+    "alert": {
+      "candidate": "ui-callout",
+      "guesses": {
+        "ui-alert": 6,
+        "ui-notice": 2
+      }
+    }
+  },
+  "attrs": {
+    "attr.child-spacing": {
+      "candidate": "gap",
+      "attrs": {
+        "gap=\"md\"": 4
+      },
+      "tags": {
+        "ui-stack": 4
+      }
+    },
+    "attr.child-spacing.row": {
+      "candidate": "gap",
+      "attrs": {
+        "gap=\"small\"": 2,
+        "gap=\"sm\"": 2
+      },
+      "tags": {
+        "ui-cluster": 4
+      }
+    },
+    "attr.inner-spacing": {
+      "candidate": "pad",
+      "attrs": {
+        "padding=\"large\"": 4
+      },
+      "tags": {
+        "ui-surface": 4
+      }
+    },
+    "attr.corners": {
+      "candidate": "radius",
+      "attrs": {
+        "rounded": 4
+      },
+      "tags": {
+        "ui-surface": 4
+      }
+    },
+    "attr.lifted": {
+      "candidate": "tone",
+      "attrs": {
+        "elevated": 3,
+        "raised": 1
+      },
+      "tags": {
+        "ui-surface": 4
+      }
+    },
+    "attr.recessed": {
+      "candidate": "tone",
+      "attrs": {
+        "recessed": 2,
+        "variant=\"sunken\"": 1,
+        "variant=\"recessed\"": 1
+      },
+      "tags": {
+        "ui-surface": 4
+      }
+    },
+    "attr.cross-align": {
+      "candidate": "align",
+      "attrs": {
+        "align=\"center\"": 4
+      },
+      "tags": {
+        "ui-cluster": 4
+      }
+    },
+    "attr.main-align": {
+      "candidate": "justify",
+      "attrs": {
+        "justify=\"end\"": 4
+      },
+      "tags": {
+        "ui-cluster": 4
+      }
+    },
+    "attr.grid-min": {
+      "candidate": "min",
+      "attrs": {
+        "min-item-width=\"16rem\"": 4
+      },
+      "tags": {
+        "ui-grid": 4
+      }
+    },
+    "attr.switch-at": {
+      "candidate": "at",
+      "attrs": {
+        "threshold=\"40rem\"": 2,
+        "collapse-at=\"40rem\"": 1,
+        "breakpoint=\"40rem\"": 1
+      },
+      "tags": {
+        "ui-switcher": 4
+      }
+    },
+    "attr.side-width": {
+      "candidate": "side-width",
+      "attrs": {
+        "width=\"20rem\"": 3,
+        "sidebar-width=\"20rem\"": 1
+      },
+      "tags": {
+        "ui-sidebar": 4
+      }
+    },
+    "attr.side-end": {
+      "candidate": "side",
+      "attrs": {
+        "position=\"right\"": 3,
+        "side=\"right\"": 1
+      },
+      "tags": {
+        "ui-sidebar": 4
+      }
+    },
+    "attr.measure": {
+      "candidate": "width",
+      "attrs": {
+        "width=\"narrow\"": 3,
+        "narrow": 1
+      },
+      "tags": {
+        "ui-page": 4
+      }
+    },
+    "attr.truncate": {
+      "candidate": "truncate",
+      "attrs": {
+        "truncate": 3,
+        "ellipsis": 1
+      },
+      "tags": {
+        "ui-text": 4
+      }
+    },
+    "attr.clamp": {
+      "candidate": "lines",
+      "attrs": {
+        "max-lines=\"3\"": 2,
+        "line-clamp=\"3\"": 2
+      },
+      "tags": {
+        "ui-text": 4
+      }
+    },
+    "attr.busy": {
+      "candidate": "busy",
+      "attrs": {
+        "loading": 4
+      },
+      "tags": {
+        "ui-surface": 4
+      }
+    },
+    "attr.ratio": {
+      "candidate": "ratio",
+      "attrs": {
+        "ratio=\"16:9\"": 3,
+        "aspect-ratio=\"16:9\"": 1
+      },
+      "tags": {
+        "ui-frame": 4
+      }
+    },
+    "attr.icon-name": {
+      "candidate": "name",
+      "attrs": {
+        "name=\"search\"": 3,
+        "icon=\"search\"": 1
+      },
+      "tags": {
+        "ui-icon": 4
+      }
+    },
+    "attr.number-format": {
+      "candidate": "format",
+      "attrs": {
+        "value=\"1234567.891\"": 4,
+        "currency=\"USD\"": 4,
+        "format=\"currency\"": 2,
+        "locale=\"en-US\"": 1
+      },
+      "tags": {
+        "ui-num": 4
+      }
+    },
+    "attr.tone.neutral": {
+      "candidate": "neutral",
+      "attrs": {
+        "color=\"neutral\"": 2,
+        "variant=\"neutral\"": 2
+      },
+      "tags": {
+        "ui-badge": 4
+      }
+    },
+    "attr.tone.accent": {
+      "candidate": "accent",
+      "attrs": {
+        "color=\"primary\"": 2,
+        "variant=\"primary\"": 2
+      },
+      "tags": {
+        "ui-badge": 4
+      }
+    },
+    "attr.tone.success": {
+      "candidate": "success",
+      "attrs": {
+        "variant=\"success\"": 3,
+        "status=\"success\"": 1
+      },
+      "tags": {
+        "ui-badge": 4
+      }
+    },
+    "attr.tone.warning": {
+      "candidate": "warning",
+      "attrs": {
+        "color=\"warning\"": 2,
+        "variant=\"warning\"": 2
+      },
+      "tags": {
+        "ui-badge": 4
+      }
+    },
+    "attr.tone.danger": {
+      "candidate": "danger",
+      "attrs": {
+        "variant=\"danger\"": 3,
+        "color=\"destructive\"": 1
+      },
+      "tags": {
+        "ui-badge": 4
+      }
+    },
+    "attr.tone.info": {
+      "candidate": "info",
+      "attrs": {
+        "variant=\"info\"": 2,
+        "color=\"info\"": 1,
+        "color=\"neutral\"": 1
+      },
+      "tags": {
+        "ui-badge": 4
+      }
+    },
+    "attr.emphasis.high": {
+      "candidate": "primary",
+      "attrs": {
+        "variant=\"primary\"": 3,
+        "primary": 1
+      },
+      "tags": {
+        "ui-button": 4
+      }
+    },
+    "attr.emphasis.mid": {
+      "candidate": "secondary",
+      "attrs": {
+        "variant=\"secondary\"": 4
+      },
+      "tags": {
+        "ui-button": 4
+      }
+    },
+    "attr.emphasis.low": {
+      "candidate": "ghost",
+      "attrs": {
+        "variant=\"ghost\"": 4
+      },
+      "tags": {
+        "ui-button": 4
+      }
+    }
+  },
+  "values": {
+    "value.scale.none": {
+      "0": 4
+    },
+    "value.scale.small": {
+      "sm": 3,
+      "sm vel": 1
+    },
+    "value.scale.min": {
+      "1": 1,
+      "xs": 2,
+      "sm": 1
+    },
+    "value.scale.medium": {
+      "md": 2,
+      "medium": 2
+    },
+    "value.scale.large": {
+      "xl": 2,
+      "lg": 2
+    },
+    "value.scale.max": {
+      "xl": 4
+    },
+    "value.scale.beyond": {
+      "xxl": 3,
+      "xxxl": 1
+    },
+    "value.radius.large": {
+      "lg": 3,
+      "xl": 1
+    },
+    "value.pad.large": {
+      "lg": 2,
+      "xl": 1,
+      "large": 1
+    },
+    "value.radius.pill": {
+      "full": 4
+    }
+  },
+  "interpret": {
+    "interpret.ui-cluster": {
+      "expected": "C",
+      "answers": {
+        "C": 4
+      }
+    },
+    "interpret.ui-switcher": {
+      "expected": "C",
+      "answers": {
+        "C": 4
+      }
+    },
+    "interpret.ui-stack": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.ui-reel": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.ui-frame": {
+      "expected": "C",
+      "answers": {
+        "C": 4
+      }
+    },
+    "interpret.ui-sidebar": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.ui-split": {
+      "expected": "C",
+      "answers": {
+        "C": 4
+      }
+    },
+    "interpret.ui-bar": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.ui-shell": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.ui-layers": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.surface-raised": {
+      "expected": "A",
+      "answers": {
+        "A": 4
+      }
+    },
+    "interpret.tone-accent": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.grid-min": {
+      "expected": "C",
+      "answers": {
+        "C": 4
+      }
+    },
+    "interpret.gap-numeric": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.pad": {
+      "expected": "B",
+      "answers": {
+        "B": 4
+      }
+    },
+    "interpret.ui-scroll": {
+      "expected": "A",
+      "answers": {
+        "A": 4
+      }
+    }
+  },
+  "pages": {
+    "uiTags": {
+      "ui-page": 4,
+      "ui-section": 16,
+      "ui-field": 9,
+      "ui-input": 10,
+      "ui-upload": 2,
+      "ui-toggle": 6,
+      "ui-button": 35,
+      "ui-shell": 1,
+      "ui-topbar": 2,
+      "ui-brand": 4,
+      "ui-menu-button": 3,
+      "ui-layout": 4,
+      "ui-main": 3,
+      "ui-metric-grid": 1,
+      "ui-metric": 16,
+      "ui-panel": 8,
+      "ui-table": 4,
+      "ui-table-head": 2,
+      "ui-table-row": 14,
+      "ui-table-cell": 65,
+      "ui-table-body": 3,
+      "ui-badge": 18,
+      "ui-sidebar": 1,
+      "ui-form": 2,
+      "ui-select": 8,
+      "ui-option": 30,
+      "ui-app": 1,
+      "ui-menu": 2,
+      "ui-menu-item": 7,
+      "ui-page-header": 1,
+      "ui-heading": 25,
+      "ui-text": 28,
+      "ui-grid": 11,
+      "ui-table-header": 6,
+      "ui-checkbox-group": 1,
+      "ui-checkbox": 4,
+      "ui-header": 2,
+      "ui-container": 9,
+      "ui-navbar": 1,
+      "ui-logo": 4,
+      "ui-nav": 3,
+      "ui-nav-item": 3,
+      "ui-actions": 2,
+      "ui-card": 39,
+      "ui-icon": 24,
+      "ui-price": 6,
+      "ui-list": 6,
+      "ui-list-item": 20,
+      "ui-footer": 3,
+      "ui-footer-grid": 1,
+      "ui-footer-links": 1,
+      "ui-link": 12,
+      "ui-divider": 1,
+      "ui-hero": 2,
+      "ui-file-upload": 1,
+      "ui-switch": 6,
+      "ui-top-bar": 2,
+      "ui-stack": 3,
+      "ui-group": 3
+    },
+    "invented": {
+      "ui-section": 16,
+      "ui-input": 10,
+      "ui-upload": 2,
+      "ui-toggle": 6,
+      "ui-button": 35,
+      "ui-topbar": 2,
+      "ui-brand": 4,
+      "ui-menu-button": 3,
+      "ui-layout": 4,
+      "ui-main": 3,
+      "ui-metric-grid": 1,
+      "ui-metric": 16,
+      "ui-panel": 8,
+      "ui-table": 4,
+      "ui-table-head": 2,
+      "ui-table-row": 14,
+      "ui-table-cell": 65,
+      "ui-table-body": 3,
+      "ui-form": 2,
+      "ui-select": 8,
+      "ui-option": 30,
+      "ui-app": 1,
+      "ui-menu": 2,
+      "ui-menu-item": 7,
+      "ui-page-header": 1,
+      "ui-heading": 25,
+      "ui-text": 28,
+      "ui-table-header": 6,
+      "ui-checkbox-group": 1,
+      "ui-checkbox": 4,
+      "ui-header": 2,
+      "ui-container": 9,
+      "ui-navbar": 1,
+      "ui-logo": 4,
+      "ui-nav": 3,
+      "ui-nav-item": 3,
+      "ui-actions": 2,
+      "ui-card": 39,
+      "ui-price": 6,
+      "ui-list": 6,
+      "ui-list-item": 20,
+      "ui-footer": 3,
+      "ui-footer-grid": 1,
+      "ui-footer-links": 1,
+      "ui-link": 12,
+      "ui-hero": 2,
+      "ui-file-upload": 1,
+      "ui-switch": 6,
+      "ui-top-bar": 2,
+      "ui-group": 3
+    },
+    "uiAttrs": {
+      "title": 11,
+      "label": 54,
+      "name": 58,
+      "type": 20,
+      "accept": 4,
+      "danger": 1,
+      "primary": 1,
+      "variant": 37,
+      "columns": 13,
+      "value": 58,
+      "change": 16,
+      "change-label": 4,
+      "align": 27,
+      "status": 4,
+      "icon": 1,
+      "level": 25,
+      "muted": 1,
+      "gap": 18,
+      "change-direction": 4,
+      "comparison": 12,
+      "tone": 5,
+      "checked": 4,
+      "placeholder": 1,
+      "full-width": 1,
+      "href": 35,
+      "spacing": 1,
+      "size": 13,
+      "id": 10,
+      "amount": 6,
+      "period": 6,
+      "block": 3,
+      "featured": 2,
+      "currency": 5,
+      "width": 3,
+      "autocomplete": 4,
+      "aria-label": 4,
+      "trend": 8,
+      "sidebar": 1,
+      "heading": 4,
+      "slot": 2,
+      "aria-labelledby": 2,
+      "aria-hidden": 12,
+      "role": 1
+    },
+    "uiAttrVals": {
+      "title=\"Profile\"": 2,
+      "label=\"Name\"": 4,
+      "name=\"name\"": 4,
+      "type=\"text\"": 3,
+      "label=\"Email\"": 4,
+      "name=\"email\"": 4,
+      "type=\"email\"": 4,
+      "label=\"Avatar\"": 4,
+      "name=\"avatar\"": 4,
+      "accept=\"image/*\"": 4,
+      "title=\"Notifications\"": 2,
+      "name=\"email-notifications\"": 2,
+      "label=\"Email notifications\"": 3,
+      "name=\"push-notifications\"": 3,
+      "label=\"Push notifications\"": 4,
+      "name=\"marketing-notifications\"": 1,
+      "label=\"Marketing notifications\"": 1,
+      "title=\"Danger zone\"": 2,
+      "type=\"button\"": 4,
+      "type=\"submit\"": 8,
+      "title=\"Settings\"": 1,
+      "label=\"Weekly digest\"": 1,
+      "name=\"weekly-digest\"": 1,
+      "variant=\"danger\"": 3,
+      "variant=\"primary\"": 14,
+      "label=\"Alex Morgan\"": 1,
+      "columns=\"4\"": 4,
+      "label=\"Revenue\"": 4,
+      "value=\"$48,290\"": 2,
+      "change=\"+12.4%\"": 2,
+      "change-label=\"vs last week\"": 4,
+      "label=\"Orders\"": 4,
+      "value=\"1,284\"": 2,
+      "change=\"+8.7%\"": 1,
+      "label=\"Customers\"": 2,
+      "value=\"892\"": 1,
+      "change=\"+5.2%\"": 2,
+      "label=\"Conversion rate\"": 1,
+      "value=\"4.8%\"": 1,
+      "change=\"-0.6%\"": 1,
+      "title=\"Recent orders\"": 2,
+      "align=\"right\"": 14,
+      "status=\"paid\"": 2,
+      "status=\"processing\"": 1,
+      "status=\"refunded\"": 1,
+      "title=\"Filters\"": 2,
+      "label=\"Date range\"": 4,
+      "name=\"date-range\"": 2,
+      "value=\"last-30-days\"": 3,
+      "value=\"today\"": 2,
+      "value=\"last-7-days\"": 3,
+      "value=\"this-quarter\"": 1,
+      "label=\"Order status\"": 4,
+      "name=\"status\"": 4,
+      "value=\"all\"": 6,
+      "value=\"paid\"": 3,
+      "value=\"processing\"": 2,
+      "value=\"refunded\"": 4,
+      "label=\"Sales channel\"": 1,
+      "name=\"channel\"": 1,
+      "value=\"web\"": 1,
+      "value=\"mobile\"": 1,
+      "value=\"retail\"": 1,
+      "label=\"Account\"": 2,
+      "icon=\"user\"": 1,
+      "level=\"1\"": 3,
+      "gap=\"medium\"": 3,
+      "change=\"+12.8%\"": 1,
+      "change-direction=\"up\"": 3,
+      "comparison=\"vs last week\"": 4,
+      "change=\"+8.4%\"": 1,
+      "value=\"842\"": 1,
+      "label=\"Refunds\"": 1,
+      "value=\"$1,920\"": 1,
+      "change=\"-3.1%\"": 1,
+      "change-direction=\"down\"": 1,
+      "columns=\"1fr 280px\"": 1,
+      "gap=\"large\"": 5,
+      "tone=\"success\"": 2,
+      "tone=\"warning\"": 1,
+      "tone=\"neutral\"": 1,
+      "value=\"custom\"": 1,
+      "value=\"completed\"": 1,
+      "value=\"shipped\"": 1,
+      "label=\"Search orders\"": 1,
+      "name=\"search\"": 5,
+      "placeholder=\"Order or customer\"": 1,
+      "href=\"#features\"": 6,
+      "href=\"#pricing\"": 4,
+      "href=\"#about\"": 1,
+      "variant=\"ghost\"": 1,
+      "href=\"#login\"": 1,
+      "align=\"center\"": 12,
+      "spacing=\"large\"": 1,
+      "size=\"large\"": 12,
+      "href=\"#signup\"": 3,
+      "variant=\"secondary\"": 10,
+      "href=\"#demo\"": 1,
+      "id=\"features\"": 4,
+      "level=\"2\"": 4,
+      "columns=\"3\"": 8,
+      "name=\"edit\"": 2,
+      "level=\"3\"": 18,
+      "name=\"folder\"": 4,
+      "name=\"cloud\"": 2,
+      "name=\"users\"": 3,
+      "name=\"shield\"": 1,
+      "id=\"pricing\"": 4,
+      "tone=\"muted\"": 1,
+      "amount=\"0\"": 2,
+      "period=\"month\"": 4,
+      "featured=\"true\"": 2,
+      "amount=\"8\"": 2,
+      "currency=\"$\"": 5,
+      "amount=\"15\"": 1,
+      "period=\"user/month\"": 2,
+      "href=\"#contact\"": 3,
+      "href=\"#privacy\"": 1,
+      "href=\"#terms\"": 1,
+      "size=\"small\"": 1,
+      "variant=\"outline\"": 3,
+      "name=\"lock\"": 1,
+      "width=\"full\"": 3,
+      "amount=\"16\"": 1,
+      "id=\"contact\"": 1,
+      "href=\"/privacy\"": 1,
+      "href=\"/terms\"": 1,
+      "autocomplete=\"name\"": 2,
+      "autocomplete=\"email\"": 2,
+      "name=\"email_notifications\"": 1,
+      "name=\"push_notifications\"": 1,
+      "label=\"Product updates\"": 1,
+      "name=\"product_updates\"": 1,
+      "type=\"file\"": 1,
+      "label=\"Email updates\"": 1,
+      "name=\"email-updates\"": 1,
+      "label=\"Product announcements\"": 1,
+      "name=\"product-announcements\"": 1,
+      "align=\"end\"": 1,
+      "href=\"/profile\"": 2,
+      "href=\"/settings\"": 2,
+      "gap=\"md\"": 4,
+      "aria-label=\"Key metrics\"": 2,
+      "value=\"$24,680\"": 2,
+      "comparison=\"vs. last week\"": 8,
+      "trend=\"up\"": 6,
+      "value=\"412\"": 2,
+      "change=\"+8.1%\"": 1,
+      "label=\"Average order value\"": 2,
+      "value=\"$59.90\"": 2,
+      "change=\"+4.0%\"": 1,
+      "label=\"Refund rate\"": 2,
+      "value=\"1.8%\"": 2,
+      "change=\"−0.3 percentage points\"": 1,
+      "trend=\"down\"": 2,
+      "sidebar=\"right\"": 1,
+      "heading=\"Recent orders\"": 2,
+      "variant=\"success\"": 2,
+      "variant=\"warning\"": 2,
+      "variant=\"neutral\"": 2,
+      "slot=\"sidebar\"": 1,
+      "heading=\"Filters\"": 2,
+      "gap=\"sm\"": 1,
+      "name=\"range\"": 2,
+      "value=\"7d\"": 4,
+      "value=\"30d\"": 2,
+      "value=\"90d\"": 2,
+      "value=\"pending\"": 2,
+      "label=\"User menu\"": 1,
+      "slot=\"trigger\"": 1,
+      "aria-label=\"Open user menu\"": 1,
+      "change=\"+8.2%\"": 1,
+      "change=\"+5.4%\"": 1,
+      "change=\"+2.7%\"": 1,
+      "change=\"−0.4 percentage points\"": 1,
+      "aria-label=\"Recent orders\"": 1,
+      "gap=\"small\"": 1,
+      "href=\"/signup\"": 2,
+      "aria-labelledby=\"features-heading\"": 1,
+      "name=\"zap\"": 2,
+      "aria-hidden=\"true\"": 12,
+      "name=\"check-square\"": 2,
+      "name=\"refresh-cw\"": 2,
+      "name=\"share-2\"": 1,
+      "aria-labelledby=\"pricing-heading\"": 1,
+      "href=\"/signup?plan=free\"": 2,
+      "href=\"/signup?plan=plus\"": 2,
+      "href=\"/signup?plan=team\"": 2,
+      "role=\"contentinfo\"": 1,
+      "id=\"hero\"": 1,
+      "gap=\"lg\"": 4
+    },
+    "responsive": {},
+    "classN": 0,
+    "styleN": 0,
+    "elN": 655
+  }
+}

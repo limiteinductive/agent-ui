@@ -1,0 +1,1335 @@
+{
+  "run": "all",
+  "set": "pilot",
+  "models": [
+    "gpt-5.6",
+    "gpt-6.2",
+    "haiku",
+    "opus",
+    "sonnet"
+  ],
+  "tags": {
+    "vertical": {
+      "candidate": "ui-stack",
+      "guesses": {
+        "ui-stack": 20
+      }
+    },
+    "wrap-row": {
+      "candidate": "ui-cluster",
+      "guesses": {
+        "ui-chip-group": 9,
+        "ui-row": 8,
+        "ui-flex": 2,
+        "ui-stack": 1
+      }
+    },
+    "push-apart": {
+      "candidate": "ui-split",
+      "guesses": {
+        "ui-row": 10,
+        "ui-toolbar": 10
+      }
+    },
+    "auto-columns": {
+      "candidate": "ui-grid",
+      "guesses": {
+        "ui-grid": 14,
+        "ui-gallery": 6
+      }
+    },
+    "side-main": {
+      "candidate": "ui-sidebar",
+      "guesses": {
+        "ui-layout": 8,
+        "ui-sidebar-layout": 5,
+        "ui-sidebar": 4,
+        "ui-settings-layout": 2,
+        "ui-split": 1
+      }
+    },
+    "row-to-column": {
+      "candidate": "ui-switcher",
+      "guesses": {
+        "ui-grid": 13,
+        "ui-row": 3,
+        "ui-switcher": 2,
+        "ui-stack": 1,
+        "ui-columns": 1
+      }
+    },
+    "h-scroll": {
+      "candidate": "ui-reel",
+      "guesses": {
+        "ui-row": 10,
+        "ui-scroller": 6,
+        "ui-scroll": 2,
+        "ui-scroll-area": 1,
+        "ui-stack": 1
+      }
+    },
+    "max-width": {
+      "candidate": "ui-page",
+      "guesses": {
+        "ui-container": 20
+      }
+    },
+    "overlap": {
+      "candidate": "ui-layers",
+      "guesses": {
+        "ui-hero": 10,
+        "ui-stack": 7,
+        "ui-overlay": 3
+      }
+    },
+    "aspect": {
+      "candidate": "ui-frame",
+      "guesses": {
+        "ui-aspect-ratio": 18,
+        "ui-video-thumbnail": 2
+      }
+    },
+    "scroll-region": {
+      "candidate": "ui-scroll",
+      "guesses": {
+        "ui-log-viewer": 8,
+        "ui-scroll-area": 8,
+        "ui-scroll": 2,
+        "ui-panel": 2
+      }
+    },
+    "app-layout": {
+      "candidate": "ui-shell",
+      "guesses": {
+        "ui-layout": 9,
+        "ui-app-shell": 8,
+        "ui-app-layout": 3
+      }
+    },
+    "panel": {
+      "candidate": "ui-surface",
+      "guesses": {
+        "ui-card": 13,
+        "ui-panel": 5,
+        "ui-surface": 2
+      }
+    },
+    "long-text": {
+      "candidate": "ui-prose",
+      "guesses": {
+        "ui-prose": 17,
+        "ui-markdown": 2,
+        "ui-markdown-content": 1
+      }
+    },
+    "form-field": {
+      "candidate": "ui-field",
+      "guesses": {
+        "ui-field": 8,
+        "ui-input": 8,
+        "ui-form-field": 2,
+        "ui-text-field": 1,
+        "ui-text-input": 1
+      }
+    },
+    "icon": {
+      "candidate": "ui-icon",
+      "guesses": {
+        "ui-icon": 20
+      }
+    },
+    "number": {
+      "candidate": "ui-num",
+      "guesses": {
+        "ui-number": 8,
+        "ui-format-number": 8,
+        "ui-currency": 2,
+        "ui-percent": 2
+      }
+    },
+    "relative-time": {
+      "candidate": "ui-time",
+      "guesses": {
+        "ui-relative-time": 8,
+        "ui-date": 7,
+        "ui-time": 5
+      }
+    },
+    "status-label": {
+      "candidate": "ui-badge",
+      "guesses": {
+        "ui-badge": 20
+      }
+    },
+    "primary-action": {
+      "candidate": "button",
+      "guesses": {
+        "ui-button": 20
+      }
+    },
+    "divider": {
+      "candidate": "ui-divider",
+      "guesses": {
+        "ui-divider": 14,
+        "ui-menu-divider": 4,
+        "ui-separator": 2
+      }
+    },
+    "loading-placeholder": {
+      "candidate": "ui-skeleton",
+      "guesses": {
+        "ui-skeleton": 20
+      }
+    },
+    "alert": {
+      "candidate": "ui-callout",
+      "guesses": {
+        "ui-alert": 15,
+        "ui-notice": 4,
+        "ui-message": 1
+      }
+    }
+  },
+  "attrs": {
+    "attr.child-spacing": {
+      "candidate": "gap",
+      "attrs": {
+        "gap=\"md\"": 8,
+        "gap=\"medium\"": 2
+      },
+      "tags": {
+        "ui-stack": 10
+      }
+    },
+    "attr.child-spacing.row": {
+      "candidate": "gap",
+      "attrs": {
+        "gap=\"small\"": 5,
+        "gap=\"sm\"": 5
+      },
+      "tags": {
+        "ui-cluster": 10
+      }
+    },
+    "attr.inner-spacing": {
+      "candidate": "pad",
+      "attrs": {
+        "padding=\"large\"": 6,
+        "padding=\"lg\"": 4
+      },
+      "tags": {
+        "ui-surface": 10
+      }
+    },
+    "attr.corners": {
+      "candidate": "radius",
+      "attrs": {
+        "rounded": 7,
+        "radius=\"lg\"": 3
+      },
+      "tags": {
+        "ui-surface": 10
+      }
+    },
+    "attr.lifted": {
+      "candidate": "tone",
+      "attrs": {
+        "elevated": 9,
+        "raised": 1
+      },
+      "tags": {
+        "ui-surface": 10
+      }
+    },
+    "attr.recessed": {
+      "candidate": "tone",
+      "attrs": {
+        "variant=\"sunken\"": 5,
+        "recessed": 2,
+        "variant=\"recessed\"": 1,
+        "sunken": 1,
+        "inset": 1
+      },
+      "tags": {
+        "ui-surface": 10
+      }
+    },
+    "attr.cross-align": {
+      "candidate": "align",
+      "attrs": {
+        "align=\"center\"": 10
+      },
+      "tags": {
+        "ui-cluster": 10
+      }
+    },
+    "attr.main-align": {
+      "candidate": "justify",
+      "attrs": {
+        "justify=\"end\"": 10
+      },
+      "tags": {
+        "ui-cluster": 10
+      }
+    },
+    "attr.grid-min": {
+      "candidate": "min",
+      "attrs": {
+        "min-item-width=\"16rem\"": 6,
+        "min-width=\"16rem\"": 2,
+        "min-column-width=\"16rem\"": 2
+      },
+      "tags": {
+        "ui-grid": 10
+      }
+    },
+    "attr.switch-at": {
+      "candidate": "at",
+      "attrs": {
+        "threshold=\"40rem\"": 6,
+        "breakpoint=\"40rem\"": 3,
+        "collapse-at=\"40rem\"": 1
+      },
+      "tags": {
+        "ui-switcher": 10
+      }
+    },
+    "attr.side-width": {
+      "candidate": "side-width",
+      "attrs": {
+        "sidebar-width=\"20rem\"": 4,
+        "width=\"20rem\"": 3,
+        "side-width=\"20rem\"": 3
+      },
+      "tags": {
+        "ui-sidebar": 10
+      }
+    },
+    "attr.side-end": {
+      "candidate": "side",
+      "attrs": {
+        "position=\"right\"": 6,
+        "side=\"right\"": 4
+      },
+      "tags": {
+        "ui-sidebar": 10
+      }
+    },
+    "attr.measure": {
+      "candidate": "width",
+      "attrs": {
+        "width=\"narrow\"": 5,
+        "narrow": 5
+      },
+      "tags": {
+        "ui-page": 10
+      }
+    },
+    "attr.truncate": {
+      "candidate": "truncate",
+      "attrs": {
+        "truncate": 8,
+        "ellipsis": 1,
+        "truncate=\"true\"": 1
+      },
+      "tags": {
+        "ui-text": 10
+      }
+    },
+    "attr.clamp": {
+      "candidate": "lines",
+      "attrs": {
+        "max-lines=\"3\"": 4,
+        "lines=\"3\"": 4,
+        "line-clamp=\"3\"": 2
+      },
+      "tags": {
+        "ui-text": 8,
+        "ui-description": 2
+      }
+    },
+    "attr.busy": {
+      "candidate": "busy",
+      "attrs": {
+        "loading": 10
+      },
+      "tags": {
+        "ui-surface": 10
+      }
+    },
+    "attr.ratio": {
+      "candidate": "ratio",
+      "attrs": {
+        "ratio=\"16:9\"": 8,
+        "aspect-ratio=\"16:9\"": 1,
+        "ratio=\"16/9\"": 1
+      },
+      "tags": {
+        "ui-frame": 10
+      }
+    },
+    "attr.icon-name": {
+      "candidate": "name",
+      "attrs": {
+        "name=\"search\"": 9,
+        "icon=\"search\"": 1
+      },
+      "tags": {
+        "ui-icon": 10
+      }
+    },
+    "attr.number-format": {
+      "candidate": "format",
+      "attrs": {
+        "value=\"1234567.891\"": 10,
+        "currency=\"USD\"": 10,
+        "format=\"currency\"": 8,
+        "locale=\"en-US\"": 1
+      },
+      "tags": {
+        "ui-num": 10
+      }
+    },
+    "attr.tone.neutral": {
+      "candidate": "neutral",
+      "attrs": {
+        "variant=\"neutral\"": 8,
+        "color=\"neutral\"": 2
+      },
+      "tags": {
+        "ui-badge": 10
+      }
+    },
+    "attr.tone.accent": {
+      "candidate": "accent",
+      "attrs": {
+        "variant=\"primary\"": 8,
+        "color=\"primary\"": 2
+      },
+      "tags": {
+        "ui-badge": 10
+      }
+    },
+    "attr.tone.success": {
+      "candidate": "success",
+      "attrs": {
+        "variant=\"success\"": 9,
+        "status=\"success\"": 1
+      },
+      "tags": {
+        "ui-badge": 10
+      }
+    },
+    "attr.tone.warning": {
+      "candidate": "warning",
+      "attrs": {
+        "variant=\"warning\"": 8,
+        "color=\"warning\"": 2
+      },
+      "tags": {
+        "ui-badge": 10
+      }
+    },
+    "attr.tone.danger": {
+      "candidate": "danger",
+      "attrs": {
+        "variant=\"danger\"": 9,
+        "color=\"destructive\"": 1
+      },
+      "tags": {
+        "ui-badge": 10
+      }
+    },
+    "attr.tone.info": {
+      "candidate": "info",
+      "attrs": {
+        "variant=\"info\"": 7,
+        "color=\"info\"": 1,
+        "color=\"neutral\"": 1,
+        "variant=\"neutral\"": 1
+      },
+      "tags": {
+        "ui-badge": 10
+      }
+    },
+    "attr.emphasis.high": {
+      "candidate": "primary",
+      "attrs": {
+        "variant=\"primary\"": 9,
+        "primary": 1,
+        "prominence=\"high\"": 1,
+        "type=\"submit\"": 1,
+        "prominence=\"primary\"": 1,
+        "emphasis=\"high\"": 1
+      },
+      "tags": {
+        "ui-button": 10
+      }
+    },
+    "attr.emphasis.mid": {
+      "candidate": "secondary",
+      "attrs": {
+        "variant=\"secondary\"": 10
+      },
+      "tags": {
+        "ui-button": 10
+      }
+    },
+    "attr.emphasis.low": {
+      "candidate": "ghost",
+      "attrs": {
+        "variant=\"ghost\"": 10
+      },
+      "tags": {
+        "ui-button": 10
+      }
+    }
+  },
+  "values": {
+    "value.scale.none": {
+      "0": 8,
+      "none": 2
+    },
+    "value.scale.small": {
+      "sm": 7,
+      "small": 2,
+      "sm vel": 1
+    },
+    "value.scale.min": {
+      "1": 2,
+      "xs": 7,
+      "sm": 1
+    },
+    "value.scale.medium": {
+      "md": 6,
+      "medium": 4
+    },
+    "value.scale.large": {
+      "lg": 8,
+      "xl": 2
+    },
+    "value.scale.max": {
+      "xl": 10
+    },
+    "value.scale.beyond": {
+      "2xl": 5,
+      "xxl": 4,
+      "xxxl": 1
+    },
+    "value.radius.large": {
+      "lg": 7,
+      "md": 2,
+      "xl": 1
+    },
+    "value.pad.large": {
+      "lg": 6,
+      "large": 3,
+      "xl": 1
+    },
+    "value.radius.pill": {
+      "full": 9,
+      "9999px": 1
+    }
+  },
+  "interpret": {
+    "interpret.ui-cluster": {
+      "expected": "C",
+      "answers": {
+        "C": 10
+      }
+    },
+    "interpret.ui-switcher": {
+      "expected": "C",
+      "answers": {
+        "C": 10
+      }
+    },
+    "interpret.ui-stack": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.ui-reel": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.ui-frame": {
+      "expected": "C",
+      "answers": {
+        "C": 10
+      }
+    },
+    "interpret.ui-sidebar": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.ui-split": {
+      "expected": "C",
+      "answers": {
+        "C": 10
+      }
+    },
+    "interpret.ui-bar": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.ui-shell": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.ui-layers": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.surface-raised": {
+      "expected": "A",
+      "answers": {
+        "A": 10
+      }
+    },
+    "interpret.tone-accent": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.grid-min": {
+      "expected": "C",
+      "answers": {
+        "C": 10
+      }
+    },
+    "interpret.gap-numeric": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.pad": {
+      "expected": "B",
+      "answers": {
+        "B": 10
+      }
+    },
+    "interpret.ui-scroll": {
+      "expected": "A",
+      "answers": {
+        "A": 10
+      }
+    }
+  },
+  "pages": {
+    "uiTags": {
+      "ui-page": 11,
+      "ui-section": 44,
+      "ui-field": 15,
+      "ui-input": 27,
+      "ui-upload": 2,
+      "ui-toggle": 6,
+      "ui-button": 101,
+      "ui-shell": 1,
+      "ui-topbar": 3,
+      "ui-brand": 7,
+      "ui-menu-button": 4,
+      "ui-layout": 9,
+      "ui-main": 5,
+      "ui-metric-grid": 1,
+      "ui-metric": 20,
+      "ui-panel": 13,
+      "ui-table": 10,
+      "ui-table-head": 8,
+      "ui-table-row": 47,
+      "ui-table-cell": 215,
+      "ui-table-body": 9,
+      "ui-badge": 53,
+      "ui-sidebar": 5,
+      "ui-form": 9,
+      "ui-select": 17,
+      "ui-option": 64,
+      "ui-app": 1,
+      "ui-menu": 8,
+      "ui-menu-item": 25,
+      "ui-page-header": 2,
+      "ui-heading": 130,
+      "ui-text": 118,
+      "ui-grid": 36,
+      "ui-table-header": 16,
+      "ui-checkbox-group": 5,
+      "ui-checkbox": 21,
+      "ui-header": 8,
+      "ui-container": 23,
+      "ui-navbar": 5,
+      "ui-logo": 13,
+      "ui-nav": 7,
+      "ui-nav-item": 3,
+      "ui-actions": 2,
+      "ui-card": 89,
+      "ui-icon": 62,
+      "ui-price": 15,
+      "ui-list": 24,
+      "ui-list-item": 86,
+      "ui-footer": 9,
+      "ui-footer-grid": 1,
+      "ui-footer-links": 1,
+      "ui-link": 76,
+      "ui-divider": 19,
+      "ui-hero": 8,
+      "ui-file-upload": 5,
+      "ui-switch": 28,
+      "ui-top-bar": 4,
+      "ui-stack": 59,
+      "ui-group": 3,
+      "ui-avatar": 8,
+      "ui-alert": 1,
+      "ui-row": 1,
+      "ui-app-shell": 5,
+      "ui-spacer": 5,
+      "ui-dropdown": 2,
+      "ui-stat": 8,
+      "ui-stat-label": 8,
+      "ui-stat-value": 8,
+      "ui-stat-change": 8,
+      "ui-table-header-cell": 5,
+      "ui-file-input": 2,
+      "ui-card-header": 6,
+      "ui-fieldset": 1,
+      "ui-radio-group": 2,
+      "ui-radio": 6,
+      "ui-app-bar": 1,
+      "ui-menu-divider": 2,
+      "ui-pagination": 4,
+      "ui-form-field": 4,
+      "ui-date-range-input": 1,
+      "ui-page-content": 1,
+      "ui-stat-card": 12,
+      "ui-date": 5,
+      "ui-date-range-picker": 2,
+      "ui-range-slider": 1,
+      "ui-search-input": 1,
+      "ui-feature-card": 12,
+      "ui-pricing-table": 2,
+      "ui-pricing-plan": 3,
+      "ui-icon-button": 5,
+      "ui-section-header": 2,
+      "ui-plan-card": 3,
+      "ui-card-footer": 2,
+      "ui-button-group": 2,
+      "ui-pricing-card": 6,
+      "ui-slider": 1
+    },
+    "invented": {
+      "ui-section": 44,
+      "ui-input": 27,
+      "ui-upload": 2,
+      "ui-toggle": 6,
+      "ui-button": 101,
+      "ui-topbar": 3,
+      "ui-brand": 7,
+      "ui-menu-button": 4,
+      "ui-layout": 9,
+      "ui-main": 5,
+      "ui-metric-grid": 1,
+      "ui-metric": 20,
+      "ui-panel": 13,
+      "ui-table": 10,
+      "ui-table-head": 8,
+      "ui-table-row": 47,
+      "ui-table-cell": 215,
+      "ui-table-body": 9,
+      "ui-form": 9,
+      "ui-select": 17,
+      "ui-option": 64,
+      "ui-app": 1,
+      "ui-menu": 8,
+      "ui-menu-item": 25,
+      "ui-page-header": 2,
+      "ui-heading": 130,
+      "ui-text": 118,
+      "ui-table-header": 16,
+      "ui-checkbox-group": 5,
+      "ui-checkbox": 21,
+      "ui-header": 8,
+      "ui-container": 23,
+      "ui-navbar": 5,
+      "ui-logo": 13,
+      "ui-nav": 7,
+      "ui-nav-item": 3,
+      "ui-actions": 2,
+      "ui-card": 89,
+      "ui-price": 15,
+      "ui-list": 24,
+      "ui-list-item": 86,
+      "ui-footer": 9,
+      "ui-footer-grid": 1,
+      "ui-footer-links": 1,
+      "ui-link": 76,
+      "ui-hero": 8,
+      "ui-file-upload": 5,
+      "ui-switch": 28,
+      "ui-top-bar": 4,
+      "ui-group": 3,
+      "ui-avatar": 8,
+      "ui-alert": 1,
+      "ui-row": 1,
+      "ui-app-shell": 5,
+      "ui-spacer": 5,
+      "ui-dropdown": 2,
+      "ui-stat": 8,
+      "ui-stat-label": 8,
+      "ui-stat-value": 8,
+      "ui-stat-change": 8,
+      "ui-table-header-cell": 5,
+      "ui-file-input": 2,
+      "ui-card-header": 6,
+      "ui-fieldset": 1,
+      "ui-radio-group": 2,
+      "ui-radio": 6,
+      "ui-app-bar": 1,
+      "ui-menu-divider": 2,
+      "ui-pagination": 4,
+      "ui-form-field": 4,
+      "ui-date-range-input": 1,
+      "ui-page-content": 1,
+      "ui-stat-card": 12,
+      "ui-date": 5,
+      "ui-date-range-picker": 2,
+      "ui-range-slider": 1,
+      "ui-search-input": 1,
+      "ui-feature-card": 12,
+      "ui-pricing-table": 2,
+      "ui-pricing-plan": 3,
+      "ui-icon-button": 5,
+      "ui-section-header": 2,
+      "ui-plan-card": 3,
+      "ui-card-footer": 2,
+      "ui-button-group": 2,
+      "ui-pricing-card": 6,
+      "ui-slider": 1
+    },
+    "aliased": {},
+    "uiAttrs": {
+      "title": 15,
+      "label": 139,
+      "name": 181,
+      "type": 59,
+      "accept": 10,
+      "danger": 1,
+      "primary": 1,
+      "variant": 140,
+      "columns": 43,
+      "value": 155,
+      "change": 32,
+      "change-label": 4,
+      "align": 96,
+      "status": 4,
+      "icon": 27,
+      "level": 130,
+      "muted": 3,
+      "gap": 98,
+      "change-direction": 4,
+      "comparison": 16,
+      "tone": 41,
+      "checked": 24,
+      "placeholder": 16,
+      "full-width": 8,
+      "href": 146,
+      "spacing": 8,
+      "size": 125,
+      "id": 24,
+      "amount": 15,
+      "period": 30,
+      "block": 6,
+      "featured": 4,
+      "currency": 14,
+      "width": 6,
+      "autocomplete": 6,
+      "aria-label": 6,
+      "trend": 32,
+      "sidebar": 1,
+      "heading": 9,
+      "slot": 24,
+      "aria-labelledby": 2,
+      "aria-hidden": 12,
+      "role": 1,
+      "max-width": 1,
+      "action": 4,
+      "method": 4,
+      "direction": 22,
+      "required": 12,
+      "src": 3,
+      "alt": 3,
+      "justify": 10,
+      "hint": 1,
+      "preview": 3,
+      "confirm": 3,
+      "sticky": 7,
+      "placement": 5,
+      "icon-end": 3,
+      "striped": 6,
+      "hoverable": 6,
+      "position": 2,
+      "legend": 1,
+      "color": 44,
+      "weight": 6,
+      "inline": 6,
+      "fullwidth": 6,
+      "highlighted": 4,
+      "initials": 1,
+      "page": 4,
+      "pages": 1,
+      "preset": 1,
+      "selected": 4,
+      "prefix": 1,
+      "layout": 2,
+      "subtitle": 1,
+      "span": 5,
+      "density": 1,
+      "sortable": 5,
+      "sort": 1,
+      "total": 1,
+      "page-size": 1,
+      "multiple": 1,
+      "min": 2,
+      "max": 2,
+      "step": 2,
+      "price": 3,
+      "badge": 1,
+      "padding": 4,
+      "border": 1,
+      "header": 5,
+      "total-pages": 2,
+      "background": 2,
+      "responsive": 1,
+      "form": 1,
+      "start": 1,
+      "end": 1,
+      "show-value": 1
+    },
+    "uiAttrVals": {
+      "title=\"Profile\"": 2,
+      "label=\"Name\"": 10,
+      "name=\"name\"": 10,
+      "type=\"text\"": 9,
+      "label=\"Email\"": 10,
+      "name=\"email\"": 10,
+      "type=\"email\"": 10,
+      "label=\"Avatar\"": 10,
+      "name=\"avatar\"": 10,
+      "accept=\"image/*\"": 10,
+      "title=\"Notifications\"": 2,
+      "name=\"email-notifications\"": 2,
+      "label=\"Email notifications\"": 9,
+      "name=\"push-notifications\"": 3,
+      "label=\"Push notifications\"": 10,
+      "name=\"marketing-notifications\"": 1,
+      "label=\"Marketing notifications\"": 1,
+      "title=\"Danger zone\"": 2,
+      "type=\"button\"": 10,
+      "type=\"submit\"": 19,
+      "title=\"Settings\"": 2,
+      "label=\"Weekly digest\"": 2,
+      "name=\"weekly-digest\"": 1,
+      "variant=\"danger\"": 23,
+      "variant=\"primary\"": 46,
+      "label=\"Alex Morgan\"": 1,
+      "columns=\"4\"": 18,
+      "label=\"Revenue\"": 8,
+      "value=\"$48,290\"": 4,
+      "change=\"+12.4%\"": 6,
+      "change-label=\"vs last week\"": 4,
+      "label=\"Orders\"": 8,
+      "value=\"1,284\"": 6,
+      "change=\"+8.7%\"": 1,
+      "label=\"Customers\"": 2,
+      "value=\"892\"": 1,
+      "change=\"+5.2%\"": 2,
+      "label=\"Conversion rate\"": 5,
+      "value=\"4.8%\"": 1,
+      "change=\"-0.6%\"": 1,
+      "title=\"Recent orders\"": 3,
+      "align=\"right\"": 14,
+      "status=\"paid\"": 2,
+      "status=\"processing\"": 1,
+      "status=\"refunded\"": 1,
+      "title=\"Filters\"": 3,
+      "label=\"Date range\"": 10,
+      "name=\"date-range\"": 2,
+      "value=\"last-30-days\"": 3,
+      "value=\"today\"": 4,
+      "value=\"last-7-days\"": 4,
+      "value=\"this-quarter\"": 1,
+      "label=\"Order status\"": 4,
+      "name=\"status\"": 11,
+      "value=\"all\"": 16,
+      "value=\"paid\"": 9,
+      "value=\"processing\"": 2,
+      "value=\"refunded\"": 10,
+      "label=\"Sales channel\"": 1,
+      "name=\"channel\"": 5,
+      "value=\"web\"": 6,
+      "value=\"mobile\"": 5,
+      "value=\"retail\"": 3,
+      "label=\"Account\"": 2,
+      "icon=\"user\"": 3,
+      "level=\"1\"": 17,
+      "gap=\"medium\"": 9,
+      "change=\"+12.8%\"": 1,
+      "change-direction=\"up\"": 3,
+      "comparison=\"vs last week\"": 8,
+      "change=\"+8.4%\"": 1,
+      "value=\"842\"": 1,
+      "label=\"Refunds\"": 1,
+      "value=\"$1,920\"": 1,
+      "change=\"-3.1%\"": 1,
+      "change-direction=\"down\"": 1,
+      "columns=\"1fr 280px\"": 4,
+      "gap=\"large\"": 12,
+      "tone=\"success\"": 5,
+      "tone=\"warning\"": 2,
+      "tone=\"neutral\"": 1,
+      "value=\"custom\"": 1,
+      "value=\"completed\"": 1,
+      "value=\"shipped\"": 3,
+      "label=\"Search orders\"": 1,
+      "name=\"search\"": 11,
+      "placeholder=\"Order or customer\"": 1,
+      "href=\"#features\"": 18,
+      "href=\"#pricing\"": 14,
+      "href=\"#about\"": 1,
+      "variant=\"ghost\"": 8,
+      "href=\"#login\"": 1,
+      "align=\"center\"": 48,
+      "spacing=\"large\"": 1,
+      "size=\"large\"": 34,
+      "href=\"#signup\"": 5,
+      "variant=\"secondary\"": 21,
+      "href=\"#demo\"": 2,
+      "id=\"features\"": 10,
+      "level=\"2\"": 36,
+      "columns=\"3\"": 21,
+      "name=\"edit\"": 3,
+      "level=\"3\"": 62,
+      "name=\"folder\"": 4,
+      "name=\"cloud\"": 2,
+      "name=\"users\"": 7,
+      "name=\"shield\"": 1,
+      "id=\"pricing\"": 10,
+      "tone=\"muted\"": 20,
+      "amount=\"0\"": 5,
+      "period=\"month\"": 10,
+      "featured=\"true\"": 2,
+      "amount=\"8\"": 5,
+      "currency=\"$\"": 8,
+      "amount=\"15\"": 4,
+      "period=\"user/month\"": 5,
+      "href=\"#contact\"": 4,
+      "href=\"#privacy\"": 1,
+      "href=\"#terms\"": 1,
+      "size=\"small\"": 13,
+      "variant=\"outline\"": 15,
+      "name=\"lock\"": 7,
+      "width=\"full\"": 6,
+      "amount=\"16\"": 1,
+      "id=\"contact\"": 1,
+      "href=\"/privacy\"": 6,
+      "href=\"/terms\"": 6,
+      "autocomplete=\"name\"": 3,
+      "autocomplete=\"email\"": 3,
+      "name=\"email_notifications\"": 1,
+      "name=\"push_notifications\"": 1,
+      "label=\"Product updates\"": 1,
+      "name=\"product_updates\"": 1,
+      "type=\"file\"": 1,
+      "label=\"Email updates\"": 1,
+      "name=\"email-updates\"": 1,
+      "label=\"Product announcements\"": 1,
+      "name=\"product-announcements\"": 1,
+      "align=\"end\"": 34,
+      "href=\"/profile\"": 2,
+      "href=\"/settings\"": 2,
+      "gap=\"md\"": 24,
+      "aria-label=\"Key metrics\"": 2,
+      "value=\"$24,680\"": 2,
+      "comparison=\"vs. last week\"": 8,
+      "trend=\"up\"": 21,
+      "value=\"412\"": 2,
+      "change=\"+8.1%\"": 1,
+      "label=\"Average order value\"": 3,
+      "value=\"$59.90\"": 2,
+      "change=\"+4.0%\"": 1,
+      "label=\"Refund rate\"": 2,
+      "value=\"1.8%\"": 2,
+      "change=\"−0.3 percentage points\"": 1,
+      "trend=\"down\"": 8,
+      "sidebar=\"right\"": 1,
+      "heading=\"Recent orders\"": 3,
+      "variant=\"success\"": 12,
+      "variant=\"warning\"": 7,
+      "variant=\"neutral\"": 2,
+      "slot=\"sidebar\"": 1,
+      "heading=\"Filters\"": 3,
+      "gap=\"sm\"": 21,
+      "name=\"range\"": 7,
+      "value=\"7d\"": 10,
+      "value=\"30d\"": 5,
+      "value=\"90d\"": 5,
+      "value=\"pending\"": 8,
+      "label=\"User menu\"": 2,
+      "slot=\"trigger\"": 6,
+      "aria-label=\"Open user menu\"": 1,
+      "change=\"+8.2%\"": 1,
+      "change=\"+5.4%\"": 1,
+      "change=\"+2.7%\"": 1,
+      "change=\"−0.4 percentage points\"": 1,
+      "aria-label=\"Recent orders\"": 1,
+      "gap=\"small\"": 12,
+      "href=\"/signup\"": 12,
+      "aria-labelledby=\"features-heading\"": 1,
+      "name=\"zap\"": 3,
+      "aria-hidden=\"true\"": 12,
+      "name=\"check-square\"": 2,
+      "name=\"refresh-cw\"": 3,
+      "name=\"share-2\"": 1,
+      "aria-labelledby=\"pricing-heading\"": 1,
+      "href=\"/signup?plan=free\"": 5,
+      "href=\"/signup?plan=plus\"": 2,
+      "href=\"/signup?plan=team\"": 3,
+      "role=\"contentinfo\"": 1,
+      "id=\"hero\"": 1,
+      "gap=\"lg\"": 20,
+      "max-width=\"md\"": 1,
+      "action=\"/settings\"": 4,
+      "method=\"post\"": 4,
+      "direction=\"vertical\"": 8,
+      "placeholder=\"Your name\"": 2,
+      "placeholder=\"you@example.com\"": 4,
+      "size=\"lg\"": 37,
+      "src=\"/avatar.png\"": 1,
+      "alt=\"Current avatar\"": 1,
+      "name=\"notify-email\"": 5,
+      "name=\"notify-push\"": 5,
+      "name=\"notify-sms\"": 4,
+      "label=\"SMS notifications\"": 4,
+      "direction=\"horizontal\"": 14,
+      "justify=\"end\"": 4,
+      "name=\"avatar-preview\"": 1,
+      "placeholder=\"Your full name\"": 2,
+      "hint=\"PNG or JPG, up to 2 MB\"": 1,
+      "name=\"delete-account\"": 1,
+      "name=\"notify_email\"": 1,
+      "name=\"notify_push\"": 1,
+      "name=\"notify_digest\"": 1,
+      "slot=\"header\"": 7,
+      "size=\"md\"": 7,
+      "placement=\"bottom-end\"": 5,
+      "icon-end=\"chevron-down\"": 3,
+      "name=\"Jane Doe\"": 2,
+      "size=\"sm\"": 20,
+      "value=\"profile\"": 3,
+      "value=\"settings\"": 3,
+      "value=\"logout\"": 4,
+      "position=\"end\"": 2,
+      "label=\"Status\"": 5,
+      "label=\"Customer\"": 4,
+      "name=\"customer\"": 4,
+      "type=\"search\"": 4,
+      "placeholder=\"Search customers\"": 1,
+      "name=\"new-only\"": 1,
+      "name=\"compare\"": 2,
+      "type=\"reset\"": 5,
+      "id=\"settings-form\"": 1,
+      "name=\"notify-marketing\"": 1,
+      "label=\"Marketing emails\"": 1,
+      "name=\"settings\"": 1,
+      "heading=\"Profile\"": 1,
+      "heading=\"Notifications\"": 1,
+      "heading=\"Danger zone\"": 1,
+      "slot=\"aside\"": 2,
+      "label=\"Search customer\"": 1,
+      "placeholder=\"Name or email\"": 2,
+      "legend=\"Status\"": 1,
+      "label=\"Channel\"": 5,
+      "href=\"/\"": 6,
+      "href=\"#faq\"": 1,
+      "size=\"xl\"": 10,
+      "color=\"muted\"": 32,
+      "justify=\"center\"": 4,
+      "href=\"/demo\"": 3,
+      "name=\"pencil\"": 4,
+      "name=\"refresh\"": 3,
+      "name=\"tag\"": 6,
+      "weight=\"bold\"": 6,
+      "href=\"/signup?plan=basic\"": 1,
+      "href=\"/signup?plan=pro\"": 5,
+      "href=\"/contact\"": 4,
+      "level=\"4\"": 15,
+      "href=\"/changelog\"": 4,
+      "href=\"/about\"": 6,
+      "href=\"/blog\"": 5,
+      "href=\"/careers\"": 6,
+      "initials=\"JD\"": 1,
+      "value=\"$48,210\"": 1,
+      "period=\"vs last week\"": 12,
+      "change=\"+3.1%\"": 1,
+      "value=\"2.8%\"": 1,
+      "change=\"-0.4%\"": 3,
+      "label=\"Avg. order value\"": 3,
+      "value=\"$37.55\"": 1,
+      "change=\"0.0%\"": 3,
+      "trend=\"flat\"": 2,
+      "page=\"1\"": 4,
+      "pages=\"12\"": 1,
+      "aria-label=\"Filters\"": 1,
+      "preset=\"last-7-days\"": 1,
+      "value=\"marketplace\"": 1,
+      "label=\"Minimum order total\"": 2,
+      "type=\"number\"": 1,
+      "name=\"min-total\"": 2,
+      "placeholder=\"0.00\"": 1,
+      "prefix=\"$\"": 1,
+      "href=\"#footer\"": 1,
+      "id=\"footer\"": 1,
+      "layout=\"sidebar-right\"": 1,
+      "slot=\"start\"": 1,
+      "slot=\"end\"": 1,
+      "aria-label=\"User menu\"": 1,
+      "name=\"Jordan Lee\"": 2,
+      "slot=\"main\"": 1,
+      "title=\"Dashboard\"": 1,
+      "subtitle=\"Last 7 days\"": 1,
+      "value=\"$48,250\"": 1,
+      "change=\"+6.1%\"": 1,
+      "value=\"$37.59\"": 1,
+      "change=\"-2.3%\"": 1,
+      "value=\"3.8%\"": 1,
+      "span=\"2\"": 1,
+      "density=\"compact\"": 1,
+      "sort=\"desc\"": 1,
+      "value=\"2026-11-19\"": 2,
+      "value=\"2026-11-18\"": 2,
+      "tone=\"danger\"": 1,
+      "value=\"2026-11-17\"": 1,
+      "slot=\"footer\"": 1,
+      "total=\"1284\"": 1,
+      "page-size=\"5\"": 1,
+      "layout=\"stack\"": 1,
+      "label=\"Region\"": 1,
+      "value=\"na\"": 1,
+      "value=\"eu\"": 1,
+      "value=\"apac\"": 1,
+      "label=\"Order total\"": 1,
+      "min=\"0\"": 2,
+      "max=\"500\"": 2,
+      "value=\"0,500\"": 1,
+      "step=\"5\"": 1,
+      "value=\"app\"": 1,
+      "value=\"store\"": 1,
+      "spacing=\"xl\"": 2,
+      "spacing=\"lg\"": 5,
+      "tone=\"accent\"": 12,
+      "name=\"sync\"": 2,
+      "name=\"share\"": 2,
+      "name=\"Free\"": 2,
+      "price=\"$0\"": 1,
+      "period=\"/month\"": 2,
+      "name=\"Pro\"": 2,
+      "price=\"$8\"": 1,
+      "badge=\"Most popular\"": 1,
+      "href=\"#signup-pro\"": 1,
+      "name=\"Team\"": 2,
+      "price=\"$15\"": 1,
+      "period=\"/user/month\"": 1,
+      "padding=\"xl\"": 1,
+      "name=\"Notewell\"": 1,
+      "name=\"twitter\"": 1,
+      "label=\"Twitter\"": 1,
+      "name=\"github\"": 2,
+      "label=\"GitHub\"": 1,
+      "variant=\"subtle\"": 1,
+      "icon=\"check\"": 17,
+      "slot=\"badge\"": 1,
+      "variant=\"solid\"": 1,
+      "border=\"top\"": 1,
+      "name=\"notes-app\"": 1,
+      "href=\"/security\"": 1,
+      "justify=\"between\"": 2,
+      "name=\"x\"": 1,
+      "label=\"Follow us on X\"": 1,
+      "href=\"https://x.com\"": 1,
+      "label=\"View our GitHub\"": 1,
+      "href=\"https://github.com\"": 1,
+      "name=\"linkedin\"": 1,
+      "label=\"Connect on LinkedIn\"": 1,
+      "href=\"https://linkedin.com\"": 1,
+      "name=\"Alex Morgan\"": 1,
+      "icon=\"settings\"": 2,
+      "icon=\"log-out\"": 2,
+      "padding=\"lg\"": 1,
+      "change=\"+5.1%\"": 2,
+      "value=\"3.2%\"": 2,
+      "value=\"$37.60\"": 1,
+      "change=\"+1.8%\"": 1,
+      "span=\"3\"": 2,
+      "slot=\"actions\"": 3,
+      "variant=\"link\"": 2,
+      "href=\"/orders\"": 2,
+      "variant=\"info\"": 2,
+      "total-pages=\"12\"": 2,
+      "span=\"1\"": 2,
+      "placeholder=\"Search by name or email\"": 2,
+      "icon=\"search\"": 2,
+      "name=\"high-value\"": 1,
+      "src=\"/logo.svg\"": 2,
+      "alt=\"Notely\"": 2,
+      "href=\"/login\"": 2,
+      "color=\"primary\"": 12,
+      "background=\"muted\"": 1,
+      "currency=\"USD\"": 6,
+      "href=\"/download\"": 2,
+      "name=\"chart-bar\"": 1,
+      "size=\"medium\"": 4,
+      "icon=\"bell\"": 1,
+      "label=\"Notifications\"": 1,
+      "name=\"chevron-down\"": 1,
+      "padding=\"large\"": 1,
+      "value=\"$37.61\"": 1,
+      "trend=\"neutral\"": 1,
+      "padding=\"none\"": 1,
+      "href=\"/orders/10482\"": 1,
+      "href=\"/orders/10481\"": 1,
+      "href=\"/orders/10480\"": 1,
+      "href=\"/orders/10479\"": 1,
+      "href=\"/orders/10478\"": 1,
+      "form=\"filters\"": 1,
+      "start=\"2026-11-14\"": 1,
+      "end=\"2026-11-20\"": 1,
+      "placeholder=\"All statuses\"": 1,
+      "label=\"Customer type\"": 1,
+      "value=\"new\"": 1,
+      "value=\"returning\"": 1,
+      "step=\"10\"": 1,
+      "value=\"0\"": 1,
+      "name=\"customer-search\"": 1,
+      "name=\"flagged\"": 1,
+      "background=\"subtle\"": 1,
+      "href=\"/contact-sales\"": 1
+    },
+    "responsive": {
+      "responsive": 1
+    },
+    "classN": 0,
+    "styleN": 0,
+    "elN": 1930
+  }
+}
