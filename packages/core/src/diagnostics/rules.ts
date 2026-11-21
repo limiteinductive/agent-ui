@@ -57,17 +57,22 @@ export const RULES: Record<string, RuleDoc> = {
   },
   'row/overflow': {
     severity: 'warn', layer: 'layout', title: 'Row content does not fit',
-    detail: 'A row is one line and does not wrap unless asked. Its children are wider than the row at this viewport. Pick the behavior: wrap onto new lines, scroll as a rail, or stack-below a width.',
+    detail: 'A row is one line and does not wrap unless asked. Its children are wider than the row at this viewport. Pick the behavior: wrap onto new lines, scroll as a rail, or stack-below a width. A row that already wraps is reported when one child is wider than the row even on a line of its own (unbreakable text, a fixed width); the diagnostic names it.',
     example: { bad: '<ui-row> (8 tags)', good: '<ui-row wrap>' },
   },
   'grid/cramped': {
     severity: 'warn', layer: 'layout', title: 'Exact columns are too narrow',
-    detail: 'columns="N" keeps N columns at every width, so tiles get squeezed on small screens. max-columns="N" caps at N and drops columns when tiles would fall below min-item-width.',
+    detail: 'columns="N" keeps N columns at every width, so tiles get squeezed on small screens. max-columns="N" caps at N and drops columns when tiles would fall below min-item-width. Also reported when a tile box (padding, a fixed width) is wider than its track and covers its neighbor; if the count must stay (a calendar), make the tiles fit.',
     example: { bad: '<ui-grid columns="4">', good: '<ui-grid max-columns="4">' },
   },
   'layout/horizontal-overflow': {
     severity: 'error', layer: 'layout', title: 'Page scrolls sideways',
-    detail: 'The document is wider than the viewport. The diagnostic points at the element that breaks out of a parent that fits; elements inside clipping or scrolling containers are ignored.',
+    detail: 'The document is wider than the viewport, or, in <ui-page layout="app">, a region scrolls sideways or the shell cuts content off. The diagnostic points at the element that breaks out of a parent that fits and names the widest thing inside it; other clipping or scrolling containers are left alone.',
+  },
+  'page/shared-area': {
+    severity: 'error', layer: 'layout', title: 'Two children in one app-shell region',
+    detail: 'In <ui-page layout="app">, header, nav, aside and footer each take a region, and every other child goes in main. Children that land in the same region are drawn on top of each other. Wrap the main content in one <main>, put a sidebar in <nav> (start side) or <aside> (end side), and merge duplicate landmarks.',
+    example: { bad: '<ui-page layout="app"><header>…</header><ui-stack>filters</ui-stack><ui-container>…</ui-container>', good: '<ui-page layout="app"><header>…</header><nav>filters</nav><main>…</main>' },
   },
   'UI-RUNTIME-ERROR': {
     severity: 'error', layer: 'dom', title: 'Uncaught script error',

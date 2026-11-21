@@ -204,6 +204,7 @@ raw(`@layer ui-base, ui-core;
     min-block-size: 2.5rem; padding: 0.5rem 0.75rem; border: 1px solid var(--ui-border-control);
     border-radius: var(--ui-radius-md); background-color: var(--ui-surface); color: var(--ui-ink); max-inline-size: 100%;
   }
+  input[type="file"] { max-inline-size: 100%; } /* Chrome draws it ~330px wide: wider than a phone column */
   textarea { resize: vertical; min-block-size: 5rem; }
   ::placeholder { color: var(--ui-ink-subtle); opacity: 1; }
   label:has(> :is(input:not([type="checkbox"], [type="radio"], [type="hidden"]), select, textarea)) { display: flex; flex-direction: column; gap: 0.375rem; font-weight: 500; }
@@ -284,12 +285,18 @@ const ALIGN: Record<string, string> = { start: 'flex-start', center: 'center', e
 valueRules(['ui-stack', 'ui-row'], 'align', Object.keys(ALIGN), (v) => `align-items: ${ALIGN[v]};`);
 const JUSTIFY: Record<string, string> = { start: 'flex-start', center: 'center', end: 'flex-end' };
 valueRules(['ui-stack', 'ui-row'], 'justify', Object.keys(JUSTIFY), (v) => `justify-content: ${JUSTIFY[v]};`);
-// space-between: push the last child (never real space-between); exactly 3 children = true center
+// space-between: push the last child (never real space-between); exactly 3 children on one line = true center.
+// The grid is one line, so rows that wrap, scroll or stack keep flex. Side tracks never shrink below their content
+// (1fr = minmax(auto, 1fr)): a row too narrow for its children overflows measurably instead of overlapping them.
 const SB: Cond = ['justify', 'space-between'];
 out.push(`:where(${S('ui-stack', [SB])}) > :last-child:not(:first-child) { margin-block-start: auto; }`);
 out.push(`:where(${R([SB])}) > :last-child:not(:first-child) { margin-block-start: 0; margin-inline-start: auto; }`);
-const SB3 = splitTop(R([SB])).map((s) => `${s}:has(> :nth-child(3):last-child)`).join(', ');
-rule(SB3, 'display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-auto-flow: column;');
+const oneLine = (tag: string, sel: string) => {
+  const multi = `:not(${condSel(tag, ['wrap', 'on'])}, ${condSel(tag, ['scroll', 'on'])}, ${condSel(tag, ['stack-below', '*'])})`;
+  return splitTop(sel).map((s) => `${s}${multi}:has(> :nth-child(3):last-child)`);
+};
+const SB3 = [...oneLine('ui-row', S('ui-row', [SB])), ...oneLine('ui-stack', S('ui-stack', [HORIZONTAL, SB]))].join(', ');
+rule(SB3, 'display: grid; grid-template-columns: 1fr auto 1fr; grid-auto-flow: column;');
 out.push(`:where(${SB3}) > :nth-child(1) { justify-self: start; }`);
 out.push(`:where(${SB3}) > :nth-child(2) { justify-self: center; }`);
 out.push(`:where(${SB3}) > :nth-child(3) { justify-self: end; margin-inline-start: 0; }`);
@@ -313,6 +320,11 @@ out.push(`${kids(SBELOW)} { flex-grow: 1; flex-basis: calc((var(--_threshold, va
 lengthRules(R, 'ui-row', 'stack-below', '--_threshold', 'var(--ui-measure-md)');
 lengthRules((c) => S('ui-stack', [HORIZONTAL, ...c]), 'ui-stack', 'stack-below', '--_threshold', 'var(--ui-measure-md)');
 valueRules(['ui-row', 'ui-stack'], 'stack-below', Object.keys(tokens.measure), (v) => `--_threshold: var(--ui-measure-${v});`, (t, c) => (t === 'ui-row' ? S(t, c) : S(t, [HORIZONTAL, ...c])));
+// With a grow item, above the threshold the others keep their natural size, up to half the row, and grow takes the rest (as in a plain row),
+// instead of every item getting a zero basis and grow's 999 share squeezing the others to nothing. Below it, each takes a line.
+const SBG = splitTop(SBELOW).map((s) => `${s}:has(> ${GROW})`).join(', ');
+const BELOW = 'clamp(0px, calc((var(--_threshold, var(--ui-measure-md)) - 100%) * 999), 100%)';
+out.push(`:where(${SBG}) > :where(:not(${GROW})) { flex: 0 1 auto; min-inline-size: ${BELOW}; max-inline-size: max(50%, ${BELOW}); }`);
 for (let n = 2; n <= 6; n++) {
   const sel = splitTop(R([['stack-below', '*'], ['limit', String(n)]])).map((s) => `${s}:has(> :nth-child(${n + 1}))`).join(', ');
   out.push(`${kids(sel)} { flex-basis: 100%; }`);
@@ -373,6 +385,15 @@ valueRules(['ui-container'], 'size', Object.keys(tokens.container), (v) => `--_m
 out.push(`:where(${VSTACK}, ${T('ui-card')}) > :where(${GROW}) { flex-grow: 1; }`);
 out.push(`:where(${R()}) > :where(${GROW}) { flex-grow: 1; min-inline-size: 0; }`);
 const RWRAP = R([['wrap', 'on']]);
+// A wrapped item breaks lines at its full size, so this only lets an item alone on a line, wider than the line, shrink
+// to it (a stack holding a file input or a wide control), instead of pushing the page sideways. No sibling shares that line.
+// Not in stack-below rows: their items have a zero basis above the threshold, so this would let one shrink below its content.
+// There, capping the item at the line instead caps its automatic minimum too: alone on a line it fits, beside others it keeps its content width.
+const notBelow = (tag: string, sel: string) => splitTop(sel).map((s) => `${s}:not(${condSel(tag, ['stack-below', '*'])})`);
+const RWRAP_FREE = [...notBelow('ui-row', S('ui-row', [['wrap', 'on']])), ...notBelow('ui-stack', S('ui-stack', [HORIZONTAL, ['wrap', 'on']]))].join(', ');
+out.push(`:where(${RWRAP_FREE}) > * { min-inline-size: 0; }`);
+out.push(`${kids(SBELOW)} { max-inline-size: 100%; }`);
+out.push(`:where(${SBG}) > :where(${GROW}) { flex: 999 1 0; min-inline-size: ${BELOW}; }`);
 out.push(`:where(${splitTop(RWRAP).map((s) => `${s}:has(> ${GROW})`).join(', ')}) > * { flex-grow: 1; }`);
 out.push(`:where(${RWRAP}) > :where(${GROW}) { flex: 999 1 0; min-inline-size: max(50%, min(100%, var(--ui-measure-xs))); }`);
 out.push(`${kids(T('ui-container'))}:where(${bleed('wide')}) { grid-column: wide; }`);

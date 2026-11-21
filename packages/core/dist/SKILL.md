@@ -141,7 +141,7 @@ Button. Form-associated: `type="submit"` submits its form. Default `type="button
 
 ### ui-page
 
-Page root. `layout="document"` (default) scrolls the document; `layout="app"` is a full-height shell whose main region scrolls.
+Page root. `layout="document"` (default) scrolls the document; `layout="app"` is a full-height shell placed by tag: `<header>` on top, `<nav>` at the start side, `<aside>` at the end side, `<footer>` at the bottom, and one other child (usually `<main>`) as the main region, which scrolls. Each region takes one child: wrap the main content in a single `<main>`.
 
 | attribute | values | default | |
 |---|---|---|---|
@@ -291,21 +291,28 @@ A deliberate deviation is written down, not hidden: `data-ui-allow="row/overflow
 <a id="row-overflow"></a>
 #### row/overflow · warn
 
-**Row content does not fit.** A row is one line and does not wrap unless asked. Its children are wider than the row at this viewport. Pick the behavior: wrap onto new lines, scroll as a rail, or stack-below a width.
+**Row content does not fit.** A row is one line and does not wrap unless asked. Its children are wider than the row at this viewport. Pick the behavior: wrap onto new lines, scroll as a rail, or stack-below a width. A row that already wraps is reported when one child is wider than the row even on a line of its own (unbreakable text, a fixed width); the diagnostic names it.
 
 `<ui-row> (8 tags)` → `<ui-row wrap>`
 
 <a id="grid-cramped"></a>
 #### grid/cramped · warn
 
-**Exact columns are too narrow.** columns="N" keeps N columns at every width, so tiles get squeezed on small screens. max-columns="N" caps at N and drops columns when tiles would fall below min-item-width.
+**Exact columns are too narrow.** columns="N" keeps N columns at every width, so tiles get squeezed on small screens. max-columns="N" caps at N and drops columns when tiles would fall below min-item-width. Also reported when a tile box (padding, a fixed width) is wider than its track and covers its neighbor; if the count must stay (a calendar), make the tiles fit.
 
 `<ui-grid columns="4">` → `<ui-grid max-columns="4">`
 
 <a id="layout-horizontal-overflow"></a>
 #### layout/horizontal-overflow · error
 
-**Page scrolls sideways.** The document is wider than the viewport. The diagnostic points at the element that breaks out of a parent that fits; elements inside clipping or scrolling containers are ignored.
+**Page scrolls sideways.** The document is wider than the viewport, or, in <ui-page layout="app">, a region scrolls sideways or the shell cuts content off. The diagnostic points at the element that breaks out of a parent that fits and names the widest thing inside it; other clipping or scrolling containers are left alone.
+
+<a id="page-shared-area"></a>
+#### page/shared-area · error
+
+**Two children in one app-shell region.** In <ui-page layout="app">, header, nav, aside and footer each take a region, and every other child goes in main. Children that land in the same region are drawn on top of each other. Wrap the main content in one <main>, put a sidebar in <nav> (start side) or <aside> (end side), and merge duplicate landmarks.
+
+`<ui-page layout="app"><header>…</header><ui-stack>filters</ui-stack><ui-container>…</ui-container>` → `<ui-page layout="app"><header>…</header><nav>filters</nav><main>…</main>`
 
 <a id="ui-runtime-error"></a>
 #### UI-RUNTIME-ERROR · error

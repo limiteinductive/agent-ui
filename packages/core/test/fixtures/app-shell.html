@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>app shell</title>
+<!-- The app shell clips its header and scrolls its regions, so the page never widens: overflow there must still be found. -->
+<script type="application/json" id="expect">{"360": ["row/overflow", "layout/horizontal-overflow"], "1280": []}</script>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page layout="app">
+  <header><ui-row wrap justify="space-between" align="center"><strong style="white-space: nowrap">Northwind Analytics Operations Control Center</strong><input type="search" placeholder="Search"><ui-row><ui-button>Help</ui-button><ui-button>Account</ui-button></ui-row></ui-row></header>
+  <main><table><thead><tr><th>Order</th><th>Customer</th><th>Status</th><th>Total</th><th>Channel</th></tr></thead>
+    <tbody><tr><td>INV-2026-000184</td><td>Hargreaves-Whitfield</td><td>Fulfilled</td><td>$1,284.00</td><td>Marketplace</td></tr></tbody></table></main>
+</ui-page></body></html>

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>overflow</title>
+<!-- Breakage the first layout rules missed (agent trial): a wrapped row with content wider than a line, and grid tiles wider than their tracks. The 3-child header and the file input must stay clean. -->
+<script type="application/json" id="expect">{"360": ["row/overflow", "grid/cramped"], "1280": []}</script>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page><ui-container><ui-stack>
+  <ui-row id="month" wrap justify="space-between" align="center"><ui-button>Previous month</ui-button><h2>September 2026</h2><ui-button>Next month</ui-button></ui-row>
+  <ui-row id="avatar" wrap gap="md" align="center"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" width="80" height="80"><ui-stack gap="xs"><label for="f">Avatar</label><input type="file" id="f"><small>JPG or PNG, up to 2 MB.</small></ui-stack></ui-row>
+  <ui-row id="avatar-below" wrap stack-below="sm" gap="md"><ui-stack gap="xs"><label for="g">Cover</label><input type="file" id="g"></ui-stack><ui-stack gap="xs"><label for="h">Name</label><input id="h"></ui-stack></ui-row>
+  <ui-row id="main-side" wrap stack-below="lg" gap="lg"><ui-card grow><h2>Recent orders</h2><p>Latest activity from your store, with a sentence long enough to fill a line.</p></ui-card><ui-card><h2>Top products</h2><ui-button>Manage products</ui-button></ui-card></ui-row>
+  <ui-row id="tags" wrap><span style="white-space: nowrap">a label that never wraps and is wider than a phone screen by far</span></ui-row>
+  <ui-grid columns="7" id="days"><ui-card>1</ui-card><ui-card>2</ui-card><ui-card>3</ui-card><ui-card>4</ui-card><ui-card>5</ui-card><ui-card>6</ui-card><ui-card>7</ui-card></ui-grid>
+</ui-stack></ui-container></ui-page></body></html>

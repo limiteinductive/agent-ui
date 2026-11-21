@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>app shell, shared region</title>
+<!-- Every child that is not header/nav/aside/footer goes in main, so a sidebar written as a plain box covers the main content. -->
+<script type="application/json" id="expect">{"all": ["page/shared-area"]}</script>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page layout="app">
+  <header><strong>Store</strong></header>
+  <ui-stack gap="sm"><h2>Filters</h2><label>Range <select><option>Last 7 days</option></select></label></ui-stack>
+  <ui-container><h1>Overview</h1><p>Revenue and orders for the selected range.</p></ui-container>
+  <div hidden>not rendered, so not counted</div>
+  <ui-overlay style="position: fixed; inset: auto 0 0 auto"><p>Saved</p></ui-overlay>
+</ui-page></body></html>

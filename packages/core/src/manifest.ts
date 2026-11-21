@@ -264,7 +264,7 @@ export const elements: Record<string, ElementSpec> = {
     attrAliases: { busy: { to: 'loading' }, pending: { to: 'loading' }, ...COMPONENT_VARIANT_ALIASES },
   },
   'ui-page': {
-    description: 'Page root. `layout="document"` (default) scrolls the document; `layout="app"` is a full-height shell whose main region scrolls.',
+    description: 'Page root. `layout="document"` (default) scrolls the document; `layout="app"` is a full-height shell placed by tag: `<header>` on top, `<nav>` at the start side, `<aside>` at the end side, `<footer>` at the bottom, and one other child (usually `<main>`) as the main region, which scrolls. Each region takes one child: wrap the main content in a single `<main>`.',
     attrs: {
       layout: { kind: 'enum', values: ['document', 'app'], default: 'document', description: 'Document flow or app shell.' },
     },
