@@ -795,6 +795,7 @@
         },
         "disabled": {
           "kind": "flag",
+          "native": true,
           "description": "Disabled (stays focusable, announced as disabled)."
         },
         "rounded": {

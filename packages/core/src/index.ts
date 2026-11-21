@@ -2,6 +2,7 @@
 //   <script src="https://cdn.jsdelivr.net/npm/@agent-ui/core/dist/agent-ui.js"></script>
 import { VERSION, manifest, elements } from './manifest.ts';
 import { UIButton, define } from './elements/button.ts';
+import { reflect, upgrade } from './elements/reflect.ts';
 import { Engine } from './diagnostics/engine.ts';
 import type { Draft } from './diagnostics/record.ts';
 
@@ -9,8 +10,8 @@ declare const __UI_CSS__: string;
 
 const KEY = Symbol.for('ui.core');
 
-/** Layout elements need no behavior; defining them claims the names and makes :defined true. */
-const plain = (): CustomElementConstructor => class extends HTMLElement {};
+/** Layout elements need no behavior beyond properties that mirror their attributes; defining them claims the names and makes :defined true. */
+const plain = (): CustomElementConstructor => class extends HTMLElement { connectedCallback() { upgrade(this); } };
 
 function cssVersion(): string {
   return getComputedStyle(document.documentElement).getPropertyValue('--ui-version').trim().replace(/^["']|["']$/g, '');
@@ -51,6 +52,7 @@ function boot() {
   const ours: CustomElementConstructor[] = [];
   for (const tag of Object.keys(elements)) {
     const ctor = tag === 'ui-button' ? UIButton : plain();
+    if (!customElements.get(tag)) reflect(ctor, tag);
     if (define(tag, ctor) !== 'foreign') ours.push(customElements.get(tag)!);
   }
 

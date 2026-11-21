@@ -81,6 +81,8 @@ export function canonValue(spec: AttrSpec, name: string, raw: string): ValueResu
       return { ok: true, value: raw, aliased: false };
     case 'flag':
       if (lv === '' || lv === 'true' || lv === name) return { ok: true, value: '', aliased: false };
+      // frameworks write a false binding as "false" (Vue, Solid on native elements); the browser can't be told that for native flags
+      if (lv === 'false' && !spec.native) return { ok: true, value: 'off', aliased: false };
       return { ok: false, allowed: [`${name} (bare)`], remove: lv === 'false' || lv === 'none', suggestion: '' };
     case 'toggle': {
       const on = ['', 'true', name, ...(spec.on ?? [])];
@@ -91,7 +93,8 @@ export function canonValue(spec: AttrSpec, name: string, raw: string): ValueResu
     case 'enum':
     case 'scale': {
       const values = spec.values ?? [];
-      if (v === '' && spec.presence) return { ok: true, value: spec.presence, aliased: false };
+      if (spec.presence && (lv === '' || lv === 'true')) return { ok: true, value: spec.presence, aliased: false };
+      if (spec.presence && lv === 'false') return { ok: true, value: 'off', aliased: false };
       if (values.includes(v)) return { ok: true, value: v, aliased: false };
       if (values.includes(lv)) return { ok: true, value: lv, aliased: true };
       const al = spec.valueAliases?.[lv];
@@ -200,10 +203,10 @@ export function spellings(tag: string, attr: string, value: string): Array<[stri
 
 function finiteValues(spec: AttrSpec, name: string): Array<string | null> {
   switch (spec.kind) {
-    case 'flag': return [null];
+    case 'flag': return spec.native ? [null] : ['', 'true', name];
     case 'toggle': return ['', 'true', name, ...(spec.on ?? [])];
     case 'enum':
-    case 'scale': return [...(spec.values ?? []), ...Object.keys(spec.valueAliases ?? {}), ...(spec.presence ? [''] : [])];
+    case 'scale': return [...(spec.values ?? []), ...Object.keys(spec.valueAliases ?? {}), ...(spec.presence ? ['', 'true'] : [])];
     case 'int': {
       const r: string[] = [];
       for (let i = spec.min ?? 0; i <= (spec.max ?? 0); i++) r.push(String(i));

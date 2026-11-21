@@ -1,7 +1,7 @@
 // Build-time CSS generator. Every selector is derived from the manifest so that
 // aliases render exactly like the canonical spelling (P4) and stay at zero
 // specificity inside :where() (P10).
-import { elements, tagAliases, preferNative, tokens, VERSION } from './manifest.ts';
+import { elements, tagAliases, preferNative, tokens, VERSION, type AttrSpec } from './manifest.ts';
 import { spellings, childSpellings } from './vocab.ts';
 
 type Cond = [attr: string, value: string]; // value '*' = attribute present under any spelling
@@ -39,15 +39,20 @@ function attrSel(n: string, v: string | null) {
   return `[${n}="${esc(v)}" i]`;
 }
 
+/** Specs where "false" means absent (see canonValue). */
+const offable = (s: AttrSpec) => (s.kind === 'flag' && !s.native) || s.kind === 'toggle' || !!s.presence;
+
 /** `:is(...)` of every written spelling of a condition on `tag`. */
 function condSel(tag: string, [attr, value]: Cond): string {
   if (value === '*') {
     const el = elements[tag];
-    const parts = [`[${attr}]`];
+    const spec = el.attrs[attr];
+    const present = (n: string) => (offable(spec) ? `[${n}]:not([${n}="false" i])` : `[${n}]`);
+    const parts = [present(attr)];
     for (const [n, a] of Object.entries(el.attrAliases ?? {})) {
       if (a.to !== attr || a.value !== undefined) continue;
       if (a.values) for (const v of Object.keys(a.values)) parts.push(attrSel(n, v));
-      else parts.push(`[${n}]`);
+      else parts.push(present(n));
     }
     return `:is(${parts.join(', ')})`;
   }

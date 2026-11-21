@@ -6,7 +6,7 @@ import type { Draft } from './record.ts';
 
 export interface Canon {
   tag: string;
-  /** canonical attribute -> canonical value ('on' | 'off' for toggles, '' for flags) */
+  /** canonical attribute -> canonical value ('on' | 'off' for toggles, '' for flags; 'off' wherever "false" was written) */
   attrs: Map<string, string>;
 }
 
@@ -16,15 +16,16 @@ const written = (n: string, v: string) => (v === '' ? n : `${n}="${v}"`);
 
 /** How the canonical form of (attr, value) is written. */
 function canonicalSpelling(spec: AttrSpec, attr: string, value: string): string {
-  if (spec.kind === 'flag') return attr;
-  if (spec.kind === 'toggle') return value === 'off' ? `${attr}="false"` : attr;
+  if (value === 'off') return `${attr}="false"`;
+  if (spec.kind === 'flag' || spec.kind === 'toggle') return attr;
   if (spec.presence && value === spec.presence) return attr;
   return `${attr}="${value}"`;
 }
 
 function kindCause(spec: AttrSpec, name: string): string {
   switch (spec.kind) {
-    case 'flag': return `${name} is a flag: present or absent`;
+    case 'flag': return spec.native ? `${name} is a flag: present or absent (the browser reads ${name}="false" as present)`
+      : `${name} is a flag: present, or absent (or ${name}="false")`;
     case 'toggle': return `${name} is on when present; ${name}="false" turns it off`;
     case 'int': return `${name} takes a whole number`;
     case 'scale': return `${name} takes a ${spec.tokens ?? 'space'} token${spec.length ? ' or a CSS length with a unit' : ''}`;
@@ -192,7 +193,7 @@ function checkElement(el: Element, tag: string, out: Draft[]): Canon | null {
         fix: [`change ${written(name, raw)} to ${canonical}`],
       });
     }
-    if (res.spec.requires) needsHorizontal.push([name, raw, res.spec, res.attr]);
+    if (res.spec.requires && value !== 'off') needsHorizontal.push([name, raw, res.spec, res.attr]);
     const prev = attrs.get(res.attr);
     if (prev !== undefined && prev !== value) {
       out.push({

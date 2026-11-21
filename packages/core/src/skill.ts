@@ -4,7 +4,7 @@ import { RULES, anchor } from './diagnostics/rules.ts';
 
 function values(s: AttrSpec): string {
   switch (s.kind) {
-    case 'flag': return '(bare)';
+    case 'flag': return s.native ? '(bare)' : '(bare) · `="false"`';
     case 'toggle': return '(bare) · `="false"`';
     case 'int': return `${s.min}–${s.max}`;
     case 'string': return 'text';
@@ -65,6 +65,20 @@ One tag gives you the stylesheet, the elements, and the diagnostics:
   </main>
 </ui-page>
 \`\`\`
+
+## In React, Solid or Vue
+
+No adapter: render the tags directly. For typed attributes, element properties and editor completion:
+
+\`\`\`ts
+import '@agent-ui/core';                    // registers the elements and injects the CSS
+import type {} from '@agent-ui/core/react'; // or /solid, /vue
+\`\`\`
+
+- **Booleans just work on ui-* elements**: \`elevated={on}\` writes the bare attribute or removes it, and \`="false"\` also means off. The exception is \`disabled\` written as plain HTML: like on a native \`<button>\`, \`disabled="false"\` is still disabled.
+- **React**: on native elements React drops boolean values, so write child attributes as strings: \`<main grow="">\`, \`grow={isMain ? '' : undefined}\`.
+- **Vue**: set \`compilerOptions.isCustomElement: (tag) => tag.startsWith('ui-')\`, and write attribute names in kebab-case (\`stack-below\`, not \`stackBelow\`).
+- Every attribute is also a property: \`el.stackBelow = '40rem'\`, \`el.elevated = false\`.
 
 ## Elements
 `);

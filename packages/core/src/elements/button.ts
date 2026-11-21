@@ -1,5 +1,6 @@
 // <ui-button>: the only element with behavior. Everything else is CSS.
 // Form-associated, focusable, keyboard-activatable, and inert while disabled/loading.
+import { upgrade } from './reflect.ts';
 
 /** Attributes the library itself adds; snippets and the mutation observer ignore them. */
 const sproutedAttrs = new WeakMap<Element, Set<string>>();
@@ -33,6 +34,7 @@ export class UIButton extends HTMLElement {
   }
 
   connectedCallback() {
+    upgrade(this);
     sprout(this, 'tabindex', '0');
     // ElementInternals.role reaches assistive tech, but getByRole in Playwright/testing-library reads only the attribute
     sprout(this, 'role', 'button');
@@ -47,10 +49,11 @@ export class UIButton extends HTMLElement {
     const t = (this.getAttribute('type') ?? '').toLowerCase();
     return t === 'submit' || t === 'reset' ? t : 'button';
   }
-  set type(v: string) { this.setAttribute('type', v); }
+  set type(v: string | null | undefined) { if (v == null) this.removeAttribute('type'); else this.setAttribute('type', v); }
   get disabled() { return this.hasAttribute('disabled'); }
   set disabled(v: boolean) { this.toggleAttribute('disabled', !!v); }
-  get loading() { return LOADING.some((a) => this.hasAttribute(a)); }
+  /** "false" is off, as for every non-native flag (Vue and Solid write a false binding that way). */
+  get loading() { return LOADING.some((a) => this.hasAttribute(a) && this.getAttribute(a)!.trim().toLowerCase() !== 'false'); }
   set loading(v: boolean) { this.toggleAttribute('loading', !!v); }
 
   get #inactive() { return this.disabled || this.#formDisabled || this.loading; }

@@ -1,0 +1,511 @@
+{
+  "schemaVersion": "2.0.0",
+  "readme": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "dist/agent-ui.mjs",
+      "declarations": [
+        {
+          "kind": "class",
+          "customElement": true,
+          "tagName": "ui-stack",
+          "name": "UIStack",
+          "description": "Vertical flow with consistent gaps. `direction=\"horizontal\"` makes it exactly a `ui-row`.",
+          "attributes": [
+            {
+              "name": "gap",
+              "description": "Space between children. Default `md`.",
+              "type": {
+                "text": "\"0\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "align",
+              "description": "Cross-axis alignment of children. Default `stretch`.",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"stretch\" | \"baseline\""
+              },
+              "default": "\"stretch\""
+            },
+            {
+              "name": "justify",
+              "description": "Main-axis distribution. `space-between` with 2 children pushes them apart; with 3 it gives start / true center / end. Default `start`.",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"space-between\""
+              },
+              "default": "\"start\""
+            },
+            {
+              "name": "padding",
+              "description": "Inner spacing. Default `0`.",
+              "type": {
+                "text": "\"0\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"0\""
+            },
+            {
+              "name": "direction",
+              "description": "`horizontal` = `ui-row` (all row attributes apply). Default `vertical`.",
+              "type": {
+                "text": "\"vertical\" | \"horizontal\""
+              },
+              "default": "\"vertical\""
+            },
+            {
+              "name": "wrap",
+              "description": "Children wrap onto new lines (tags, chips, button groups). Off by default.",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "scroll",
+              "description": "Horizontal rail: one line that scrolls, with snap. Pair with `item-width` for card carousels.",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "equal",
+              "description": "Children share the row equally (`flex: 1 1 0`).",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "stack-below",
+              "description": "All-or-nothing switch: below this container width every child stacks; above it they share one line equally. Bare = `md`.",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | CSS length"
+              }
+            },
+            {
+              "name": "limit",
+              "description": "With `stack-below`: stack anyway when there are more than N children.",
+              "type": {
+                "text": "number (2–6)"
+              }
+            },
+            {
+              "name": "item-width",
+              "description": "With `scroll`: width of each item (capped at 85% of the rail).",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | CSS length"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "Children may carry: grow."
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "customElement": true,
+          "tagName": "ui-row",
+          "name": "UIRow",
+          "description": "Horizontal line of children. Content-sized, no wrap, vertically centered by default.",
+          "attributes": [
+            {
+              "name": "gap",
+              "description": "Space between children. Default `md`.",
+              "type": {
+                "text": "\"0\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "align",
+              "description": "Cross-axis alignment of children. Default `center`.",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"stretch\" | \"baseline\""
+              },
+              "default": "\"center\""
+            },
+            {
+              "name": "justify",
+              "description": "Main-axis distribution. `space-between` with 2 children pushes them apart; with 3 it gives start / true center / end. Default `start`.",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"space-between\""
+              },
+              "default": "\"start\""
+            },
+            {
+              "name": "padding",
+              "description": "Inner spacing. Default `0`.",
+              "type": {
+                "text": "\"0\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"0\""
+            },
+            {
+              "name": "wrap",
+              "description": "Children wrap onto new lines (tags, chips, button groups). Off by default.",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "scroll",
+              "description": "Horizontal rail: one line that scrolls, with snap. Pair with `item-width` for card carousels.",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "equal",
+              "description": "Children share the row equally (`flex: 1 1 0`).",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "stack-below",
+              "description": "All-or-nothing switch: below this container width every child stacks; above it they share one line equally. Bare = `md`.",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | CSS length"
+              }
+            },
+            {
+              "name": "limit",
+              "description": "With `stack-below`: stack anyway when there are more than N children.",
+              "type": {
+                "text": "number (2–6)"
+              }
+            },
+            {
+              "name": "item-width",
+              "description": "With `scroll`: width of each item (capped at 85% of the rail).",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | CSS length"
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "Children may carry: grow."
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "customElement": true,
+          "tagName": "ui-grid",
+          "name": "UIGrid",
+          "description": "Equal tiles that reflow: as many columns as fit `min-item-width`. `columns` = exact count, `max-columns` = responsive cap.",
+          "attributes": [
+            {
+              "name": "gap",
+              "description": "Space between children. Default `md`.",
+              "type": {
+                "text": "\"0\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "padding",
+              "description": "Inner spacing. Default `0`.",
+              "type": {
+                "text": "\"0\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"0\""
+            },
+            {
+              "name": "min-item-width",
+              "description": "Smallest a tile may get before the grid drops a column. Default `md`.",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | CSS length"
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "columns",
+              "description": "Exact column count at every width (calendars, fixed tables).",
+              "type": {
+                "text": "number (1–12)"
+              }
+            },
+            {
+              "name": "max-columns",
+              "description": "Responsive: at most N columns, fewer when tiles would drop below `min-item-width`.",
+              "type": {
+                "text": "number (1–12)"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "customElement": true,
+          "tagName": "ui-overlay",
+          "name": "UIOverlay",
+          "description": "Children share one cell; later children paint on top (badge on image, caption over media).",
+          "attributes": [
+            {
+              "name": "align",
+              "description": "Vertical placement of children. Default `stretch`.",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"stretch\""
+              },
+              "default": "\"stretch\""
+            },
+            {
+              "name": "justify",
+              "description": "Horizontal placement of children. Default `stretch`.",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"stretch\""
+              },
+              "default": "\"stretch\""
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "customElement": true,
+          "tagName": "ui-card",
+          "name": "UICard",
+          "description": "Bounded surface. Owns its ink, borders and focus color for everything inside.",
+          "attributes": [
+            {
+              "name": "padding",
+              "description": "Inner spacing. Default `lg`.",
+              "type": {
+                "text": "\"0\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"lg\""
+            },
+            {
+              "name": "gap",
+              "description": "Space between children. Default `md`.",
+              "type": {
+                "text": "\"0\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "rounded",
+              "description": "Corner radius. Bare = `md`.",
+              "type": {
+                "text": "\"0\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\""
+              },
+              "default": "\"lg\""
+            },
+            {
+              "name": "elevated",
+              "description": "Raised above the page (shadow).",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "sunken",
+              "description": "Recessed below the page.",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "inverse",
+              "description": "Opposite color scheme (dark card on a light page).",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "variant",
+              "description": "Meaning: tints the surface.",
+              "type": {
+                "text": "\"neutral\" | \"primary\" | \"success\" | \"warning\" | \"danger\" | \"info\""
+              }
+            }
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "Children may carry: grow."
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "customElement": true,
+          "tagName": "ui-button",
+          "name": "UIButton",
+          "description": "Button. Form-associated: `type=\"submit\"` submits its form. Default `type=\"button\"`.",
+          "attributes": [
+            {
+              "name": "variant",
+              "description": "Emphasis. Default `secondary`.",
+              "type": {
+                "text": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | \"danger\""
+              },
+              "default": "\"secondary\""
+            },
+            {
+              "name": "size",
+              "description": "Height and padding. Default `md`.",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\""
+            },
+            {
+              "name": "type",
+              "description": "Form behavior. Default `button`.",
+              "type": {
+                "text": "\"button\" | \"submit\" | \"reset\""
+              },
+              "default": "\"button\""
+            },
+            {
+              "name": "loading",
+              "description": "Pending: shows a spinner and ignores clicks.",
+              "type": {
+                "text": "boolean | \"false\""
+              }
+            },
+            {
+              "name": "disabled",
+              "description": "Disabled (stays focusable, announced as disabled).",
+              "type": {
+                "text": "boolean"
+              }
+            },
+            {
+              "name": "rounded",
+              "description": "Corner radius; bare `rounded` = pill. Bare = `full`.",
+              "type": {
+                "text": "\"0\" | \"sm\" | \"md\" | \"lg\" | \"full\""
+              }
+            },
+            {
+              "name": "name",
+              "description": "Form field name.",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "value",
+              "description": "Form field value.",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "customElement": true,
+          "tagName": "ui-page",
+          "name": "UIPage",
+          "description": "Page root. `layout=\"document\"` (default) scrolls the document; `layout=\"app\"` is a full-height shell placed by tag: `<header>` on top, `<nav>` at the start side, `<aside>` at the end side, `<footer>` at the bottom, and one other child (usually `<main>`) as the main region, which scrolls. Each region takes one child: wrap the main content in a single `<main>`.",
+          "attributes": [
+            {
+              "name": "layout",
+              "description": "Document flow or app shell. Default `document`.",
+              "type": {
+                "text": "\"document\" | \"app\""
+              },
+              "default": "\"document\""
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "customElement": true,
+          "tagName": "ui-container",
+          "name": "UIContainer",
+          "description": "Centered max-width column with gutters. Children may break out with `bleed=\"wide|full\"`.",
+          "attributes": [
+            {
+              "name": "size",
+              "description": "Content width. Default `lg`.",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\""
+              },
+              "default": "\"lg\""
+            }
+          ],
+          "slots": [
+            {
+              "name": "",
+              "description": "Children may carry: bleed."
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "custom-element-definition",
+          "name": "ui-stack",
+          "declaration": {
+            "name": "UIStack",
+            "module": "dist/agent-ui.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ui-row",
+          "declaration": {
+            "name": "UIRow",
+            "module": "dist/agent-ui.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ui-grid",
+          "declaration": {
+            "name": "UIGrid",
+            "module": "dist/agent-ui.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ui-overlay",
+          "declaration": {
+            "name": "UIOverlay",
+            "module": "dist/agent-ui.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ui-card",
+          "declaration": {
+            "name": "UICard",
+            "module": "dist/agent-ui.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ui-button",
+          "declaration": {
+            "name": "UIButton",
+            "module": "dist/agent-ui.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ui-page",
+          "declaration": {
+            "name": "UIPage",
+            "module": "dist/agent-ui.mjs"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ui-container",
+          "declaration": {
+            "name": "UIContainer",
+            "module": "dist/agent-ui.mjs"
+          }
+        }
+      ]
+    }
+  ]
+}

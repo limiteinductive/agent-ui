@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>values</title>
+<!-- How frameworks write booleans: "true" is the bare attribute, "false" is absent, except for native flags (disabled). -->
+<script type="application/json" id="expect">{"all": ["UI-BAD-VALUE"]}</script>
+<script src="../../dist/agent-ui.js"></script>
+</head>
+<body><ui-page><ui-container>
+  <div bleed="true" id="bleed-true">bleed="true" is bleed</div>
+  <div bleed="false" id="bleed-false">bleed="false" is no bleed</div>
+  <ui-stack>
+  <ui-card elevated="true" id="card-true"><p>elevated="true"</p></ui-card>
+  <ui-card elevated="false" sunken id="card-false"><p>elevated="false" is off, so no conflict with sunken</p></ui-card>
+  <ui-row stack-below="false" id="sb-false"><span>a</span><span>b</span></ui-row>
+  <ui-stack stack-below="false"><span>off, so not a row attribute on a vertical stack</span></ui-stack>
+  <ui-row><span grow="false">grow="false"</span><span>b</span></ui-row>
+  <ui-button loading="false" id="btn-loading">loading="false" is not loading</ui-button>
+  <!-- the browser reads disabled="false" as disabled: the one error here -->
+  <ui-button disabled="false">disabled="false"</ui-button>
+</ui-stack></ui-container></ui-page></body></html>

@@ -26,6 +26,8 @@ export interface AttrSpec {
   tokens?: 'space' | 'item' | 'measure' | 'container' | 'radius';
   /** toggle: extra on-spellings besides "", "true" and the attribute's own name. */
   on?: readonly string[];
+  /** flag: the browser reads it by presence (`:disabled`), so "false" still means on and is an error. */
+  native?: true;
   /** Only meaningful when another attribute has this value (row attributes on ui-stack). */
   requires?: { attr: string; value: string; hint: string };
 }
@@ -252,7 +254,7 @@ export const elements: Record<string, ElementSpec> = {
       },
       type: { kind: 'enum', values: ['button', 'submit', 'reset'], default: 'button', description: 'Form behavior.' },
       loading: { kind: 'flag', description: 'Pending: shows a spinner and ignores clicks.' },
-      disabled: { kind: 'flag', description: 'Disabled (stays focusable, announced as disabled).' },
+      disabled: { kind: 'flag', native: true, description: 'Disabled (stays focusable, announced as disabled).' },
       rounded: {
         kind: 'scale', values: ['0', 'sm', 'md', 'lg', 'full'], presence: 'full', tokens: 'radius',
         valueAliases: { ...SCALE_ALIASES, pill: 'full', round: 'full' },

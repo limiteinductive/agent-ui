@@ -128,6 +128,50 @@ try {
     await ctx.close();
   }
 
+  // ---------------------------------------------------------------- framework values and properties
+  console.log('values');
+  {
+    const { ctx, page } = await open(browser, 'test/fixtures/values.html', 360);
+    const m = await page.evaluate(() => {
+      const $ = (s: string) => document.querySelector(s) as any;
+      const top = (el: Element) => Math.round(el.getBoundingClientRect().top);
+      const shadow = (s: string) => getComputedStyle($(s)).boxShadow;
+      const sb = $('#sb-false').children;
+      const row = document.createElement('ui-row') as any;
+      document.body.append(row);
+      row.stackBelow = 'lg'; const sbAttr = row.getAttribute('stack-below');
+      row.wrap = true; const wrapOn = row.getAttribute('wrap');
+      row.wrap = false; const wrapOff = row.hasAttribute('wrap');
+      row.columns = 3;
+      row.scroll = true; const scrollAttr = row.getAttribute('scroll'); const scrollFn = typeof row.scroll;
+      row.setAttribute('wrap', 'false'); const wrapRead = row.wrap;
+      // set before upgrade: Solid sets properties on clones made in an inert document
+      const early = document.implementation.createHTMLDocument('').createElement('ui-card') as any;
+      early.elevated = true; early.padding = 'sm';
+      document.body.append(early);
+      return {
+        bleedTrue: Math.round($('#bleed-true').getBoundingClientRect().width), viewport: document.documentElement.clientWidth,
+        bleedFalse: Math.round($('#bleed-false').getBoundingClientRect().width),
+        cardTrue: shadow('#card-true'), cardFalse: shadow('#card-false'), cardFalseProp: $('#card-false').elevated,
+        sbSameRow: top(sb[0]) === top(sb[1]),
+        loading: $('#btn-loading').loading, loadingCursor: getComputedStyle($('#btn-loading')).cursor,
+        sbAttr, wrapOn, wrapOff, scrollAttr, scrollFn, wrapRead,
+        early: [early.getAttribute('elevated'), early.getAttribute('padding'), Object.prototype.hasOwnProperty.call(early, 'elevated')],
+      };
+    });
+    check('bleed="true" bleeds', m.bleedTrue === m.viewport, `${m.bleedTrue} vs ${m.viewport}`);
+    check('bleed="false" does not', m.bleedFalse < m.viewport, String(m.bleedFalse));
+    check('elevated="true" has a shadow', m.cardTrue !== 'none', m.cardTrue);
+    check('elevated="false" has none', m.cardFalse === 'none' && m.cardFalseProp === false, `${m.cardFalse} ${m.cardFalseProp}`);
+    check('stack-below="false" does not stack', m.sbSameRow);
+    check('loading="false" is not loading', m.loading === false && m.loadingCursor !== 'progress', `${m.loading} ${m.loadingCursor}`);
+    check('properties reflect to attributes', m.sbAttr === 'lg' && m.wrapOn === '' && m.wrapOff === false, JSON.stringify(m));
+    check('el.scroll = true sets the attribute, el.scroll stays the method', m.scrollAttr === '' && m.scrollFn === 'function', `${m.scrollAttr} ${m.scrollFn}`);
+    check('flag property reads "false" as false', m.wrapRead === false);
+    check('properties set before upgrade are replayed', m.early[0] === '' && m.early[1] === 'sm' && m.early[2] === false, JSON.stringify(m.early));
+    await ctx.close();
+  }
+
   // ---------------------------------------------------------------- behavior
   console.log('behavior');
   {

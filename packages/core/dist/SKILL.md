@@ -38,6 +38,20 @@ One tag gives you the stylesheet, the elements, and the diagnostics:
 </ui-page>
 ```
 
+## In React, Solid or Vue
+
+No adapter: render the tags directly. For typed attributes, element properties and editor completion:
+
+```ts
+import '@agent-ui/core';                    // registers the elements and injects the CSS
+import type {} from '@agent-ui/core/react'; // or /solid, /vue
+```
+
+- **Booleans just work on ui-* elements**: `elevated={on}` writes the bare attribute or removes it, and `="false"` also means off. The exception is `disabled` written as plain HTML: like on a native `<button>`, `disabled="false"` is still disabled.
+- **React**: on native elements React drops boolean values, so write child attributes as strings: `<main grow="">`, `grow={isMain ? '' : undefined}`.
+- **Vue**: set `compilerOptions.isCustomElement: (tag) => tag.startsWith('ui-')`, and write attribute names in kebab-case (`stack-below`, not `stackBelow`).
+- Every attribute is also a property: `el.stackBelow = '40rem'`, `el.elevated = false`.
+
 ## Elements
 
 ### ui-stack
@@ -115,9 +129,9 @@ Bounded surface. Owns its ink, borders and focus color for everything inside.
 | `padding` | `0` · `xs` · `sm` · `md` · `lg` · `xl` · `2xl` | `lg` | Inner spacing. |
 | `gap` | `0` · `xs` · `sm` · `md` · `lg` · `xl` · `2xl` | `md` | Space between children. |
 | `rounded` | `0` · `sm` · `md` · `lg` · `xl` · `full` | bare = `md` | Corner radius. |
-| `elevated` | (bare) |  | Raised above the page (shadow). |
-| `sunken` | (bare) |  | Recessed below the page. |
-| `inverse` | (bare) |  | Opposite color scheme (dark card on a light page). |
+| `elevated` | (bare) · `="false"` |  | Raised above the page (shadow). |
+| `sunken` | (bare) · `="false"` |  | Recessed below the page. |
+| `inverse` | (bare) · `="false"` |  | Opposite color scheme (dark card on a light page). |
 | `variant` | `neutral` · `primary` · `success` · `warning` · `danger` · `info` |  | Meaning: tints the surface. |
 
 Mutually exclusive: `elevated` / `sunken` / `inverse`.
@@ -133,7 +147,7 @@ Button. Form-associated: `type="submit"` submits its form. Default `type="button
 | `variant` | `primary` · `secondary` · `outline` · `ghost` · `danger` | `secondary` | Emphasis. |
 | `size` | `sm` · `md` · `lg` | `md` | Height and padding. |
 | `type` | `button` · `submit` · `reset` | `button` | Form behavior. |
-| `loading` | (bare) |  | Pending: shows a spinner and ignores clicks. |
+| `loading` | (bare) · `="false"` |  | Pending: shows a spinner and ignores clicks. |
 | `disabled` | (bare) |  | Disabled (stays focusable, announced as disabled). |
 | `rounded` | `0` · `sm` · `md` · `lg` · `full` | bare = `full` | Corner radius; bare `rounded` = pill. |
 | `name` | text |  | Form field name. |

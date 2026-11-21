@@ -1,0 +1,25 @@
+{
+  "name": "@agent-ui/framework-smoke",
+  "private": true,
+  "type": "module",
+  "description": "Renders the same page through React, Solid and Vue and compares it with plain HTML. Not published.",
+  "scripts": {
+    "test": "node run.ts && npm run types",
+    "types": "tsc -p tsconfig.react.json && tsc -p tsconfig.solid.json && vue-tsc -p tsconfig.vue.json"
+  },
+  "dependencies": {
+    "@agent-ui/core": "file:../..",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "solid-js": "1.9.20",
+    "vue": "3.5.46"
+  },
+  "devDependencies": {
+    "@babel/core": "7.29.13",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "babel-preset-solid": "1.9.19",
+    "typescript": "5.9.3",
+    "vue-tsc": "3.3.14"
+  }
+}

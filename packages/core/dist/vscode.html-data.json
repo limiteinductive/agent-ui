@@ -1,0 +1,979 @@
+{
+  "version": 1.1,
+  "tags": [
+    {
+      "name": "ui-stack",
+      "description": {
+        "kind": "markdown",
+        "value": "Vertical flow with consistent gaps. `direction=\"horizontal\"` makes it exactly a `ui-row`."
+      },
+      "attributes": [
+        {
+          "name": "gap",
+          "description": {
+            "kind": "markdown",
+            "value": "Space between children. Default `md`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "align",
+          "description": {
+            "kind": "markdown",
+            "value": "Cross-axis alignment of children. Default `stretch`."
+          },
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "stretch"
+            },
+            {
+              "name": "baseline"
+            }
+          ]
+        },
+        {
+          "name": "justify",
+          "description": {
+            "kind": "markdown",
+            "value": "Main-axis distribution. `space-between` with 2 children pushes them apart; with 3 it gives start / true center / end. Default `start`."
+          },
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "space-between"
+            }
+          ]
+        },
+        {
+          "name": "padding",
+          "description": {
+            "kind": "markdown",
+            "value": "Inner spacing. Default `0`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "direction",
+          "description": {
+            "kind": "markdown",
+            "value": "`horizontal` = `ui-row` (all row attributes apply). Default `vertical`."
+          },
+          "values": [
+            {
+              "name": "vertical"
+            },
+            {
+              "name": "horizontal"
+            }
+          ]
+        },
+        {
+          "name": "wrap",
+          "description": {
+            "kind": "markdown",
+            "value": "Children wrap onto new lines (tags, chips, button groups). Off by default."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "scroll",
+          "description": {
+            "kind": "markdown",
+            "value": "Horizontal rail: one line that scrolls, with snap. Pair with `item-width` for card carousels."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "equal",
+          "description": {
+            "kind": "markdown",
+            "value": "Children share the row equally (`flex: 1 1 0`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "stack-below",
+          "description": {
+            "kind": "markdown",
+            "value": "All-or-nothing switch: below this container width every child stacks; above it they share one line equally. Bare = `md`."
+          },
+          "values": [
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "limit",
+          "description": {
+            "kind": "markdown",
+            "value": "With `stack-below`: stack anyway when there are more than N children."
+          }
+        },
+        {
+          "name": "item-width",
+          "description": {
+            "kind": "markdown",
+            "value": "With `scroll`: width of each item (capped at 85% of the rail)."
+          },
+          "values": [
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "name": "agent-ui reference",
+          "url": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md"
+        }
+      ]
+    },
+    {
+      "name": "ui-row",
+      "description": {
+        "kind": "markdown",
+        "value": "Horizontal line of children. Content-sized, no wrap, vertically centered by default."
+      },
+      "attributes": [
+        {
+          "name": "gap",
+          "description": {
+            "kind": "markdown",
+            "value": "Space between children. Default `md`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "align",
+          "description": {
+            "kind": "markdown",
+            "value": "Cross-axis alignment of children. Default `center`."
+          },
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "stretch"
+            },
+            {
+              "name": "baseline"
+            }
+          ]
+        },
+        {
+          "name": "justify",
+          "description": {
+            "kind": "markdown",
+            "value": "Main-axis distribution. `space-between` with 2 children pushes them apart; with 3 it gives start / true center / end. Default `start`."
+          },
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "space-between"
+            }
+          ]
+        },
+        {
+          "name": "padding",
+          "description": {
+            "kind": "markdown",
+            "value": "Inner spacing. Default `0`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "wrap",
+          "description": {
+            "kind": "markdown",
+            "value": "Children wrap onto new lines (tags, chips, button groups). Off by default."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "scroll",
+          "description": {
+            "kind": "markdown",
+            "value": "Horizontal rail: one line that scrolls, with snap. Pair with `item-width` for card carousels."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "equal",
+          "description": {
+            "kind": "markdown",
+            "value": "Children share the row equally (`flex: 1 1 0`)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "stack-below",
+          "description": {
+            "kind": "markdown",
+            "value": "All-or-nothing switch: below this container width every child stacks; above it they share one line equally. Bare = `md`."
+          },
+          "values": [
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "limit",
+          "description": {
+            "kind": "markdown",
+            "value": "With `stack-below`: stack anyway when there are more than N children."
+          }
+        },
+        {
+          "name": "item-width",
+          "description": {
+            "kind": "markdown",
+            "value": "With `scroll`: width of each item (capped at 85% of the rail)."
+          },
+          "values": [
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "name": "agent-ui reference",
+          "url": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md"
+        }
+      ]
+    },
+    {
+      "name": "ui-grid",
+      "description": {
+        "kind": "markdown",
+        "value": "Equal tiles that reflow: as many columns as fit `min-item-width`. `columns` = exact count, `max-columns` = responsive cap."
+      },
+      "attributes": [
+        {
+          "name": "gap",
+          "description": {
+            "kind": "markdown",
+            "value": "Space between children. Default `md`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "padding",
+          "description": {
+            "kind": "markdown",
+            "value": "Inner spacing. Default `0`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "min-item-width",
+          "description": {
+            "kind": "markdown",
+            "value": "Smallest a tile may get before the grid drops a column. Default `md`."
+          },
+          "values": [
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "columns",
+          "description": {
+            "kind": "markdown",
+            "value": "Exact column count at every width (calendars, fixed tables)."
+          }
+        },
+        {
+          "name": "max-columns",
+          "description": {
+            "kind": "markdown",
+            "value": "Responsive: at most N columns, fewer when tiles would drop below `min-item-width`."
+          }
+        }
+      ],
+      "references": [
+        {
+          "name": "agent-ui reference",
+          "url": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md"
+        }
+      ]
+    },
+    {
+      "name": "ui-overlay",
+      "description": {
+        "kind": "markdown",
+        "value": "Children share one cell; later children paint on top (badge on image, caption over media)."
+      },
+      "attributes": [
+        {
+          "name": "align",
+          "description": {
+            "kind": "markdown",
+            "value": "Vertical placement of children. Default `stretch`."
+          },
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "stretch"
+            }
+          ]
+        },
+        {
+          "name": "justify",
+          "description": {
+            "kind": "markdown",
+            "value": "Horizontal placement of children. Default `stretch`."
+          },
+          "values": [
+            {
+              "name": "start"
+            },
+            {
+              "name": "center"
+            },
+            {
+              "name": "end"
+            },
+            {
+              "name": "stretch"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "name": "agent-ui reference",
+          "url": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md"
+        }
+      ]
+    },
+    {
+      "name": "ui-card",
+      "description": {
+        "kind": "markdown",
+        "value": "Bounded surface. Owns its ink, borders and focus color for everything inside."
+      },
+      "attributes": [
+        {
+          "name": "padding",
+          "description": {
+            "kind": "markdown",
+            "value": "Inner spacing. Default `lg`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "gap",
+          "description": {
+            "kind": "markdown",
+            "value": "Space between children. Default `md`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "xs"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "2xl"
+            }
+          ]
+        },
+        {
+          "name": "rounded",
+          "description": {
+            "kind": "markdown",
+            "value": "Corner radius. Bare = `md`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "full"
+            }
+          ]
+        },
+        {
+          "name": "elevated",
+          "description": {
+            "kind": "markdown",
+            "value": "Raised above the page (shadow)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "sunken",
+          "description": {
+            "kind": "markdown",
+            "value": "Recessed below the page."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "inverse",
+          "description": {
+            "kind": "markdown",
+            "value": "Opposite color scheme (dark card on a light page)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "variant",
+          "description": {
+            "kind": "markdown",
+            "value": "Meaning: tints the surface."
+          },
+          "values": [
+            {
+              "name": "neutral"
+            },
+            {
+              "name": "primary"
+            },
+            {
+              "name": "success"
+            },
+            {
+              "name": "warning"
+            },
+            {
+              "name": "danger"
+            },
+            {
+              "name": "info"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "name": "agent-ui reference",
+          "url": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md"
+        }
+      ]
+    },
+    {
+      "name": "ui-button",
+      "description": {
+        "kind": "markdown",
+        "value": "Button. Form-associated: `type=\"submit\"` submits its form. Default `type=\"button\"`."
+      },
+      "attributes": [
+        {
+          "name": "variant",
+          "description": {
+            "kind": "markdown",
+            "value": "Emphasis. Default `secondary`."
+          },
+          "values": [
+            {
+              "name": "primary"
+            },
+            {
+              "name": "secondary"
+            },
+            {
+              "name": "outline"
+            },
+            {
+              "name": "ghost"
+            },
+            {
+              "name": "danger"
+            }
+          ]
+        },
+        {
+          "name": "size",
+          "description": {
+            "kind": "markdown",
+            "value": "Height and padding. Default `md`."
+          },
+          "values": [
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "description": {
+            "kind": "markdown",
+            "value": "Form behavior. Default `button`."
+          },
+          "values": [
+            {
+              "name": "button"
+            },
+            {
+              "name": "submit"
+            },
+            {
+              "name": "reset"
+            }
+          ]
+        },
+        {
+          "name": "loading",
+          "description": {
+            "kind": "markdown",
+            "value": "Pending: shows a spinner and ignores clicks."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "disabled",
+          "description": {
+            "kind": "markdown",
+            "value": "Disabled (stays focusable, announced as disabled)."
+          },
+          "valueSet": "v"
+        },
+        {
+          "name": "rounded",
+          "description": {
+            "kind": "markdown",
+            "value": "Corner radius; bare `rounded` = pill. Bare = `full`."
+          },
+          "values": [
+            {
+              "name": "0"
+            },
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "full"
+            }
+          ]
+        },
+        {
+          "name": "name",
+          "description": {
+            "kind": "markdown",
+            "value": "Form field name."
+          }
+        },
+        {
+          "name": "value",
+          "description": {
+            "kind": "markdown",
+            "value": "Form field value."
+          }
+        }
+      ],
+      "references": [
+        {
+          "name": "agent-ui reference",
+          "url": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md"
+        }
+      ]
+    },
+    {
+      "name": "ui-page",
+      "description": {
+        "kind": "markdown",
+        "value": "Page root. `layout=\"document\"` (default) scrolls the document; `layout=\"app\"` is a full-height shell placed by tag: `<header>` on top, `<nav>` at the start side, `<aside>` at the end side, `<footer>` at the bottom, and one other child (usually `<main>`) as the main region, which scrolls. Each region takes one child: wrap the main content in a single `<main>`."
+      },
+      "attributes": [
+        {
+          "name": "layout",
+          "description": {
+            "kind": "markdown",
+            "value": "Document flow or app shell. Default `document`."
+          },
+          "values": [
+            {
+              "name": "document"
+            },
+            {
+              "name": "app"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "name": "agent-ui reference",
+          "url": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md"
+        }
+      ]
+    },
+    {
+      "name": "ui-container",
+      "description": {
+        "kind": "markdown",
+        "value": "Centered max-width column with gutters. Children may break out with `bleed=\"wide|full\"`."
+      },
+      "attributes": [
+        {
+          "name": "size",
+          "description": {
+            "kind": "markdown",
+            "value": "Content width. Default `lg`."
+          },
+          "values": [
+            {
+              "name": "sm"
+            },
+            {
+              "name": "md"
+            },
+            {
+              "name": "lg"
+            },
+            {
+              "name": "xl"
+            },
+            {
+              "name": "full"
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "name": "agent-ui reference",
+          "url": "https://github.com/limiteinductive/agent-ui/blob/main/packages/core/dist/SKILL.md"
+        }
+      ]
+    }
+  ],
+  "globalAttributes": [
+    {
+      "name": "grow",
+      "description": {
+        "kind": "markdown",
+        "value": "This child takes the leftover space. In a wrapping row it becomes the main column of a side + main layout. On a child of ui-stack, ui-row, ui-card."
+      },
+      "valueSet": "v"
+    },
+    {
+      "name": "bleed",
+      "description": {
+        "kind": "markdown",
+        "value": "Escape the container measure: `wide` or edge-to-edge `full`. Bare = `full`. On a child of ui-container."
+      },
+      "values": [
+        {
+          "name": "wide"
+        },
+        {
+          "name": "full"
+        }
+      ]
+    }
+  ]
+}

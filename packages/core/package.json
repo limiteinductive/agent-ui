@@ -6,10 +6,43 @@
   "type": "module",
   "main": "dist/agent-ui.js",
   "style": "dist/agent-ui.css",
-  "files": ["dist"],
+  "types": "dist/types/index.d.ts",
+  "customElements": "dist/custom-elements.json",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/agent-ui.mjs",
+      "default": "./dist/agent-ui.js"
+    },
+    "./react": {
+      "types": "./dist/types/react.d.ts"
+    },
+    "./solid": {
+      "types": "./dist/types/solid.d.ts"
+    },
+    "./vue": {
+      "types": "./dist/types/vue.d.ts"
+    },
+    "./agent-ui.css": "./dist/agent-ui.css",
+    "./agent-ui.js": "./dist/agent-ui.js",
+    "./manifest.json": "./dist/manifest.json",
+    "./custom-elements.json": "./dist/custom-elements.json",
+    "./vscode.html-data.json": "./dist/vscode.html-data.json",
+    "./SKILL.md": "./dist/SKILL.md",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "./dist/agent-ui.js",
+    "./dist/agent-ui.mjs",
+    "./dist/agent-ui.css"
+  ],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "node build.ts",
-    "test": "node build.ts && node test/run.ts"
+    "test": "node build.ts && node test/run.ts",
+    "test:frameworks": "node build.ts && npm --prefix test/frameworks test"
   },
   "devDependencies": {
     "esbuild": "^0.28.2",
