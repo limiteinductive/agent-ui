@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" padding="md">
+          <strong>Acme Workspace</strong>
+          <img src="https://picsum.photos/seed/maya-chen/64/64" width="32" height="32" alt="Maya Chen's avatar">
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="md">
+        <ui-stack gap="xl" padding="md">
+          <h1>Account settings</h1>
+
+          <!-- Profile -->
+          <ui-card>
+            <ui-stack gap="md">
+              <section>
+                <h2>Profile</h2>
+                <p>This information is visible to your teammates.</p>
+              </section>
+
+              <form>
+                <ui-stack gap="md">
+                  <ui-row gap="lg" wrap>
+                    <img src="https://picsum.photos/seed/maya-chen/160/160" width="80" height="80" alt="Current profile photo">
+                    <ui-stack gap="xs" style="max-inline-size: 100%; min-inline-size: 0">
+                      <label>Profile photo
+                        <input type="file" name="avatar" accept="image/png,image/jpeg" style="max-inline-size: 100%">
+                      </label>
+                      <small>JPG or PNG, up to 5 MB.</small>
+                    </ui-stack>
+                  </ui-row>
+
+                  <label>Full name
+                    <input name="name" type="text" autocomplete="name" value="Maya Chen" required>
+                  </label>
+
+                  <label>Email address
+                    <input name="email" type="email" autocomplete="email" value="maya.chen@example.com" required>
+                  </label>
+
+                  <label>Bio
+                    <textarea name="bio" rows="4">Product designer at Acme. Previously at Northwind Studio. Based in Lisbon, mostly building design systems and prototyping flows.</textarea>
+                  </label>
+
+                  <ui-row justify="end" gap="sm" wrap>
+                    <ui-button variant="ghost">Discard</ui-button>
+                    <ui-button variant="primary" type="submit">Save profile</ui-button>
+                  </ui-row>
+                </ui-stack>
+              </form>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Notifications -->
+          <ui-card>
+            <ui-stack gap="md">
+              <section>
+                <h2>Notifications</h2>
+                <p>Choose what we send you and where.</p>
+              </section>
+
+              <ui-row justify="space-between" gap="md">
+                <div>
+                  <strong>Product updates</strong>
+                  <p>New features and improvements, once a month.</p>
+                </div>
+                <input type="checkbox" role="switch" name="product-updates" checked aria-label="Product updates">
+              </ui-row>
+
+              <hr>
+
+              <ui-row justify="space-between" gap="md">
+                <div>
+                  <strong>Comments and mentions</strong>
+                  <p>When someone mentions you or replies to your thread.</p>
+                </div>
+                <input type="checkbox" role="switch" name="mentions" checked aria-label="Comments and mentions">
+              </ui-row>
+
+              <hr>
+
+              <ui-row justify="space-between" gap="md">
+                <div>
+                  <strong>Weekly digest</strong>
+                  <p>A Monday summary of activity in your projects.</p>
+                </div>
+                <input type="checkbox" role="switch" name="digest" aria-label="Weekly digest">
+              </ui-row>
+
+              <hr>
+
+              <ui-row justify="space-between" gap="md">
+                <div>
+                  <strong>Security alerts</strong>
+                  <p>Sign-ins from new devices and password changes. Cannot be turned off.</p>
+                </div>
+                <input type="checkbox" role="switch" name="security" checked disabled aria-label="Security alerts">
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Billing -->
+          <ui-card>
+            <ui-stack gap="md">
+              <ui-row justify="space-between" gap="md" wrap>
+                <div>
+                  <h2>Billing</h2>
+                  <p>Pro plan, billed annually.</p>
+                </div>
+                <ui-button variant="outline">Change plan</ui-button>
+              </ui-row>
+
+              <ui-grid max-columns="3" min-item-width="12rem" gap="md">
+                <ui-card>
+                  <ui-stack gap="xs">
+                    <small>Current plan</small>
+                    <strong>Pro · $24/seat/mo</strong>
+                  </ui-stack>
+                </ui-card>
+                <ui-card>
+                  <ui-stack gap="xs">
+                    <small>Seats in use</small>
+                    <strong>8 of 12</strong>
+                  </ui-stack>
+                </ui-card>
+                <ui-card>
+                  <ui-stack gap="xs">
+                    <small>Next invoice</small>
+                    <strong>$192.00 on Dec 1, 2026</strong>
+                  </ui-stack>
+                </ui-card>
+              </ui-grid>
+
+              <ui-row justify="space-between" gap="md" wrap>
+                <span>Visa ending in 4242 · Expires 08/2029</span>
+                <ui-button variant="ghost">Update payment method</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Danger zone -->
+          <ui-card variant="danger">
+            <ui-stack gap="md">
+              <section>
+                <h2>Danger zone</h2>
+                <p>Deleting your account removes your profile, workspace access and all personal data. Projects you own will be transferred to the workspace admin. This cannot be undone.</p>
+              </section>
+
+              <form>
+                <ui-stack gap="md">
+                  <label>Type <strong>DELETE</strong> to confirm
+                    <input name="confirm" type="text" autocomplete="off" placeholder="DELETE">
+                  </label>
+                  <ui-row justify="end">
+                    <ui-button variant="danger" type="submit">Delete account</ui-button>
+                  </ui-row>
+                </ui-stack>
+              </form>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+</body>
+</html>

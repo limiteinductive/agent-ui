@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" padding="md">
+          <strong>Acme Product Team</strong>
+          <nav><a href="#">Settings</a></nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container>
+        <ui-stack gap="lg" padding="md">
+          <h1>Team calendar</h1>
+
+          <ui-card padding="sm">
+            <ui-row wrap justify="space-between" gap="sm">
+              <ui-button id="prev" variant="outline" size="sm" aria-label="Previous month">&lsaquo; Prev</ui-button>
+              <h2 id="month" aria-live="polite">November 2026</h2>
+              <ui-button id="next" variant="outline" size="sm" aria-label="Next month">Next &rsaquo;</ui-button>
+            </ui-row>
+          </ui-card>
+
+          <ui-row wrap gap="lg" align="start">
+            <ui-card grow padding="sm" gap="sm">
+              <ui-grid columns="7" gap="xs">
+                <small>Mon</small>
+                <small>Tue</small>
+                <small>Wed</small>
+                <small>Thu</small>
+                <small>Fri</small>
+                <small>Sat</small>
+                <small>Sun</small>
+              </ui-grid>
+              <ui-grid id="days" columns="7" gap="xs"></ui-grid>
+            </ui-card>
+
+            <ui-card padding="md" gap="md">
+              <h3>Upcoming events</h3>
+              <ul id="upcoming"></ul>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <script>
+    const EVENTS = [
+      { date: "2026-11-02", time: "09:30", title: "Sprint planning",        short: "Sprint",   who: "Priya Nair",   seed: "priya" },
+      { date: "2026-11-04", time: "12:00", title: "Design review",          short: "Design",   who: "Marco Ruiz",   seed: "marco" },
+      { date: "2026-11-09", time: "15:00", title: "Customer demo",          short: "Demo",     who: "Hana Sato",    seed: "hana" },
+      { date: "2026-11-12", time: "10:00", title: "Hiring panel",           short: "Hiring",   who: "Owen Brooks",  seed: "owen" },
+      { date: "2026-11-18", time: "16:00", title: "Retro",                  short: "Retro",    who: "Dev team",     seed: "team" },
+      { date: "2026-11-24", time: "11:00", title: "Quarterly all-hands",    short: "All-hands",who: "Lena Fischer", seed: "lena" },
+      { date: "2026-11-25", time: "09:00", title: "Sprint planning",        short: "Sprint",   who: "Priya Nair",   seed: "priya" },
+      { date: "2026-11-26", time: "13:30", title: "Roadmap workshop",       short: "Roadmap",  who: "Sam Okafor",   seed: "sam" },
+      { date: "2026-11-27", time: "14:00", title: "1:1 with Marco",         short: "1:1",      who: "Marco Ruiz",   seed: "marco" },
+      { date: "2026-12-01", time: "10:00", title: "Budget review",          short: "Budget",   who: "Hana Sato",    seed: "hana" },
+      { date: "2026-12-03", time: "11:00", title: "Design review",          short: "Design",   who: "Marco Ruiz",   seed: "marco" },
+      { date: "2026-12-10", time: "09:00", title: "Release freeze",         short: "Freeze",   who: "Owen Brooks",  seed: "owen" },
+      { date: "2026-12-16", time: "15:00", title: "Holiday potluck",        short: "Potluck",  who: "Dev team",     seed: "team" },
+      { date: "2027-01-08", time: "10:00", title: "Sprint planning",        short: "Sprint",   who: "Priya Nair",   seed: "priya" }
+    ];
+
+    const pad = n => String(n).padStart(2, "0");
+    const isoOf = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const today = new Date();
+    const todayIso = isoOf(today);
+    let view = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const $ = id => document.getElementById(id);
+
+    function make(tag, attrs = {}, children = []) {
+      const node = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) node.setAttribute(k, v);
+      children.forEach(c => node.append(c));
+      return node;
+    }
+
+    function text(tag, str, attrs = {}) {
+      const node = make(tag, attrs);
+      node.textContent = str;
+      return node;
+    }
+
+    function dayCell(dayNum, dayEvents, isToday) {
+      const attrs = { padding: "xs", rounded: "sm", gap: "xs" };
+      if (isToday) attrs.variant = "info";
+      const children = [text("strong", String(dayNum), isToday ? { "aria-current": "date" } : {})];
+      dayEvents.slice(0, 2).forEach(ev => {
+        children.push(text("mark", ev.short, { title: `${ev.title} · ${ev.time}` }));
+      });
+      if (dayEvents.length > 2) {
+        children.push(text("small", `+${dayEvents.length - 2} more`));
+      }
+      return make("ui-card", attrs, children);
+    }
+
+    function renderGrid() {
+      const y = view.getFullYear();
+      const m = view.getMonth();
+      $("month").textContent = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+
+      const grid = $("days");
+      grid.replaceChildren();
+
+      const lead = (view.getDay() + 6) % 7; // Monday-first offset
+      const total = new Date(y, m + 1, 0).getDate();
+      const cells = Math.ceil((lead + total) / 7) * 7;
+
+      for (let i = 0; i < cells; i++) {
+        const dayNum = i - lead + 1;
+        if (dayNum < 1 || dayNum > total) {
+          grid.append(make("ui-card", { padding: "xs", rounded: "sm", sunken: "" }));
+          continue;
+        }
+        const key = `${y}-${pad(m + 1)}-${pad(dayNum)}`;
+        const dayEvents = EVENTS.filter(e => e.date === key);
+        grid.append(dayCell(dayNum, dayEvents, key === todayIso));
+      }
+    }
+
+    function renderUpcoming() {
+      const list = $("upcoming");
+      const upcoming = EVENTS.filter(e => e.date >= todayIso).slice(0, 6);
+
+      if (upcoming.length === 0) {
+        list.replaceWith(text("p", "No upcoming events."));
+        return;
+      }
+
+      upcoming.forEach(e => {
+        const d = new Date(e.date + "T00:00:00");
+        const when = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+        const img = make("img", {
+          src: `https://picsum.photos/seed/${e.seed}/64/64`,
+          alt: e.who,
+          width: "32",
+          height: "32"
+        });
+
+        const details = make("ui-stack", { gap: "xs" }, [
+          text("strong", e.title),
+          text("small", `${when} · ${e.time}`),
+          text("small", e.who)
+        ]);
+
+        const row = make("ui-row", { gap: "sm", align: "start" }, [img, details]);
+        list.append(make("li", {}, [row]));
+      });
+    }
+
+    $("prev").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+      renderGrid();
+    });
+
+    $("next").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+      renderGrid();
+    });
+
+    renderGrid();
+    renderUpcoming();
+  </script>
+</body>
+</html>

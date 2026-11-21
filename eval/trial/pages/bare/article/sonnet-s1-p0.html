@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Return of Server-Rendered Interfaces</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-container max-width="md" padding="md">
+  <ui-stack gap="lg">
+
+    <article>
+      <ui-stack gap="lg">
+
+        <ui-stack gap="md">
+          <ui-badge>Engineering</ui-badge>
+          <h1>The Quiet Return of Server-Rendered Interfaces</h1>
+          <p>After a decade of shipping ever-larger JavaScript bundles, teams are rediscovering the HTML-first web. Here is what changed, what we learned, and how to decide what is right for your product.</p>
+
+          <ui-row gap="md" align="center">
+            <ui-avatar src="https://picsum.photos/seed/author-maya/96/96" alt="Maya Lindqvist" name="Maya Lindqvist"></ui-avatar>
+            <ui-stack gap="none">
+              <strong>Maya Lindqvist</strong>
+              <small>November 14, 2026 · 9 min read</small>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+
+        <img src="https://picsum.photos/seed/server-render-cover/1200/630" alt="Abstract layered gradients resembling stacked browser windows" width="1200" height="630" loading="eager">
+
+        <ui-stack gap="md">
+          <p>For most of the 2010s, the answer to "how do we build this interface?" was a single-page application. Ship a shell, fetch JSON, render everything in the browser. It gave us fluid navigation and a clean separation between API and UI. It also gave us loading spinners, hydration mismatches, and a performance budget that quietly ballooned with every sprint.</p>
+          <p>Today the pendulum is swinging back. Not to the page-reload-on-every-click web of 2005, but to something more nuanced: servers that render meaningful HTML, and clients that enhance it only where interactivity truly earns its cost.</p>
+
+          <h2>Why the pendulum swung</h2>
+          <p>Three forces converged. First, device reality: the median phone is far slower than the laptops developers use, and parsing a megabyte of JavaScript is expensive there. Second, the tooling matured: streaming rendering, partial hydration, and edge runtimes made server output fast and composable. Third, teams grew tired of duplicating logic, such as validation, routing, and data shaping, across two runtimes.</p>
+
+          <ui-callout>
+            Rule of thumb: if a component never changes after the first paint, it should never ship JavaScript to the browser.
+          </ui-callout>
+
+          <h2>What "HTML-first" actually means</h2>
+          <p>It does not mean abandoning components. It means treating the network response as the primary product and the client runtime as progressive enhancement. A form should submit without JavaScript. A link should navigate without a router. Then, and only then, do you layer on optimistic updates and transitions.</p>
+
+          <blockquote>
+            <p>The fastest code is the code you never send. The most reliable interface is the one that works before your bundle finishes downloading.</p>
+            <footer>— Maya Lindqvist</footer>
+          </blockquote>
+
+          <h2>A small example</h2>
+          <p>Consider a comment form. In the HTML-first approach, the server owns validation and the browser simply posts the form. A tiny enhancement intercepts the submit to avoid a full reload, and falls back gracefully if it fails to load.</p>
+
+<pre><code>// Progressive enhancement for a plain HTML form
+const form = document.querySelector('form[data-enhance]');
+
+form?.addEventListener('submit', async (event) =&gt; {
+  event.preventDefault();
+  const response = await fetch(form.action, {
+    method: form.method,
+    body: new FormData(form),
+    headers: { 'X-Requested-With': 'fetch' },
+  });
+
+  if (response.ok) {
+    const html = await response.text();
+    document.querySelector('#comments').innerHTML = html;
+    form.reset();
+  } else {
+    form.submit(); // fall back to a normal navigation
+  }
+});</code></pre>
+
+          <p>Notice that the enhancement is under twenty lines and contains no framework. If it fails, the user still gets a working product.</p>
+
+          <h2>The trade-offs nobody mentions</h2>
+          <p>Server rendering is not free. You pay in server compute, in cache invalidation complexity, and in the mental overhead of deciding where each piece of state lives. Highly interactive tools, such as design editors, spreadsheets, and real-time dashboards, still benefit enormously from rich client-side architecture.</p>
+          <p>The key is to choose deliberately. Ask what each screen is for: reading, browsing, or manipulating. Reading and browsing lean toward the server. Manipulating leans toward the client. Most products contain all three, and the best ones mix them without ceremony.</p>
+
+          <h2>Where to go from here</h2>
+          <p>Start small. Pick one content-heavy route, measure its current weight and interaction latency, and rebuild it with server-rendered HTML and a sprinkle of enhancement. Compare the numbers. In our experience the results make the next decision easy.</p>
+        </ui-stack>
+
+        <ui-row gap="sm" wrap>
+          <ui-badge>web-performance</ui-badge>
+          <ui-badge>architecture</ui-badge>
+          <ui-badge>html</ui-badge>
+          <ui-badge>javascript</ui-badge>
+          <ui-badge>progressive-enhancement</ui-badge>
+        </ui-row>
+
+      </ui-stack>
+    </article>
+
+    <ui-divider></ui-divider>
+
+    <section>
+      <ui-stack gap="md">
+        <h2>Related posts</h2>
+        <ui-scroll direction="horizontal" gap="md">
+          <ui-card style="min-width:260px;max-width:260px">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/seed/related-1/520/320" alt="Streaming data visualized as light trails" loading="lazy">
+              <h3>Streaming HTML in Practice</h3>
+              <p>How out-of-order streaming cuts time-to-first-content on slow networks.</p>
+              <small>6 min read</small>
+            </ui-stack>
+          </ui-card>
+          <ui-card style="min-width:260px;max-width:260px">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/seed/related-2/520/320" alt="Islands floating over calm water" loading="lazy">
+              <h3>Islands Architecture, Explained</h3>
+              <p>Hydrate only the parts of the page that need it, and nothing else.</p>
+              <small>8 min read</small>
+            </ui-stack>
+          </ui-card>
+          <ui-card style="min-width:260px;max-width:260px">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/seed/related-3/520/320" alt="Stopwatch on a desk next to a laptop" loading="lazy">
+              <h3>Measuring What Users Feel</h3>
+              <p>Beyond Lighthouse: field metrics that map to real frustration.</p>
+              <small>7 min read</small>
+            </ui-stack>
+          </ui-card>
+          <ui-card style="min-width:260px;max-width:260px">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/seed/related-4/520/320" alt="Server racks glowing in a dark room" loading="lazy">
+              <h3>Edge Rendering Without the Hype</h3>
+              <p>When running close to users helps, and when it quietly hurts.</p>
+              <small>10 min read</small>
+            </ui-stack>
+          </ui-card>
+          <ui-card style="min-width:260px;max-width:260px">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/seed/related-5/520/320" alt="Hands typing a form on a laptop" loading="lazy">
+              <h3>Forms That Just Work</h3>
+              <p>Rediscovering native validation, constraint APIs, and sane defaults.</p>
+              <small>5 min read</small>
+            </ui-stack>
+          </ui-card>
+        </ui-scroll>
+      </ui-stack>
+    </section>
+
+  </ui-stack>
+</ui-container>
+</body>
+</html>

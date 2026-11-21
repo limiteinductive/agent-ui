@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Northwind Product Team</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="xl">
+    <ui-stack gap="lg" padding="md">
+
+      <ui-row justify="between" align="center" gap="md" wrap>
+        <ui-row gap="sm" align="center">
+          <img src="https://picsum.photos/seed/northwind/96/96" alt="Northwind team" width="48" height="48">
+          <ui-stack gap="0">
+            <h1>Team Calendar</h1>
+            <small>Northwind Product Team · 8 members</small>
+          </ui-stack>
+        </ui-row>
+        <ui-button variant="primary" id="today-btn">Today</ui-button>
+      </ui-row>
+
+      <ui-grid max-columns="2" min-item-width="18rem" gap="lg">
+
+        <!-- Month view -->
+        <ui-card padding="md">
+          <ui-stack gap="md">
+            <ui-row justify="between" align="center" gap="sm">
+              <ui-button variant="ghost" id="prev-btn" aria-label="Previous month">‹ Prev</ui-button>
+              <h2 id="month-label" aria-live="polite">November 2026</h2>
+              <ui-button variant="ghost" id="next-btn" aria-label="Next month">Next ›</ui-button>
+            </ui-row>
+
+            <ui-grid columns="7" gap="xs" aria-hidden="true">
+              <ui-stack align="center"><small><strong>Mon</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Tue</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Wed</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Thu</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Fri</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Sat</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Sun</strong></small></ui-stack>
+            </ui-grid>
+
+            <ui-grid columns="7" gap="xs" id="month-grid" role="grid" aria-labelledby="month-label"></ui-grid>
+
+            <ui-row gap="sm" wrap>
+              <ui-card variant="info" padding="xs"><small>Meeting</small></ui-card>
+              <ui-card variant="success" padding="xs"><small>Release</small></ui-card>
+              <ui-card variant="warning" padding="xs"><small>Deadline</small></ui-card>
+              <ui-card variant="neutral" padding="xs"><small>Social / Time off</small></ui-card>
+            </ui-row>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Upcoming -->
+        <ui-card padding="md">
+          <ui-stack gap="md">
+            <ui-row justify="between" align="center">
+              <h2>Upcoming</h2>
+              <ui-card variant="neutral" padding="xs"><small id="upcoming-count">0</small></ui-card>
+            </ui-row>
+            <ui-stack gap="sm" id="upcoming-list"></ui-stack>
+          </ui-stack>
+        </ui-card>
+
+      </ui-grid>
+    </ui-stack>
+  </ui-container>
+
+  <script>
+    const TODAY = new Date(2026, 10, 21); // Sat 21 Nov 2026
+
+    const EVENTS = [
+      { date: "2026-11-02", time: "09:30", title: "Sprint 24 planning", type: "info", who: "Whole team" },
+      { date: "2026-11-05", time: "14:00", title: "Design review: onboarding", type: "info", who: "Maya, Theo" },
+      { date: "2026-11-11", time: "All day", title: "Priya out of office", type: "neutral", who: "Priya" },
+      { date: "2026-11-13", time: "17:00", title: "Q4 roadmap draft due", type: "warning", who: "Daniel" },
+      { date: "2026-11-16", time: "10:00", title: "Sprint 24 retro", type: "info", who: "Whole team" },
+      { date: "2026-11-19", time: "15:00", title: "v3.8 release", type: "success", who: "Eng" },
+      { date: "2026-11-23", time: "09:30", title: "Sprint 25 planning", type: "info", who: "Whole team" },
+      { date: "2026-11-24", time: "11:00", title: "Customer interview: Acme Co.", type: "info", who: "Maya" },
+      { date: "2026-11-24", time: "16:00", title: "Security audit checklist due", type: "warning", who: "Lena" },
+      { date: "2026-11-26", time: "All day", title: "Thanksgiving – office closed", type: "neutral", who: "Everyone" },
+      { date: "2026-12-01", time: "13:00", title: "Pricing page A/B test kickoff", type: "info", who: "Theo, Sam" },
+      { date: "2026-12-03", time: "15:00", title: "v3.9 release", type: "success", who: "Eng" },
+      { date: "2026-12-07", time: "10:00", title: "Sprint 25 retro", type: "info", who: "Whole team" },
+      { date: "2026-12-11", time: "18:30", title: "Holiday team dinner", type: "neutral", who: "Everyone" },
+      { date: "2026-12-18", time: "17:00", title: "2027 OKR proposals due", type: "warning", who: "Leads" },
+      { date: "2026-10-28", time: "15:00", title: "v3.7 release", type: "success", who: "Eng" },
+      { date: "2026-10-30", time: "17:30", title: "Halloween social", type: "neutral", who: "Everyone" }
+    ];
+
+    const TYPE_LABEL = { info: "Meeting", success: "Release", warning: "Deadline", neutral: "Social" };
+    const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const pad = n => String(n).padStart(2, "0");
+    const key = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+
+    let view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+
+    function eventsOn(k) { return EVENTS.filter(e => e.date === k); }
+
+    function renderMonth() {
+      const grid = document.getElementById("month-grid");
+      document.getElementById("month-label").textContent = `${MONTHS[view.getMonth()]} ${view.getFullYear()}`;
+      grid.innerHTML = "";
+
+      const offset = (view.getDay() + 6) % 7; // Monday-first
+      const start = new Date(view.getFullYear(), view.getMonth(), 1 - offset);
+      const daysInMonth = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+      const cells = Math.ceil((offset + daysInMonth) / 7) * 7;
+
+      for (let i = 0; i < cells; i++) {
+        const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+        const k = key(d);
+        const inMonth = d.getMonth() === view.getMonth();
+        const isToday = k === key(TODAY);
+        const evs = eventsOn(k);
+
+        const cell = document.createElement("ui-card");
+        cell.setAttribute("padding", "xs");
+        cell.setAttribute("role", "gridcell");
+        if (isToday) cell.setAttribute("variant", "primary");
+        else if (!inMonth) cell.setAttribute("sunken", "");
+        else if (evs.length) cell.setAttribute("variant", evs[0].type);
+        cell.setAttribute("aria-label",
+          `${d.getDate()} ${MONTHS[d.getMonth()]}` + (isToday ? " (today)" : "") +
+          (evs.length ? `, ${evs.length} event${evs.length > 1 ? "s" : ""}: ${evs.map(e => e.title).join(", ")}` : ""));
+        if (evs.length) cell.title = evs.map(e => `${e.time} · ${e.title}`).join("\n");
+
+        const stack = document.createElement("ui-stack");
+        stack.setAttribute("gap", "xs");
+        stack.setAttribute("align", "center");
+
+        const num = document.createElement(isToday ? "strong" : (inMonth ? "span" : "small"));
+        num.textContent = d.getDate();
+        stack.appendChild(num);
+
+        const count = document.createElement("small");
+        if (evs.length) {
+          count.textContent = `•${evs.length > 1 ? evs.length : ""}`;
+          count.setAttribute("aria-hidden", "true");
+        } else {
+          count.setAttribute("aria-hidden", "true");
+          count.innerHTML = "&nbsp;";
+        }
+        stack.appendChild(count);
+
+        cell.appendChild(stack);
+        grid.appendChild(cell);
+      }
+    }
+
+    function renderUpcoming() {
+      const list = document.getElementById("upcoming-list");
+      const upcoming = EVENTS
+        .filter(e => parse(e.date) >= TODAY)
+        .sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
+        .slice(0, 8);
+
+      document.getElementById("upcoming-count").textContent = upcoming.length;
+      list.innerHTML = "";
+
+      upcoming.forEach((e, i) => {
+        const d = parse(e.date);
+        const row = document.createElement("ui-stack");
+        row.setAttribute("gap", "xs");
+
+        const top = document.createElement("ui-row");
+        top.setAttribute("justify", "between");
+        top.setAttribute("align", "center");
+        top.setAttribute("gap", "sm");
+        top.setAttribute("wrap", "");
+        const when = document.createElement("small");
+        when.textContent = `${d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })} · ${e.time}`;
+        const tag = document.createElement("ui-card");
+        tag.setAttribute("variant", e.type);
+        tag.setAttribute("padding", "xs");
+        const tagText = document.createElement("small");
+        tagText.textContent = TYPE_LABEL[e.type];
+        tag.appendChild(tagText);
+        top.append(when, tag);
+
+        const title = document.createElement("strong");
+        title.textContent = e.title;
+
+        const who = document.createElement("small");
+        who.textContent = e.who;
+
+        row.append(top, title, who);
+        list.appendChild(row);
+        if (i < upcoming.length - 1) list.appendChild(document.createElement("hr"));
+      });
+    }
+
+    document.getElementById("prev-btn").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderMonth();
+    });
+    document.getElementById("next-btn").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderMonth();
+    });
+    document.getElementById("today-btn").addEventListener("click", () => {
+      view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); renderMonth();
+    });
+
+    renderMonth();
+    renderUpcoming();
+  </script>
+</body>
+</html>

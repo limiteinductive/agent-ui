@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Store Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="column" gap="0" min-height="100vh" background="muted">
+    <header>
+      <ui-stack align="center" justify="between" gap="medium" padding="medium" background="surface">
+        <ui-stack align="center" gap="small">
+          <ui-badge variant="primary">N</ui-badge>
+          <strong>Northstar Commerce</strong>
+        </ui-stack>
+
+        <ui-stack direction="row" align="center" gap="small">
+          <ui-input type="search" placeholder="Search orders, products..." aria-label="Search"></ui-input>
+          <ui-button variant="ghost" aria-label="Notifications">🔔</ui-button>
+          <ui-avatar src="https://i.pravatar.cc/80?img=12" alt="Maya Chen"></ui-avatar>
+          <span>Maya Chen</span>
+          <ui-button variant="ghost" aria-label="Open user menu">⌄</ui-button>
+        </ui-stack>
+      </ui-stack>
+    </header>
+
+    <ui-stack direction="row" gap="0" flex="1">
+      <aside>
+        <ui-stack direction="column" gap="small" padding="medium" background="surface">
+          <small>WORKSPACE</small>
+          <ui-button variant="primary" full-width>▦ Overview</ui-button>
+          <ui-button variant="ghost" full-width>↗ Sales</ui-button>
+          <ui-button variant="ghost" full-width>▣ Products</ui-button>
+          <ui-button variant="ghost" full-width>♙ Customers</ui-button>
+
+          <ui-divider></ui-divider>
+
+          <strong>Filters</strong>
+          <label>
+            Date range
+            <ui-select>
+              <option>Last 30 days</option>
+              <option>Last 7 days</option>
+              <option>This year</option>
+            </ui-select>
+          </label>
+
+          <label>
+            Channel
+            <ui-select>
+              <option>All channels</option>
+              <option>Online store</option>
+              <option>Marketplace</option>
+            </ui-select>
+          </label>
+
+          <label>
+            Region
+            <ui-select>
+              <option>All regions</option>
+              <option>North America</option>
+              <option>Europe</option>
+              <option>Asia Pacific</option>
+            </ui-select>
+          </label>
+
+          <ui-button variant="outline" full-width>Reset filters</ui-button>
+        </ui-stack>
+      </aside>
+
+      <main>
+        <ui-stack direction="column" gap="large" padding="large">
+          <ui-stack direction="row" align="center" justify="between" wrap gap="medium">
+            <ui-stack direction="column" gap="xxsmall">
+              <h1>Good morning, Maya</h1>
+              <p>Here’s what’s happening with your store today.</p>
+            </ui-stack>
+            <ui-stack direction="row" gap="small">
+              <ui-button variant="outline">Export report</ui-button>
+              <ui-button variant="primary">＋ Add sale</ui-button>
+            </ui-stack>
+          </ui-stack>
+
+          <ui-grid columns="4" gap="medium">
+            <ui-card padding="medium">
+              <ui-stack direction="column" gap="small">
+                <ui-stack direction="row" justify="between">
+                  <span>Revenue</span>
+                  <ui-badge variant="success">+12.8%</ui-badge>
+                </ui-stack>
+                <h2>$48,295.00</h2>
+                <small>vs. $42,814 last month</small>
+                <progress value="76" max="100"></progress>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="medium">
+              <ui-stack direction="column" gap="small">
+                <ui-stack direction="row" justify="between">
+                  <span>Orders</span>
+                  <ui-badge variant="success">+8.4%</ui-badge>
+                </ui-stack>
+                <h2>1,284</h2>
+                <small>vs. 1,184 last month</small>
+                <progress value="68" max="100"></progress>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="medium">
+              <ui-stack direction="column" gap="small">
+                <ui-stack direction="row" justify="between">
+                  <span>Conversion rate</span>
+                  <ui-badge variant="success">+1.2%</ui-badge>
+                </ui-stack>
+                <h2>4.86%</h2>
+                <small>vs. 4.81% last month</small>
+                <progress value="49" max="100"></progress>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="medium">
+              <ui-stack direction="column" gap="small">
+                <ui-stack direction="row" justify="between">
+                  <span>Refunds</span>
+                  <ui-badge variant="warning">+2.1%</ui-badge>
+                </ui-stack>
+                <h2>$1,842.00</h2>
+                <small>vs. $1,804 last month</small>
+                <progress value="22" max="100"></progress>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <ui-grid columns="3" gap="large">
+            <ui-card padding="medium" span="2">
+              <ui-stack direction="column" gap="medium">
+                <ui-stack direction="row" justify="between" align="center">
+                  <ui-stack direction="column" gap="xxsmall">
+                    <h2>Revenue overview</h2>
+                    <small>Daily revenue for the last 30 days</small>
+                  </ui-stack>
+                  <ui-select>
+                    <option>Revenue</option>
+                    <option>Orders</option>
+                    <option>Visitors</option>
+                  </ui-select>
+                </ui-stack>
+
+                <ui-stack direction="row" align="end" gap="small" height="220px">
+                  <ui-bar value="42" label="Oct 23"></ui-bar>
+                  <ui-bar value="58" label="Oct 27"></ui-bar>
+                  <ui-bar value="48" label="Oct 31"></ui-bar>
+                  <ui-bar value="76" label="Nov 4"></ui-bar>
+                  <ui-bar value="63" label="Nov 8"></ui-bar>
+                  <ui-bar value="88" label="Nov 12"></ui-bar>
+                  <ui-bar value="72" label="Nov 16"></ui-bar>
+                  <ui-bar value="96" label="Nov 20"></ui-bar>
+                </ui-stack>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="medium">
+              <ui-stack direction="column" gap="medium">
+                <ui-stack direction="row" justify="between" align="center">
+                  <h2>Top products</h2>
+                  <ui-button variant="ghost">View all</ui-button>
+                </ui-stack>
+
+                <ui-stack direction="column" gap="medium">
+                  <ui-stack direction="row" align="center" gap="small">
+                    <ui-avatar src="https://picsum.photos/seed/linen-shirt/80/80" alt="Essential Linen Shirt"></ui-avatar>
+                    <ui-stack direction="column" gap="xxsmall" flex="1">
+                      <strong>Essential Linen Shirt</strong>
+                      <small>142 sold</small>
+                    </ui-stack>
+                    <strong>$8,520</strong>
+                  </ui-stack>
+
+                  <ui-stack direction="row" align="center" gap="small">
+                    <ui-avatar src="https://picsum.photos/seed/ceramic-mug/80/80" alt="Stoneware Mug Set"></ui-avatar>
+                    <ui-stack direction="column" gap="xxsmall" flex="1">
+                      <strong>Stoneware Mug Set</strong>
+                      <small>118 sold</small>
+                    </ui-stack>
+                    <strong>$5,664</strong>
+                  </ui-stack>
+
+                  <ui-stack direction="row" align="center" gap="small">
+                    <ui-avatar src="https://picsum.photos/seed/leather-bag/80/80" alt="Everyday Leather Tote"></ui-avatar>
+                    <ui-stack direction="column" gap="xxsmall" flex="1">
+                      <strong>Everyday Leather Tote</strong>
+                      <small>96 sold</small>
+                    </ui-stack>
+                    <strong>$12,384</strong>
+                  </ui-stack>
+
+                  <ui-stack direction="row" align="center" gap="small">
+                    <ui-avatar src="https://picsum.photos/seed/candle/80/80" alt="Cedar & Sage Candle"></ui-avatar>
+                    <ui-stack direction="column" gap="xxsmall" flex="1">
+                      <strong>Cedar &amp; Sage Candle</strong>
+                      <small>84 sold</small>
+                    </ui-stack>
+                    <strong>$2,940</strong>
+                  </ui-stack>
+                </ui-stack>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <ui-card padding="medium">
+            <ui-stack direction="column" gap="medium">
+              <ui-stack direction="row" justify="between" align="center" wrap gap="small">
+                <ui-stack direction="column" gap="xxsmall">
+                  <h2>Recent orders</h2>
+                  <small>Latest activity across all sales channels</small>
+                </ui-stack>
+                <ui-button variant="outline">View all orders</ui-button>
+              </ui-stack>
+
+              <ui-scroll direction="horizontal">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Order</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Channel</th>
+                      <th>Status</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>#NS-10482</strong></td>
+                      <td>Olivia Martin</td>
+                      <td>Nov 21, 2026</td>
+                      <td>Online store</td>
+                      <td><ui-badge variant="success">Paid</ui-badge></td>
+                      <td>$284.00</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#NS-10481</strong></td>
+                      <td>James Wilson</td>
+                      <td>Nov 21, 2026</td>
+                      <td>Marketplace</td>
+                      <td><ui-badge variant="info">Processing</ui-badge></td>
+                      <td>$129.50</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#NS-10480</strong></td>
+                      <td>Sophia Lee</td>
+                      <td>Nov 20, 2026</td>
+                      <td>Online store</td>
+                      <td><ui-badge variant="success">Paid</ui-badge></td>
+                      <td>$86.00</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#NS-10479</strong></td>
+                      <td>Daniel Kim</td>
+                      <td>Nov 20, 2026</td>
+                      <td>Online store</td>
+                      <td><ui-badge variant="warning">Refunded</ui-badge></td>
+                      <td>$64.00</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#NS-10478</strong></td>
+                      <td>Emma Thompson</td>
+                      <td>Nov 19, 2026</td>
+                      <td>Marketplace</td>
+                      <td><ui-badge variant="success">Paid</ui-badge></td>
+                      <td>$412.75</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ui-scroll>
+            </ui-stack>
+          </ui-card>
+
+          <footer>
+            <ui-stack direction="row" justify="between" wrap gap="small">
+              <small>Updated just now · Data refreshes every 15 minutes</small>
+              <small>© 2026 Northstar Commerce</small>
+            </ui-stack>
+          </footer>
+        </ui-stack>
+      </main>
+    </ui-stack>
+  </ui-stack>
+</body>
+</html>

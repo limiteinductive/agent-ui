@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen Store · Analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="vertical" gap="lg">
+
+    <!-- Top bar -->
+    <header>
+      <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" wrap="wrap" padding="md">
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="3" y="12" width="4" height="9"></rect>
+            <rect x="10" y="7" width="4" height="14"></rect>
+            <rect x="17" y="3" width="4" height="18"></rect>
+          </svg>
+          <h4>Lumen Store</h4>
+        </ui-stack>
+
+        <ui-stack direction="horizontal" align="center" gap="sm" grow wrap="wrap">
+          <label>Search
+            <input type="search" name="q" placeholder="Search orders, products, customers…">
+          </label>
+        </ui-stack>
+
+        <details>
+          <summary>
+            <img src="https://picsum.photos/id/1005/96/96" alt="Maya Chen" width="32" height="32">
+          </summary>
+          <ui-card padding="sm">
+            <ui-stack direction="vertical" gap="xs">
+              <strong>Maya Chen</strong>
+              <small>Store owner</small>
+              <hr>
+              <ui-button variant="ghost">Profile</ui-button>
+              <ui-button variant="ghost">Store settings</ui-button>
+              <ui-button variant="ghost">Billing</ui-button>
+              <hr>
+              <ui-button variant="danger">Sign out</ui-button>
+            </ui-stack>
+          </ui-card>
+        </details>
+      </ui-stack>
+    </header>
+
+    <ui-page layout="app">
+      <ui-row gap="lg" padding="md" stack-below="24rem">
+
+        <!-- Sidebar filters -->
+        <ui-stack direction="vertical" gap="md">
+          <h6>Filters</h6>
+
+          <label>Date range
+            <select>
+              <option>Last 7 days</option>
+              <option selected>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Year to date</option>
+            </select>
+          </label>
+
+          <fieldset>
+            <legend>Channel</legend>
+            <ui-stack direction="vertical" gap="xs">
+              <label><input type="checkbox" checked> Online store</label>
+              <label><input type="checkbox" checked> Mobile app</label>
+              <label><input type="checkbox"> Marketplace</label>
+              <label><input type="checkbox"> Wholesale</label>
+            </ui-stack>
+          </fieldset>
+
+          <fieldset>
+            <legend>Order status</legend>
+            <ui-stack direction="vertical" gap="xs">
+              <label><input type="checkbox" checked> Paid</label>
+              <label><input type="checkbox" checked> Fulfilled</label>
+              <label><input type="checkbox"> Pending</label>
+              <label><input type="checkbox"> Refunded</label>
+            </ui-stack>
+          </fieldset>
+
+          <label>Country
+            <select>
+              <option selected>All countries</option>
+              <option>United States</option>
+              <option>Canada</option>
+              <option>United Kingdom</option>
+              <option>Germany</option>
+            </select>
+          </label>
+
+          <ui-stack direction="horizontal" gap="sm">
+            <ui-button variant="outline">Reset</ui-button>
+            <ui-button variant="primary">Apply</ui-button>
+          </ui-stack>
+        </ui-stack>
+
+        <!-- Main content -->
+        <ui-stack direction="vertical" gap="lg" grow>
+
+          <!-- Stat tiles -->
+          <ui-grid min-item-width="200px" gap="md">
+            <ui-card padding="md">
+              <ui-stack direction="vertical" gap="xs">
+                <small>Revenue</small>
+                <strong>$84,620</strong>
+                <span>▲ 12.4% vs prior period</span>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="md">
+              <ui-stack direction="vertical" gap="xs">
+                <small>Orders</small>
+                <strong>1,284</strong>
+                <span>▲ 8.1% vs prior period</span>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="md">
+              <ui-stack direction="vertical" gap="xs">
+                <small>Conversion</small>
+                <strong>3.27%</strong>
+                <span>▼ 0.4 pts vs prior period</span>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="md">
+              <ui-stack direction="vertical" gap="xs">
+                <small>Refunds</small>
+                <strong>$2,190</strong>
+                <span>▲ 2.2% vs prior period</span>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <!-- Recent orders -->
+          <ui-card padding="md">
+            <ui-stack direction="vertical" gap="md">
+              <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                <h5>Recent orders</h5>
+                <ui-button variant="outline" size="sm">View all</ui-button>
+              </ui-stack>
+
+              <div style="overflow-x: auto">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Order</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>#LM-10482</td>
+                      <td>Priya Raman</td>
+                      <td>Nov 21, 2026</td>
+                      <td><span>Paid</span></td>
+                      <td>$128.00</td>
+                    </tr>
+                    <tr>
+                      <td>#LM-10481</td>
+                      <td>Daniel Okafor</td>
+                      <td>Nov 21, 2026</td>
+                      <td><span>Fulfilled</span></td>
+                      <td>$64.50</td>
+                    </tr>
+                    <tr>
+                      <td>#LM-10480</td>
+                      <td>Sofia Lindqvist</td>
+                      <td>Nov 20, 2026</td>
+                      <td><span>Pending</span></td>
+                      <td>$212.75</td>
+                    </tr>
+                    <tr>
+                      <td>#LM-10479</td>
+                      <td>James Whitfield</td>
+                      <td>Nov 20, 2026</td>
+                      <td><span>Refunded</span></td>
+                      <td>$39.00</td>
+                    </tr>
+                    <tr>
+                      <td>#LM-10478</td>
+                      <td>Aiko Tanaka</td>
+                      <td>Nov 19, 2026</td>
+                      <td><span>Paid</span></td>
+                      <td>$96.20</td>
+                    </tr>
+                    <tr>
+                      <td>#LM-10477</td>
+                      <td>Marco Rossi</td>
+                      <td>Nov 19, 2026</td>
+                      <td><span>Fulfilled</span></td>
+                      <td>$157.40</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Top products -->
+          <ui-card padding="md">
+            <ui-stack direction="vertical" gap="md">
+              <h5>Top products</h5>
+              <ul>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="md" wrap="wrap">
+                    <img src="https://picsum.photos/id/21/96/96" alt="Ceramic pour-over set" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs" grow>
+                      <strong>Ceramic pour-over set</strong>
+                      <small>412 sold · $9.8k revenue</small>
+                    </ui-stack>
+                    <span>+18%</span>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="md" wrap="wrap">
+                    <img src="https://picsum.photos/id/42/96/96" alt="Linen tote bag" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs" grow>
+                      <strong>Linen tote bag</strong>
+                      <small>356 sold · $7.1k revenue</small>
+                    </ui-stack>
+                    <span>+9%</span>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="md" wrap="wrap">
+                    <img src="https://picsum.photos/id/96/96" alt="Walnut desk organizer" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs" grow>
+                      <strong>Walnut desk organizer</strong>
+                      <small>241 sold · $6.0k revenue</small>
+                    </ui-stack>
+                    <span>-3%</span>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="md" wrap="wrap">
+                    <img src="https://picsum.photos/id/225/96/96" alt="Wool throw blanket" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs" grow>
+                      <strong>Wool throw blanket</strong>
+                      <small>198 sold · $5.4k revenue</small>
+                    </ui-stack>
+                    <span>+22%</span>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="md" wrap="wrap">
+                    <img src="https://picsum.photos/id/292/96/96" alt="Brass desk lamp" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs" grow>
+                      <strong>Brass desk lamp</strong>
+                      <small>117 sold · $4.7k revenue</small>
+                    </ui-stack>
+                    <span>+5%</span>
+                  </ui-stack>
+                </li>
+              </ul>
+            </ui-stack>
+          </ui-card>
+
+        </ui-stack>
+      </ui-row>
+    </ui-page>
+  </ui-stack>
+</body>
+</html>

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings · Acme</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" padding="md">
+          <strong>Acme</strong>
+          <ui-row gap="md">
+            <a href="#">Dashboard</a>
+            <a href="#">Projects</a>
+          </ui-row>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="md">
+        <ui-stack gap="xl" padding="lg">
+          <ui-stack gap="xs">
+            <h1>Account settings</h1>
+            <p>Manage your profile, notifications, plan and account.</p>
+          </ui-stack>
+
+          <!-- Profile -->
+          <ui-card id="profile">
+            <h2>Profile</h2>
+            <form id="profile-form" action="#">
+              <ui-stack gap="lg">
+                <ui-row gap="lg" align="center" stack-below="30rem">
+                  <img src="https://picsum.photos/seed/alex-morgan/160/160" alt="Current profile photo" width="80" height="80">
+                  <ui-stack gap="xs">
+                    <label>Profile photo <input type="file" name="avatar" accept="image/png, image/jpeg"></label>
+                    <small>JPG or PNG, up to 4 MB.</small>
+                  </ui-stack>
+                </ui-row>
+
+                <ui-row equal gap="md" stack-below="30rem">
+                  <label>Full name <input name="name" autocomplete="name" value="Alex Morgan"></label>
+                  <label>Email address <input type="email" name="email" autocomplete="email" value="alex.morgan@example.com"></label>
+                </ui-row>
+
+                <label>
+                  Bio
+                  <textarea name="bio" rows="4" maxlength="280">Product designer at Northwind. I build calm, accessible interfaces and write about design systems on weekends.</textarea>
+                  <small>Up to 280 characters. Shown on your public profile.</small>
+                </label>
+
+                <ui-row justify="end" gap="sm" wrap>
+                  <ui-button type="reset" variant="ghost">Discard</ui-button>
+                  <ui-button type="submit" variant="primary">Save changes</ui-button>
+                </ui-row>
+              </ui-stack>
+            </form>
+          </ui-card>
+
+          <!-- Notifications -->
+          <ui-card id="notifications">
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <h2>Notifications</h2>
+                <p>Choose what we send you and where.</p>
+              </ui-stack>
+
+              <ui-row justify="space-between" align="center" gap="md">
+                <div>
+                  <strong id="n-mentions">Comment mentions</strong>
+                  <p>When someone mentions you in a comment.</p>
+                </div>
+                <input type="checkbox" role="switch" name="notify_mentions" checked aria-labelledby="n-mentions">
+              </ui-row>
+              <hr>
+
+              <ui-row justify="space-between" align="center" gap="md">
+                <div>
+                  <strong id="n-assigned">Task assignments</strong>
+                  <p>When a task is assigned to you or reassigned.</p>
+                </div>
+                <input type="checkbox" role="switch" name="notify_assigned" checked aria-labelledby="n-assigned">
+              </ui-row>
+              <hr>
+
+              <ui-row justify="space-between" align="center" gap="md">
+                <div>
+                  <strong id="n-digest">Weekly digest</strong>
+                  <p>A Monday summary of activity in your projects.</p>
+                </div>
+                <input type="checkbox" role="switch" name="notify_digest" aria-labelledby="n-digest">
+              </ui-row>
+              <hr>
+
+              <ui-row justify="space-between" align="center" gap="md">
+                <div>
+                  <strong id="n-billing">Billing alerts</strong>
+                  <p>Payment receipts, failed charges and renewal reminders.</p>
+                </div>
+                <input type="checkbox" role="switch" name="notify_billing" checked aria-labelledby="n-billing">
+              </ui-row>
+              <hr>
+
+              <ui-row justify="space-between" align="center" gap="md">
+                <div>
+                  <strong id="n-marketing">Product news</strong>
+                  <p>Occasional updates about new features and events.</p>
+                </div>
+                <input type="checkbox" role="switch" name="notify_marketing" aria-labelledby="n-marketing">
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Billing -->
+          <ui-card id="billing">
+            <ui-stack gap="lg">
+              <ui-row justify="space-between" align="start" gap="md" wrap>
+                <ui-stack gap="xs">
+                  <h2>Billing</h2>
+                  <p>Your plan, usage and payment details.</p>
+                </ui-stack>
+                <mark>Active</mark>
+              </ui-row>
+
+              <ui-card sunken>
+                <ui-row justify="space-between" align="center" gap="md" wrap>
+                  <ui-stack gap="xs">
+                    <strong>Pro plan</strong>
+                    <span>$24 per month, billed monthly on the 1st</span>
+                  </ui-stack>
+                  <ui-button variant="outline" size="sm">Change plan</ui-button>
+                </ui-row>
+              </ui-card>
+
+              <ui-grid min-item-width="10rem" gap="md">
+                <ui-card sunken>
+                  <ui-stack gap="xs">
+                    <small>Seats</small>
+                    <strong>8 of 10</strong>
+                    <small>2 seats remaining</small>
+                  </ui-stack>
+                </ui-card>
+                <ui-card sunken>
+                  <ui-stack gap="xs">
+                    <small>Storage</small>
+                    <strong>42 GB of 100 GB</strong>
+                    <small>58 GB remaining</small>
+                  </ui-stack>
+                </ui-card>
+                <ui-card sunken>
+                  <ui-stack gap="xs">
+                    <small>API requests</small>
+                    <strong>128k of 500k</strong>
+                    <small>Resets Dec 1</small>
+                  </ui-stack>
+                </ui-card>
+              </ui-grid>
+
+              <ui-stack gap="xs">
+                <p>Next invoice: <strong>$24.00 on Dec 1, 2026</strong></p>
+                <p>Payment method: Visa ending in 4242, expires 08/2029</p>
+              </ui-stack>
+
+              <ui-row gap="sm" wrap>
+                <ui-button variant="outline">Download invoices</ui-button>
+                <ui-button variant="ghost">Update payment method</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Danger zone -->
+          <ui-card variant="danger" id="danger">
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <h2>Danger zone</h2>
+                <p>Deleting your account removes your profile, all 14 projects, uploaded files and billing history. This cannot be undone.</p>
+              </ui-stack>
+              <ui-row justify="end" wrap>
+                <ui-button variant="danger" id="open-delete">Delete account</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <dialog id="delete-dialog" aria-labelledby="delete-title">
+    <form id="delete-form" method="dialog">
+      <ui-stack gap="md">
+        <h2 id="delete-title">Delete your account?</h2>
+        <p>This permanently deletes your profile, projects and invoices. To confirm, type <code>DELETE</code> below.</p>
+        <label>
+          Confirmation
+          <input name="confirm" id="confirm-input" autocomplete="off" placeholder="DELETE">
+        </label>
+        <ui-row justify="end" gap="sm" wrap>
+          <ui-button type="button" variant="ghost" id="cancel-delete">Cancel</ui-button>
+          <ui-button type="submit" variant="danger" id="confirm-delete" disabled>Delete account</ui-button>
+        </ui-row>
+      </ui-stack>
+    </form>
+  </dialog>
+
+  <script>
+    (function () {
+      var profileForm = document.getElementById('profile-form');
+      profileForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+      });
+
+      var dialog = document.getElementById('delete-dialog');
+      var openBtn = document.getElementById('open-delete');
+      var cancelBtn = document.getElementById('cancel-delete');
+      var input = document.getElementById('confirm-input');
+      var confirmBtn = document.getElementById('confirm-delete');
+
+      openBtn.addEventListener('click', function () {
+        input.value = '';
+        confirmBtn.toggleAttribute('disabled', true);
+        dialog.showModal();
+      });
+
+      cancelBtn.addEventListener('click', function () {
+        dialog.close();
+      });
+
+      input.addEventListener('input', function () {
+        confirmBtn.toggleAttribute('disabled', input.value.trim() !== 'DELETE');
+      });
+    })();
+  </script>
+</body>
+</html>

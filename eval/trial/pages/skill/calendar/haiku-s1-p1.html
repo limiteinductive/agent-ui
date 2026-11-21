@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" padding="md">
+          <strong>Northwind Team</strong>
+          <nav><a href="#">Settings</a></nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container>
+        <ui-stack gap="lg" padding="md">
+          <ui-row justify="space-between" align="center" stack-below="23rem">
+            <ui-button id="prev" variant="ghost" size="sm">&larr; Prev</ui-button>
+            <h1 id="month-title">Month</h1>
+            <ui-button id="next" variant="ghost" size="sm">Next &rarr;</ui-button>
+          </ui-row>
+
+          <ui-row wrap gap="lg" align="start">
+            <ui-card grow padding="sm">
+              <div style="overflow-x: auto">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Mon</th>
+                      <th scope="col">Tue</th>
+                      <th scope="col">Wed</th>
+                      <th scope="col">Thu</th>
+                      <th scope="col">Fri</th>
+                      <th scope="col">Sat</th>
+                      <th scope="col">Sun</th>
+                    </tr>
+                  </thead>
+                  <tbody id="grid"></tbody>
+                </table>
+              </div>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="md">
+                <h2>Upcoming</h2>
+                <ul id="upcoming"></ul>
+              </ui-stack>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <script>
+    const EVENTS = [
+      { date: "2026-11-18", time: "16:00", title: "Hiring panel: Staff engineer", where: "Zoom", who: "Marcus Chen", seed: "marcus" },
+      { date: "2026-11-23", time: "10:00", title: "Sprint planning", where: "Atlas room", who: "Ana Ruiz", seed: "ana" },
+      { date: "2026-11-23", time: "14:00", title: "Design review: onboarding", where: "Figma call", who: "Sam Okafor", seed: "sam" },
+      { date: "2026-11-24", time: "09:30", title: "Customer call: Northwind", where: "Google Meet", who: "Priya Nair", seed: "priya" },
+      { date: "2026-11-26", time: "12:30", title: "Team lunch", where: "Harbor Grill", who: "Jonas Berg", seed: "jonas" },
+      { date: "2026-12-01", time: "all day", title: "Release 4.2 code freeze", where: "Engineering", who: "Ana Ruiz", seed: "ana" },
+      { date: "2026-12-03", time: "15:00", title: "Quarterly OKR review", where: "Boardroom", who: "Lena Park", seed: "lena" },
+      { date: "2026-12-08", time: "11:00", title: "Onboarding: new designer", where: "Atlas room", who: "Sam Okafor", seed: "sam" }
+    ];
+
+    const grid = document.getElementById("grid");
+    const title = document.getElementById("month-title");
+    const upcoming = document.getElementById("upcoming");
+
+    const now = new Date();
+    const todayKey = ymd(now);
+    let year = now.getFullYear();
+    let month = now.getMonth();
+
+    function ymd(d) {
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${d.getFullYear()}-${mm}-${dd}`;
+    }
+
+    function renderGrid() {
+      const first = new Date(year, month, 1);
+      const offset = (first.getDay() + 6) % 7; // Monday = 0
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const cellCount = Math.ceil((offset + daysInMonth) / 7) * 7;
+
+      title.textContent = first.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+      grid.replaceChildren();
+
+      let row = null;
+      for (let i = 0; i < cellCount; i++) {
+        if (i % 7 === 0) {
+          row = document.createElement("tr");
+          grid.appendChild(row);
+        }
+        const cell = document.createElement("td");
+        const dayNum = i - offset + 1;
+
+        if (dayNum >= 1 && dayNum <= daysInMonth) {
+          const key = ymd(new Date(year, month, dayNum));
+          const time = document.createElement("time");
+          time.setAttribute("datetime", key);
+          time.textContent = String(dayNum);
+          if (key === todayKey) {
+            const strong = document.createElement("strong");
+            strong.setAttribute("aria-current", "date");
+            strong.appendChild(time);
+            cell.appendChild(strong);
+          } else {
+            cell.appendChild(time);
+          }
+
+          EVENTS.filter(e => e.date === key).forEach(e => {
+            const mark = document.createElement("mark");
+            mark.setAttribute("title", e.title);
+            mark.textContent = "\u25CF";
+            cell.appendChild(mark);
+          });
+        }
+
+        row.appendChild(cell);
+      }
+    }
+
+    function renderUpcoming() {
+      const items = EVENTS
+        .filter(e => e.date >= todayKey)
+        .sort((a, b) => {
+          if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+          const ta = a.time === "all day" ? "00:00" : a.time;
+          const tb = b.time === "all day" ? "00:00" : b.time;
+          return ta < tb ? -1 : ta > tb ? 1 : 0;
+        })
+        .slice(0, 6);
+
+      upcoming.replaceChildren();
+
+      if (items.length === 0) {
+        const li = document.createElement("li");
+        li.textContent = "No upcoming events.";
+        upcoming.appendChild(li);
+        return;
+      }
+
+      items.forEach(e => {
+        const [y, m, d] = e.date.split("-").map(Number);
+        const when = new Date(y, m - 1, d).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+        const li = document.createElement("li");
+
+        const row = document.createElement("ui-row");
+        row.setAttribute("gap", "md");
+        row.setAttribute("align", "start");
+
+        const img = document.createElement("img");
+        img.src = `https://picsum.photos/seed/${e.seed}/80/80`;
+        img.alt = e.who;
+        img.width = 40;
+        img.height = 40;
+
+        const stack = document.createElement("ui-stack");
+        stack.setAttribute("gap", "xs");
+        stack.setAttribute("grow", "");
+
+        const titleEl = document.createElement("strong");
+        titleEl.textContent = e.title;
+
+        const timeEl = document.createElement("time");
+        timeEl.setAttribute("datetime", e.time === "all day" ? e.date : `${e.date}T${e.time}`);
+        timeEl.textContent = `${when} \u00B7 ${e.time}`;
+
+        const meta = document.createElement("small");
+        meta.textContent = `${e.where} \u00B7 ${e.who}`;
+
+        stack.append(titleEl, timeEl, meta);
+        row.append(img, stack);
+        li.appendChild(row);
+        upcoming.appendChild(li);
+      });
+    }
+
+    document.getElementById("prev").addEventListener("click", () => {
+      month -= 1;
+      if (month < 0) { month = 11; year -= 1; }
+      renderGrid();
+    });
+
+    document.getElementById("next").addEventListener("click", () => {
+      month += 1;
+      if (month > 11) { month = 0; year += 1; }
+      renderGrid();
+    });
+
+    renderGrid();
+    renderUpcoming();
+  </script>
+</body>
+</html>

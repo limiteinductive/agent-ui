@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Quiet Cost of Layout Shift: Building Pages That Hold Still — Fieldnotes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md" gap="md">
+        <strong>Fieldnotes</strong>
+        <nav>
+          <ui-row gap="md">
+            <a href="#">Articles</a>
+            <a href="#">About</a>
+            <a href="#">RSS</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="md">
+        <article>
+          <ui-stack gap="lg">
+            <ui-stack gap="md">
+              <ui-row wrap gap="sm">
+                <a href="#">Performance</a>
+                <span>·</span>
+                <span>9 min read</span>
+              </ui-row>
+              <h1>The Quiet Cost of Layout Shift: Building Pages That Hold Still</h1>
+              <p>Content that jumps while you read is more than an annoyance. It costs clicks, trust and sometimes money. These are the habits that keep a page still from the first paint onward.</p>
+              <ui-row gap="sm">
+                <img src="https://picsum.photos/seed/maya-author/96/96" alt="Portrait of Maya Okafor" width="48" height="48" style="border-radius: 999px; object-fit: cover;">
+                <ui-stack gap="0">
+                  <strong>Maya Okafor</strong>
+                  <small>Staff Frontend Engineer · <time datetime="2026-11-18">November 18, 2026</time></small>
+                </ui-stack>
+              </ui-row>
+            </ui-stack>
+
+            <figure>
+              <ui-stack gap="sm">
+                <div style="aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--ui-radius-lg);">
+                  <img src="https://picsum.photos/seed/still-layout/1280/720" alt="A quiet mountain lake at dawn reflecting the treeline" width="1280" height="720" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+                <figcaption><small>Still water: the goal for every page we ship. Photo via Picsum.</small></figcaption>
+              </ui-stack>
+            </figure>
+
+            <p>Last spring our checkout team noticed something odd in the analytics: a small but stubborn share of users were tapping "Remove item" when they clearly meant to tap "Continue". Session replays told the story within an hour. A promotional banner loaded late, pushed the cart down by 64 pixels, and placed the wrong button under a thumb already on its way to the screen.</p>
+            <p>Nobody had written a bug. Every component worked in isolation. The problem lived in the space <em>between</em> components, in the timing of when each one learned how big it was going to be.</p>
+
+            <h2>Why layout shift happens</h2>
+            <p>The browser lays out a page with whatever it knows at the moment. If an image has no intrinsic size, it gets zero height until the bytes arrive. If a web font has different metrics than its fallback, every line of text reflows when it swaps in. If a script injects a banner above existing content, everything below it moves.</p>
+            <p>Each of these is reasonable on its own. Together, on a slow connection, they turn the first five seconds of a page into a slide puzzle.</p>
+            <ul>
+              <li><strong>Unsized media:</strong> images, iframes and videos without dimensions or an aspect ratio.</li>
+              <li><strong>Late-injected content:</strong> ads, cookie banners, "you might also like" modules.</li>
+              <li><strong>Font swaps:</strong> fallback and web font with mismatched ascent, descent or width.</li>
+              <li><strong>Animations on layout properties:</strong> transitioning <code>height</code> or <code>top</code> instead of <code>transform</code>.</li>
+            </ul>
+
+            <blockquote>
+              <p>“A page that holds still is a page that respects the reader’s attention. Every shift is a small interruption you didn’t mean to make.”</p>
+            </blockquote>
+
+            <h2>Reserve space before you need it</h2>
+            <p>The single highest-leverage fix is telling the browser how big things will be before they load. For images this is as simple as including <code>width</code> and <code>height</code> attributes. Modern browsers use them to compute an aspect ratio immediately, even when CSS later scales the image.</p>
+            <p>For content whose size you can't know in advance, like a personalized recommendation strip, reserve a minimum height and let the content fill it. A slightly-too-tall placeholder is far less disruptive than a jump.</p>
+
+            <h3>Measuring it in the field</h3>
+            <p>Lab tools catch the obvious cases, but real users on real networks find the rest. We log every shift with its source element so we can tell which component caused it:</p>
+
+            <div style="overflow-x: auto;">
+<pre><code>// Report layout shifts with the element that moved
+const observer = new PerformanceObserver((list) =&gt; {
+  for (const entry of list.getEntries()) {
+    if (entry.hadRecentInput) continue; // user-caused, ignore
+
+    const sources = entry.sources?.map((s) =&gt; ({
+      node: s.node?.nodeName ?? "unknown",
+      id: s.node?.id || null,
+      delta: s.currentRect.y - s.previousRect.y,
+    }));
+
+    navigator.sendBeacon("/rum/cls", JSON.stringify({
+      value: entry.value,
+      page: location.pathname,
+      sources,
+    }));
+  }
+});
+
+observer.observe({ type: "layout-shift", buffered: true });</code></pre>
+            </div>
+
+            <p>Within a week this surfaced three culprits we had never seen in testing: a currency selector that rendered after geolocation resolved, a review-stars widget, and the very promo banner that started it all.</p>
+
+            <h2>Tame your fonts</h2>
+            <p>Font swaps are the sneakiest source of shift because they touch every line of text. The fix is to make the fallback look as much like the final font as possible. The <code>size-adjust</code>, <code>ascent-override</code> and <code>descent-override</code> descriptors let you tune a local fallback so that when the web font arrives, line breaks stay exactly where they were.</p>
+            <p>If a font isn't critical to the brand, consider <code>font-display: optional</code>. On a fast connection users get the web font; on a slow one they keep the fallback and nothing moves.</p>
+
+            <h2>Make it part of the definition of done</h2>
+            <p>Our final change was cultural rather than technical. Every new component now ships with a note describing its loading states: what it renders before data arrives and how big that is. Reviewers check it the same way they check accessibility labels.</p>
+            <p>Six months on, our 75th-percentile CLS sits comfortably under 0.05, and the mysterious "Remove item" taps are gone. The page holds still. It turns out readers notice, even if they can't say why.</p>
+
+            <hr>
+
+            <ui-stack gap="sm">
+              <strong>Tagged</strong>
+              <ui-row wrap gap="sm">
+                <a href="#">#performance</a>
+                <a href="#">#core-web-vitals</a>
+                <a href="#">#css</a>
+                <a href="#">#web-fonts</a>
+                <a href="#">#ux</a>
+                <a href="#">#monitoring</a>
+              </ui-row>
+            </ui-stack>
+
+            <ui-card sunken>
+              <ui-row gap="md" align="start">
+                <img src="https://picsum.photos/seed/maya-author/128/128" alt="Portrait of Maya Okafor" width="64" height="64" style="border-radius: 999px; object-fit: cover;">
+                <ui-stack gap="xs" grow>
+                  <strong>Written by Maya Okafor</strong>
+                  <p>Maya builds storefronts that load fast on slow phones. She writes about performance, CSS and the parts of the web nobody notices until they break.</p>
+                  <ui-row wrap gap="sm">
+                    <ui-button size="sm" variant="outline">Follow</ui-button>
+                    <ui-button size="sm" variant="ghost">More articles</ui-button>
+                  </ui-row>
+                </ui-stack>
+              </ui-row>
+            </ui-card>
+          </ui-stack>
+        </article>
+
+        <section aria-labelledby="related-heading">
+          <ui-stack gap="md">
+            <ui-row justify="space-between">
+              <h2 id="related-heading">Related posts</h2>
+              <a href="#">View all</a>
+            </ui-row>
+            <ui-row scroll item-width="md" gap="md">
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/rel-fonts/640/360" alt="Printed letterforms on a desk" width="640" height="360" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>CSS · 6 min</small>
+                  <h3><a href="#">Fallback Fonts That Fit</a></h3>
+                  <p>Tuning size-adjust so the swap is invisible.</p>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/rel-images/640/360" alt="A camera lens on a wooden table" width="640" height="360" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>Performance · 8 min</small>
+                  <h3><a href="#">Responsive Images Without Regret</a></h3>
+                  <p>srcset, sizes and the bytes you never needed.</p>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/rel-rum/640/360" alt="City traffic at night with light trails" width="640" height="360" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>Monitoring · 11 min</small>
+                  <h3><a href="#">Real User Monitoring on a Budget</a></h3>
+                  <p>Collecting Web Vitals with a 2 KB script.</p>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/rel-motion/640/360" alt="Blurred motion of a cyclist" width="640" height="360" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>Animation · 5 min</small>
+                  <h3><a href="#">Animate Transforms, Not Layout</a></h3>
+                  <p>Smooth motion that never pushes content around.</p>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/rel-checkout/640/360" alt="Shopping bags on a counter" width="640" height="360" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>UX · 7 min</small>
+                  <h3><a href="#">Designing Checkout for Thumbs</a></h3>
+                  <p>Lessons from a year of mobile session replays.</p>
+                </ui-stack>
+              </ui-card>
+            </ui-row>
+          </ui-stack>
+        </section>
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-row wrap justify="space-between" padding="md" gap="md">
+        <small>© 2026 Fieldnotes. Written by people who ship.</small>
+        <ui-row gap="md">
+          <a href="#">Privacy</a>
+          <a href="#">Contact</a>
+        </ui-row>
+      </ui-row>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

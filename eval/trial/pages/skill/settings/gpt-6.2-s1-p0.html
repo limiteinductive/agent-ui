@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Account settings | Fieldnote</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* agent-ui has no avatar shape, switch track, or responsive dialog width. */
+    .avatar {
+      border-radius: var(--ui-radius-full, 999px);
+      object-fit: cover;
+    }
+
+    input.preference-switch {
+      appearance: none;
+      position: relative;
+      flex: none;
+      box-sizing: border-box;
+      inline-size: 3.25rem;
+      block-size: 1.75rem;
+      margin: 0;
+      padding: 0;
+      border: 1px solid var(--ui-ink-muted, GrayText);
+      border-radius: var(--ui-radius-full, 999px);
+      background: var(--ui-surface, Canvas);
+      cursor: pointer;
+    }
+
+    input.preference-switch::before {
+      content: "";
+      position: absolute;
+      inset-block-start: 0.1875rem;
+      inset-inline-start: 0.1875rem;
+      inline-size: 1.25rem;
+      block-size: 1.25rem;
+      border-radius: 50%;
+      background: var(--ui-ink-muted, GrayText);
+    }
+
+    input.preference-switch:checked {
+      border-color: var(--ui-primary, Highlight);
+      background: var(--ui-primary, Highlight);
+    }
+
+    input.preference-switch:checked::before {
+      inset-inline-start: auto;
+      inset-inline-end: 0.1875rem;
+      background: var(--ui-surface, HighlightText);
+    }
+
+    input.preference-switch:focus-visible {
+      outline: 2px solid var(--ui-primary, Highlight);
+      outline-offset: 3px;
+    }
+
+    @media (forced-colors: active) {
+      input.preference-switch::before {
+        background: CanvasText;
+      }
+    }
+
+    #delete-dialog {
+      box-sizing: border-box;
+      max-inline-size: min(28rem, calc(100% - 2rem));
+    }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-stack padding="md" gap="0">
+          <strong>Fieldnote</strong>
+        </ui-stack>
+        <hr>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container>
+        <div id="settings">
+          <ui-stack padding="md" gap="xl">
+            <ui-stack gap="xs">
+              <h1>Account settings</h1>
+              <p>Manage your profile, email preferences, and subscription.</p>
+            </ui-stack>
+
+            <nav aria-label="Settings sections">
+              <ui-row gap="md" wrap>
+                <a href="#profile">Profile</a>
+                <a href="#notifications">Notifications</a>
+                <a href="#billing">Billing</a>
+                <a href="#danger">Danger zone</a>
+              </ui-row>
+            </nav>
+
+            <ui-row stack-below="49rem" align="start" gap="lg">
+              <ui-stack gap="lg">
+                <section id="profile" aria-labelledby="profile-heading">
+                  <ui-card rounded="xl" padding="lg" gap="lg">
+                    <ui-stack gap="xs">
+                      <h2 id="profile-heading">Profile</h2>
+                      <p>Update the details associated with your account.</p>
+                    </ui-stack>
+
+                    <form id="profile-form">
+                      <ui-stack gap="lg">
+                        <ui-card sunken rounded="lg" padding="md">
+                          <ui-row wrap gap="md">
+                            <img
+                              class="avatar"
+                              id="avatar"
+                              src="https://picsum.photos/id/64/160/160"
+                              width="64"
+                              height="64"
+                              alt="Profile photo"
+                            >
+                            <ui-stack gap="xs">
+                              <strong>Profile photo</strong>
+                              <small id="photo-hint">JPG, PNG, or WebP. Up to 2 MB.</small>
+                              <ui-row wrap>
+                                <ui-button id="choose-photo" variant="outline" size="sm" aria-describedby="photo-hint">Change photo</ui-button>
+                              </ui-row>
+                            </ui-stack>
+                          </ui-row>
+                          <input id="photo" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Profile photo" hidden>
+                          <div id="photo-status" role="status" hidden></div>
+                        </ui-card>
+
+                        <ui-row stack-below="28rem" align="stretch" gap="md">
+                          <label>
+                            Full name
+                            <input id="name" name="name" autocomplete="name" value="Maya Chen" maxlength="80" required>
+                          </label>
+                          <label>
+                            Email address
+                            <input id="email" name="email" type="email" autocomplete="email" value="maya.chen@example.com" maxlength="254" required>
+                          </label>
+                        </ui-row>
+
+                        <label>
+                          Bio
+                          <textarea id="bio" name="bio" rows="4" maxlength="280" aria-describedby="bio-hint">Product designer in Portland. Usually sketching, hiking, or looking for a good coffee shop.</textarea>
+                        </label>
+                        <small id="bio-hint">Up to 280 characters.</small>
+
+                        <ui-row gap="sm" wrap>
+                          <ui-button id="save-profile" type="submit" variant="primary">Save profile</ui-button>
+                          <div id="profile-status" role="status"></div>
+                        </ui-row>
+                      </ui-stack>
+                    </form>
+                  </ui-card>
+                </section>
+
+                <section id="danger" aria-labelledby="danger-heading">
+                  <ui-card variant="danger" rounded="xl" padding="lg" gap="md">
+                    <ui-stack gap="xs">
+                      <h2 id="danger-heading">Danger zone</h2>
+                      <p>Delete this demo account and its saved profile and preferences from this browser.</p>
+                    </ui-stack>
+                    <ui-row wrap>
+                      <ui-button id="open-delete" variant="danger">Delete account</ui-button>
+                    </ui-row>
+                  </ui-card>
+                </section>
+              </ui-stack>
+
+              <ui-stack gap="lg">
+                <section id="notifications" aria-labelledby="notifications-heading">
+                  <ui-card rounded="xl" padding="lg" gap="md">
+                    <ui-stack gap="xs">
+                      <h2 id="notifications-heading">Notifications</h2>
+                      <p>Choose which emails you’d like to receive.</p>
+                    </ui-stack>
+                    <hr>
+                    <ui-row gap="md">
+                      <ui-stack gap="xs" grow>
+                        <label for="activity"><strong>Workspace activity</strong></label>
+                        <small id="activity-hint">Mentions and replies to your notes.</small>
+                      </ui-stack>
+                      <input id="activity" class="preference-switch" type="checkbox" role="switch" aria-describedby="activity-hint" checked>
+                    </ui-row>
+                    <hr>
+                    <ui-row gap="md">
+                      <ui-stack gap="xs" grow>
+                        <label for="digest"><strong>Weekly digest</strong></label>
+                        <small id="digest-hint">A roundup of activity from the past week.</small>
+                      </ui-stack>
+                      <input id="digest" class="preference-switch" type="checkbox" role="switch" aria-describedby="digest-hint" checked>
+                    </ui-row>
+                    <hr>
+                    <ui-row gap="md">
+                      <ui-stack gap="xs" grow>
+                        <label for="updates"><strong>Product updates</strong></label>
+                        <small id="updates-hint">New features and tips from Fieldnote.</small>
+                      </ui-stack>
+                      <input id="updates" class="preference-switch" type="checkbox" role="switch" aria-describedby="updates-hint">
+                    </ui-row>
+                    <div id="notification-status" role="status"></div>
+                  </ui-card>
+                </section>
+
+                <section id="billing" aria-labelledby="billing-heading">
+                  <ui-card rounded="xl" padding="lg" gap="md">
+                    <h2 id="billing-heading">Billing</h2>
+                    <ui-card variant="primary" rounded="lg" padding="md">
+                      <ui-row wrap justify="space-between" align="center">
+                        <ui-stack gap="xs">
+                          <small>Current plan</small>
+                          <h3>Fieldnote Plus</h3>
+                        </ui-stack>
+                        <span><strong>$12.00</strong> / month</span>
+                      </ui-row>
+                    </ui-card>
+                    <ui-row wrap justify="space-between" gap="sm">
+                      <span>Next billing date</span>
+                      <time datetime="2026-12-12">December 12, 2026</time>
+                    </ui-row>
+                    <ui-row wrap justify="space-between" gap="sm">
+                      <span>Payment method</span>
+                      <span>Visa ending in 4242</span>
+                    </ui-row>
+                  </ui-card>
+                </section>
+              </ui-stack>
+            </ui-row>
+
+            <footer><small>Demo account. Changes are saved in this browser.</small></footer>
+          </ui-stack>
+        </div>
+
+        <div id="deleted" hidden>
+          <ui-stack padding="md" gap="sm">
+            <h1 id="deleted-heading" tabindex="-1">Account deleted</h1>
+            <p>Your saved profile and notification preferences have been cleared from this browser.</p>
+          </ui-stack>
+        </div>
+      </ui-container>
+    </main>
+
+    <dialog id="delete-dialog" aria-labelledby="delete-heading" aria-describedby="delete-description">
+      <ui-stack padding="sm" gap="md">
+        <h2 id="delete-heading">Delete your account?</h2>
+        <p id="delete-description">This will permanently clear the profile and preferences saved for this demo account in this browser.</p>
+        <div id="delete-status" role="status"></div>
+        <ui-row wrap gap="sm" justify="end">
+          <ui-button id="cancel-delete" variant="outline" autofocus>Cancel</ui-button>
+          <ui-button id="confirm-delete" variant="danger">Delete account</ui-button>
+        </ui-row>
+      </ui-stack>
+    </dialog>
+  </ui-page>
+
+  <script>
+    (() => {
+      const storageKey = "fieldnote.account-settings.v1";
+      const get = (id) => document.getElementById(id);
+      const profileForm = get("profile-form");
+      const profileFields = ["name", "email", "bio"];
+      const switches = ["activity", "digest", "updates"].map(get);
+      const photoInput = get("photo");
+      const photoStatus = get("photo-status");
+      const profileStatus = get("profile-status");
+      const saveButton = get("save-profile");
+      const avatar = get("avatar");
+      const dialog = get("delete-dialog");
+
+      let settings = {
+        profile: Object.fromEntries(profileFields.map((id) => [id, get(id).value])),
+        notifications: Object.fromEntries(switches.map((control) => [control.id, control.checked]))
+      };
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        if (saved?.deleted || (saved?.profile && saved?.notifications)) {
+          settings = saved;
+        }
+      } catch {
+        // The defaults are usable when browser storage is unavailable.
+      }
+
+      function showDeleted() {
+        get("settings").hidden = true;
+        get("deleted").hidden = false;
+        get("deleted-heading").focus();
+      }
+
+      if (settings.deleted) {
+        showDeleted();
+        return;
+      }
+
+      let pendingPhoto = settings.profile.photo || "";
+      if (pendingPhoto) avatar.src = pendingPhoto;
+
+      for (const id of profileFields) get(id).value = settings.profile[id];
+      for (const control of switches) control.checked = settings.notifications[control.id];
+
+      function save(nextSettings) {
+        localStorage.setItem(storageKey, JSON.stringify(nextSettings));
+        settings = nextSettings;
+      }
+
+      get("choose-photo").addEventListener("click", () => photoInput.click());
+
+      let photoSelection = 0;
+      photoInput.addEventListener("change", () => {
+        const file = photoInput.files[0];
+        if (!file) return;
+        const selection = ++photoSelection;
+        photoInput.value = "";
+        photoStatus.hidden = false;
+        profileStatus.textContent = "";
+
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+        if (!allowedTypes.includes(file.type) || file.size > 2_000_000) {
+          saveButton.removeAttribute("disabled");
+          photoStatus.textContent = "Choose a JPG, PNG, or WebP image up to 2 MB.";
+          return;
+        }
+
+        saveButton.setAttribute("disabled", "");
+        photoStatus.textContent = "Loading photo…";
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          const preview = new Image();
+          preview.addEventListener("load", () => {
+            if (selection !== photoSelection) return;
+            pendingPhoto = reader.result;
+            avatar.src = pendingPhoto;
+            photoStatus.textContent = "Photo ready. Save your profile to keep it.";
+            saveButton.removeAttribute("disabled");
+          });
+          preview.addEventListener("error", showPhotoError);
+          preview.src = reader.result;
+        });
+        reader.addEventListener("error", showPhotoError);
+        reader.readAsDataURL(file);
+
+        function showPhotoError() {
+          if (selection !== photoSelection) return;
+          photoStatus.textContent = "This image couldn’t be opened. Choose another photo.";
+          saveButton.removeAttribute("disabled");
+        }
+      });
+
+      profileForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (saveButton.hasAttribute("disabled")) return;
+        const name = get("name").value.trim();
+        if (!name) {
+          profileStatus.textContent = "Enter your full name.";
+          get("name").focus();
+          return;
+        }
+
+        try {
+          save({
+            ...settings,
+            profile: {
+              name,
+              email: get("email").value.trim(),
+              bio: get("bio").value.trim(),
+              photo: pendingPhoto
+            }
+          });
+          for (const id of profileFields) get(id).value = settings.profile[id];
+          photoStatus.hidden = true;
+          profileStatus.textContent = "Profile saved.";
+        } catch {
+          profileStatus.textContent = "Couldn’t save your profile in this browser.";
+        }
+      });
+
+      for (const control of switches) {
+        control.addEventListener("change", () => {
+          const status = get("notification-status");
+          const label = control.labels[0].textContent.trim();
+          try {
+            save({
+              ...settings,
+              notifications: { ...settings.notifications, [control.id]: control.checked }
+            });
+            status.textContent = `${label} turned ${control.checked ? "on" : "off"}.`;
+          } catch {
+            control.checked = settings.notifications[control.id];
+            status.textContent = "Couldn’t save your notification preference.";
+          }
+        });
+      }
+
+      get("open-delete").addEventListener("click", () => {
+        get("delete-status").textContent = "";
+        dialog.showModal();
+        get("cancel-delete").focus();
+      });
+      get("cancel-delete").addEventListener("click", () => dialog.close());
+      get("confirm-delete").addEventListener("click", () => {
+        try {
+          save({ deleted: true });
+          dialog.close();
+          showDeleted();
+          get("settings").remove();
+        } catch {
+          get("delete-status").textContent = "Couldn’t delete the saved account in this browser.";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

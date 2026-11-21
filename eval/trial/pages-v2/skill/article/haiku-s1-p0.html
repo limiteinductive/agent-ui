@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing Offline-First Web Apps Without the Pain</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" padding="md">
+          <strong>Field Notes</strong>
+          <nav>
+            <ui-row gap="md">
+              <a href="#">Articles</a>
+              <a href="#">Series</a>
+              <a href="#">About</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="md">
+        <article>
+          <ui-stack gap="lg" padding="md">
+
+            <ui-stack gap="sm">
+              <p><a href="#">Engineering</a></p>
+              <h1>Designing Offline-First Web Apps Without the Pain</h1>
+              <p>A practical guide to local-first data, sync conflicts, and the small decisions that make a web app keep working when the network does not.</p>
+            </ui-stack>
+
+            <ui-row gap="sm">
+              <img src="https://picsum.photos/seed/author-mira/96/96" alt="Portrait of Mira Okafor" width="48" height="48" loading="lazy">
+              <ui-stack gap="xs">
+                <strong>Mira Okafor</strong>
+                <small>Staff Engineer · <time datetime="2026-11-14">November 14, 2026</time> · 9 min read</small>
+              </ui-stack>
+            </ui-row>
+
+            <figure>
+              <img src="https://picsum.photos/seed/offline-cover/1200/630" alt="Abstract landscape of rolling hills under a pale sky" loading="eager">
+              <figcaption>Local data should feel like the default, not a fallback.</figcaption>
+            </figure>
+
+            <p>Most web applications are built on an unspoken assumption: the server is reachable, and the user is one request away from their data. That assumption holds in an office on fiber. It stops holding on a train, in an elevator, or on a conference Wi-Fi network that drops every few minutes. When it breaks, the app usually fails in the same few ways: a spinner that never resolves, a form that clears itself after submission, or a list that quietly shows stale results.</p>
+
+            <p>Offline-first is a different starting point. Instead of treating local storage as a cache that sometimes helps, you treat the device as a first-class replica of the data. The interface reads and writes locally, and synchronization becomes a background concern that runs when a connection is available. The shift sounds small, but it changes almost every decision downstream.</p>
+
+            <h2>Start with the local source of truth</h2>
+
+            <p>The first decision is where the authoritative copy of your data lives while the user is working. For most apps, that means an embedded database in the browser, such as IndexedDB wrapped by a small query layer. Reads come from that store, so the UI never waits on a network round trip to show something the user already created.</p>
+
+            <p>Writes follow the same pattern. When a user saves a note, the app records the change locally with a stable identifier and a timestamp, then marks it as pending. The interface updates immediately. A separate sync loop picks up pending changes and sends them to the server when it can.</p>
+
+            <blockquote>
+              <p>If the user can see it, the device should be able to change it, even when the server cannot be reached.</p>
+            </blockquote>
+
+            <h2>Make writes idempotent</h2>
+
+            <p>Retries are unavoidable. A request can reach the server, succeed, and still lose its response on the way back. If the client retries blindly, the server may apply the same change twice. The fix is to give every mutation a client-generated identifier and have the server treat repeated identifiers as no-ops.</p>
+
+            <p>A small retry helper with exponential backoff covers most transient failures. Keep the delay bounded, add jitter so many clients do not retry in lockstep, and stop retrying on errors that a retry cannot fix.</p>
+
+            <pre><code>async function sendWithRetry(op, attempts = 5) {
+  for (let i = 0; i &lt; attempts; i++) {
+    try {
+      const res = await fetch("/api/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(op),
+      });
+      if (res.ok) return await res.json();
+      if (res.status &lt; 500) throw new Error(res.status);
+    } catch (err) {
+      if (i === attempts - 1) throw err;
+    }
+    const jitter = Math.random() * 250;
+    await new Promise((r) =&gt; setTimeout(r, 2 ** i * 300 + jitter));
+  }
+}</code></pre>
+
+            <h3>Choose a retry policy you can explain</h3>
+
+            <p>Teams often add retries with no clear rule about which errors deserve another attempt. Write the rule down. Network failures and server errors in the 5xx range are usually worth retrying. Client errors such as validation failures are not, and retrying them only delays the moment someone notices the bug.</p>
+
+            <h2>Resolve conflicts on purpose</h2>
+
+            <p>Once two devices can edit the same record while disconnected, conflicts are inevitable. The question is not whether they happen but what the system does when they do. Last-write-wins is simple and sometimes correct, but it silently discards edits. For structured data, field-level merges preserve more intent. For free text, some teams keep both versions and ask the user to reconcile.</p>
+
+            <p>Whatever strategy you pick, surface it. A user who sees "This note was changed on another device. Review changes" can recover. A user who loses a paragraph without knowing it will stop trusting the app.</p>
+
+            <h2>Tell the user what is happening</h2>
+
+            <p>Offline support fails quietly when the interface hides sync state. Show whether a change is saved locally, queued, or confirmed by the server. A small indicator next to each item is often enough. Avoid blocking the entire screen for a background operation, because that undoes the benefit of working locally in the first place.</p>
+
+            <p>Finally, test the unhappy paths on purpose. Throttle the network in developer tools, go offline in the middle of a save, and reload the page with a queue of pending writes. Those scenarios reveal the bugs that a happy-path demo never will.</p>
+
+            <ui-row wrap gap="sm" padding="xs">
+              <a href="#">#offline</a>
+              <a href="#">#indexeddb</a>
+              <a href="#">#sync</a>
+              <a href="#">#architecture</a>
+              <a href="#">#web-platform</a>
+            </ui-row>
+
+            <ui-stack gap="md">
+              <h2>Related posts</h2>
+              <ui-row scroll item-width="md" gap="md">
+                <ui-card elevated padding="md" gap="sm">
+                  <img src="https://picsum.photos/seed/rel-sync/448/252" alt="Two devices connected by a line" width="224" height="126" loading="lazy">
+                  <h3>Sync Protocols Compared</h3>
+                  <p>Polling, push, and CRDTs, and when each one earns its complexity.</p>
+                  <a href="#">Read more</a>
+                </ui-card>
+                <ui-card elevated padding="md" gap="sm">
+                  <img src="https://picsum.photos/seed/rel-cache/448/252" alt="Stacked layers of paper" width="224" height="126" loading="lazy">
+                  <h3>Caching Without Stale Data</h3>
+                  <p>Cache invalidation strategies that respect what the user just changed.</p>
+                  <a href="#">Read more</a>
+                </ui-card>
+                <ui-card elevated padding="md" gap="sm">
+                  <img src="https://picsum.photos/seed/rel-sw/448/252" alt="Abstract grid of blue squares" width="224" height="126" loading="lazy">
+                  <h3>Service Workers in Practice</h3>
+                  <p>Lifecycle pitfalls, update prompts, and safe precaching.</p>
+                  <a href="#">Read more</a>
+                </ui-card>
+                <ui-card elevated padding="md" gap="sm">
+                  <img src="https://picsum.photos/seed/rel-merge/448/252" alt="Two colored paths merging into one" width="224" height="126" loading="lazy">
+                  <h3>Merging Edits Field by Field</h3>
+                  <p>A small library pattern for merging structured records safely.</p>
+                  <a href="#">Read more</a>
+                </ui-card>
+                <ui-card elevated padding="md" gap="sm">
+                  <img src="https://picsum.photos/seed/rel-test/448/252" alt="Network signal icon on a dark background" width="224" height="126" loading="lazy">
+                  <h3>Testing Flaky Networks</h3>
+                  <p>Simulating dropped connections in CI without flaky tests.</p>
+                  <a href="#">Read more</a>
+                </ui-card>
+              </ui-row>
+            </ui-stack>
+
+          </ui-stack>
+        </article>
+      </ui-container>
+    </main>
+  </ui-page>
+</body>
+</html>

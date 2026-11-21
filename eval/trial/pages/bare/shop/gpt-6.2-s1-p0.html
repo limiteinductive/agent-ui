@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf9f6">
+  <title>All Shoes | Mile & Main</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Viewport-specific layout and image sizing. */
+    .shell {
+      display: block;
+      inline-size: min(calc(100% - 2rem), 75rem);
+      margin-inline: auto;
+    }
+
+    #filters {
+      display: grid;
+      gap: 1rem;
+      align-items: end;
+    }
+
+    #filters > *, #products > * {
+      min-inline-size: 0;
+    }
+
+    #size-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .375rem;
+    }
+
+    #max-price, #sort {
+      inline-size: 100%;
+      box-sizing: border-box;
+    }
+
+    #products {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .75rem;
+    }
+
+    #products ui-card {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .product-image {
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .product-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-inline-size: 0;
+    }
+
+    .product-body button {
+      inline-size: 100%;
+    }
+
+    .product-body .buy-row {
+      margin-block-start: auto;
+    }
+
+    dialog {
+      max-inline-size: min(28rem, calc(100% - 2rem));
+      max-block-size: calc(100dvh - 2rem);
+      box-sizing: border-box;
+      overflow: auto;
+    }
+
+    @media (min-width: 40rem) {
+      #filters {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #size-filter {
+        grid-column: 1 / -1;
+      }
+
+      #products {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+      }
+    }
+
+    @media (min-width: 64rem) {
+      .shell {
+        inline-size: min(calc(100% - 4rem), 75rem);
+      }
+
+      #filters {
+        grid-template-columns: 2fr 1fr 1fr;
+      }
+
+      #size-filter {
+        grid-column: auto;
+      }
+
+      #products {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <ui-container class="shell">
+      <ui-stack direction="row" align="center" justify="space-between" gap="md" padding-block="md">
+        <a href="./"><strong>Mile &amp; Main</strong></a>
+        <button id="open-cart" type="button" aria-haspopup="dialog">
+          Cart <span id="cart-count" aria-live="polite">(0)</span>
+        </button>
+      </ui-stack>
+    </ui-container>
+  </header>
+
+  <main class="shell">
+    <ui-stack gap="lg" padding-block="lg">
+      <h1>All shoes</h1>
+
+      <ui-card padding="md">
+        <form id="filters" aria-label="Filter shoes">
+          <ui-stack id="size-filter" gap="xs">
+            <strong id="size-label">US shoe size</strong>
+            <div id="size-chips" role="group" aria-labelledby="size-label"></div>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <label for="max-price">Max price <output id="price-value" for="max-price">$250</output></label>
+            <input id="max-price" type="range" min="60" max="250" value="250" step="5">
+          </ui-stack>
+          <ui-stack gap="xs">
+            <label for="sort">Sort by</label>
+            <select id="sort">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price, low to high</option>
+              <option value="price-desc">Price, high to low</option>
+              <option value="name">Name, A to Z</option>
+            </select>
+          </ui-stack>
+        </form>
+      </ui-card>
+
+      <section aria-labelledby="results-heading">
+        <ui-stack gap="md">
+          <h2 id="results-heading" tabindex="-1">Shop shoes</h2>
+          <div id="result-count" role="status"></div>
+          <ui-grid id="products" gap="md"></ui-grid>
+          <nav id="page-nav" aria-label="Product pages">
+            <ui-stack id="pagination" direction="row" align="center" justify="center" wrap gap="sm"></ui-stack>
+          </nav>
+        </ui-stack>
+      </section>
+    </ui-stack>
+  </main>
+
+  <dialog id="size-dialog" aria-labelledby="size-dialog-title">
+    <form id="add-form">
+      <ui-stack gap="md">
+        <h2 id="size-dialog-title">Choose a size</h2>
+        <p id="selected-shoe"></p>
+        <ui-stack gap="xs">
+          <label for="shoe-size">US shoe size</label>
+          <select id="shoe-size" required></select>
+        </ui-stack>
+        <ui-stack direction="row" wrap gap="sm">
+          <button type="submit" data-variant="primary">Add to cart</button>
+          <button id="cancel-size" type="button">Cancel</button>
+        </ui-stack>
+      </ui-stack>
+    </form>
+  </dialog>
+
+  <dialog id="cart-dialog" aria-labelledby="cart-title">
+    <ui-stack gap="md">
+      <ui-stack direction="row" align="center" justify="space-between" gap="md">
+        <h2 id="cart-title">Your cart</h2>
+        <form method="dialog">
+          <button type="submit">Close</button>
+        </form>
+      </ui-stack>
+      <div id="cart-items"></div>
+      <p><strong>Subtotal <span id="cart-total">$0</span></strong></p>
+    </ui-stack>
+  </dialog>
+
+  <script>
+    const catalog = [
+      ["Presidio Runner", "Chalk / pine", 115, [7, 8, 9, 10, 11, 12]],
+      ["Marina Court Low", "White / gum", 90, [6, 7, 8, 9, 10, 11]],
+      ["Sierra Trail GTX", "Slate / moss", 165, [8, 9, 10, 11, 12]],
+      ["Clement Canvas", "Natural", 65, [6, 7, 8, 9, 10, 11, 12]],
+      ["Sunset Suede", "Sandstone", 125, [6, 7, 8, 9, 10]],
+      ["Pacific Knit", "Ink blue", 105, [7, 8, 9, 10, 11, 12]],
+      ["Mission High Top", "Black / cream", 110, [7, 8, 9, 10, 11]],
+      ["Redwood Hiker", "Tobacco", 185, [8, 9, 10, 11, 12]],
+      ["Richmond Trainer", "Fog / navy", 95, [6, 7, 8, 9, 10]],
+      ["Point Reyes Slip-On", "Olive", 80, [6, 7, 8, 9, 10, 11]],
+      ["Embarcadero Derby", "Espresso", 175, [8, 9, 10, 11, 12]],
+      ["Noe Ballet Flat", "Oxblood", 120, [6, 7, 8, 9, 10]],
+      ["Laguna Cross Trainer", "Bone / clay", 115, [6, 7, 8, 9, 10]],
+      ["Bayview Chelsea", "Black", 195, [7, 8, 9, 10, 11, 12]],
+      ["Monterey Deck Shoe", "Tan / ecru", 100, [7, 8, 9, 10, 11, 12]],
+      ["Tamalpais Mid", "Charcoal", 150, [8, 9, 10, 11, 12]],
+      ["Juniper Court", "Cream / rust", 95, [6, 7, 8, 9, 10, 11]],
+      ["Cypress Loafer", "Dark brown", 155, [7, 8, 9, 10, 11]],
+      ["Fort Point Runner", "Silver / cobalt", 130, [6, 7, 8, 9, 10, 11, 12]],
+      ["Valencia Sandal", "Cognac", 85, [6, 7, 8, 9, 10]],
+      ["Ocean Beach Clog", "Mushroom", 110, [6, 7, 8, 9, 10, 11]],
+      ["Seacliff Leather Sneaker", "Off-white", 140, [7, 8, 9, 10, 11, 12]],
+      ["Sonoma Chukka", "Dark olive", 160, [7, 8, 9, 10, 11, 12]],
+      ["Marin Service Boot", "Black leather", 235, [8, 9, 10, 11, 12]]
+    ].map(([name, color, price, sizes], index) => ({
+      id: index + 1, name, color, price, sizes
+    }));
+
+    const pageSize = 12;
+    const money = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0
+    });
+    const byId = (id) => document.getElementById(id);
+    const filters = byId("filters");
+    const sizeChips = byId("size-chips");
+    const priceInput = byId("max-price");
+    const sortInput = byId("sort");
+    const products = byId("products");
+    const pagination = byId("pagination");
+    const sizeDialog = byId("size-dialog");
+    const sizeSelect = byId("shoe-size");
+    const cartDialog = byId("cart-dialog");
+    const cartItems = byId("cart-items");
+    const cart = new Map();
+    let selectedSize = "";
+    let selectedProduct;
+    let page = 1;
+
+    const sorters = {
+      featured: (a, b) => a.id - b.id,
+      "price-asc": (a, b) => a.price - b.price,
+      "price-desc": (a, b) => b.price - a.price,
+      name: (a, b) => a.name.localeCompare(b.name)
+    };
+
+    for (const size of ["", 6, 7, 8, 9, 10, 11, 12]) {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.dataset.size = size;
+      chip.textContent = size || "All";
+      chip.setAttribute("aria-pressed", String(size === ""));
+      sizeChips.append(chip);
+    }
+
+    function renderCatalog() {
+      const maxPrice = Number(priceInput.value);
+      byId("price-value").value = money.format(maxPrice);
+      const matches = catalog.filter((shoe) =>
+        shoe.price <= maxPrice && (!selectedSize || shoe.sizes.includes(Number(selectedSize)))
+      ).sort(sorters[sortInput.value]);
+
+      const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
+      page = Math.min(page, pageCount);
+      const start = (page - 1) * pageSize;
+      const visible = matches.slice(start, start + pageSize);
+
+      byId("result-count").textContent = matches.length
+        ? `Showing ${start + 1}–${start + visible.length} of ${matches.length} shoes`
+        : "No shoes match these filters.";
+
+      products.innerHTML = visible.map((shoe, index) => `
+        <ui-card>
+          <img class="product-image" src="https://picsum.photos/seed/mile-main-${shoe.id}/640/480"
+               alt="" width="640" height="480" loading="${index < 4 ? "eager" : "lazy"}"
+               decoding="async">
+          <ui-stack class="product-body" gap="sm" padding="sm">
+            <ui-stack gap="xs">
+              <h3>${shoe.name}</h3>
+              <small>${shoe.color}</small>
+            </ui-stack>
+            <ui-stack class="buy-row" gap="sm">
+              <strong>${money.format(shoe.price)}</strong>
+              <button type="button" data-product="${shoe.id}" data-variant="primary"
+                      aria-label="Add to cart: ${shoe.name}" aria-haspopup="dialog">Add to cart</button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+      `).join("");
+
+      byId("page-nav").hidden = pageCount < 2;
+      pagination.innerHTML = pageCount < 2 ? "" : `
+        <button type="button" data-page="${page - 1}" ${page === 1 ? "disabled" : ""}>Previous</button>
+        ${Array.from({ length: pageCount }, (_, index) => {
+          const number = index + 1;
+          return `<button type="button" data-page="${number}" aria-label="Page ${number}"
+            ${number === page ? 'aria-current="page" data-variant="primary"' : ""}>${number}</button>`;
+        }).join("")}
+        <button type="button" data-page="${page + 1}" ${page === pageCount ? "disabled" : ""}>Next</button>
+      `;
+    }
+
+    sizeChips.addEventListener("click", (event) => {
+      const chip = event.target.closest("button[data-size]");
+      if (!chip) return;
+      selectedSize = chip.dataset.size;
+      for (const button of sizeChips.querySelectorAll("button")) {
+        button.setAttribute("aria-pressed", String(button === chip));
+      }
+      page = 1;
+      renderCatalog();
+    });
+
+    filters.addEventListener("submit", (event) => event.preventDefault());
+    priceInput.addEventListener("input", () => {
+      page = 1;
+      renderCatalog();
+    });
+    sortInput.addEventListener("change", () => {
+      page = 1;
+      renderCatalog();
+    });
+    pagination.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-page]");
+      if (!button || button.disabled || Number(button.dataset.page) === page) return;
+      page = Number(button.dataset.page);
+      renderCatalog();
+      byId("results-heading").focus();
+    });
+
+    products.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-product]");
+      if (!button) return;
+      selectedProduct = catalog.find((shoe) => shoe.id === Number(button.dataset.product));
+      byId("selected-shoe").textContent = `${selectedProduct.name} · ${money.format(selectedProduct.price)}`;
+      sizeSelect.replaceChildren(
+        new Option("Select a size", "", true, true),
+        ...selectedProduct.sizes.map((size) => new Option(size, size))
+      );
+      sizeSelect.options[0].disabled = true;
+      if (selectedSize) sizeSelect.value = selectedSize;
+      sizeDialog.showModal();
+    });
+
+    byId("cancel-size").addEventListener("click", () => sizeDialog.close());
+    byId("add-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const size = Number(sizeSelect.value);
+      if (!selectedProduct?.sizes.includes(size)) return;
+      const key = `${selectedProduct.id}-${size}`;
+      const quantity = (cart.get(key)?.quantity ?? 0) + 1;
+      cart.set(key, { shoe: selectedProduct, size, quantity });
+      sizeDialog.close();
+      renderCart();
+    });
+
+    function renderCart() {
+      let total = 0;
+      let itemCount = 0;
+      const rows = [];
+      for (const [key, { shoe, size, quantity }] of cart) {
+        total += shoe.price * quantity;
+        itemCount += quantity;
+        rows.push(`
+          <li>
+            <strong>${shoe.name}</strong>
+            <p>US ${size} · Qty ${quantity} · ${money.format(shoe.price * quantity)}</p>
+            <button type="button" data-remove="${key}"
+                    aria-label="Remove one ${shoe.name}, size ${size}">Remove one</button>
+          </li>
+        `);
+      }
+      cartItems.innerHTML = rows.length ? `<ul>${rows.join("")}</ul>` : "<p>Your cart is empty.</p>";
+      byId("cart-count").textContent = `(${itemCount})`;
+      byId("cart-total").textContent = money.format(total);
+    }
+
+    byId("open-cart").addEventListener("click", () => cartDialog.showModal());
+    cartItems.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-remove]");
+      if (!button) return;
+      const key = button.dataset.remove;
+      const item = cart.get(key);
+      if (item.quantity === 1) cart.delete(key);
+      else item.quantity -= 1;
+      renderCart();
+      const nextFocus = cartItems.querySelector(`[data-remove="${key}"]`)
+        || cartItems.querySelector("button")
+        || cartDialog.querySelector('form[method="dialog"] button');
+      nextFocus.focus();
+    });
+
+    renderCatalog();
+  </script>
+</body>
+</html>

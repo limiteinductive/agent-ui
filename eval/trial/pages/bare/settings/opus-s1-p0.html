@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings · Northwind</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="md">
+    <ui-stack gap="lg" padding="md">
+
+      <header>
+        <ui-stack gap="xs">
+          <h1>Account settings</h1>
+          <p>Manage your profile, notifications, billing, and account.</p>
+        </ui-stack>
+      </header>
+
+      <!-- Profile -->
+      <ui-card>
+        <form id="profile-form">
+          <ui-stack gap="md">
+            <ui-stack gap="xs">
+              <h2>Profile</h2>
+              <p>This information appears on your public profile.</p>
+            </ui-stack>
+
+            <ui-stack direction="row" gap="md" align="center" wrap>
+              <ui-avatar size="lg">
+                <img id="avatar-preview" src="https://picsum.photos/seed/maya-chen/160/160" alt="Current avatar" width="80" height="80">
+              </ui-avatar>
+              <ui-stack gap="xs">
+                <label for="avatar">Avatar</label>
+                <input id="avatar" name="avatar" type="file" accept="image/png, image/jpeg, image/webp">
+                <small>PNG, JPG or WebP. Max 2 MB.</small>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-grid columns="2" min="240px" gap="md">
+              <ui-stack gap="xs">
+                <label for="name">Full name</label>
+                <input id="name" name="name" type="text" autocomplete="name" value="Maya Chen" required>
+              </ui-stack>
+              <ui-stack gap="xs">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" value="maya.chen@example.com" required>
+              </ui-stack>
+            </ui-grid>
+
+            <ui-stack gap="xs">
+              <label for="bio">Bio</label>
+              <textarea id="bio" name="bio" rows="4" maxlength="280">Product designer at Northwind. I write about design systems, accessibility, and the occasional sourdough experiment.</textarea>
+              <small>Brief description for your profile. Up to 280 characters.</small>
+            </ui-stack>
+
+            <ui-stack direction="row" gap="sm" justify="end" wrap>
+              <button type="reset" variant="secondary">Cancel</button>
+              <button type="submit" variant="primary">Save profile</button>
+            </ui-stack>
+            <p id="profile-status" role="status" aria-live="polite"></p>
+          </ui-stack>
+        </form>
+      </ui-card>
+
+      <!-- Notifications -->
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-stack gap="xs">
+            <h2>Notifications</h2>
+            <p>Choose what we email you about.</p>
+          </ui-stack>
+
+          <ui-stack gap="md">
+            <ui-stack direction="row" gap="md" justify="between" align="center">
+              <ui-stack gap="xs">
+                <label for="n-comments"><strong>Comments &amp; mentions</strong></label>
+                <small>When someone replies to you or @mentions you.</small>
+              </ui-stack>
+              <input id="n-comments" type="checkbox" role="switch" checked>
+            </ui-stack>
+            <hr>
+            <ui-stack direction="row" gap="md" justify="between" align="center">
+              <ui-stack gap="xs">
+                <label for="n-digest"><strong>Weekly digest</strong></label>
+                <small>A Monday summary of activity in your workspaces.</small>
+              </ui-stack>
+              <input id="n-digest" type="checkbox" role="switch" checked>
+            </ui-stack>
+            <hr>
+            <ui-stack direction="row" gap="md" justify="between" align="center">
+              <ui-stack gap="xs">
+                <label for="n-security"><strong>Security alerts</strong></label>
+                <small>New sign-ins and password changes.</small>
+              </ui-stack>
+              <input id="n-security" type="checkbox" role="switch" checked>
+            </ui-stack>
+            <hr>
+            <ui-stack direction="row" gap="md" justify="between" align="center">
+              <ui-stack gap="xs">
+                <label for="n-product"><strong>Product updates</strong></label>
+                <small>New features and occasional announcements.</small>
+              </ui-stack>
+              <input id="n-product" type="checkbox" role="switch">
+            </ui-stack>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <!-- Billing -->
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-stack direction="row" gap="sm" justify="between" align="center" wrap>
+            <h2>Billing</h2>
+            <ui-badge variant="success">Active</ui-badge>
+          </ui-stack>
+
+          <ui-grid columns="3" min="160px" gap="md">
+            <ui-stack gap="xs">
+              <small>Current plan</small>
+              <strong>Pro · Annual</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Price</small>
+              <strong>$144.00 / year</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Next renewal</small>
+              <strong>March 14, 2027</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Payment method</small>
+              <strong>Visa ending 4242</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Seats</small>
+              <strong>1 of 1 used</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Storage</small>
+              <strong>18.4 GB of 100 GB</strong>
+            </ui-stack>
+          </ui-grid>
+
+          <ui-stack direction="row" gap="sm" justify="end" wrap>
+            <button type="button" variant="secondary">View invoices</button>
+            <button type="button" variant="primary">Change plan</button>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <!-- Danger zone -->
+      <ui-card variant="danger">
+        <ui-stack gap="md">
+          <ui-stack gap="xs">
+            <h2>Danger zone</h2>
+            <p>Deleting your account permanently removes your profile, workspaces, and files. This cannot be undone.</p>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <label for="confirm-delete">Type <strong>DELETE</strong> to confirm</label>
+            <input id="confirm-delete" type="text" autocomplete="off" placeholder="DELETE">
+          </ui-stack>
+          <ui-stack direction="row" justify="end">
+            <button id="delete-btn" type="button" variant="danger" disabled>Delete account</button>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+    </ui-stack>
+  </ui-container>
+
+  <script>
+    const avatarInput = document.getElementById('avatar');
+    const avatarPreview = document.getElementById('avatar-preview');
+    avatarInput.addEventListener('change', () => {
+      const file = avatarInput.files[0];
+      if (file && file.type.startsWith('image/')) {
+        avatarPreview.src = URL.createObjectURL(file);
+      }
+    });
+
+    document.getElementById('profile-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('profile-status').textContent = 'Profile saved.';
+    });
+
+    const confirmInput = document.getElementById('confirm-delete');
+    const deleteBtn = document.getElementById('delete-btn');
+    confirmInput.addEventListener('input', () => {
+      deleteBtn.disabled = confirmInput.value.trim() !== 'DELETE';
+    });
+    deleteBtn.addEventListener('click', () => {
+      if (confirm('Permanently delete your account?')) {
+        alert('Account deletion requested.');
+      }
+    });
+  </script>
+</body>
+</html>

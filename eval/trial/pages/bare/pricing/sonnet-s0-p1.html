@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taskwave — Pricing</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+
+<ui-container>
+  <ui-stack gap="lg">
+
+    <!-- Header -->
+    <header>
+      <ui-row justify="between" align="center" wrap>
+        <ui-row align="center" gap="sm">
+          <img src="https://picsum.photos/seed/taskwave-logo/40/40" alt="Taskwave logo" width="40" height="40">
+          <strong>Taskwave</strong>
+        </ui-row>
+        <nav>
+          <ui-row gap="md" wrap>
+            <a href="#">Product</a>
+            <a href="#plans">Pricing</a>
+            <a href="#compare">Compare</a>
+            <a href="#faq">FAQ</a>
+            <a href="#plans">Start free</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </header>
+
+    <!-- Hero -->
+    <section>
+      <ui-stack gap="md" align="center">
+        <span>Simple, transparent pricing</span>
+        <h1>Plans that grow with your team</h1>
+        <p>Plan sprints, track tasks and ship on time. Start free, upgrade when you need more power. Cancel anytime.</p>
+      </ui-stack>
+    </section>
+
+    <!-- Plans -->
+    <section id="plans">
+      <ui-grid min-item-width="260px" gap="lg">
+        <ui-card>
+          <ui-stack gap="md">
+            <h3>Starter</h3>
+            <p>For individuals and tiny teams getting organized.</p>
+            <h2>$0 <small>/ month</small></h2>
+            <ul>
+              <li>Up to 5 members</li>
+              <li>3 active projects</li>
+              <li>Kanban boards</li>
+              <li>1 GB storage</li>
+            </ul>
+            <a href="#">Get started</a>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card variant="primary" elevated>
+          <ui-stack gap="md">
+            <ui-row justify="between" align="center">
+              <h3>Team</h3>
+              <span>Most popular</span>
+            </ui-row>
+            <p>For growing teams that need planning and reporting.</p>
+            <h2>$12 <small>/ user / month</small></h2>
+            <ul>
+              <li>Unlimited members</li>
+              <li>Unlimited projects</li>
+              <li>Gantt &amp; timeline views</li>
+              <li>Automations and integrations</li>
+              <li>100 GB storage</li>
+            </ul>
+            <a href="#">Start 14-day trial</a>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="md">
+            <h3>Enterprise</h3>
+            <p>For organizations with advanced security needs.</p>
+            <h2>$24 <small>/ user / month</small></h2>
+            <ul>
+              <li>Everything in Team</li>
+              <li>SSO &amp; SCIM provisioning</li>
+              <li>Audit logs</li>
+              <li>Dedicated success manager</li>
+              <li>Unlimited storage</li>
+            </ul>
+            <a href="#">Contact sales</a>
+          </ui-stack>
+        </ui-card>
+      </ui-grid>
+    </section>
+
+    <!-- Comparison -->
+    <section id="compare">
+      <ui-stack gap="md">
+        <h2>Compare features</h2>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr><th>Feature</th><th>Starter</th><th>Team</th><th>Enterprise</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Members</td><td>Up to 5</td><td>Unlimited</td><td>Unlimited</td></tr>
+              <tr><td>Active projects</td><td>3</td><td>Unlimited</td><td>Unlimited</td></tr>
+              <tr><td>Kanban boards</td><td>✓</td><td>✓</td><td>✓</td></tr>
+              <tr><td>Gantt &amp; timeline</td><td>—</td><td>✓</td><td>✓</td></tr>
+              <tr><td>Automations</td><td>—</td><td>✓</td><td>✓</td></tr>
+              <tr><td>Storage</td><td>1 GB</td><td>100 GB</td><td>Unlimited</td></tr>
+              <tr><td>SSO &amp; SCIM</td><td>—</td><td>—</td><td>✓</td></tr>
+              <tr><td>Audit logs</td><td>—</td><td>—</td><td>✓</td></tr>
+              <tr><td>Support</td><td>Community</td><td>Email, 24h</td><td>Dedicated manager</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </ui-stack>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <ui-stack gap="md">
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary>Can I switch plans later?</summary>
+          <p>Yes. Upgrade or downgrade at any time from your billing settings; changes are prorated automatically.</p>
+        </details>
+        <details>
+          <summary>Is there a free trial for paid plans?</summary>
+          <p>The Team plan includes a 14-day free trial, no credit card required.</p>
+        </details>
+        <details>
+          <summary>Do you offer discounts for nonprofits or education?</summary>
+          <p>We offer 50% off for verified nonprofits and educational institutions. Contact our sales team to apply.</p>
+        </details>
+        <details>
+          <summary>What payment methods do you accept?</summary>
+          <p>All major credit cards, plus invoicing and bank transfer for annual Enterprise plans.</p>
+        </details>
+        <details>
+          <summary>What happens to my data if I cancel?</summary>
+          <p>You can export all your projects at any time, and we keep your data for 30 days after cancellation.</p>
+        </details>
+      </ui-stack>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <ui-stack gap="md">
+        <ui-grid min-item-width="150px" gap="lg">
+          <ui-stack gap="sm">
+            <strong>Taskwave</strong>
+            <p>Project management for teams that ship.</p>
+          </ui-stack>
+          <ui-stack gap="sm">
+            <strong>Product</strong>
+            <a href="#">Features</a>
+            <a href="#">Integrations</a>
+            <a href="#">Changelog</a>
+          </ui-stack>
+          <ui-stack gap="sm">
+            <strong>Company</strong>
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+            <a href="#">Contact</a>
+          </ui-stack>
+          <ui-stack gap="sm">
+            <strong>Legal</strong>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Security</a>
+          </ui-stack>
+        </ui-grid>
+        <small>© 2026 Taskwave, Inc. All rights reserved.</small>
+      </ui-stack>
+    </footer>
+
+  </ui-stack>
+</ui-container>
+
+</body>
+</html>

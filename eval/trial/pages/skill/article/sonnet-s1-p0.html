@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Craft of Resilient Interfaces</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Fieldnotes</strong>
+        <nav>
+          <ui-row gap="md">
+            <a href="#">Articles</a>
+            <a href="#">About</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="lg">
+        <article>
+          <ui-stack gap="lg">
+            <ui-stack gap="md">
+              <h1>The Quiet Craft of Resilient Interfaces</h1>
+              <p>How small, boring decisions about layout, state, and failure make products feel dependable long after the launch buzz fades.</p>
+              <ui-row gap="md">
+                <img src="https://picsum.photos/seed/author-mara/96/96" alt="Portrait of Mara Lindqvist" width="48" height="48" style="border-radius:999px">
+                <ui-stack gap="0">
+                  <strong>Mara Lindqvist</strong>
+                  <small><time datetime="2026-11-12">November 12, 2026</time> · 9 min read</small>
+                </ui-stack>
+              </ui-row>
+            </ui-stack>
+
+            <img src="https://picsum.photos/seed/resilient-cover/1600/900" alt="Soft morning light across a quiet workspace with a laptop and notebook" width="1600" height="900" style="width:100%;height:auto;border-radius:0.75rem">
+
+            <ui-stack gap="md">
+              <p>Every team has a story about the interface that worked perfectly in the demo. It had crisp animations, a flawless happy path, and a gorgeous empty state nobody ever saw. Then it met real users on real networks, and the cracks showed up within a week.</p>
+              <p>Resilience is rarely glamorous. It lives in the corners of a design: what happens when the list is empty, when the name is forty characters long, when the request takes eleven seconds. This article collects the habits that have served me best over a decade of shipping.</p>
+
+              <h2>Design for the worst content first</h2>
+              <p>Placeholder text is a liar. "Jane Doe" never wraps, never overflows, and never contains an emoji. Before you polish a component, feed it the longest German compound word you can find, a name in Arabic, and a title with no spaces at all. If the layout survives, the rest is decoration.</p>
+              <p>Prefer layout primitives that adapt instead of breakpoints that guess. A grid that drops columns when tiles get too narrow will handle devices you have never heard of.</p>
+
+              <blockquote>
+                <p>"A resilient interface isn't one that never breaks. It's one that breaks gracefully, in ways the user barely notices."</p>
+              </blockquote>
+
+              <h2>Make state explicit</h2>
+              <p>Most flaky UI comes from implicit state: a boolean here, a loading flag there, and a mysterious combination that nobody anticipated. Model the states you actually have, and the impossible ones disappear.</p>
+
+              <h3>A small, honest state machine</h3>
+              <p>Here is a pattern I reach for constantly. Instead of juggling <code>isLoading</code> and <code>error</code> flags, use one discriminated value:</p>
+
+<pre><code>type Remote&lt;T&gt; =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "error"; message: string }
+  | { status: "ready"; data: T };
+
+function render(state: Remote&lt;Post[]&gt;) {
+  switch (state.status) {
+    case "idle":    return null;
+    case "loading": return "Loading…";
+    case "error":   return `Something went wrong: ${state.message}`;
+    case "ready":   return state.data.map(renderPost);
+  }
+}</code></pre>
+
+              <p>The compiler now tells you when you forget a case. That is a better code reviewer than most of us.</p>
+
+              <h2>Treat failure as a feature</h2>
+              <p>Error messages are part of the product voice. Say what happened, what the user can do next, and whether their work is safe. Offer a retry that actually retries, and keep partial results on screen when you can.</p>
+              <ul>
+                <li>Keep user input when a submission fails.</li>
+                <li>Show stale data with a subtle "updated 5 minutes ago" note rather than a blank screen.</li>
+                <li>Make every loading state cancelable or at least skippable.</li>
+              </ul>
+
+              <h2>Test on the device in your pocket</h2>
+              <p>Resize the browser, yes, but also pick up a cheap phone, switch on a throttled connection, and increase the system font size. You will find problems within five minutes that no automated suite would catch, and you will build empathy at the same time.</p>
+              <p>None of this is flashy. But when a customer completes a purchase on a train with one bar of signal, that quiet craft is the whole product.</p>
+            </ui-stack>
+
+            <ui-row wrap gap="sm">
+              <span>#frontend</span>
+              <span>#resilience</span>
+              <span>#layout</span>
+              <span>#typescript</span>
+              <span>#ux</span>
+            </ui-row>
+          </ui-stack>
+        </article>
+
+        <hr>
+
+        <section>
+          <ui-stack gap="md">
+            <h2>Related posts</h2>
+            <ui-row scroll item-width="md" gap="md" align="stretch">
+              <ui-card padding="0" elevated>
+                <img src="https://picsum.photos/seed/related-1/640/360" alt="Rows of colorful sticky notes on a wall" width="640" height="360" style="width:100%;height:auto">
+                <ui-stack gap="sm" padding="md">
+                  <h3>Grids that think for themselves</h3>
+                  <p>Why intrinsic layouts beat a pile of media queries.</p>
+                  <a href="#">Read more</a>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" elevated>
+                <img src="https://picsum.photos/seed/related-2/640/360" alt="Hands typing on a laptop in a dim room" width="640" height="360" style="width:100%;height:auto">
+                <ui-stack gap="sm" padding="md">
+                  <h3>Loading states people don't hate</h3>
+                  <p>Skeletons, spinners, and the psychology of waiting.</p>
+                  <a href="#">Read more</a>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" elevated>
+                <img src="https://picsum.photos/seed/related-3/640/360" alt="Mountain ridge at dawn" width="640" height="360" style="width:100%;height:auto">
+                <ui-stack gap="sm" padding="md">
+                  <h3>Writing error messages with care</h3>
+                  <p>A short guide to tone, clarity, and next steps.</p>
+                  <a href="#">Read more</a>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" elevated>
+                <img src="https://picsum.photos/seed/related-4/640/360" alt="Phone on a desk showing a mobile app" width="640" height="360" style="width:100%;height:auto">
+                <ui-stack gap="sm" padding="md">
+                  <h3>Designing for one bar of signal</h3>
+                  <p>Offline-first thinking for everyday products.</p>
+                  <a href="#">Read more</a>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" elevated>
+                <img src="https://picsum.photos/seed/related-5/640/360" alt="Notebook with typography sketches" width="640" height="360" style="width:100%;height:auto">
+                <ui-stack gap="sm" padding="md">
+                  <h3>Type that scales gracefully</h3>
+                  <p>Fluid sizing without losing your typographic rhythm.</p>
+                  <a href="#">Read more</a>
+                </ui-stack>
+              </ui-card>
+            </ui-row>
+          </ui-stack>
+        </section>
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-stack padding="lg" align="center">
+        <small>© 2026 Fieldnotes. Written by humans, for humans.</small>
+      </ui-stack>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

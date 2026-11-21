@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing | Taskflow</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+
+  <ui-container>
+
+    <!-- Header -->
+    <header>
+      <ui-stack direction="horizontal" align="center" justify="space-between" wrap gap="md">
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+            <rect width="28" height="28" rx="7" fill="currentColor"></rect>
+            <path d="M8 14.5l4 4 8-9" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+          <strong>Taskflow</strong>
+        </ui-stack>
+
+        <nav aria-label="Primary">
+          <ui-stack direction="horizontal" align="center" gap="md" wrap>
+            <a href="#features">Product</a>
+            <a href="#pricing" aria-current="page">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href="#">Log in</a>
+            <ui-button variant="primary" size="sm">Start free trial</ui-button>
+          </ui-stack>
+        </nav>
+      </ui-stack>
+    </header>
+
+    <main>
+
+      <!-- Hero -->
+      <section id="pricing">
+        <ui-stack direction="vertical" align="center" gap="lg">
+          <span>New: Timeline views for every plan</span>
+          <h1>Simple pricing that grows with your team</h1>
+          <p>Start free with up to 10 people. Upgrade when you need automations, guest access, and advanced reporting. Cancel anytime.</p>
+          <ui-stack direction="horizontal" gap="sm" wrap justify="center">
+            <ui-button variant="primary">Start free trial</ui-button>
+            <ui-button variant="secondary">Talk to sales</ui-button>
+          </ui-stack>
+          <img src="https://picsum.photos/seed/taskflow-hero/1200/560" alt="Team reviewing a project board together" width="1200" height="560">
+        </ui-stack>
+      </section>
+
+      <!-- Plans -->
+      <section>
+        <ui-grid max-columns="3" gap="md">
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <h2>Free</h2>
+              <p>For individuals and small teams getting organized.</p>
+              <ui-stack direction="horizontal" align="baseline" gap="xs">
+                <strong>$0</strong>
+                <span>/ forever</span>
+              </ui-stack>
+              <ui-button variant="secondary">Get started</ui-button>
+              <ul>
+                <li>Up to 10 members</li>
+                <li>Unlimited projects</li>
+                <li>Kanban and list views</li>
+                <li>7-day activity history</li>
+              </ul>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card elevated>
+            <ui-stack direction="vertical" gap="md">
+              <ui-stack direction="horizontal" align="center" justify="space-between" wrap>
+                <h2>Pro</h2>
+                <span>Most popular</span>
+              </ui-stack>
+              <p>For growing teams that need automation and reporting.</p>
+              <ui-stack direction="horizontal" align="baseline" gap="xs">
+                <strong>$12</strong>
+                <span>/ user / month</span>
+              </ui-stack>
+              <ui-button variant="primary">Start 14-day trial</ui-button>
+              <ul>
+                <li>Unlimited members</li>
+                <li>Timeline and calendar views</li>
+                <li>Automations (5,000 runs/mo)</li>
+                <li>Guest access</li>
+                <li>Priority email support</li>
+              </ul>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <h2>Enterprise</h2>
+              <p>For organizations with security and compliance needs.</p>
+              <ui-stack direction="horizontal" align="baseline" gap="xs">
+                <strong>Custom</strong>
+              </ui-stack>
+              <ui-button variant="secondary">Contact sales</ui-button>
+              <ul>
+                <li>Everything in Pro</li>
+                <li>SAML SSO and SCIM</li>
+                <li>Audit logs and data residency</li>
+                <li>Unlimited automations</li>
+                <li>99.99% uptime SLA</li>
+              </ul>
+            </ui-stack>
+          </ui-card>
+
+        </ui-grid>
+      </section>
+
+      <!-- Feature comparison -->
+      <section id="features">
+        <ui-stack direction="vertical" gap="md">
+          <h2>Compare plans</h2>
+          <div style="overflow-x: auto">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Free</th>
+                  <th scope="col">Pro</th>
+                  <th scope="col">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Members</th>
+                  <td>10</td>
+                  <td>Unlimited</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Kanban and list views</th>
+                  <td>✓</td>
+                  <td>✓</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Timeline and calendar</th>
+                  <td>—</td>
+                  <td>✓</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Automations per month</th>
+                  <td>100</td>
+                  <td>5,000</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Guest access</th>
+                  <td>—</td>
+                  <td>✓</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Activity history</th>
+                  <td>7 days</td>
+                  <td>1 year</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">SAML SSO and SCIM</th>
+                  <td>—</td>
+                  <td>—</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Audit logs</th>
+                  <td>—</td>
+                  <td>—</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Support</th>
+                  <td>Community</td>
+                  <td>Priority email</td>
+                  <td>24/7 phone and email</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ui-stack>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <ui-stack direction="vertical" gap="md">
+          <h2>Frequently asked questions</h2>
+          <details>
+            <summary>Can I change plans later?</summary>
+            <p>Yes. Upgrades take effect immediately and are prorated. Downgrades apply at the start of your next billing cycle.</p>
+          </details>
+          <details>
+            <summary>Do you offer a free trial of Pro?</summary>
+            <p>Every new workspace gets 14 days of Pro free. No credit card is required to start.</p>
+          </details>
+          <details>
+            <summary>How is pricing calculated?</summary>
+            <p>Pro is billed per active user per month. Guests and viewers with read-only access are free.</p>
+          </details>
+          <details>
+            <summary>Is there a discount for annual billing?</summary>
+            <p>Annual plans save two months compared with monthly billing. You can switch at any time from billing settings.</p>
+          </details>
+          <details>
+            <summary>What happens to my data if I cancel?</summary>
+            <p>You can export all projects as CSV or JSON. We keep your data for 30 days after cancellation before permanent deletion.</p>
+          </details>
+        </ui-stack>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <ui-grid max-columns="4" gap="lg">
+        <ui-stack direction="vertical" gap="sm">
+          <strong>Taskflow</strong>
+          <p>Plan, track, and ship work together.</p>
+        </ui-stack>
+        <ui-stack direction="vertical" gap="sm">
+          <strong>Product</strong>
+          <a href="#">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#">Changelog</a>
+        </ui-stack>
+        <ui-stack direction="vertical" gap="sm">
+          <strong>Company</strong>
+          <a href="#">About</a>
+          <a href="#">Careers</a>
+          <a href="#">Contact</a>
+        </ui-stack>
+        <ui-stack direction="vertical" gap="sm">
+          <strong>Legal</strong>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Security</a>
+        </ui-stack>
+      </ui-grid>
+      <p>© 2026 Taskflow, Inc. All rights reserved.</p>
+    </footer>
+
+  </ui-container>
+
+</body>
+</html>

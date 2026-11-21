@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analytics | Fieldwork Print Co.</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    .page { max-width: 80rem; margin-inline: auto; padding: clamp(.75rem, 2vw, 1.5rem); }
+    .toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .75rem 1rem; }
+    .search { grid-column: 1 / -1; grid-row: 2; }
+    .search input, .filters select { width: 100%; box-sizing: border-box; }
+    .account { position: relative; }
+    .account summary { cursor: pointer; white-space: nowrap; }
+    .account-panel { position: absolute; inset-inline-end: 0; top: calc(100% + .5rem); z-index: 2; min-width: max-content; }
+    .shell, .metrics, .reports { display: grid; gap: 1rem; align-items: start; }
+    .shell { margin-block-start: 1.5rem; }
+    .shell > *, .reports > *, main { min-width: 0; }
+    .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; }
+    .table-scroll { overflow-x: auto; }
+    .table-scroll table { width: 100%; min-width: 31rem; }
+    .table-scroll th { text-align: start; }
+    .table-scroll td, .table-scroll th { white-space: nowrap; }
+    .table-scroll .money { text-align: end; }
+    .products { list-style: none; margin: 0; padding: 0; }
+    .products li { display: grid; grid-template-columns: 2.75rem minmax(0, 1fr) auto; align-items: center; gap: .75rem; padding-block: .65rem; }
+    .products img { display: block; object-fit: cover; border-radius: .35rem; }
+    .products small { display: block; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+    @media (min-width: 48rem) {
+      .toolbar { grid-template-columns: minmax(0, 1fr) minmax(14rem, 24rem) auto; }
+      .search { grid-column: 2; grid-row: 1; }
+      .shell { grid-template-columns: 12rem minmax(0, 1fr); }
+      .metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
+    @media (min-width: 70rem) {
+      .reports { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+    }
+
+    ui-stack:not(:defined) { display: grid; gap: .75rem; }
+    ui-card:not(:defined) { display: block; padding: .875rem; border: 1px solid #d6d9df; border-radius: .75rem; background: Canvas; color: CanvasText; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="toolbar" aria-label="Store toolbar">
+      <strong>Fieldwork Print Co.</strong>
+
+      <form class="search" role="search" id="order-search">
+        <label class="sr-only" for="search">Search recent orders by number, customer, or product</label>
+        <input id="search" name="q" type="search" placeholder="Search recent orders…" autocomplete="off" aria-controls="orders-table">
+      </form>
+
+      <details class="account">
+        <summary>Maya Chen</summary>
+        <div class="account-panel">
+          <ui-card padding="md">
+            <ui-stack gap="xs">
+              <strong>Maya Chen</strong>
+              <small>Store administrator</small>
+              <small>maya@fieldwork.example</small>
+            </ui-stack>
+          </ui-card>
+        </div>
+      </details>
+    </header>
+
+    <div class="shell">
+      <aside aria-labelledby="filters-heading">
+        <ui-card padding="md">
+          <form class="filters" id="order-filters">
+            <ui-stack gap="md">
+              <h2 id="filters-heading">Order filters</h2>
+              <ui-stack gap="xs">
+                <label for="status">Status</label>
+                <select id="status" name="status" aria-controls="orders-table">
+                  <option value="">All statuses</option>
+                  <option value="fulfilled">Fulfilled</option>
+                  <option value="processing">Processing</option>
+                  <option value="refunded">Refunded</option>
+                </select>
+              </ui-stack>
+              <ui-stack gap="xs">
+                <label for="channel">Channel</label>
+                <select id="channel" name="channel" aria-controls="orders-table">
+                  <option value="">All channels</option>
+                  <option value="store">Online store</option>
+                  <option value="marketplace">Marketplace</option>
+                </select>
+              </ui-stack>
+              <button type="reset">Clear filters</button>
+            </ui-stack>
+          </form>
+        </ui-card>
+      </aside>
+
+      <main aria-labelledby="page-title">
+        <ui-stack gap="lg">
+          <div>
+            <h1 id="page-title">Store analytics</h1>
+            <p>Nov 1–21, 2026 · Compared with Oct 1–21, 2026</p>
+          </div>
+
+          <section class="metrics" aria-label="Store performance">
+            <ui-card padding="md">
+              <ui-stack gap="sm">
+                <div>Revenue</div>
+                <strong>$48,620</strong>
+                <div>
+                  <small><span aria-hidden="true">↑ 12.4%</span><span class="sr-only">Up 12.4 percent</span></small>
+                </div>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="md">
+              <ui-stack gap="sm">
+                <div>Orders</div>
+                <strong>684</strong>
+                <div>
+                  <small><span aria-hidden="true">↑ 8.6%</span><span class="sr-only">Up 8.6 percent</span></small>
+                </div>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="md">
+              <ui-stack gap="sm">
+                <div>Conversion</div>
+                <strong>3.42%</strong>
+                <div>
+                  <small><span aria-hidden="true">↑ 0.31 pp</span><span class="sr-only">Up 0.31 percentage points</span></small>
+                </div>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="md">
+              <ui-stack gap="sm">
+                <div>Refunds</div>
+                <strong>$1,284</strong>
+                <div>
+                  <small><span aria-hidden="true">↓ 6.2%</span><span class="sr-only">Down 6.2 percent</span></small>
+                </div>
+              </ui-stack>
+            </ui-card>
+          </section>
+
+          <div class="reports">
+            <section aria-labelledby="orders-heading">
+              <ui-card padding="md">
+                <ui-stack gap="sm">
+                  <div>
+                    <h2 id="orders-heading">Recent orders</h2>
+                    <small id="order-count" role="status">6 orders</small>
+                  </div>
+                  <div class="table-scroll" role="region" aria-labelledby="orders-heading" tabindex="0">
+                    <table id="orders-table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Order</th>
+                          <th scope="col">Customer</th>
+                          <th scope="col">Placed</th>
+                          <th scope="col">Status</th>
+                          <th scope="col" class="money">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-status="processing" data-channel="store" data-product="Alpine Morning">
+                          <th scope="row">#1842</th>
+                          <td>Nora Patel</td>
+                          <td><time datetime="2026-11-21">Nov 21</time></td>
+                          <td><span>Processing</span></td>
+                          <td class="money">$84.00</td>
+                        </tr>
+                        <tr data-status="fulfilled" data-channel="marketplace" data-product="River Bend">
+                          <th scope="row">#1841</th>
+                          <td>Elliot Park</td>
+                          <td><time datetime="2026-11-21">Nov 21</time></td>
+                          <td><span>Fulfilled</span></td>
+                          <td class="money">$62.00</td>
+                        </tr>
+                        <tr data-status="fulfilled" data-channel="store" data-product="Alpine Morning, Blue Ridge">
+                          <th scope="row">#1840</th>
+                          <td>Lucía Moreno</td>
+                          <td><time datetime="2026-11-20">Nov 20</time></td>
+                          <td><span>Fulfilled</span></td>
+                          <td class="money">$144.00</td>
+                        </tr>
+                        <tr data-status="refunded" data-channel="store" data-product="Blue Ridge">
+                          <th scope="row">#1839</th>
+                          <td>Amir Haddad</td>
+                          <td><time datetime="2026-11-20">Nov 20</time></td>
+                          <td><span>Refunded</span></td>
+                          <td class="money">$60.00</td>
+                        </tr>
+                        <tr data-status="fulfilled" data-channel="marketplace" data-product="River Bend">
+                          <th scope="row">#1838</th>
+                          <td>Sophie Laurent</td>
+                          <td><time datetime="2026-11-19">Nov 19</time></td>
+                          <td><span>Fulfilled</span></td>
+                          <td class="money">$62.00</td>
+                        </tr>
+                        <tr data-status="fulfilled" data-channel="store" data-product="Alpine Morning">
+                          <th scope="row">#1837</th>
+                          <td>Daniel Brooks</td>
+                          <td><time datetime="2026-11-19">Nov 19</time></td>
+                          <td><span>Fulfilled</span></td>
+                          <td class="money">$84.00</td>
+                        </tr>
+                        <tr id="empty-orders" hidden>
+                          <td colspan="5">No orders match your search and filters.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </ui-stack>
+              </ui-card>
+            </section>
+
+            <section aria-labelledby="products-heading">
+              <ui-card padding="md">
+                <ui-stack gap="sm">
+                  <div>
+                    <h2 id="products-heading">Top products</h2>
+                    <small>Ranked by units sold</small>
+                  </div>
+
+                  <ol class="products" role="list">
+                    <li>
+                      <img src="https://picsum.photos/id/1018/88/88" width="44" height="44" alt="">
+                      <div><strong>Alpine Morning</strong><small>126 sold</small></div>
+                      <strong>$10,584</strong>
+                    </li>
+                    <li>
+                      <img src="https://picsum.photos/id/1015/88/88" width="44" height="44" alt="">
+                      <div><strong>River Bend</strong><small>94 sold</small></div>
+                      <strong>$5,828</strong>
+                    </li>
+                    <li>
+                      <img src="https://picsum.photos/id/1016/88/88" width="44" height="44" alt="">
+                      <div><strong>Blue Ridge</strong><small>78 sold</small></div>
+                      <strong>$4,680</strong>
+                    </li>
+                  </ol>
+                </ui-stack>
+              </ui-card>
+            </section>
+          </div>
+        </ui-stack>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const searchForm = document.getElementById('order-search');
+    const search = document.getElementById('search');
+    const filters = document.getElementById('order-filters');
+    const statusFilter = document.getElementById('status');
+    const channelFilter = document.getElementById('channel');
+    const orderRows = document.querySelectorAll('#orders-table tr[data-status]');
+    const orderCount = document.getElementById('order-count');
+    const emptyOrders = document.getElementById('empty-orders');
+    const accountMenu = document.querySelector('.account');
+
+    function normalize(text) {
+      return text.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+    }
+
+    function updateOrders() {
+      const terms = normalize(search.value.trim()).split(/\s+/).filter(Boolean);
+      let visibleCount = 0;
+
+      for (const row of orderRows) {
+        const searchable = normalize(
+          `${row.cells[0].textContent} ${row.cells[1].textContent} ${row.dataset.product}`
+        );
+        const matchesSearch = terms.every(term => searchable.includes(term));
+        const matchesStatus = !statusFilter.value || row.dataset.status === statusFilter.value;
+        const matchesChannel = !channelFilter.value || row.dataset.channel === channelFilter.value;
+
+        row.hidden = !(matchesSearch && matchesStatus && matchesChannel);
+        if (!row.hidden) visibleCount += 1;
+      }
+
+      emptyOrders.hidden = visibleCount > 0;
+      orderCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'order' : 'orders'}`;
+    }
+
+    search.addEventListener('input', updateOrders);
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault();
+      updateOrders();
+    });
+    filters.addEventListener('change', updateOrders);
+    filters.addEventListener('reset', () => requestAnimationFrame(updateOrders));
+
+    document.addEventListener('click', event => {
+      if (!accountMenu.contains(event.target)) accountMenu.open = false;
+    });
+    accountMenu.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && accountMenu.open) {
+        accountMenu.open = false;
+        accountMenu.querySelector('summary').focus();
+      }
+    });
+
+    updateOrders();
+  </script>
+</body>
+</html>

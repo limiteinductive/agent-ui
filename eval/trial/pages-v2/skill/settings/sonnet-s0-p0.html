@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Northwind</strong>
+        <nav><a href="#">Dashboard</a></nav>
+      </ui-row>
+    </ui-container>
+  </header>
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="lg">
+        <ui-stack gap="xs">
+          <h1>Account settings</h1>
+          <p>Manage your profile, notifications, and billing.</p>
+        </ui-stack>
+
+        <ui-card>
+          <form>
+            <ui-stack gap="lg">
+              <h2>Profile</h2>
+              <ui-row gap="md" wrap>
+                <img src="https://picsum.photos/id/1027/160/160" alt="Current avatar of Maya Hernandez" width="80" height="80" style="border-radius:999px;object-fit:cover">
+                <ui-stack gap="xs" grow>
+                  <label>Avatar <input type="file" name="avatar" accept="image/*"></label>
+                  <small>JPG or PNG, up to 2 MB.</small>
+                </ui-stack>
+              </ui-row>
+              <ui-grid max-columns="2" min-item-width="sm">
+                <label>Full name <input name="name" value="Maya Hernandez" autocomplete="name"></label>
+                <label>Email <input type="email" name="email" value="maya.hernandez@northwind.io" autocomplete="email"></label>
+              </ui-grid>
+              <label>Bio <textarea name="bio" rows="4">Product designer based in Lisbon. I love design systems, trail running, and good espresso.</textarea></label>
+              <ui-row gap="sm" wrap justify="end">
+                <ui-button type="reset" variant="ghost">Cancel</ui-button>
+                <ui-button type="submit" variant="primary">Save changes</ui-button>
+              </ui-row>
+            </ui-stack>
+          </form>
+        </ui-card>
+
+        <ui-card>
+          <form>
+            <ui-stack gap="lg">
+              <h2>Notifications</h2>
+              <ui-row gap="md">
+                <ui-stack gap="xs" grow>
+                  <strong>Product updates</strong>
+                  <small>News about new features and improvements.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" name="updates" aria-label="Product updates" checked>
+              </ui-row>
+              <hr>
+              <ui-row gap="md">
+                <ui-stack gap="xs" grow>
+                  <strong>Comment replies</strong>
+                  <small>Email me when someone replies to my comments.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" name="replies" aria-label="Comment replies" checked>
+              </ui-row>
+              <hr>
+              <ui-row gap="md">
+                <ui-stack gap="xs" grow>
+                  <strong>Weekly digest</strong>
+                  <small>A Monday summary of your team's activity.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" name="digest" aria-label="Weekly digest">
+              </ui-row>
+              <hr>
+              <ui-row gap="md">
+                <ui-stack gap="xs" grow>
+                  <strong>Security alerts</strong>
+                  <small>New sign-ins and password changes.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" name="security" aria-label="Security alerts" checked>
+              </ui-row>
+            </ui-stack>
+          </form>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="lg">
+            <ui-row justify="space-between" gap="md" wrap>
+              <h2>Billing</h2>
+              <mark>Active</mark>
+            </ui-row>
+            <ui-grid max-columns="3" min-item-width="xs">
+              <ui-stack gap="xs"><small>Current plan</small><strong>Pro, monthly</strong></ui-stack>
+              <ui-stack gap="xs"><small>Price</small><strong>$24.00 / month</strong></ui-stack>
+              <ui-stack gap="xs"><small>Next invoice</small><strong><time datetime="2026-12-03">Dec 3, 2026</time></strong></ui-stack>
+            </ui-grid>
+            <p>Payment method: Visa ending in 4242, expires 08/28.</p>
+            <ui-row gap="sm" wrap>
+              <ui-button variant="primary">Change plan</ui-button>
+              <ui-button variant="outline">View invoices</ui-button>
+            </ui-row>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card variant="danger">
+          <ui-stack gap="md">
+            <h2>Danger zone</h2>
+            <p>Deleting your account permanently removes your projects, files, and billing history. This action cannot be undone.</p>
+            <ui-row>
+              <ui-button variant="danger">Delete account</ui-button>
+            </ui-row>
+          </ui-stack>
+        </ui-card>
+      </ui-stack>
+    </ui-container>
+  </main>
+</ui-page>
+</body>
+</html>

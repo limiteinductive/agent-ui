@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store Analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+
+    <!-- Top bar -->
+    <header>
+      <ui-row justify="space-between" align="center" gap="md" wrap>
+        <ui-row align="center" gap="sm">
+          <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <rect x="3" y="12" width="4" height="9" fill="currentColor"></rect>
+            <rect x="10" y="7" width="4" height="14" fill="currentColor"></rect>
+            <rect x="17" y="3" width="4" height="18" fill="currentColor"></rect>
+          </svg>
+          <h1>Northwind Goods</h1>
+        </ui-row>
+
+        <ui-row align="center" gap="md" grow>
+          <input type="search" placeholder="Search orders, products, customers" aria-label="Search">
+        </ui-row>
+
+        <details>
+          <summary aria-label="User menu">
+            <img src="https://picsum.photos/id/64/80/80" alt="Jane Doe" width="40" height="40">
+          </summary>
+          <ul>
+            <li>Profile</li>
+            <li>Store settings</li>
+            <li>Billing</li>
+            <hr>
+            <li>Sign out</li>
+          </ul>
+        </details>
+      </ui-row>
+    </header>
+
+    <ui-row wrap gap="lg" align="start">
+
+      <!-- Sidebar filters -->
+      <aside aria-label="Filters" style="max-inline-size: 100%">
+        <ui-stack gap="lg">
+          <h2>Filters</h2>
+
+          <label>
+            Date range
+            <select>
+              <option>Last 7 days</option>
+              <option selected>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Year to date</option>
+            </select>
+          </label>
+
+          <fieldset>
+            <legend>Channel</legend>
+            <ui-stack gap="xs">
+              <label><input type="checkbox" checked> Online store</label>
+              <label><input type="checkbox" checked> Mobile app</label>
+              <label><input type="checkbox"> Marketplace</label>
+              <label><input type="checkbox"> Wholesale</label>
+            </ui-stack>
+          </fieldset>
+
+          <fieldset>
+            <legend>Category</legend>
+            <ui-stack gap="xs">
+              <label><input type="checkbox" checked> Apparel</label>
+              <label><input type="checkbox" checked> Home</label>
+              <label><input type="checkbox"> Electronics</label>
+              <label><input type="checkbox"> Outdoor</label>
+            </ui-stack>
+          </fieldset>
+
+          <label>
+            Order status
+            <select>
+              <option selected>All statuses</option>
+              <option>Paid</option>
+              <option>Fulfilled</option>
+              <option>Refunded</option>
+            </select>
+          </label>
+
+          <fieldset>
+            <legend>Order total</legend>
+            <ui-row gap="sm" align="center" wrap>
+              <input type="number" placeholder="Min" aria-label="Minimum total">
+              <input type="number" placeholder="Max" aria-label="Maximum total">
+            </ui-row>
+          </fieldset>
+
+          <ui-row gap="sm">
+            <ui-button variant="primary">Apply</ui-button>
+            <ui-button variant="ghost">Reset</ui-button>
+          </ui-row>
+        </ui-stack>
+      </aside>
+
+      <!-- Main content -->
+      <main grow>
+        <ui-stack gap="lg">
+
+          <ui-row justify="space-between" align="center" wrap gap="sm">
+            <h2>Overview</h2>
+            <span>Updated 5 min ago</span>
+          </ui-row>
+
+          <!-- Stat tiles -->
+          <ui-grid columns="2" gap="md">
+            <ui-card>
+              <ui-stack gap="xs">
+                <small>Revenue</small>
+                <strong>$48,260</strong>
+                <span>▲ 12.4% vs prior period</span>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="xs">
+                <small>Orders</small>
+                <strong>1,142</strong>
+                <span>▲ 8.1% vs prior period</span>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="xs">
+                <small>Conversion rate</small>
+                <strong>3.6%</strong>
+                <span>▼ 0.4 pts vs prior period</span>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="xs">
+                <small>Refunds</small>
+                <strong>$1,075</strong>
+                <span>▲ 2.2% vs prior period</span>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <!-- Orders and top products -->
+          <ui-row wrap gap="md" align="start">
+
+            <ui-card grow>
+              <ui-stack gap="md">
+                <ui-row justify="space-between" align="center">
+                  <h3>Recent orders</h3>
+                  <ui-button variant="ghost" size="sm">View all</ui-button>
+                </ui-row>
+
+                <div style="overflow: auto">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th align="right">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>#10482</td>
+                        <td>Maya Lindqvist</td>
+                        <td>Nov 21, 2026</td>
+                        <td><span>Paid</span></td>
+                        <td align="right">$129.00</td>
+                      </tr>
+                      <tr>
+                        <td>#10481</td>
+                        <td>Jonas Okafor</td>
+                        <td>Nov 21, 2026</td>
+                        <td><span>Fulfilled</span></td>
+                        <td align="right">$64.50</td>
+                      </tr>
+                      <tr>
+                        <td>#10480</td>
+                        <td>Priya Raman</td>
+                        <td>Nov 20, 2026</td>
+                        <td><span>Paid</span></td>
+                        <td align="right">$212.75</td>
+                      </tr>
+                      <tr>
+                        <td>#10479</td>
+                        <td>Luca Ferretti</td>
+                        <td>Nov 20, 2026</td>
+                        <td><span>Refunded</span></td>
+                        <td align="right">$38.00</td>
+                      </tr>
+                      <tr>
+                        <td>#10478</td>
+                        <td>Aisha Bello</td>
+                        <td>Nov 19, 2026</td>
+                        <td><span>Fulfilled</span></td>
+                        <td align="right">$96.20</td>
+                      </tr>
+                      <tr>
+                        <td>#10477</td>
+                        <td>Tomás Herrera</td>
+                        <td>Nov 19, 2026</td>
+                        <td><span>Paid</span></td>
+                        <td align="right">$47.90</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="md">
+                <h3>Top products</h3>
+                <ul>
+                  <li>
+                    <ui-row align="center" gap="md">
+                      <img src="https://picsum.photos/id/21/96/96" alt="Canvas tote" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Canvas weekender tote</strong>
+                        <small>212 sold · $3,180</small>
+                      </ui-stack>
+                    </ui-row>
+                  </li>
+                  <li>
+                    <ui-row align="center" gap="md">
+                      <img src="https://picsum.photos/id/30/96/96" alt="Ceramic pour-over set" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Ceramic pour-over set</strong>
+                        <small>148 sold · $4,440</small>
+                      </ui-stack>
+                    </ui-row>
+                  </li>
+                  <li>
+                    <ui-row align="center" gap="md">
+                      <img src="https://picsum.photos/id/119/96/96" alt="Merino crew sweater" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Merino crew sweater</strong>
+                        <small>97 sold · $7,760</small>
+                      </ui-stack>
+                    </ui-row>
+                  </li>
+                  <li>
+                    <ui-row align="center" gap="md">
+                      <img src="https://picsum.photos/id/160/96/96" alt="Insulated water bottle" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Insulated water bottle</strong>
+                        <small>86 sold · $2,236</small>
+                      </ui-stack>
+                    </ui-row>
+                  </li>
+                  <li>
+                    <ui-row align="center" gap="md">
+                      <img src="https://picsum.photos/id/225/96/96" alt="Linen throw blanket" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Linen throw blanket</strong>
+                        <small>71 sold · $2,485</small>
+                      </ui-stack>
+                    </ui-row>
+                  </li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+          </ui-row>
+        </ui-stack>
+      </main>
+
+    </ui-row>
+  </ui-page>
+</body>
+</html>

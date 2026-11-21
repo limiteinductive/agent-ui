@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride & Co. — Men's & Women's Sneakers</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container max-width="1280px">
+    <ui-stack gap="lg" padding="md">
+
+      <!-- Header -->
+      <header>
+        <ui-stack gap="sm">
+          <ui-row justify="space-between" align="center" gap="md">
+            <strong>👟 Stride &amp; Co.</strong>
+            <ui-button variant="primary" id="cart-button" aria-label="Shopping cart">
+              🛒 <span id="cart-count">0</span>
+            </ui-button>
+          </ui-row>
+          <nav aria-label="Main">
+            <ui-row gap="md" wrap>
+              <a href="#">Men</a>
+              <a href="#">Women</a>
+              <a href="#">Kids</a>
+              <a href="#">Sale</a>
+            </ui-row>
+          </nav>
+        </ui-stack>
+      </header>
+
+      <!-- Title -->
+      <ui-stack gap="xs">
+        <h1>Running &amp; Lifestyle Sneakers</h1>
+        <p><small>Showing 1–12 of 48 products</small></p>
+      </ui-stack>
+
+      <!-- Filter bar -->
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-stack gap="xs">
+            <strong id="size-label">Size (US)</strong>
+            <ui-row gap="xs" wrap id="size-chips" role="group" aria-labelledby="size-label">
+              <ui-button size="sm" variant="ghost" aria-pressed="false" data-size="7">7</ui-button>
+              <ui-button size="sm" variant="ghost" aria-pressed="false" data-size="8">8</ui-button>
+              <ui-button size="sm" variant="primary" aria-pressed="true" data-size="9">9</ui-button>
+              <ui-button size="sm" variant="ghost" aria-pressed="false" data-size="10">10</ui-button>
+              <ui-button size="sm" variant="ghost" aria-pressed="false" data-size="11">11</ui-button>
+              <ui-button size="sm" variant="ghost" aria-pressed="false" data-size="12">12</ui-button>
+              <ui-button size="sm" variant="ghost" aria-pressed="false" data-size="13">13</ui-button>
+            </ui-row>
+          </ui-stack>
+
+          <ui-row gap="md" wrap align="end">
+            <ui-stack gap="xs">
+              <label for="price"><strong>Max price:</strong> $<span id="price-value">200</span></label>
+              <input type="range" id="price" min="40" max="250" step="10" value="200">
+            </ui-stack>
+            <ui-stack gap="xs">
+              <label for="sort"><strong>Sort by</strong></label>
+              <select id="sort">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name">Name: A–Z</option>
+              </select>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+      </ui-card>
+
+      <!-- Product grid -->
+      <ui-grid min-item-width="220px" gap="md" id="grid"></ui-grid>
+      <p id="empty" hidden>No shoes match your filters. Try raising the max price.</p>
+
+      <!-- Pagination -->
+      <nav aria-label="Pagination">
+        <ui-row justify="center" gap="xs" wrap>
+          <ui-button variant="ghost" disabled>‹ Prev</ui-button>
+          <ui-button variant="primary" aria-current="page">1</ui-button>
+          <ui-button variant="ghost">2</ui-button>
+          <ui-button variant="ghost">3</ui-button>
+          <ui-button variant="ghost">4</ui-button>
+          <ui-button variant="ghost">Next ›</ui-button>
+        </ui-row>
+      </nav>
+
+      <footer>
+        <hr>
+        <p><small>© 2026 Stride &amp; Co. Free shipping on orders over $75 · 30-day returns</small></p>
+      </footer>
+    </ui-stack>
+  </ui-container>
+
+  <script>
+    const products = [
+      { id: 1,  name: "AeroGlide Runner 3",     brand: "Velocity", price: 129, seed: "shoe1" },
+      { id: 2,  name: "Canvas Low Classic",     brand: "Harbor",   price: 59,  seed: "shoe2" },
+      { id: 3,  name: "TrailForge GTX",         brand: "Summit",   price: 164, seed: "shoe3" },
+      { id: 4,  name: "Court Legend Leather",   brand: "Ace",      price: 95,  seed: "shoe4" },
+      { id: 5,  name: "CloudStep Knit",         brand: "Nimbus",   price: 112, seed: "shoe5" },
+      { id: 6,  name: "Retro 88 Suede",         brand: "Heritage", price: 89,  seed: "shoe6" },
+      { id: 7,  name: "Pulse Carbon Racer",     brand: "Velocity", price: 229, seed: "shoe7" },
+      { id: 8,  name: "Everyday Slip-On",       brand: "Harbor",   price: 49,  seed: "shoe8" },
+      { id: 9,  name: "Metro High-Top",         brand: "Urbane",   price: 104, seed: "shoe9" },
+      { id: 10, name: "Ridgeback Hiker Mid",    brand: "Summit",   price: 149, seed: "shoe10" },
+      { id: 11, name: "FlexLite Trainer",       brand: "Nimbus",   price: 79,  seed: "shoe11" },
+      { id: 12, name: "Studio Platform Sneaker",brand: "Urbane",   price: 118, seed: "shoe12" }
+    ];
+
+    let cart = 0;
+    const grid = document.getElementById('grid');
+    const priceInput = document.getElementById('price');
+    const priceValue = document.getElementById('price-value');
+    const sortSelect = document.getElementById('sort');
+    const cartCount = document.getElementById('cart-count');
+    const cartButton = document.getElementById('cart-button');
+    const empty = document.getElementById('empty');
+
+    function render() {
+      const max = Number(priceInput.value);
+      let list = products.filter(p => p.price <= max);
+      switch (sortSelect.value) {
+        case 'price-asc':  list.sort((a, b) => a.price - b.price); break;
+        case 'price-desc': list.sort((a, b) => b.price - a.price); break;
+        case 'name':       list.sort((a, b) => a.name.localeCompare(b.name)); break;
+      }
+      grid.innerHTML = list.map(p => `
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/${p.seed}/400/300" alt="${p.name}" width="400" height="300" loading="lazy">
+            <ui-stack gap="xs">
+              <small>${p.brand}</small>
+              <h3>${p.name}</h3>
+              <strong>$${p.price.toFixed(2)}</strong>
+            </ui-stack>
+            <ui-button variant="primary" data-add="${p.id}">Add to cart</ui-button>
+          </ui-stack>
+        </ui-card>`).join('');
+      empty.hidden = list.length > 0;
+    }
+
+    grid.addEventListener('click', e => {
+      const btn = e.target.closest('[data-add]');
+      if (!btn) return;
+      cart++;
+      cartCount.textContent = cart;
+      cartButton.setAttribute('aria-label', `Shopping cart, ${cart} item${cart === 1 ? '' : 's'}`);
+      const original = btn.textContent;
+      btn.textContent = '✓ Added';
+      setTimeout(() => { btn.textContent = original; }, 1200);
+    });
+
+    document.getElementById('size-chips').addEventListener('click', e => {
+      const chip = e.target.closest('[data-size]');
+      if (!chip) return;
+      const pressed = chip.getAttribute('aria-pressed') === 'true';
+      chip.setAttribute('aria-pressed', String(!pressed));
+      chip.setAttribute('variant', pressed ? 'ghost' : 'primary');
+    });
+
+    priceInput.addEventListener('input', () => {
+      priceValue.textContent = priceInput.value;
+      render();
+    });
+    sortSelect.addEventListener('change', render);
+
+    render();
+  </script>
+</body>
+</html>

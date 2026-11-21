@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride Supply | Shop Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Fluid catalog tracks, image cropping, and narrow-screen control sizing. */
+    body { margin: 0; }
+    .shell { box-sizing: border-box; width: min(100%, 76rem); margin-inline: auto; padding-inline: clamp(1rem, 4vw, 3rem); }
+    .catalog { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+    .catalog > ui-card { display: block; min-width: 0; }
+    .product-photo { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: .5rem; background: #eeeae2; }
+    .product-name { margin-block: 0; overflow-wrap: anywhere; }
+    .product-meta { margin-block: 0; }
+    .product-button { width: 100%; min-height: 44px; }
+    .toolbar, .controls, .chip-list, .pagination { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; }
+    .toolbar { justify-content: space-between; }
+    .controls { align-items: end; gap: .75rem 1.5rem; }
+    .controls fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+    .controls legend, .control-label { display: block; margin-bottom: .25rem; }
+    .price-input { box-sizing: border-box; width: 5rem; }
+    .controls input, .controls select, .chip-list button, .pagination button, summary { min-height: 44px; }
+    .chip-list button { min-width: 44px; }
+    .chip-list [aria-pressed="true"], .pagination [aria-current="page"] { background: #263d33; border-color: #263d33; color: #fff; }
+    .pagination { justify-content: center; }
+    .cart-panel { position: relative; }
+    .cart-panel summary { display: list-item; align-content: center; cursor: pointer; }
+    .cart-content { position: absolute; z-index: 1; inset-inline-end: 0; width: min(20rem, calc(100vw - 2rem)); }
+    .cart-content ui-card { display: block; background: Canvas; color: CanvasText; border-radius: .5rem; box-shadow: 0 .25rem 1.5rem #0002; }
+    .cart-list { padding-inline-start: 1.25rem; }
+    .cart-list li { margin-block: .5rem; }
+    .cart-list button { margin-inline-start: .5rem; min-height: 44px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    [hidden] { display: none !important; }
+    @media (max-width: 56rem) { .catalog { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 40rem) { .catalog { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; } }
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <ui-stack padding="md">
+      <div class="toolbar">
+        <strong>Stride Supply</strong>
+        <details class="cart-panel" id="cart">
+          <summary>Cart (<span id="cart-count">0</span>)</summary>
+          <div class="cart-content">
+            <ui-card padding="md">
+              <ui-stack gap="sm">
+                <strong>Your cart</strong>
+                <p id="cart-empty">Your cart is empty.</p>
+                <ul id="cart-items" class="cart-list" hidden></ul>
+                <p id="cart-total" hidden></p>
+              </ui-stack>
+            </ui-card>
+          </div>
+        </details>
+      </div>
+    </ui-stack>
+  </header>
+
+  <main class="shell">
+    <ui-stack gap="lg" padding="md">
+      <h1>Shop shoes</h1>
+
+      <ui-card padding="md">
+        <section class="controls" aria-label="Product filters">
+          <fieldset>
+            <legend>Size (US)</legend>
+            <div id="sizes" class="chip-list">
+              <button type="button" aria-pressed="false">6</button>
+              <button type="button" aria-pressed="false">7</button>
+              <button type="button" aria-pressed="false">8</button>
+              <button type="button" aria-pressed="false">9</button>
+              <button type="button" aria-pressed="false">10</button>
+              <button type="button" aria-pressed="false">11</button>
+              <button type="button" aria-pressed="false">12</button>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Price range (USD)</legend>
+            <div class="chip-list">
+              <label class="sr-only" for="minimum-price">Minimum price</label>
+              <input class="price-input" id="minimum-price" type="number" min="0" step="1" value="0">
+              <span>to</span>
+              <label class="sr-only" for="maximum-price">Maximum price</label>
+              <input class="price-input" id="maximum-price" type="number" min="0" step="1" value="220">
+            </div>
+          </fieldset>
+
+          <div>
+            <label class="control-label" for="sort">Sort by</label>
+            <select id="sort">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: low to high</option>
+              <option value="price-desc">Price: high to low</option>
+              <option value="name">Name: A to Z</option>
+            </select>
+          </div>
+        </section>
+      </ui-card>
+
+      <h2 class="sr-only" id="results-heading" tabindex="-1">Products</h2>
+      <p id="results-count" role="status"></p>
+      <div class="catalog" id="products" aria-labelledby="results-heading"></div>
+
+      <nav class="pagination" id="pagination" aria-label="Product pages" hidden>
+        <button type="button" id="previous">Previous</button>
+        <button type="button" data-page="1" aria-label="Page 1">1</button>
+        <button type="button" data-page="2" aria-label="Page 2">2</button>
+        <button type="button" id="next">Next</button>
+      </nav>
+    </ui-stack>
+  </main>
+
+  <div class="sr-only" id="cart-status" role="status"></div>
+
+  <template id="product-template">
+    <ui-card padding="sm">
+      <article>
+        <ui-stack gap="sm">
+          <img class="product-photo" src="" alt="" width="640" height="480" loading="lazy">
+          <h3 class="product-name"></h3>
+          <p class="product-meta"></p>
+          <label>
+            <span class="sr-only">Shoe size</span>
+            <select aria-label="Shoe size"></select>
+          </label>
+          <button type="button" class="product-button">Add to cart</button>
+        </ui-stack>
+      </article>
+    </ui-card>
+  </template>
+
+  <script>
+    const inventory = [
+      ["Harbor Court", "Chalk / Moss", 89, [6, 7, 8, 9, 10, 11, 12]],
+      ["Ridgeline Trail", "Slate / Rust", 134, [7, 8, 9, 10, 11, 12]],
+      ["Daybreak Runner", "Cloud / Lilac", 118, [6, 7, 8, 9, 10]],
+      ["Crosstown Canvas", "Ink", 64, [6, 7, 8, 9, 11]],
+      ["Fieldhouse Retro", "Cream / Navy", 104, [7, 8, 9, 10, 11, 12]],
+      ["Dune Walk", "Sand", 94, [6, 7, 8, 10, 11]],
+      ["Summit Hiker", "Pine / Charcoal", 165, [8, 9, 10, 11, 12]],
+      ["Parkside Slip-On", "Oat", 72, [6, 7, 8, 9, 10]],
+      ["Relay Tempo", "Black / Lime", 142, [7, 8, 9, 10, 11]],
+      ["Lowline Court", "White / Burgundy", 98, [6, 7, 8, 9, 10, 12]],
+      ["Juniper Clog", "Cedar", 86, [6, 7, 8, 9, 11]],
+      ["Pacific Deck", "Stone Blue", 78, [7, 8, 9, 10, 11, 12]],
+      ["Metro Knit", "Graphite", 112, [6, 7, 8, 9, 10, 11]],
+      ["Bayside Sandal", "Olive", 58, [6, 7, 8, 9, 10]],
+      ["North Bluff Boot", "Dark Brown", 185, [8, 9, 10, 11, 12]],
+      ["West End Loafer", "Espresso", 148, [7, 8, 9, 10, 11, 12]],
+      ["Crosswind Runner", "Silver / Teal", 126, [6, 7, 8, 9, 10, 11]],
+      ["Arbor High Top", "Ecru / Forest", 108, [7, 8, 9, 10, 11]],
+      ["Breakwater Trail", "Ochre / Black", 154, [8, 9, 10, 11, 12]],
+      ["Studio Court", "White / Cobalt", 96, [6, 7, 8, 9, 10, 12]],
+      ["Mesa Suede", "Clay", 124, [6, 7, 8, 9, 10, 11]],
+      ["Seabright Runner", "Mist / Coral", 120, [6, 7, 8, 9, 10]],
+      ["Pioneer Derby", "Black Leather", 172, [8, 9, 10, 11, 12]],
+      ["Boardwalk Canvas", "Natural", 68, [6, 7, 8, 9, 10, 11, 12]]
+    ].map(([name, color, price, sizes]) => ({ name, color, price, sizes }));
+
+    const pageSize = 12;
+    const selectedSizes = new Set();
+    const cart = new Map();
+    const currency = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD"
+    });
+
+    const products = document.querySelector("#products");
+    const productTemplate = document.querySelector("#product-template");
+    const priceMin = document.querySelector("#minimum-price");
+    const priceMax = document.querySelector("#maximum-price");
+    const sort = document.querySelector("#sort");
+    const pagination = document.querySelector("#pagination");
+    const previous = document.querySelector("#previous");
+    const next = document.querySelector("#next");
+    const pageButtons = [...pagination.querySelectorAll("[data-page]")];
+    const resultsHeading = document.querySelector("#results-heading");
+    let currentPage = 1;
+
+    function renderCart() {
+      const items = document.querySelector("#cart-items");
+      const total = document.querySelector("#cart-total");
+      const cartPanel = document.querySelector("#cart");
+      let quantity = 0;
+      let subtotal = 0;
+
+      items.replaceChildren();
+      for (const [key, line] of cart) {
+        quantity += line.quantity;
+        subtotal += line.product.price * line.quantity;
+
+        const item = document.createElement("li");
+        item.textContent = `${line.product.name} · US ${line.size} × ${line.quantity} · ${currency.format(line.product.price * line.quantity)}`;
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.textContent = "Remove one";
+        remove.setAttribute("aria-label", `Remove one ${line.product.name}, US ${line.size}`);
+        remove.addEventListener("click", () => {
+          const itemIndex = [...items.children].indexOf(item);
+          line.quantity -= 1;
+          if (line.quantity === 0) cart.delete(key);
+
+          renderCart();
+          const removeButtons = items.querySelectorAll("button");
+          const focusTarget = removeButtons[Math.min(itemIndex, removeButtons.length - 1)]
+            ?? cartPanel.querySelector("summary");
+          focusTarget.focus();
+          document.querySelector("#cart-status").textContent =
+            `Removed one ${line.product.name}. ${document.querySelector("#cart-count").textContent} in cart.`;
+        });
+
+        item.append(remove);
+        items.append(item);
+      }
+
+      document.querySelector("#cart-count").textContent = quantity;
+      document.querySelector("#cart-empty").hidden = quantity > 0;
+      items.hidden = quantity === 0;
+      total.hidden = quantity === 0;
+      total.textContent = `Subtotal ${currency.format(subtotal)}`;
+    }
+
+    function addToCart(product, size) {
+      const key = `${product.name}/${size}`;
+      if (!cart.has(key)) cart.set(key, { product, size, quantity: 0 });
+      cart.get(key).quantity += 1;
+      renderCart();
+
+      const count = document.querySelector("#cart-count").textContent;
+      document.querySelector("#cart-status").textContent =
+        `Added ${product.name}, US ${size}. ${count} in cart.`;
+    }
+
+    function makeCard(product) {
+      const card = productTemplate.content.cloneNode(true);
+      const image = card.querySelector("img");
+      const seed = product.name.toLowerCase().replaceAll(" ", "-");
+      image.src = `https://picsum.photos/seed/${seed}/640/480`;
+
+      card.querySelector("h3").textContent = product.name;
+      card.querySelector(".product-meta").textContent =
+        `${product.color} · ${currency.format(product.price)}`;
+
+      const size = card.querySelector("select");
+      size.setAttribute("aria-label", `Shoe size for ${product.name}`);
+      const placeholder = new Option("Size", "", true, true);
+      placeholder.disabled = true;
+      size.append(placeholder);
+
+      const matchingSizes = product.sizes.filter(value => selectedSizes.has(value));
+      const availableSizes = selectedSizes.size ? matchingSizes : product.sizes;
+      for (const value of availableSizes) {
+        size.add(new Option(`US ${value}`, value));
+      }
+      if (selectedSizes.size === 1) size.value = availableSizes[0];
+
+      const add = card.querySelector("button");
+      add.setAttribute("aria-label", `Add ${product.name} to cart`);
+      add.disabled = !size.value;
+      size.addEventListener("change", () => { add.disabled = !size.value; });
+      add.addEventListener("click", () => addToCart(product, size.value));
+      return card;
+    }
+
+    function renderProducts() {
+      const minimum = priceMin.value === "" ? 0 : Math.max(0, Number(priceMin.value));
+      const maximum = priceMax.value === "" ? Infinity : Number(priceMax.value);
+      const matches = inventory.filter(product =>
+        product.price >= minimum &&
+        product.price <= maximum &&
+        (selectedSizes.size === 0 || product.sizes.some(size => selectedSizes.has(size)))
+      );
+
+      if (sort.value === "price-asc") matches.sort((a, b) => a.price - b.price);
+      if (sort.value === "price-desc") matches.sort((a, b) => b.price - a.price);
+      if (sort.value === "name") matches.sort((a, b) => a.name.localeCompare(b.name));
+
+      const totalPages = Math.max(1, Math.ceil(matches.length / pageSize));
+      currentPage = Math.min(currentPage, totalPages);
+      const start = (currentPage - 1) * pageSize;
+      const visible = matches.slice(start, start + pageSize);
+      products.replaceChildren(...visible.map(makeCard));
+
+      document.querySelector("#results-count").textContent =
+        minimum > maximum
+          ? "Enter a maximum price at least as high as the minimum."
+          : matches.length === 0
+            ? "No shoes match these filters."
+            : `Showing ${start + 1}–${start + visible.length} of ${matches.length} shoes`;
+
+      pagination.hidden = totalPages === 1;
+      previous.disabled = currentPage === 1;
+      next.disabled = currentPage === totalPages;
+      for (const button of pageButtons) {
+        const page = Number(button.dataset.page);
+        button.hidden = page > totalPages;
+        if (page === currentPage) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
+      }
+    }
+
+    function resetPage() {
+      currentPage = 1;
+      renderProducts();
+    }
+
+    function goToPage(page) {
+      if (page === currentPage) return;
+      currentPage = page;
+      renderProducts();
+      resultsHeading.focus();
+      resultsHeading.scrollIntoView({ block: "start" });
+    }
+
+    document.querySelector("#sizes").addEventListener("click", event => {
+      const button = event.target.closest("button");
+      if (!button) return;
+
+      const size = Number(button.textContent);
+      if (selectedSizes.has(size)) selectedSizes.delete(size);
+      else selectedSizes.add(size);
+      button.setAttribute("aria-pressed", String(selectedSizes.has(size)));
+      resetPage();
+    });
+
+    priceMin.addEventListener("input", resetPage);
+    priceMax.addEventListener("input", resetPage);
+    sort.addEventListener("change", resetPage);
+    previous.addEventListener("click", () => goToPage(currentPage - 1));
+    next.addEventListener("click", () => goToPage(currentPage + 1));
+    for (const button of pageButtons) {
+      button.addEventListener("click", () => goToPage(Number(button.dataset.page)));
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>

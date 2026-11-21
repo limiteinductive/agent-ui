@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Stride footwear collection">
+  <title>Stride Shoes | New Arrivals</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="xl">
+        <ui-row justify="space-between" padding="md">
+          <a href="#" aria-label="Stride home"><strong>STRIDE</strong></a>
+          <ui-row gap="sm">
+            <a href="#products">Shop</a>
+            <a href="#cart" aria-label="Shopping cart">Cart (0)</a>
+          </ui-row>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-stack gap="xl" padding="lg">
+          <ui-stack gap="sm">
+            <small>SPRING / SUMMER 2026</small>
+            <h1>Everyday movement, elevated.</h1>
+            <p>Fresh silhouettes, lightweight comfort, and timeless materials for wherever the day takes you.</p>
+          </ui-stack>
+
+          <form aria-label="Product filters">
+            <ui-card padding="md" variant="neutral">
+              <ui-row wrap gap="md" align="end">
+                <ui-stack gap="xs">
+                  <strong>Size</strong>
+                  <ui-row wrap gap="xs">
+                    <ui-button type="button" size="sm" variant="primary" aria-pressed="true">6</ui-button>
+                    <ui-button type="button" size="sm" variant="outline" aria-pressed="false">7</ui-button>
+                    <ui-button type="button" size="sm" variant="outline" aria-pressed="false">8</ui-button>
+                    <ui-button type="button" size="sm" variant="outline" aria-pressed="false">9</ui-button>
+                    <ui-button type="button" size="sm" variant="outline" aria-pressed="false">10</ui-button>
+                    <ui-button type="button" size="sm" variant="outline" aria-pressed="false">11</ui-button>
+                  </ui-row>
+                </ui-stack>
+
+                <label>
+                  <strong>Price</strong><br>
+                  <input type="range" name="price" min="50" max="250" value="250">
+                  <small>$50–$250</small>
+                </label>
+
+                <label>
+                  <strong>Sort by</strong><br>
+                  <select name="sort">
+                    <option>Featured</option>
+                    <option>Price: Low to high</option>
+                    <option>Price: High to low</option>
+                    <option>Newest arrivals</option>
+                  </select>
+                </label>
+              </ui-row>
+            </ui-card>
+          </form>
+
+          <ui-row justify="space-between" align="baseline">
+            <h2 id="products">New arrivals</h2>
+            <small>12 styles</small>
+          </ui-row>
+
+          <ui-grid max-columns="3" min-item-width="sm" gap="lg">
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-01/600/440" alt="Aster Knit Runner in cloud white" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Aster Knit Runner</h3>
+                    <small>Cloud white</small>
+                  </ui-stack>
+                  <strong>$128</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-02/600/440" alt="Marlow Court sneaker in sand" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Marlow Court</h3>
+                    <small>Sand</small>
+                  </ui-stack>
+                  <strong>$142</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-03/600/440" alt="Vale Trail low shoe in moss green" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Vale Trail Low</h3>
+                    <small>Moss green</small>
+                  </ui-stack>
+                  <strong>$156</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-04/600/440" alt="Nova Slip-On in black" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Nova Slip-On</h3>
+                    <small>Black</small>
+                  </ui-stack>
+                  <strong>$98</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-05/600/440" alt="Cove Canvas sneaker in navy" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Cove Canvas</h3>
+                    <small>Navy</small>
+                  </ui-stack>
+                  <strong>$88</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-06/600/440" alt="Ridge Hiker in rust orange" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Ridge Hiker</h3>
+                    <small>Rust</small>
+                  </ui-stack>
+                  <strong>$184</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-07/600/440" alt="Lumen Mary Jane in burgundy" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Lumen Mary Jane</h3>
+                    <small>Burgundy</small>
+                  </ui-stack>
+                  <strong>$134</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-08/600/440" alt="Sola Slide sandal in cream" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Sola Slide</h3>
+                    <small>Cream</small>
+                  </ui-stack>
+                  <strong>$76</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-09/600/440" alt="Arden Chelsea boot in espresso brown" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Arden Chelsea</h3>
+                    <small>Espresso</small>
+                  </ui-stack>
+                  <strong>$210</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-10/600/440" alt="Pace Trainer in slate blue" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Pace Trainer</h3>
+                    <small>Slate</small>
+                  </ui-stack>
+                  <strong>$118</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-11/600/440" alt="Orla Ballet Flat in blush pink" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Orla Ballet Flat</h3>
+                    <small>Blush</small>
+                  </ui-stack>
+                  <strong>$112</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/stride-12/600/440" alt="Atlas Runner in charcoal grey" width="600" height="440">
+              <ui-stack gap="md" padding="md">
+                <ui-row justify="space-between" align="start">
+                  <ui-stack gap="xs">
+                    <h3>Atlas Runner</h3>
+                    <small>Charcoal</small>
+                  </ui-stack>
+                  <strong>$164</strong>
+                </ui-row>
+                <ui-button type="button" variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <nav aria-label="Pagination">
+            <ui-row justify="center" gap="sm">
+              <ui-button type="button" variant="outline" disabled aria-label="Previous page">←</ui-button>
+              <ui-button type="button" variant="primary" aria-current="page">1</ui-button>
+              <ui-button type="button" variant="outline">2</ui-button>
+              <ui-button type="button" variant="outline">3</ui-button>
+              <ui-button type="button" variant="outline" aria-label="Next page">→</ui-button>
+            </ui-row>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="xl">
+        <ui-row justify="space-between" padding="lg">
+          <small>© 2026 Stride Footwear</small>
+          <small>Free shipping on orders over $100</small>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    const cartLink = document.querySelector('header a[aria-label="Shopping cart"]');
+    const buttons = document.querySelectorAll('ui-card ui-button');
+    let cartCount = 0;
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        cartCount += 1;
+        cartLink.textContent = `Cart (${cartCount})`;
+        button.textContent = 'Added';
+        button.setAttribute('variant', 'success');
+        setTimeout(() => {
+          button.textContent = 'Add to cart';
+          button.setAttribute('variant', 'primary');
+        }, 900);
+      });
+    });
+  </script>
+</body>
+</html>

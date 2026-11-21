@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings · Lumen</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Lumen</strong>
+        <nav>
+          <ui-row gap="md">
+            <a href="#">Dashboard</a>
+            <a href="#" aria-current="page">Settings</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="md">
+        <ui-stack gap="xs">
+          <h1>Account settings</h1>
+          <p>Manage your profile, notifications and billing.</p>
+        </ui-stack>
+
+        <!-- Profile -->
+        <ui-card elevated>
+          <ui-stack gap="xs">
+            <h2>Profile</h2>
+            <small>This information appears on your public profile and in shared projects.</small>
+          </ui-stack>
+          <form id="profile-form">
+            <ui-stack gap="lg">
+              <ui-row wrap gap="lg">
+                <img src="https://picsum.photos/seed/maya-avatar/192/192" width="96" height="96" alt="Current profile photo of Maya Chen">
+                <ui-stack gap="sm" grow>
+                  <label>Profile photo
+                    <input type="file" name="avatar" accept="image/png, image/jpeg, image/webp">
+                  </label>
+                  <small>PNG, JPG or WebP. Square images work best, up to 4 MB.</small>
+                </ui-stack>
+              </ui-row>
+
+              <ui-row stack-below="30rem" gap="md" align="start">
+                <label>Full name
+                  <input name="name" autocomplete="name" value="Maya Chen" required>
+                </label>
+                <label>Email address
+                  <input type="email" name="email" autocomplete="email" value="maya.chen@example.com" required>
+                </label>
+              </ui-row>
+
+              <label>Bio
+                <textarea name="bio" rows="4" maxlength="280">Product designer in Lisbon. I make dashboards less scary and spend weekends hunting for the perfect pastel de nata.</textarea>
+              </label>
+              <small>Up to 280 characters.</small>
+
+              <ui-row wrap justify="end" gap="sm">
+                <ui-button type="reset" variant="ghost">Cancel</ui-button>
+                <ui-button type="submit" variant="primary" id="save-btn">Save changes</ui-button>
+              </ui-row>
+              <p id="save-status" role="status" hidden>Profile saved.</p>
+            </ui-stack>
+          </form>
+        </ui-card>
+
+        <!-- Notifications -->
+        <ui-card elevated>
+          <ui-stack gap="xs">
+            <h2>Notifications</h2>
+            <small>Choose what we email you about. Security alerts are always sent.</small>
+          </ui-stack>
+          <ui-stack gap="md">
+            <ui-row justify="space-between" gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n-comments">Comments &amp; mentions</strong>
+                <small>When someone replies to you or @mentions you.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_comments" aria-labelledby="n-comments" checked>
+            </ui-row>
+            <hr>
+            <ui-row justify="space-between" gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n-digest">Weekly digest</strong>
+                <small>A Monday summary of activity across your projects.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_digest" aria-labelledby="n-digest" checked>
+            </ui-row>
+            <hr>
+            <ui-row justify="space-between" gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n-product">Product updates</strong>
+                <small>New features, improvements and occasional tips.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_product" aria-labelledby="n-product">
+            </ui-row>
+            <hr>
+            <ui-row justify="space-between" gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n-billing">Billing receipts</strong>
+                <small>A receipt each time your card is charged.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_billing" aria-labelledby="n-billing" checked>
+            </ui-row>
+            <hr>
+            <ui-row justify="space-between" gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n-security">Security alerts</strong>
+                <small>New sign-ins and password changes. Required.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_security" aria-labelledby="n-security" checked disabled>
+            </ui-row>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Billing -->
+        <ui-card elevated>
+          <ui-row wrap justify="space-between" gap="sm">
+            <h2>Billing</h2>
+            <a href="#">View all invoices</a>
+          </ui-row>
+
+          <ui-card variant="primary" padding="md">
+            <ui-row wrap justify="space-between" gap="md">
+              <ui-stack gap="xs">
+                <small>Current plan</small>
+                <strong>Pro · Annual</strong>
+                <span>$144.00 / year, billed on <time datetime="2027-03-14">March 14, 2027</time></span>
+              </ui-stack>
+              <ui-row wrap gap="sm">
+                <ui-button variant="outline" size="sm">Change plan</ui-button>
+                <ui-button variant="primary" size="sm">Upgrade to Team</ui-button>
+              </ui-row>
+            </ui-row>
+          </ui-card>
+
+          <ui-grid max-columns="3" min-item-width="xs" gap="sm">
+            <ui-card sunken padding="md" gap="xs">
+              <small>Seats</small>
+              <strong>1 of 1</strong>
+            </ui-card>
+            <ui-card sunken padding="md" gap="xs">
+              <small>Storage</small>
+              <strong>38.2 GB of 100 GB</strong>
+            </ui-card>
+            <ui-card sunken padding="md" gap="xs">
+              <small>Payment method</small>
+              <strong>Visa ···· 4242</strong>
+            </ui-card>
+          </ui-grid>
+
+          <table>
+            <thead>
+              <tr><th>Date</th><th>Amount</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><time datetime="2026-03-14">Mar 14, 2026</time></td><td>$144.00</td><td>Paid</td></tr>
+              <tr><td><time datetime="2025-03-14">Mar 14, 2025</time></td><td>$144.00</td><td>Paid</td></tr>
+              <tr><td><time datetime="2025-02-14">Feb 14, 2025</time></td><td>$15.00</td><td>Paid</td></tr>
+            </tbody>
+          </table>
+        </ui-card>
+
+        <!-- Danger zone -->
+        <ui-card variant="danger">
+          <ui-stack gap="xs">
+            <h2>Danger zone</h2>
+            <p>Deleting your account permanently removes your profile, 12 projects and all uploaded files. Your Pro subscription will be cancelled without a refund. This cannot be undone.</p>
+          </ui-stack>
+          <ui-row wrap justify="space-between" gap="md">
+            <a href="#">Export my data first</a>
+            <ui-button variant="danger" id="delete-open">Delete account</ui-button>
+          </ui-row>
+        </ui-card>
+
+        <footer>
+          <small>© 2026 Lumen Labs · <a href="#">Privacy</a> · <a href="#">Terms</a></small>
+        </footer>
+      </ui-stack>
+    </ui-container>
+  </main>
+</ui-page>
+
+<dialog id="delete-dialog" aria-labelledby="delete-title">
+  <form method="dialog" id="delete-form">
+    <ui-stack gap="md">
+      <h3 id="delete-title">Delete your account?</h3>
+      <p>This permanently deletes everything associated with <strong>maya.chen@example.com</strong>. Type <code>DELETE</code> to confirm.</p>
+      <label>Confirmation
+        <input name="confirm" id="delete-confirm" autocomplete="off" placeholder="DELETE">
+      </label>
+      <ui-row wrap justify="end" gap="sm">
+        <ui-button value="cancel" type="submit" variant="ghost">Cancel</ui-button>
+        <ui-button id="delete-confirm-btn" variant="danger" disabled>Delete permanently</ui-button>
+      </ui-row>
+    </ui-stack>
+  </form>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('delete-dialog');
+  const confirmInput = document.getElementById('delete-confirm');
+  const confirmBtn = document.getElementById('delete-confirm-btn');
+
+  document.getElementById('delete-open').addEventListener('click', () => {
+    confirmInput.value = '';
+    confirmBtn.setAttribute('disabled', '');
+    dialog.showModal();
+  });
+
+  confirmInput.addEventListener('input', () => {
+    if (confirmInput.value.trim() === 'DELETE') confirmBtn.removeAttribute('disabled');
+    else confirmBtn.setAttribute('disabled', '');
+  });
+
+  confirmBtn.addEventListener('click', () => {
+    if (confirmBtn.hasAttribute('disabled')) return;
+    confirmBtn.setAttribute('loading', '');
+    setTimeout(() => {
+      confirmBtn.removeAttribute('loading');
+      dialog.close();
+      alert('Demo only: your account would now be scheduled for deletion.');
+    }, 900);
+  });
+
+  document.getElementById('profile-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('save-btn');
+    const status = document.getElementById('save-status');
+    btn.setAttribute('loading', '');
+    status.hidden = true;
+    setTimeout(() => {
+      btn.removeAttribute('loading');
+      status.hidden = false;
+    }, 700);
+  });
+</script>
+</body>
+</html>

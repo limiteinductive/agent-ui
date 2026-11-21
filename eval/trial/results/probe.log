@@ -1,0 +1,56 @@
+235 pages probed; 96 flagged; flagged but diagnostics-clean: 11
+
+pages/skill/dashboard/opus-s1-p1.html @360
+  overlap 42px  <ui-row gap="sm">Northwind Goods  ×  <form grow action="#">Search
+
+pages/skill/calendar/sonnet-s0-p1.html @360
+  overlap 29px  <ui-button id="prev" variant="outline" size="sm" aria-label="Previous month">‹ Prev  ×  <h2 id="month-title">November 2026
+
+pages/skill/calendar/haiku-s0-p1.html @360
+  overlap 15px  <ui-button id="prev" variant="outline" size="sm" aria-label="Previous month">‹ Prev  ×  <h2 id="month" aria-live="polite">November 2026
+
+pages/bare/dashboard/haiku-s0-p2.html @360
+  overlap 29px  <ui-stack direction="horizontal" align="center" gap="sm">Lumen Store  ×  <ui-stack direction="horizontal" align="center" gap="sm" grow wrap="wrap">Search
+
+pages/bare/calendar/sonnet-s1-p1.html @360
+  overlap 10px  <ui-card>2  ×  <ui-card>3 Sprint planning
+  overlap 10px  <ui-card>3 Sprint planning  ×  <ui-card>4
+  overlap 10px  <ui-card>4  ×  <ui-card>5
+  overlap 10px  <ui-card>5  ×  <ui-card>6
+  overlap 10px  <ui-card>6  ×  <ui-card>7
+  overlap 10px  <ui-card>7  ×  <ui-card>8
+
+pages/bare/dashboard/opus-s0-p2.html @360
+  overlap 26px  <ui-row gap="sm" align="center" wrap>Northwind Goods  ×  <form action="#" grow>Search
+
+pages/bare/calendar/haiku-s1-p2.html @360
+  overlap 28px  <ui-button id="prev" variant="ghost" aria-label="Previous month">← Prev  ×  <h2 id="month-title">November 2026
+
+pages/bare/calendar/opus-s0-p1.html @360
+  overlap 6px  <ui-button variant="ghost" id="prev" aria-label="Previous month">‹  ×  <ui-stack gap="0" align="center">November 2026 Today
+
+pages/bare/calendar/gpt-5.6-s0-p2.html @360
+  overlap 18px  <ui-card>26  ×  <ui-card>27
+  overlap 18px  <ui-card>27  ×  <ui-card>28
+  overlap 18px  <ui-card>28  ×  <ui-card>29
+  overlap 18px  <ui-card>29  ×  <ui-card>30
+  overlap 18px  <ui-card>30  ×  <ui-card>31
+  overlap 18px  <ui-card>31  ×  <ui-card>1
+
+pages/bare/calendar/gpt-6.2-s0-p0.html @1280
+  clipped 55px  <span class="chip-full" aria-hidden="true">September project kickoff  ×  <div class="event-chip" data-kind="planning" title="September project kickoff" aria-label="September>September project kickoff
+  clipped 55px  <span class="chip-full" aria-hidden="true">Homepage design critique  ×  <div class="event-chip" data-kind="review" title="Homepage design critique" aria-label="Homepage des>Homepage design critique
+  clipped 41px  <span class="chip-full" aria-hidden="true">Homepage walkthrough  ×  <div class="event-chip" data-kind="review" title="Homepage walkthrough" aria-label="Homepage walkthr>Homepage walkthrough
+
+pages/bare/calendar/gpt-6.2-s1-p1.html @360
+  clipped 10px  <span class="event-compact">Review  ×  <span class="calendar-event" data-kind="design" title="Onboarding design review, 11:0" aria-label="O>Review
+  clipped 22px  <span class="event-compact">Research  ×  <span class="calendar-event" data-kind="research" title="Customer interview, 10:30 AM" aria-label="C>Research
+  clipped 14px  <span class="event-compact">Release  ×  <span class="calendar-event" data-kind="planning" title="Release readiness check, 2:00 " aria-label=>Release
+  clipped 17px  <span class="event-compact">Readout  ×  <span class="calendar-event" data-kind="research" title="Research readout, 11:00 AM" aria-label="Res>Readout
+
+pages/bare/calendar/gpt-6.2-s1-p1.html @1280
+  clipped 13px  <span class="event-full">October team retro  ×  <span class="calendar-event" data-kind="planning" title="October team retro, 3:00 PM" aria-label="Oc>October team retro
+  clipped 51px  <span class="event-full">Onboarding design review  ×  <span class="calendar-event" data-kind="design" title="Onboarding design review, 11:0" aria-label="O>Onboarding design review
+  clipped 14px  <span class="event-full">Customer interview  ×  <span class="calendar-event" data-kind="research" title="Customer interview, 10:30 AM" aria-label="C>Customer interview
+  clipped 42px  <span class="event-full">Release readiness check  ×  <span class="calendar-event" data-kind="planning" title="Release readiness check, 2:00 " aria-label=>Release readiness check
+  clipped 50px  <span class="event-full">Roadmap working session  ×  <span class="calendar-event" data-kind="planning" title="Roadmap working session, 10:00" aria-label=>Roadmap working session

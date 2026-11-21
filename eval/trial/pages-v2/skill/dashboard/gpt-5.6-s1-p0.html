@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page layout="document">
+    <header>
+      <ui-container size="full">
+        <ui-row wrap gap="md" justify="space-between" padding="md">
+          <ui-row gap="sm">
+            <strong>Northstar Commerce</strong>
+            <small>Analytics</small>
+          </ui-row>
+
+          <form grow role="search">
+            <label>
+              <span class="sr-only">Search dashboard</span>
+              <input type="search" name="search" placeholder="Search orders, customers, products">
+            </label>
+          </form>
+
+          <ui-row gap="sm">
+            <ui-button variant="ghost" aria-label="Notifications">🔔</ui-button>
+            <ui-button variant="secondary">Jane Doe ▾</ui-button>
+          </ui-row>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="full">
+        <ui-stack gap="lg" padding="md">
+          <ui-row wrap justify="space-between" gap="md">
+            <ui-stack gap="xs">
+              <h1>Good morning, Jane</h1>
+              <p>Here’s what’s happening with your store today.</p>
+            </ui-stack>
+            <ui-row wrap gap="sm">
+              <ui-button variant="outline">Export report</ui-button>
+              <ui-button variant="primary">Last 30 days ▾</ui-button>
+            </ui-row>
+          </ui-row>
+
+          <ui-row wrap align="start" gap="lg">
+            <aside>
+              <ui-card padding="md" gap="md">
+                <ui-stack gap="sm">
+                  <ui-row justify="space-between">
+                    <h2>Filters</h2>
+                    <a href="#">Reset</a>
+                  </ui-row>
+
+                  <label>
+                    Store
+                    <select name="store">
+                      <option>All stores</option>
+                      <option>San Francisco</option>
+                      <option>New York</option>
+                      <option>London</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    Sales channel
+                    <select name="channel">
+                      <option>All channels</option>
+                      <option>Online store</option>
+                      <option>Mobile app</option>
+                      <option>Retail</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    Customer segment
+                    <select name="segment">
+                      <option>All customers</option>
+                      <option>New customers</option>
+                      <option>Returning customers</option>
+                      <option>VIP customers</option>
+                    </select>
+                  </label>
+
+                  <hr>
+
+                  <h3>Quick links</h3>
+                  <nav>
+                    <ul>
+                      <li><a href="#">Sales overview</a></li>
+                      <li><a href="#">Customer retention</a></li>
+                      <li><a href="#">Inventory health</a></li>
+                      <li><a href="#">Marketing performance</a></li>
+                    </ul>
+                  </nav>
+                </ui-stack>
+              </ui-card>
+            </aside>
+
+            <section grow>
+              <ui-stack gap="lg">
+                <ui-grid max-columns="4" min-item-width="sm" gap="md">
+                  <ui-card variant="primary" padding="md">
+                    <ui-stack gap="xs">
+                      <small>Total revenue</small>
+                      <h2>$84,290</h2>
+                      <span>↑ 12.4% <small>vs. previous period</small></span>
+                    </ui-stack>
+                  </ui-card>
+
+                  <ui-card padding="md">
+                    <ui-stack gap="xs">
+                      <small>Total orders</small>
+                      <h2>1,284</h2>
+                      <span>↑ 8.7% <small>vs. previous period</small></span>
+                    </ui-stack>
+                  </ui-card>
+
+                  <ui-card padding="md">
+                    <ui-stack gap="xs">
+                      <small>Conversion rate</small>
+                      <h2>4.82%</h2>
+                      <span>↑ 0.6% <small>vs. previous period</small></span>
+                    </ui-stack>
+                  </ui-card>
+
+                  <ui-card padding="md">
+                    <ui-stack gap="xs">
+                      <small>Refunds</small>
+                      <h2>$2,418</h2>
+                      <span>↓ 3.2% <small>vs. previous period</small></span>
+                    </ui-stack>
+                  </ui-card>
+                </ui-grid>
+
+                <ui-grid max-columns="2" min-item-width="lg" gap="lg">
+                  <ui-card padding="md">
+                    <ui-stack gap="md">
+                      <ui-row justify="space-between" gap="sm">
+                        <ui-stack gap="xs">
+                          <h2>Recent orders</h2>
+                          <p>Latest activity across all sales channels.</p>
+                        </ui-stack>
+                        <a href="#">View all</a>
+                      </ui-row>
+
+                      <ui-row scroll>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Order</th>
+                              <th>Customer</th>
+                              <th>Date</th>
+                              <th>Status</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><a href="#">#NS-10482</a></td>
+                              <td>Olivia Martin</td>
+                              <td><time datetime="2026-11-21">Today, 10:42 AM</time></td>
+                              <td><mark>Processing</mark></td>
+                              <td>$248.00</td>
+                            </tr>
+                            <tr>
+                              <td><a href="#">#NS-10481</a></td>
+                              <td>Marcus Lee</td>
+                              <td><time datetime="2026-11-21">Today, 9:18 AM</time></td>
+                              <td><mark>Shipped</mark></td>
+                              <td>$129.50</td>
+                            </tr>
+                            <tr>
+                              <td><a href="#">#NS-10480</a></td>
+                              <td>Sophia Chen</td>
+                              <td><time datetime="2026-11-20">Yesterday, 6:34 PM</time></td>
+                              <td><mark>Delivered</mark></td>
+                              <td>$382.25</td>
+                            </tr>
+                            <tr>
+                              <td><a href="#">#NS-10479</a></td>
+                              <td>James Wilson</td>
+                              <td><time datetime="2026-11-20">Yesterday, 4:02 PM</time></td>
+                              <td><mark>Processing</mark></td>
+                              <td>$74.00</td>
+                            </tr>
+                            <tr>
+                              <td><a href="#">#NS-10478</a></td>
+                              <td>Amelia Davis</td>
+                              <td><time datetime="2026-11-20">Yesterday, 1:27 PM</time></td>
+                              <td><mark>Delivered</mark></td>
+                              <td>$516.75</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </ui-row>
+                    </ui-stack>
+                  </ui-card>
+
+                  <ui-card padding="md">
+                    <ui-stack gap="md">
+                      <ui-row justify="space-between" gap="sm">
+                        <ui-stack gap="xs">
+                          <h2>Top products</h2>
+                          <p>Best performers by revenue.</p>
+                        </ui-stack>
+                        <a href="#">View report</a>
+                      </ui-row>
+
+                      <ul>
+                        <li>
+                          <ui-row gap="sm">
+                            <img src="https://picsum.photos/seed/linen-shirt/64/64" alt="Classic linen shirt" width="64" height="64" loading="lazy">
+                            <ui-stack grow gap="xs">
+                              <strong>Classic Linen Shirt</strong>
+                              <small>186 units sold</small>
+                            </ui-stack>
+                            <strong>$12,480</strong>
+                          </ui-row>
+                        </li>
+                        <li>
+                          <ui-row gap="sm">
+                            <img src="https://picsum.photos/seed/leather-bag/64/64" alt="Everyday leather tote" width="64" height="64" loading="lazy">
+                            <ui-stack grow gap="xs">
+                              <strong>Everyday Leather Tote</strong>
+                              <small>94 units sold</small>
+                            </ui-stack>
+                            <strong>$9,870</strong>
+                          </ui-row>
+                        </li>
+                        <li>
+                          <ui-row gap="sm">
+                            <img src="https://picsum.photos/seed/ceramic-mug/64/64" alt="Hand-thrown ceramic mug" width="64" height="64" loading="lazy">
+                            <ui-stack grow gap="xs">
+                              <strong>Hand-thrown Ceramic Mug</strong>
+                              <small>241 units sold</small>
+                            </ui-stack>
+                            <strong>$6,265</strong>
+                          </ui-row>
+                        </li>
+                        <li>
+                          <ui-row gap="sm">
+                            <img src="https://picsum.photos/seed/wool-throw/64/64" alt="Merino wool throw" width="64" height="64" loading="lazy">
+                            <ui-stack grow gap="xs">
+                              <strong>Merino Wool Throw</strong>
+                              <small>58 units sold</small>
+                            </ui-stack>
+                            <strong>$5,742</strong>
+                          </ui-row>
+                        </li>
+                      </ul>
+                    </ui-stack>
+                  </ui-card>
+                </ui-grid>
+              </ui-stack>
+            </section>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="full">
+        <ui-row justify="space-between" wrap padding="md">
+          <small>Data updated just now</small>
+          <small>Northstar Commerce © 2026</small>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop Shoes | Rowan Footwear</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* agent-ui has no responsive image sizing element. */
+    .product-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 5 / 4;
+      object-fit: cover;
+      background: var(--ui-surface);
+    }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" gap="sm" padding="md">
+          <strong>Rowan Footwear</strong>
+          <ui-button id="open-cart" variant="outline" rounded="full" aria-haspopup="dialog">
+            Cart (<span id="cart-count" aria-live="polite">0</span>)
+          </ui-button>
+        </ui-row>
+        <hr>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="lg">
+          <ui-stack gap="xs">
+            <h1 id="catalog-heading" tabindex="-1">Shop shoes</h1>
+            <p>Everyday sneakers, trail shoes, and leather staples.</p>
+          </ui-stack>
+
+          <section aria-label="Product filters">
+            <ui-card padding="md" rounded="lg">
+              <ui-row stack-below="58rem" align="start" gap="lg">
+                <ui-stack gap="sm">
+                  <strong id="size-label">US shoe size</strong>
+                  <ui-row id="size-options" role="group" aria-labelledby="size-label" gap="xs" wrap>
+                    <ui-button data-size="" variant="primary" size="sm" rounded="full" aria-pressed="true">All</ui-button>
+                    <ui-button data-size="6" variant="outline" size="sm" rounded="full" aria-pressed="false">6</ui-button>
+                    <ui-button data-size="7" variant="outline" size="sm" rounded="full" aria-pressed="false">7</ui-button>
+                    <ui-button data-size="8" variant="outline" size="sm" rounded="full" aria-pressed="false">8</ui-button>
+                    <ui-button data-size="9" variant="outline" size="sm" rounded="full" aria-pressed="false">9</ui-button>
+                    <ui-button data-size="10" variant="outline" size="sm" rounded="full" aria-pressed="false">10</ui-button>
+                    <ui-button data-size="11" variant="outline" size="sm" rounded="full" aria-pressed="false">11</ui-button>
+                    <ui-button data-size="12" variant="outline" size="sm" rounded="full" aria-pressed="false">12</ui-button>
+                  </ui-row>
+                </ui-stack>
+
+                <ui-stack gap="sm">
+                  <strong id="price-label">Price range</strong>
+                  <ui-row role="group" aria-labelledby="price-label" gap="sm" wrap>
+                    <label>Min <select id="min-price" aria-label="Minimum price"></select></label>
+                    <label>Max <select id="max-price" aria-label="Maximum price"></select></label>
+                  </ui-row>
+                </ui-stack>
+
+                <label>
+                  Sort by
+                  <select id="sort">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: low to high</option>
+                    <option value="price-desc">Price: high to low</option>
+                    <option value="name">Name: A to Z</option>
+                  </select>
+                </label>
+              </ui-row>
+            </ui-card>
+          </section>
+
+          <ui-stack gap="sm">
+            <p id="result-count" role="status"></p>
+            <ui-grid id="product-grid" max-columns="4" min-item-width="15rem" gap="md"></ui-grid>
+          </ui-stack>
+
+          <nav id="pagination" aria-label="Product pages" hidden>
+            <ui-row id="page-options" justify="center" gap="xs" wrap></ui-row>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <ui-stack gap="sm" padding="lg">
+          <hr>
+          <small>Rowan Footwear · Prices in USD</small>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <template id="product-template">
+    <ui-card padding="0" gap="0" rounded="lg">
+      <img class="product-image" width="600" height="480" alt="" decoding="async">
+      <ui-stack gap="sm" padding="md" grow>
+        <ui-stack gap="xs" grow>
+          <small class="product-color"></small>
+          <h2 class="product-name"></h2>
+        </ui-stack>
+        <strong class="product-price"></strong>
+        <ui-button class="add-product" variant="primary" rounded="md" aria-haspopup="dialog">
+          Add to cart
+        </ui-button>
+      </ui-stack>
+    </ui-card>
+  </template>
+
+  <dialog id="size-dialog" aria-labelledby="size-dialog-title">
+    <form id="add-form" method="dialog">
+      <ui-stack gap="md">
+        <h2 id="size-dialog-title"></h2>
+        <label>
+          US shoe size
+          <select id="cart-size"></select>
+        </label>
+        <ui-row gap="sm" wrap justify="end">
+          <ui-button id="cancel-size" variant="ghost">Cancel</ui-button>
+          <ui-button type="submit" variant="primary">Add to cart</ui-button>
+        </ui-row>
+      </ui-stack>
+    </form>
+  </dialog>
+
+  <dialog id="cart-dialog" aria-labelledby="cart-title">
+    <ui-stack gap="md">
+      <ui-row justify="space-between" gap="sm" wrap>
+        <h2 id="cart-title">Your cart</h2>
+        <ui-button id="close-cart" variant="outline" size="sm">Close</ui-button>
+      </ui-row>
+      <p id="cart-empty">Your cart is empty.</p>
+      <div id="cart-content" hidden>
+        <ui-stack gap="md">
+          <ul id="cart-items"></ul>
+          <ui-row justify="space-between" wrap>
+            <strong>Subtotal</strong>
+            <strong id="cart-total"></strong>
+          </ui-row>
+        </ui-stack>
+      </div>
+    </ui-stack>
+  </dialog>
+
+  <script>
+    const standardSizes = [6, 7, 8, 9, 10, 11, 12];
+    const midSizes = [6, 7, 8, 9, 10];
+    const extendedSizes = [8, 9, 10, 11, 12];
+
+    const products = [
+      ["Harbor Court", "Chalk / gum", 85, standardSizes],
+      ["Canyon Trail", "Olive / slate", 128, extendedSizes],
+      ["Aster Runner", "Fog / lilac", 110, midSizes],
+      ["Market Slip-On", "Natural canvas", 65, standardSizes],
+      ["Ridge Hiker", "Tobacco / black", 168, extendedSizes],
+      ["Daybreak Trainer", "Stone / navy", 98, standardSizes],
+      ["Studio Low", "Black / chalk", 92, midSizes],
+      ["Beacon Loafer", "Espresso leather", 145, extendedSizes],
+      ["Pace Knit", "Oat / white", 105, standardSizes],
+      ["Park Canvas", "Washed indigo", 58, midSizes],
+      ["Avenue Chelsea", "Black leather", 175, extendedSizes],
+      ["Mesa Sandal", "Sand / terracotta", 72, standardSizes],
+      ["Harbor Court", "Navy / gum", 85, extendedSizes],
+      ["Canyon Trail", "Charcoal / rust", 128, standardSizes],
+      ["Aster Runner", "Cloud / mint", 110, standardSizes],
+      ["Market Slip-On", "Black canvas", 65, midSizes],
+      ["Ridge Hiker", "Moss / charcoal", 168, extendedSizes],
+      ["Daybreak Trainer", "Cream / burgundy", 98, midSizes],
+      ["Studio Low", "White / sage", 92, standardSizes],
+      ["Beacon Loafer", "Black leather", 145, midSizes],
+      ["Pace Knit", "Graphite / white", 105, extendedSizes],
+      ["Park Canvas", "Clay red", 58, standardSizes],
+      ["Avenue Chelsea", "Chestnut suede", 175, standardSizes],
+      ["Mesa Sandal", "Black / olive", 72, midSizes]
+    ].map(([name, color, price, sizes], index) => ({
+      id: index + 1, name, color, price, sizes
+    }));
+
+    const currency = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0
+    });
+    const money = amount => currency.format(amount);
+    const byId = id => document.getElementById(id);
+    const pageSize = 12;
+    const sizeOptions = byId("size-options");
+    const minPrice = byId("min-price");
+    const maxPrice = byId("max-price");
+    const sort = byId("sort");
+    const grid = byId("product-grid");
+    const pageOptions = byId("page-options");
+    const sizeDialog = byId("size-dialog");
+    const cartDialog = byId("cart-dialog");
+    const cartSize = byId("cart-size");
+    const cart = new Map();
+
+    let selectedSize = "";
+    let page = 1;
+    let pendingProduct = null;
+
+    const priceStops = [0, 50, 75, 100, 125, 150, 175, 200];
+    for (const price of priceStops) {
+      minPrice.add(new Option(money(price), price));
+      maxPrice.add(new Option(money(price), price));
+    }
+    maxPrice.value = "200";
+
+    const sorters = {
+      "price-asc": (a, b) => a.price - b.price,
+      "price-desc": (a, b) => b.price - a.price,
+      name: (a, b) => a.name.localeCompare(b.name)
+    };
+
+    function renderCatalog() {
+      const matches = products.filter(product =>
+        (!selectedSize || product.sizes.includes(Number(selectedSize))) &&
+        product.price >= Number(minPrice.value) &&
+        product.price <= Number(maxPrice.value)
+      );
+      if (sorters[sort.value]) matches.sort(sorters[sort.value]);
+
+      const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
+      page = Math.min(page, pageCount);
+      const start = (page - 1) * pageSize;
+      const visible = matches.slice(start, start + pageSize);
+
+      byId("result-count").textContent = matches.length
+        ? `Showing ${start + 1}–${start + visible.length} of ${matches.length} styles`
+        : "No shoes match these filters.";
+
+      grid.replaceChildren();
+      for (const [index, product] of visible.entries()) {
+        const card = byId("product-template").content.cloneNode(true);
+        const image = card.querySelector("img");
+        image.loading = index < 4 ? "eager" : "lazy";
+        image.src = `https://picsum.photos/seed/rowan-shoe-${product.id}/600/480`;
+        card.querySelector(".product-color").textContent = product.color;
+        card.querySelector(".product-name").textContent = product.name;
+        card.querySelector(".product-price").textContent = money(product.price);
+
+        const addButton = card.querySelector(".add-product");
+        addButton.setAttribute("aria-label", `Add ${product.name} in ${product.color} to cart`);
+        addButton.addEventListener("click", () => openSizeDialog(product));
+        grid.append(card);
+      }
+
+      byId("pagination").hidden = pageCount < 2;
+      pageOptions.replaceChildren();
+      if (pageCount < 2) return;
+
+      addPageButton("Previous", page - 1, page === 1);
+      for (let number = 1; number <= pageCount; number++) {
+        addPageButton(String(number), number, false, number === page);
+      }
+      addPageButton("Next", page + 1, page === pageCount);
+    }
+
+    function addPageButton(label, targetPage, disabled, current = false) {
+      const button = document.createElement("ui-button");
+      button.textContent = label;
+      button.setAttribute("size", "sm");
+      button.setAttribute("rounded", "full");
+      button.setAttribute("variant", current ? "primary" : "outline");
+      if (disabled) button.setAttribute("disabled", "");
+      if (current) button.setAttribute("aria-current", "page");
+      button.addEventListener("click", () => {
+        if (disabled || current) return;
+        page = targetPage;
+        renderCatalog();
+        byId("catalog-heading").focus();
+      });
+      pageOptions.append(button);
+    }
+
+    function updateFilters() {
+      page = 1;
+      renderCatalog();
+    }
+
+    sizeOptions.addEventListener("click", event => {
+      const chip = event.target.closest("ui-button[data-size]");
+      if (!chip || selectedSize === chip.dataset.size) return;
+
+      selectedSize = chip.dataset.size;
+      for (const button of sizeOptions.querySelectorAll("ui-button")) {
+        const active = button === chip;
+        button.setAttribute("aria-pressed", String(active));
+        button.setAttribute("variant", active ? "primary" : "outline");
+      }
+      updateFilters();
+    });
+
+    minPrice.addEventListener("change", () => {
+      if (Number(minPrice.value) > Number(maxPrice.value)) maxPrice.value = minPrice.value;
+      updateFilters();
+    });
+
+    maxPrice.addEventListener("change", () => {
+      if (Number(maxPrice.value) < Number(minPrice.value)) minPrice.value = maxPrice.value;
+      updateFilters();
+    });
+
+    sort.addEventListener("change", updateFilters);
+
+    function openSizeDialog(product) {
+      pendingProduct = product;
+      byId("size-dialog-title").textContent = `${product.name} · ${product.color}`;
+      cartSize.replaceChildren(...product.sizes.map(size => new Option(size, size)));
+      if (selectedSize) cartSize.value = selectedSize;
+      sizeDialog.showModal();
+      cartSize.focus();
+    }
+
+    function updateCartSummary() {
+      let quantity = 0;
+      let subtotal = 0;
+      for (const item of cart.values()) {
+        quantity += item.quantity;
+        subtotal += item.product.price * item.quantity;
+      }
+      byId("cart-count").textContent = quantity;
+      byId("cart-total").textContent = money(subtotal);
+      byId("cart-empty").hidden = quantity > 0;
+      byId("cart-content").hidden = quantity === 0;
+    }
+
+    function renderCart() {
+      const items = byId("cart-items");
+      items.replaceChildren();
+      for (const item of cart.values()) {
+        const { product, size, quantity } = item;
+        const line = document.createElement("li");
+        line.textContent =
+          `${product.name} · ${product.color} · US ${size} × ${quantity} · ${money(product.price * quantity)}`;
+        items.append(line);
+      }
+      updateCartSummary();
+    }
+
+    byId("add-form").addEventListener("submit", event => {
+      event.preventDefault();
+      if (!pendingProduct) return;
+
+      const size = Number(cartSize.value);
+      const key = `${pendingProduct.id}:${size}`;
+      const existing = cart.get(key);
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.set(key, { product: pendingProduct, size, quantity: 1 });
+      }
+      updateCartSummary();
+      sizeDialog.close();
+    });
+
+    sizeDialog.addEventListener("close", () => { pendingProduct = null; });
+    byId("cancel-size").addEventListener("click", () => sizeDialog.close());
+
+    byId("open-cart").addEventListener("click", () => {
+      renderCart();
+      cartDialog.showModal();
+    });
+    byId("close-cart").addEventListener("click", () => cartDialog.close());
+
+    renderCatalog();
+  </script>
+</body>
+</html>

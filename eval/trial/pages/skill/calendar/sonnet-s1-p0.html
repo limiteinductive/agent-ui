@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Calendar</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Northwind Team</strong>
+        <nav><a href="#">Calendar</a></nav>
+      </ui-row>
+    </ui-container>
+  </header>
+  <main>
+    <ui-container>
+      <ui-stack gap="lg" padding="md">
+        <ui-row justify="space-between" wrap>
+          <h1 id="month-title">Month</h1>
+          <ui-row gap="sm">
+            <ui-button id="prev" variant="outline" aria-label="Previous month">‹ Prev</ui-button>
+            <ui-button id="today" variant="ghost">Today</ui-button>
+            <ui-button id="next" variant="outline" aria-label="Next month">Next ›</ui-button>
+          </ui-row>
+        </ui-row>
+
+        <ui-row wrap align="start" gap="lg">
+          <ui-stack grow gap="xs" id="calendar">
+            <ui-grid columns="7" gap="xs" id="weekdays">
+              <small><strong>Mon</strong></small>
+              <small><strong>Tue</strong></small>
+              <small><strong>Wed</strong></small>
+              <small><strong>Thu</strong></small>
+              <small><strong>Fri</strong></small>
+              <small><strong>Sat</strong></small>
+              <small><strong>Sun</strong></small>
+            </ui-grid>
+            <ui-grid columns="7" gap="xs" id="days"></ui-grid>
+            <small>🔵 Meeting &nbsp; 🟢 Launch &nbsp; 🟠 Social / Time off</small>
+          </ui-stack>
+
+          <ui-card grow elevated padding="md">
+            <h2>Upcoming events</h2>
+            <ui-stack gap="md" id="upcoming"></ui-stack>
+          </ui-card>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+</ui-page>
+
+<script>
+(function () {
+  var today = new Date();
+  var view = new Date(today.getFullYear(), today.getMonth(), 1);
+  var base = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  var ICON = { meeting: "🔵", launch: "🟢", social: "🟠" };
+  // offset = months from the current month
+  var events = [
+    { o: -1, d: 28, t: "Q3 retrospective", type: "meeting", time: "10:00", who: "Priya Nair", img: 11 },
+    { o: 0, d: 3, t: "Sprint planning", type: "meeting", time: "09:30", who: "Marcus Lee", img: 12 },
+    { o: 0, d: 5, t: "Design review", type: "meeting", time: "14:00", who: "Elena Rossi", img: 13 },
+    { o: 0, d: 12, t: "Mobile app v2.4 release", type: "launch", time: "11:00", who: "Dev Patel", img: 14 },
+    { o: 0, d: 18, t: "Team lunch at Luma", type: "social", time: "12:30", who: "Sofia Alvarez", img: 15 },
+    { o: 0, d: 24, t: "Customer demo: Orbit Co.", type: "meeting", time: "15:00", who: "Tom Becker", img: 16 },
+    { o: 0, d: 24, t: "Jules out of office", type: "social", time: "All day", who: "Jules Martin", img: 17 },
+    { o: 0, d: 27, t: "Billing revamp launch", type: "launch", time: "10:00", who: "Aiko Tanaka", img: 18 },
+    { o: 1, d: 2, t: "Roadmap kickoff", type: "meeting", time: "09:00", who: "Priya Nair", img: 19 },
+    { o: 1, d: 9, t: "Holiday party", type: "social", time: "18:00", who: "Sofia Alvarez", img: 20 },
+    { o: 1, d: 15, t: "Security audit", type: "meeting", time: "13:00", who: "Marcus Lee", img: 21 }
+  ].map(function (e) {
+    var dt = new Date(base.getFullYear(), base.getMonth() + e.o, e.d);
+    e.date = dt;
+    e.key = dt.getFullYear() + "-" + dt.getMonth() + "-" + dt.getDate();
+    return e;
+  });
+
+  var titleEl = document.getElementById("month-title");
+  var daysEl = document.getElementById("days");
+  var upEl = document.getElementById("upcoming");
+
+  function keyOf(d) { return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate(); }
+
+  function render() {
+    titleEl.textContent = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    daysEl.innerHTML = "";
+    var offset = (view.getDay() + 6) % 7; // Monday first
+    var start = new Date(view.getFullYear(), view.getMonth(), 1 - offset);
+    var total = Math.ceil((offset + new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate()) / 7) * 7;
+    var tk = keyOf(today);
+
+    for (var i = 0; i < total; i++) {
+      var d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+      var inMonth = d.getMonth() === view.getMonth();
+      var k = keyOf(d);
+      var evs = events.filter(function (e) { return e.key === k; });
+      var card = document.createElement("ui-card");
+      card.setAttribute("padding", "xs");
+      card.setAttribute("gap", "xs");
+      if (k === tk) card.setAttribute("variant", "primary");
+      else if (!inMonth) card.setAttribute("sunken", "");
+      var label = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+      card.setAttribute("aria-label", label + (evs.length ? ": " + evs.map(function (e) { return e.t; }).join(", ") : ""));
+      var num = document.createElement(inMonth ? "strong" : "small");
+      num.textContent = d.getDate();
+      card.appendChild(num);
+      var dots = document.createElement("small");
+      dots.textContent = evs.length ? evs.map(function (e) { return ICON[e.type]; }).join("") : "\u00a0";
+      card.appendChild(dots);
+      daysEl.appendChild(card);
+    }
+
+    // upcoming
+    var startOfToday = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    var list = events.filter(function (e) { return e.date >= startOfToday; })
+      .sort(function (a, b) { return a.date - b.date; }).slice(0, 6);
+    upEl.innerHTML = "";
+    if (!list.length) {
+      var p = document.createElement("p");
+      p.textContent = "Nothing scheduled.";
+      upEl.appendChild(p);
+    }
+    list.forEach(function (e) {
+      var row = document.createElement("ui-row");
+      row.setAttribute("gap", "sm");
+      row.setAttribute("align", "start");
+      var img = document.createElement("img");
+      img.src = "https://picsum.photos/seed/team" + e.img + "/80/80";
+      img.alt = e.who;
+      img.width = 40;
+      img.height = 40;
+      img.loading = "lazy";
+      var st = document.createElement("ui-stack");
+      st.setAttribute("gap", "xs");
+      st.setAttribute("grow", "");
+      var t = document.createElement("strong");
+      t.textContent = ICON[e.type] + " " + e.t;
+      var m = document.createElement("small");
+      m.textContent = e.date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) + " · " + e.time + " · " + e.who;
+      st.appendChild(t);
+      st.appendChild(m);
+      row.appendChild(img);
+      row.appendChild(st);
+      upEl.appendChild(row);
+    });
+  }
+
+  document.getElementById("prev").addEventListener("click", function () {
+    view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render();
+  });
+  document.getElementById("next").addEventListener("click", function () {
+    view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render();
+  });
+  document.getElementById("today").addEventListener("click", function () {
+    view = new Date(today.getFullYear(), today.getMonth(), 1); render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

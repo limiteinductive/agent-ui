@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designing Resilient Interfaces: Lessons from Five Years of Frontend Work</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-container size="md">
+  <ui-stack gap="lg" padding="md">
+
+    <ui-stack gap="md">
+      <span>Engineering</span>
+      <h1>Designing Resilient Interfaces: Lessons from Five Years of Frontend Work</h1>
+      <p>Why the best interfaces aren't the most clever ones, but the ones that keep working when everything around them goes wrong.</p>
+
+      <ui-row gap="md" align="center">
+        <img src="https://picsum.photos/seed/author-maya/96/96" alt="Maya Lindqvist" width="48" height="48">
+        <ui-stack gap="0">
+          <strong>Maya Lindqvist</strong>
+          <small>
+            <time datetime="2026-11-12">November 12, 2026</time> · 9 min read
+          </small>
+        </ui-stack>
+      </ui-row>
+    </ui-stack>
+
+    <img src="https://picsum.photos/seed/resilient-ui/1200/630" alt="A desk with a laptop showing interface wireframes" width="1200" height="630">
+
+    <article>
+      <ui-stack gap="md">
+        <p>When I wrote my first production React component, I was proud of how much it could do. It fetched data, cached it, animated its own entrance, and handled seven different layout modes. It was also the component that paged me at 2 a.m. three months later. Five years on, I've come to believe that resilience is the most underrated quality in frontend work.</p>
+        <p>This article collects the lessons that changed how my team builds. None of them are novel. All of them are things we learned the hard way.</p>
+
+        <h2>Start with the unhappy path</h2>
+        <p>Most design files show an interface with perfect data: a name that fits, an image that loads, a list with exactly six items. Real users arrive with a 40-character surname, a flaky train connection, and an account that has zero items. If you design the empty, loading, and error states first, the happy path almost always falls out for free.</p>
+        <p>We now require every component's spec to include four states: loading, empty, error, and overflowing. If a designer can't draw them, we sketch them together in the first review.</p>
+
+        <blockquote>
+          <p>“An interface is only as reliable as its worst day. Design for the worst day first, and the best day takes care of itself.”</p>
+        </blockquote>
+
+        <h2>Let the platform do the work</h2>
+        <p>Native elements come with keyboard handling, accessibility semantics, and decades of edge-case fixes. A <code>&lt;button&gt;</code> beats a clickable <code>&lt;div&gt;</code> every time, and a <code>&lt;dialog&gt;</code> beats a hand-rolled modal. Before reaching for a library, ask what the browser already gives you.</p>
+        <p>CSS has also grown up. Container queries, <code>:has()</code>, and logical properties let us delete hundreds of lines of JavaScript that existed only to measure things.</p>
+
+        <h2>Make failure local</h2>
+        <p>A failure in one widget should never blank the whole page. Wrap independent regions in error boundaries, give each its own retry affordance, and keep the rest of the UI interactive. Here's the small pattern we use for data fetching with a timeout and a graceful fallback:</p>
+
+        <pre><code>async function fetchWithFallback(url, { timeout = 4000, fallback = null } = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() =&gt; controller.abort(), timeout);
+
+  try {
+    const res = await fetch(url, { signal: controller.signal });
+    if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn("Falling back for", url, err);
+    return fallback;
+  } finally {
+    clearTimeout(timer);
+  }
+}</code></pre>
+
+        <p>The important part isn't the code, it's the contract: callers always receive something renderable, and the UI decides how to explain the gap to the user.</p>
+
+        <h2>Test the seams, not the internals</h2>
+        <p>Our most valuable tests don't check that a function returns a number. They check that when the API returns a 500, the user sees a message and a retry button. Tests tied to implementation details break on every refactor; tests tied to user-visible behavior survive them.</p>
+
+        <h2>Measure what users feel</h2>
+        <p>Lighthouse scores are a starting point, not a goal. We track interaction latency, layout shift during real sessions, and the rate at which users hit retry. Those numbers tell us where the interface is quietly failing people long before a support ticket does.</p>
+
+        <h2>Closing thoughts</h2>
+        <p>Resilient interfaces feel boring in the best way. Nothing jumps, nothing vanishes, and when something goes wrong, the interface says so plainly and offers a way forward. That quiet competence is what earns trust, and trust is the only feature that compounds.</p>
+      </ui-stack>
+    </article>
+
+    <ui-row gap="sm" wrap>
+      <span>frontend</span>
+      <span>resilience</span>
+      <span>accessibility</span>
+      <span>javascript</span>
+      <span>ux</span>
+    </ui-row>
+
+    <hr>
+
+    <ui-stack gap="md">
+      <h2>Related posts</h2>
+      <ui-row gap="md" scroll>
+        <ui-card>
+          <img src="https://picsum.photos/seed/related-1/520/320" alt="Abstract grid of colorful tiles" width="260" height="160">
+          <ui-stack gap="xs" padding="md">
+            <small>6 min read</small>
+            <h3>Container queries in the real world</h3>
+            <p>How we replaced a dozen breakpoints with components that respond to their own space.</p>
+          </ui-stack>
+        </ui-card>
+        <ui-card>
+          <img src="https://picsum.photos/seed/related-2/520/320" alt="Keyboard and notebook on a desk" width="260" height="160">
+          <ui-stack gap="xs" padding="md">
+            <small>8 min read</small>
+            <h3>Keyboard navigation is a feature</h3>
+            <p>A practical checklist for focus order, skip links, and visible focus states.</p>
+          </ui-stack>
+        </ui-card>
+        <ui-card>
+          <img src="https://picsum.photos/seed/related-3/520/320" alt="Dashboard charts on a monitor" width="260" height="160">
+          <ui-stack gap="xs" padding="md">
+            <small>5 min read</small>
+            <h3>Performance budgets that stick</h3>
+            <p>Turning vague speed goals into numbers your CI can enforce on every pull request.</p>
+          </ui-stack>
+        </ui-card>
+        <ui-card>
+          <img src="https://picsum.photos/seed/related-4/520/320" alt="Sticky notes on a whiteboard" width="260" height="160">
+          <ui-stack gap="xs" padding="md">
+            <small>7 min read</small>
+            <h3>Writing better empty states</h3>
+            <p>Small bits of copy and illustration that turn dead ends into next steps.</p>
+          </ui-stack>
+        </ui-card>
+        <ui-card>
+          <img src="https://picsum.photos/seed/related-5/520/320" alt="Laptop with code on screen" width="260" height="160">
+          <ui-stack gap="xs" padding="md">
+            <small>10 min read</small>
+            <h3>Error boundaries, revisited</h3>
+            <p>Patterns for isolating failure without hiding it from the people who need to fix it.</p>
+          </ui-stack>
+        </ui-card>
+      </ui-row>
+    </ui-stack>
+
+  </ui-stack>
+</ui-container>
+</body>
+</html>

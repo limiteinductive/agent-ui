@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Calendar</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <ui-container>
+    <ui-stack gap="lg">
+      <ui-row justify="space-between" align="center" wrap>
+        <ui-stack gap="xs">
+          <h1>Team Calendar</h1>
+          <p>Northwind Product &amp; Engineering</p>
+        </ui-stack>
+        <ui-row gap="sm" align="center">
+          <ui-button id="prev" variant="outline" aria-label="Previous month">&larr;</ui-button>
+          <h2 id="monthLabel"></h2>
+          <ui-button id="next" variant="outline" aria-label="Next month">&rarr;</ui-button>
+        </ui-row>
+      </ui-row>
+
+      <ui-grid min-item-width="22rem" gap="lg">
+        <ui-card id="calCard">
+          <ui-stack gap="sm">
+            <ui-grid columns="7" gap="xs" id="dow"></ui-grid>
+            <ui-grid columns="7" gap="xs" id="grid"></ui-grid>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="md">
+            <h3>Upcoming events</h3>
+            <ui-stack gap="md" id="upcoming"></ui-stack>
+          </ui-stack>
+        </ui-card>
+      </ui-grid>
+    </ui-stack>
+  </ui-container>
+</ui-page>
+
+<script>
+const events = [
+  { date: "2026-11-03", title: "Sprint planning", time: "09:30", who: "Priya N.", tone: "primary", img: 11 },
+  { date: "2026-11-10", title: "Design review", time: "14:00", who: "Marco L.", tone: "success", img: 12 },
+  { date: "2026-11-12", title: "Release 4.2", time: "16:00", who: "Dev team", tone: "warning", img: 13 },
+  { date: "2026-11-19", title: "Retro", time: "11:00", who: "Everyone", tone: "primary", img: 14 },
+  { date: "2026-11-24", title: "Customer demo", time: "10:00", who: "Aisha K.", tone: "success", img: 15 },
+  { date: "2026-11-24", title: "1:1 with Sam", time: "15:30", who: "Sam O.", tone: "neutral", img: 16 },
+  { date: "2026-11-27", title: "Team offsite", time: "All day", who: "Everyone", tone: "warning", img: 17 },
+  { date: "2026-12-02", title: "Sprint planning", time: "09:30", who: "Priya N.", tone: "primary", img: 18 },
+  { date: "2026-12-08", title: "Quarterly roadmap", time: "13:00", who: "Leadership", tone: "success", img: 19 },
+  { date: "2026-12-18", title: "Holiday lunch", time: "12:30", who: "Everyone", tone: "warning", img: 20 }
+];
+const today = new Date(2026, 10, 21);
+let view = new Date(2026, 10, 1);
+const pad = n => String(n).padStart(2, "0");
+const key = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+const el = (html) => { const t = document.createElement("template"); t.innerHTML = html.trim(); return t.content.firstChild; };
+
+document.getElementById("dow").append(...["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d => el(`<small><strong>${d}</strong></small>`)));
+
+function render() {
+  const y = view.getFullYear(), m = view.getMonth();
+  document.getElementById("monthLabel").textContent = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  const grid = document.getElementById("grid");
+  grid.replaceChildren();
+  const offset = (new Date(y, m, 1).getDay() + 6) % 7;
+  const days = new Date(y, m + 1, 0).getDate();
+  for (let i = 0; i < offset; i++) grid.append(el("<div></div>"));
+  for (let d = 1; d <= days; d++) {
+    const k = key(y, m, d);
+    const isToday = k === key(2026, 10, 21);
+    const evs = events.filter(e => e.date === k);
+    const cell = el(`<ui-card padding="sm"><ui-stack gap="xs">
+      <small>${isToday ? `<mark>${d}</mark>` : `<strong>${d}</strong>`}</small>
+      ${evs.map(e => `<small><mark title="${e.time} · ${e.title}">${e.title}</mark></small>`).join("")}
+    </ui-stack></ui-card>`);
+    grid.append(cell);
+  }
+  const up = document.getElementById("upcoming");
+  up.replaceChildren();
+  const list = events.filter(e => new Date(e.date + "T00:00") >= today).slice(0, 6);
+  list.forEach(e => {
+    const dt = new Date(e.date + "T00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    up.append(el(`<ui-row gap="md" align="center">
+      <img src="https://picsum.photos/seed/team${e.img}/80/80" alt="" width="48" height="48" style="border-radius:50%;object-fit:cover">
+      <ui-stack gap="xs">
+        <strong>${e.title}</strong>
+        <small>${dt} · ${e.time}</small>
+        <small>${e.who}</small>
+      </ui-stack>
+    </ui-row>`));
+  });
+}
+document.getElementById("prev").addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); });
+document.getElementById("next").addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); });
+render();
+</script>
+</body>
+</html>

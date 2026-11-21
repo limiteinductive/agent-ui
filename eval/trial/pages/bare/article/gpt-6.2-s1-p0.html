@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A practical field guide to preserving the context behind engineering decisions.">
+  <title>Write down why you changed it | Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    main {
+      width: min(70rem, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .reading-width {
+      width: min(100%, 44rem);
+      margin-inline: auto;
+    }
+
+    .byline img {
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+
+    .cover,
+    .related-rail img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    .related-rail {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: min(17rem, 84%);
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      padding-block: 0.25rem 1rem;
+      padding-inline: 0.25rem;
+    }
+
+    .related-rail > ui-card {
+      min-width: 0;
+      scroll-snap-align: start;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <ui-stack gap="xl">
+      <article aria-labelledby="article-title">
+        <ui-stack gap="lg">
+          <header class="reading-width">
+            <ui-stack gap="sm">
+              <p>Field Notes · Engineering practice</p>
+              <h1 id="article-title">Write down why you changed it</h1>
+              <p>A short note can save the next engineer an afternoon of archaeology.</p>
+              <p class="byline">
+                <img src="https://picsum.photos/id/64/88/88" alt="" width="44" height="44">
+                <span> Maya Chen · <time datetime="2026-08-18">August 18, 2026</time></span>
+              </p>
+            </ui-stack>
+          </header>
+
+          <img
+            class="cover"
+            src="https://picsum.photos/id/20/1440/640"
+            srcset="https://picsum.photos/id/20/480/213 480w, https://picsum.photos/id/20/960/427 960w, https://picsum.photos/id/20/1440/640 1440w"
+            sizes="(max-width: 72rem) calc(100vw - 2rem), 70rem"
+            alt=""
+            width="1440"
+            height="640"
+            fetchpriority="high"
+          >
+
+          <div class="reading-width">
+            <ui-stack gap="lg">
+              <p>
+                Last winter I opened a pull request to shorten a cache lifetime. The value was five
+                minutes. I wanted thirty seconds. A teammate asked why we had picked five minutes in
+                the first place, and neither of us could answer. We found the original change in
+                Git, followed it to a closed issue, and finally dug up a dashboard screenshot in an
+                incident thread. By then, the change itself had taken about ten minutes and the
+                investigation had taken most of the afternoon.
+              </p>
+
+              <section aria-labelledby="lost-context">
+                <h2 id="lost-context">Keep the part Git can’t tell you</h2>
+                <p>
+                  The diff told us when the value changed and who changed it. The screenshot
+                  explained why. A slow upstream endpoint used to receive a burst of requests every
+                  time the cache expired. Five minutes gave it enough breathing room during the
+                  morning traffic peak. The endpoint had been replaced since then, so we could retire
+                  the workaround once we verified that the new service handled misses comfortably.
+                </p>
+                <p>
+                  When you make a choice like that, write down the condition that drove it. A
+                  latency measurement, an upstream rate limit, or a promise to a customer can each
+                  explain why a reasonable team settled on a particular value. Name the condition
+                  specifically enough that someone can check whether it still applies.
+                </p>
+              </section>
+
+              <blockquote>
+                <p><strong>“The most useful sentence in a decision note tells the next engineer when to revisit it.”</strong></p>
+              </blockquote>
+
+              <section aria-labelledby="where-to-write">
+                <h2 id="where-to-write">Put the reason where someone will look</h2>
+                <p>
+                  For a single setting, a comment beside the value is a good place to start. The
+                  person who wants to change it will see the context while editing. For a decision
+                  that spans several files, give the explanation a stable home and link to it from
+                  the relevant entry point. The pull request can hold the longer discussion, including
+                  the measurements and alternatives the team considered.
+                </p>
+                <pre aria-label="JavaScript cache configuration" tabindex="0"><code>// Five minutes limits peak traffic to the legacy endpoint.
+// Revisit after the replacement handles a full morning peak.
+const cacheTtlSeconds = 5 * 60;</code></pre>
+                <p>
+                  Two lines are enough here. They explain who benefits from the longer lifetime and
+                  give the next engineer a concrete event to check. If the service has several
+                  dashboards, link to the one you used in the pull request so the next person can
+                  compare their measurements with yours.
+                </p>
+              </section>
+
+              <section aria-labelledby="start-with-review">
+                <h2 id="start-with-review">Start with the choices reviewers ask about</h2>
+                <p>
+                  The easiest time to capture a reason is when a reviewer asks for it. If someone
+                  says “Why this timeout?” or “What happens if we remove this retry?”, answer in
+                  the thread and put the durable part of the answer near the code. That way the
+                  explanation reaches both the person reviewing today and the person editing six
+                  months from now.
+                </p>
+                <p>
+                  On my next pull request, I’m spending the last minute looking for one choice that
+                  would be hard to explain from the diff alone. If I find one, I’ll leave a sentence
+                  about what led to it and what would make me change my mind.
+                </p>
+              </section>
+
+              <footer aria-label="Article tags">
+                <p>
+                  <strong>Tags</strong>
+                  <a href="/tags/engineering/">Engineering</a> ·
+                  <a href="/tags/documentation/">Documentation</a> ·
+                  <a href="/tags/code-review/">Code review</a>
+                </p>
+              </footer>
+            </ui-stack>
+          </div>
+        </ui-stack>
+      </article>
+
+      <section aria-labelledby="related-heading">
+        <ui-stack gap="md">
+          <h2 id="related-heading">Related posts</h2>
+          <div class="related-rail" role="region" aria-labelledby="related-heading" tabindex="0">
+            <ui-card>
+              <img src="https://picsum.photos/id/180/544/306" alt="" width="544" height="306" loading="lazy">
+              <h3><a href="/posts/incident-timeline/">The anatomy of an incident timeline</a></h3>
+              <p>Record what happened, when you learned it, and what you did next.</p>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/id/24/544/306" alt="" width="544" height="306" loading="lazy">
+              <h3><a href="/posts/reviewable-pull-requests/">Make the next pull request easy to review</a></h3>
+              <p>Help reviewers find the changes that need their attention.</p>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/id/60/544/306" alt="" width="544" height="306" loading="lazy">
+              <h3><a href="/posts/removing-feature-flags/">When to remove a feature flag</a></h3>
+              <p>Give temporary switches an owner and a clear exit condition.</p>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/id/366/544/306" alt="" width="544" height="306" loading="lazy">
+              <h3><a href="/posts/decision-records/">A smaller architecture decision record</a></h3>
+              <p>Capture the trade-off while it’s fresh in everyone’s mind.</p>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/id/201/544/306" alt="" width="544" height="306" loading="lazy">
+              <h3><a href="/posts/first-on-call-shift/">Before your first on-call shift</a></h3>
+              <p>Find the dashboards, runbooks, and people you’ll rely on.</p>
+            </ui-card>
+          </div>
+        </ui-stack>
+      </section>
+    </ui-stack>
+  </main>
+</body>
+</html>

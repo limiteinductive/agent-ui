@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar | Product &amp; Design</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Calendar-specific layout, responsive day cells, and event markers. */
+    .calendar-page {
+      box-sizing: border-box;
+      width: min(100%, 1240px);
+      margin-inline: auto;
+      padding: clamp(12px, 3vw, 36px);
+    }
+
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .calendar-layout > * {
+      min-width: 0;
+    }
+
+    .month-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .month-toolbar h2,
+    .agenda h2 {
+      margin: 0;
+    }
+
+    .month-controls {
+      display: flex;
+      gap: 6px;
+    }
+
+    .month-controls button {
+      min-width: 44px;
+      min-height: 44px;
+      padding-inline: 8px;
+    }
+
+    .month-grid {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 0.875rem;
+    }
+
+    .month-grid th {
+      padding: 8px 2px;
+      text-align: center;
+    }
+
+    .month-grid td {
+      box-sizing: border-box;
+      height: 55px;
+      padding: 3px;
+      vertical-align: top;
+      text-align: start;
+      border: 0;
+      border-block-start: 1px solid rgb(128 128 128 / 25%);
+      border-inline-start: 1px solid rgb(128 128 128 / 25%);
+    }
+
+    .month-grid td:last-child {
+      border-inline-end: 1px solid rgb(128 128 128 / 25%);
+    }
+
+    .month-grid tr:last-child td {
+      border-block-end: 1px solid rgb(128 128 128 / 25%);
+    }
+
+    .month-grid .weekend,
+    .month-grid .outside-month {
+      background: rgb(128 128 128 / 7%);
+    }
+
+    .outside-month .day-number {
+      opacity: 0.65;
+    }
+
+    .day-number {
+      display: inline-grid;
+      min-width: 22px;
+      min-height: 22px;
+      place-items: center;
+      border-radius: 50%;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .day-number[aria-current="date"] {
+      background: #3444b3;
+      color: #fff;
+    }
+
+    [data-kind="design"] {
+      --event-ink: #5b21b6;
+      --event-fill: #ede9fe;
+    }
+
+    [data-kind="planning"] {
+      --event-ink: #1e40af;
+      --event-fill: #dbeafe;
+    }
+
+    [data-kind="research"] {
+      --event-ink: #115e59;
+      --event-fill: #ccfbf1;
+    }
+
+    .calendar-event {
+      display: block;
+      overflow: hidden;
+      margin-block-start: 3px;
+      padding: 1px 3px;
+      border-radius: 4px;
+      background: var(--event-fill);
+      color: var(--event-ink);
+      font-size: 0.72rem;
+      line-height: 1.4;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .event-compact {
+      display: none;
+    }
+
+    .agenda-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .agenda-item {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      padding-block: 12px;
+      border-block-end: 1px solid rgb(128 128 128 / 25%);
+    }
+
+    .agenda-item:last-child {
+      border-block-end: 0;
+    }
+
+    .agenda-date {
+      display: grid;
+      justify-items: center;
+      padding-block: 4px;
+      border-radius: 8px;
+      background: var(--event-fill);
+      color: var(--event-ink);
+      font-size: 0.68rem;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .agenda-date strong {
+      font-size: 1.12rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .agenda-title,
+    .agenda-meta {
+      margin: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .agenda-title {
+      font-size: 0.94rem;
+    }
+
+    .agenda-meta {
+      font-size: 0.79rem;
+    }
+
+    @media (max-width: 540px) {
+      .event-full {
+        display: none;
+      }
+
+      .event-compact {
+        display: inline;
+      }
+    }
+
+    @media (min-width: 900px) {
+      .calendar-layout {
+        grid-template-columns: minmax(0, 2.5fr) minmax(260px, 1fr);
+      }
+
+      .month-grid td {
+        height: 87px;
+        padding: 6px;
+      }
+
+      .calendar-event {
+        padding-inline: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="calendar-page">
+    <ui-stack gap="lg">
+      <header>
+        <ui-badge>Product &amp; Design</ui-badge>
+        <h1>Team calendar</h1>
+      </header>
+
+      <div class="calendar-layout">
+        <ui-card>
+          <section aria-labelledby="month-heading">
+            <ui-stack gap="md">
+              <div class="month-toolbar">
+                <h2 id="month-heading" aria-live="polite">November 2026</h2>
+                <div class="month-controls" role="group" aria-label="Month navigation">
+                  <button id="previous-month" type="button" aria-label="Previous month">
+                    <span aria-hidden="true">‹</span>
+                  </button>
+                  <button id="next-month" type="button" aria-label="Next month">
+                    <span aria-hidden="true">›</span>
+                  </button>
+                </div>
+              </div>
+
+              <table class="month-grid" aria-labelledby="month-heading">
+                <thead>
+                  <tr>
+                    <th scope="col" aria-label="Monday">Mon</th>
+                    <th scope="col" aria-label="Tuesday">Tue</th>
+                    <th scope="col" aria-label="Wednesday">Wed</th>
+                    <th scope="col" aria-label="Thursday">Thu</th>
+                    <th scope="col" aria-label="Friday">Fri</th>
+                    <th scope="col" aria-label="Saturday">Sat</th>
+                    <th scope="col" aria-label="Sunday">Sun</th>
+                  </tr>
+                </thead>
+                <tbody id="month-days"></tbody>
+              </table>
+            </ui-stack>
+          </section>
+        </ui-card>
+
+        <ui-card>
+          <aside class="agenda" aria-labelledby="agenda-heading">
+            <ui-stack gap="sm">
+              <h2 id="agenda-heading">Upcoming events</h2>
+              <ul id="agenda-list" class="agenda-list" role="list"></ul>
+              <p id="agenda-empty" hidden>No scheduled events.</p>
+            </ui-stack>
+          </aside>
+        </ui-card>
+      </div>
+    </ui-stack>
+  </main>
+
+  <script>
+    const events = [
+      { date: "2026-10-29", title: "October team retro", short: "Retro", kind: "planning", at: "3:00 PM", where: "Juniper Room" },
+      { date: "2026-11-04", title: "Onboarding design review", short: "Review", kind: "design", at: "11:00 AM", where: "Juniper Room" },
+      { date: "2026-11-10", title: "Customer interview", short: "Research", kind: "research", at: "10:30 AM", where: "Google Meet" },
+      { date: "2026-11-16", title: "Release readiness check", short: "Release", kind: "planning", at: "2:00 PM", where: "Google Meet" },
+      { date: "2026-11-23", title: "Sprint planning", short: "Sprint", kind: "planning", at: "10:00 AM", where: "Juniper Room" },
+      { date: "2026-11-24", title: "Design critique", short: "Crit", kind: "design", at: "1:30 PM", where: "Studio B" },
+      { date: "2026-11-30", title: "Research readout", short: "Readout", kind: "research", at: "11:00 AM", where: "Google Meet" },
+      { date: "2026-12-03", title: "Roadmap working session", short: "Plan", kind: "planning", at: "10:00 AM", where: "Juniper Room" },
+      { date: "2026-12-09", title: "Prototype walkthrough", short: "Demo", kind: "design", at: "2:00 PM", where: "Studio B" }
+    ];
+
+    const locale = document.documentElement.lang;
+    const monthFormat = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" });
+    const shortMonthFormat = new Intl.DateTimeFormat(locale, { month: "short" });
+    const fullDateFormat = new Intl.DateTimeFormat(locale, { dateStyle: "full" });
+    const today = new Date();
+    const todayKey = dateKey(today);
+    let visibleMonth = new Date(2026, 10, 1);
+
+    const monthHeading = document.querySelector("#month-heading");
+    const monthDays = document.querySelector("#month-days");
+    const agendaHeading = document.querySelector("#agenda-heading");
+    const agendaList = document.querySelector("#agenda-list");
+    const agendaEmpty = document.querySelector("#agenda-empty");
+
+    function dateKey(date) {
+      const year = String(date.getFullYear()).padStart(4, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function renderMonth() {
+      const year = visibleMonth.getFullYear();
+      const month = visibleMonth.getMonth();
+      const firstColumn = (visibleMonth.getDay() + 6) % 7;
+      const numberOfDays = new Date(year, month + 1, 0).getDate();
+      const weekCount = Math.ceil((firstColumn + numberOfDays) / 7);
+      const rows = document.createDocumentFragment();
+
+      monthHeading.textContent = monthFormat.format(visibleMonth);
+
+      for (let week = 0; week < weekCount; week++) {
+        const row = document.createElement("tr");
+
+        for (let column = 0; column < 7; column++) {
+          const date = new Date(year, month, 1 - firstColumn + week * 7 + column);
+          const key = dateKey(date);
+          const cell = row.insertCell();
+          const dateLabel = document.createElement("time");
+
+          cell.classList.toggle("weekend", column >= 5);
+          cell.classList.toggle("outside-month", date.getMonth() !== month);
+          dateLabel.className = "day-number";
+          dateLabel.dateTime = key;
+          dateLabel.setAttribute("aria-label", fullDateFormat.format(date));
+          dateLabel.textContent = date.getDate();
+
+          if (key === todayKey) dateLabel.setAttribute("aria-current", "date");
+
+          cell.append(dateLabel);
+
+          for (const event of events.filter(item => item.date === key)) {
+            const marker = document.createElement("span");
+            const full = document.createElement("span");
+            const compact = document.createElement("span");
+
+            marker.className = "calendar-event";
+            marker.dataset.kind = event.kind;
+            marker.title = `${event.title}, ${event.at}`;
+            marker.setAttribute("role", "img");
+            marker.setAttribute("aria-label", marker.title);
+            full.className = "event-full";
+            full.textContent = event.title;
+            compact.className = "event-compact";
+            compact.textContent = event.short;
+            marker.append(full, compact);
+            cell.append(marker);
+          }
+        }
+
+        rows.append(row);
+      }
+
+      monthDays.replaceChildren(rows);
+      renderAgenda();
+    }
+
+    function renderAgenda() {
+      const monthKey = dateKey(visibleMonth).slice(0, 7);
+      const pastMonth = monthKey < todayKey.slice(0, 7);
+      const visibleEvents = events.filter(event =>
+        event.date.startsWith(monthKey) && (pastMonth || event.date >= todayKey)
+      );
+      const items = document.createDocumentFragment();
+
+      agendaHeading.textContent = pastMonth ? "Events this month" : "Upcoming events";
+      agendaEmpty.hidden = visibleEvents.length > 0;
+
+      for (const event of visibleEvents) {
+        const date = new Date(`${event.date}T12:00:00`);
+        const item = document.createElement("li");
+        const stamp = document.createElement("time");
+        const day = document.createElement("strong");
+        const details = document.createElement("div");
+        const title = document.createElement("h3");
+        const meta = document.createElement("p");
+
+        item.className = "agenda-item";
+        item.dataset.kind = event.kind;
+        stamp.className = "agenda-date";
+        stamp.dateTime = event.date;
+        stamp.setAttribute("aria-label", fullDateFormat.format(date));
+        stamp.textContent = shortMonthFormat.format(date);
+        day.textContent = date.getDate();
+        stamp.append(day);
+
+        title.className = "agenda-title";
+        title.textContent = event.title;
+        meta.className = "agenda-meta";
+        meta.textContent = `${event.at} PT · ${event.where}`;
+        details.append(title, meta);
+        item.append(stamp, details);
+        items.append(item);
+      }
+
+      agendaList.replaceChildren(items);
+    }
+
+    function moveMonth(offset) {
+      visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + offset, 1);
+      renderMonth();
+    }
+
+    document.querySelector("#previous-month").addEventListener("click", () => moveMonth(-1));
+    document.querySelector("#next-month").addEventListener("click", () => moveMonth(1));
+
+    renderMonth();
+  </script>
+</body>
+</html>

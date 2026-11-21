@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Designing Resilient Frontends: Lessons From Shipping at Scale</title>
+    <meta name="description" content="What we learned rebuilding our web client around offline-first data, progressive hydration, and boring, predictable failure modes." />
+    <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  </head>
+  <body>
+    <ui-page>
+      <ui-container width="md">
+        <ui-stack padding="md">
+          <main>
+            <article>
+              <ui-stack gap="lg">
+
+                <header>
+                  <ui-stack gap="md">
+                    <ui-row gap="sm" wrap>
+                      <span>Engineering</span>
+                      <span>Frontend</span>
+                    </ui-row>
+
+                    <h1>Designing Resilient Frontends: Lessons From Shipping at Scale</h1>
+                    <p>
+                      Our web client now handles millions of sessions a week across flaky networks,
+                      old devices, and third-party outages. Here is what actually held up.
+                    </p>
+
+                    <ui-row gap="sm" align="center">
+                      <img src="https://picsum.photos/seed/author-mara/96/96" alt="Mara Ellison" width="40" height="40" />
+                      <ui-stack gap="xs">
+                        <strong>Mara Ellison</strong>
+                        <ui-row gap="xs" align="center">
+                          <span>Staff Engineer</span>
+                          <span aria-hidden="true">·</span>
+                          <time datetime="2026-11-18">November 18, 2026</time>
+                          <span aria-hidden="true">·</span>
+                          <span>12 min read</span>
+                        </ui-row>
+                      </ui-stack>
+                    </ui-row>
+                  </ui-stack>
+                </header>
+
+                <figure>
+                  <img
+                    src="https://picsum.photos/seed/resilient-cover/1280/640"
+                    alt="Abstract layered glass panels reflecting soft light"
+                    width="1280"
+                    height="640"
+                  />
+                  <figcaption>Layers of caching, retries, and fallbacks, stacked so no single failure reaches the user.</figcaption>
+                </figure>
+
+                <section>
+                  <ui-stack gap="md">
+                    <p>
+                      Most frontend architecture advice assumes a fast connection, a current browser, and a backend
+                      that answers every request in under two hundred milliseconds. Production rarely agrees. Over the
+                      past year we rebuilt our client to assume the opposite, and the results changed how we think about
+                      what a "working" page means.
+                    </p>
+
+                    <h2>Start from the failure, not the happy path</h2>
+                    <p>
+                      Our first draft was organized around the screens people see when everything works. Every component
+                      fetched its own data, rendered a spinner, and hoped for the best. When an upstream service slowed
+                      down, the spinners stayed up for thirty seconds and then turned into blank panels with no
+                      explanation.
+                    </p>
+                    <p>
+                      We flipped the process. For each feature we now list the states it can be in before writing any
+                      markup: fresh data, stale data, partially loaded, offline, rate-limited, and unauthorized. The
+                      design review does not close until each state has a defined appearance and a defined next action
+                      for the user.
+                    </p>
+
+                    <blockquote>
+                      <p>A spinner is a promise that something will happen. Make sure you can keep it.</p>
+                      <cite>Internal design review notes, Q3</cite>
+                    </blockquote>
+
+                    <h2>Separate what you show from what you fetched</h2>
+                    <p>
+                      The biggest single improvement came from putting a local, normalized store between the network
+                      and the components. Components read from the store and never from the wire. The store records when
+                      each entity was last confirmed by the server, which lets us show cached values immediately and
+                      label them honestly when they are old.
+                    </p>
+                    <p>
+                      Writing to the store is optimistic by default. A user action updates the local state at once, a
+                      queued request goes to the server, and a reconciliation step reverts or merges the result. Users
+                      stopped reporting "lost changes" almost entirely once this landed.
+                    </p>
+
+                    <figure>
+                      <figcaption>store-sketch.ts</figcaption>
+                      <pre><code class="language-typescript">type Freshness = "fresh" | "stale" | "unknown";
+
+interface Entity<T> {
+  value: T;
+  confirmedAt: number | null;
+  freshness: Freshness;
+  pending: boolean;
+}
+
+export function readEntity<T>(store: Map<string, Entity<T>>, id: string, maxAgeMs = 60_000): Entity<T> | undefined {
+  const entry = store.get(id);
+  if (!entry) return undefined;
+  const age = entry.confirmedAt === null ? Infinity : Date.now() - entry.confirmedAt;
+  return { ...entry, freshness: age <= maxAgeMs ? "fresh" : entry.confirmedAt ? "stale" : "unknown" };
+}</code></pre>
+                    </figure>
+
+                    <h2>Retries need budgets, not just backoff</h2>
+                    <p>
+                      Exponential backoff sounds sensible until a thousand clients retry in lockstep after a deploy. We
+                      now give each session a retry budget, a fixed number of attempts per rolling minute, and add jitter
+                      to every delay. When the budget is empty the client stops asking and shows the last known good
+                      state with a clear refresh control.
+                    </p>
+                    <p>
+                      This has a useful side effect: the budget is observable. We alert on budget exhaustion per route,
+                      which tells us about a degraded dependency long before error rates cross a dashboard threshold.
+                    </p>
+
+                    <h2>Hydrate what the user can touch</h2>
+                    <p>
+                      Full-page hydration was the other bottleneck. On low-end Android devices, the main thread spent
+                      more time booting our component tree than the user spent waiting for content. We now server-render
+                      the entire page and hydrate interactive islands on demand, starting with whatever is in or near
+                      the viewport. Static sections such as article bodies and footers never hydrate at all.
+                    </p>
+                    <p>
+                      The discipline this requires is less about tooling and more about ownership. Every island needs a
+                      named owner, a size budget, and a documented reason for needing JavaScript in the first place.
+                    </p>
+
+                    <h2>What we would do differently</h2>
+                    <p>
+                      If we were starting over, we would introduce the store and the failure-state checklist on day one
+                      instead of retrofitting them after the first major incident. We would also measure real-user
+                      performance from the first sprint, not the last. Lab numbers flattered us for months.
+                    </p>
+                    <p>
+                      Resilience is not a feature you add at the end. It is the set of decisions that determine what your
+                      users see when the rest of the system is having a bad day.
+                    </p>
+                  </ui-stack>
+                </section>
+
+                <footer>
+                  <ui-stack gap="md">
+                    <ui-row gap="xs" wrap aria-label="Tags">
+                      <span>Resilience</span>
+                      <span>Offline-first</span>
+                      <span>Performance</span>
+                      <span>Architecture</span>
+                      <span>Web Platform</span>
+                    </ui-row>
+
+                    <ui-card>
+                      <ui-row gap="md" align="center">
+                        <img src="https://picsum.photos/seed/author-mara/96/96" alt="Mara Ellison" width="64" height="64" />
+                        <ui-stack gap="xs">
+                          <strong>Mara Ellison</strong>
+                          <p>Staff engineer working on client platform. Writes about caching, hydration, and reliability.</p>
+                        </ui-stack>
+                      </ui-row>
+                    </ui-card>
+                  </ui-stack>
+                </footer>
+
+              </ui-stack>
+            </article>
+
+            <aside aria-labelledby="related-heading">
+              <ui-stack gap="md">
+                <h2 id="related-heading">Related posts</h2>
+                <div style="overflow-x: auto; scroll-snap-type: x mandatory">
+                  <ui-row gap="md">
+                    <ui-card>
+                      <img src="https://picsum.photos/seed/related-1/640/360" alt="Server rack with blue status lights" width="640" height="360" />
+                      <ui-stack gap="xs">
+                        <span>Infrastructure</span>
+                        <h3>Retry Budgets in Practice</h3>
+                        <p>How per-session budgets prevent retry storms after deploys.</p>
+                        <a href="#">Read article</a>
+                      </ui-stack>
+                    </ui-card>
+
+                    <ui-card>
+                      <img src="https://picsum.photos/seed/related-2/640/360" alt="Open notebook beside a laptop" width="640" height="360" />
+                      <ui-stack gap="xs">
+                        <span>Process</span>
+                        <h3>Writing Failure States First</h3>
+                        <p>A design review checklist that catches missing states early.</p>
+                        <a href="#">Read article</a>
+                      </ui-stack>
+                    </ui-card>
+
+                    <ui-card>
+                      <img src="https://picsum.photos/seed/related-3/640/360" alt="Phone displaying a loading graph" width="640" height="360" />
+                      <ui-stack gap="xs">
+                        <span>Performance</span>
+                        <h3>Measuring Real Users on Low-End Devices</h3>
+                        <p>Lab numbers lie. Field data tells you where time actually goes.</p>
+                        <a href="#">Read article</a>
+                      </ui-stack>
+                    </ui-card>
+
+                    <ui-card>
+                      <img src="https://picsum.photos/seed/related-4/640/360" alt="Stacked paper sheets on a desk" width="640" height="360" />
+                      <ui-stack gap="xs">
+                        <span>Data</span>
+                        <h3>A Normalized Store Without the Ceremony</h3>
+                        <p>Minimal client-side entity storage with freshness tracking.</p>
+                        <a href="#">Read article</a>
+                      </ui-stack>
+                    </ui-card>
+
+                    <ui-card>
+                      <img src="https://picsum.photos/seed/related-5/640/360" alt="City street at dusk with light trails" width="640" height="360" />
+                      <ui-stack gap="xs">
+                        <span>Culture</span>
+                        <h3>On-Call for Frontend Teams</h3>
+                        <p>Rotations, runbooks, and what a client-side page should look like.</p>
+                        <a href="#">Read article</a>
+                      </ui-stack>
+                    </ui-card>
+                  </ui-row>
+                </div>
+              </ui-stack>
+            </aside>
+          </main>
+        </ui-stack>
+      </ui-container>
+    </ui-page>
+  </body>
+</html>

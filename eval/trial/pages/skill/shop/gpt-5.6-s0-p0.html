@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride Supply | Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" padding="lg">
+          <a href="#" aria-label="Stride Supply home"><strong>Stride Supply</strong></a>
+          <ui-row gap="sm">
+            <a href="#new-arrivals">New arrivals</a>
+            <ui-button variant="outline" size="sm" aria-label="Shopping cart">
+              Cart <span id="cart-count">0</span>
+            </ui-button>
+          </ui-row>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="xl" padding="lg">
+          <ui-stack gap="sm">
+            <p><small>CURATED EVERYDAY FOOTWEAR</small></p>
+            <h1 id="new-arrivals">Fresh steps for every day</h1>
+            <p>Comfort-forward shoes designed for commutes, weekends, and everything in between.</p>
+          </ui-stack>
+
+          <ui-card sunken padding="md">
+            <form aria-label="Filter products">
+              <ui-row wrap gap="md" align="end">
+                <fieldset>
+                  <legend>Size</legend>
+                  <ui-row wrap gap="xs">
+                    <ui-button type="button" variant="outline" size="sm">6</ui-button>
+                    <ui-button type="button" variant="outline" size="sm">7</ui-button>
+                    <ui-button type="button" variant="primary" size="sm">8</ui-button>
+                    <ui-button type="button" variant="outline" size="sm">9</ui-button>
+                    <ui-button type="button" variant="outline" size="sm">10</ui-button>
+                    <ui-button type="button" variant="outline" size="sm">11</ui-button>
+                  </ui-row>
+                </fieldset>
+
+                <label>
+                  Price range
+                  <input type="range" min="40" max="240" value="160">
+                  <small>Up to $160</small>
+                </label>
+
+                <label>
+                  Sort by
+                  <select name="sort">
+                    <option>Featured</option>
+                    <option>Price: low to high</option>
+                    <option>Price: high to low</option>
+                    <option>Newest</option>
+                  </select>
+                </label>
+              </ui-row>
+            </form>
+          </ui-card>
+
+          <ui-grid max-columns="3" min-item-width="sm" gap="lg">
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-01/640/480" width="640" height="480" alt="Cloud white low-top sneaker" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Cloudline Runner</h2>
+                  <p><strong>$128</strong></p>
+                  <p><small>Lightweight mesh with a cushioned everyday sole.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-02/640/480" width="640" height="480" alt="Black leather court sneaker" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>City Court</h2>
+                  <p><strong>$145</strong></p>
+                  <p><small>Minimal leather styling for polished daily wear.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-03/640/480" width="640" height="480" alt="Sand suede slip-on shoe" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Drift Slip-On</h2>
+                  <p><strong>$98</strong></p>
+                  <p><small>Soft suede ease with a flexible, travel-ready sole.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-04/640/480" width="640" height="480" alt="Forest green trail sneaker" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Trail Form</h2>
+                  <p><strong>$152</strong></p>
+                  <p><small>Grippy traction and supportive comfort for light hikes.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-05/640/480" width="640" height="480" alt="Warm gray knit walking shoe" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Everyday Knit</h2>
+                  <p><strong>$110</strong></p>
+                  <p><small>Breathable knit uppers with a smooth walking feel.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-06/640/480" width="640" height="480" alt="Rust orange retro running shoe" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Retro Pace</h2>
+                  <p><strong>$120</strong></p>
+                  <p><small>Vintage-inspired lines with modern underfoot cushioning.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-07/640/480" width="640" height="480" alt="Navy blue canvas sneaker" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Harbor Canvas</h2>
+                  <p><strong>$84</strong></p>
+                  <p><small>Classic canvas comfort with a clean coastal palette.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-08/640/480" width="640" height="480" alt="White and gray performance sneaker" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Motion One</h2>
+                  <p><strong>$160</strong></p>
+                  <p><small>Responsive foam and a stable platform for active days.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-09/640/480" width="640" height="480" alt="Black and white high-top sneaker" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>North High</h2>
+                  <p><strong>$132</strong></p>
+                  <p><small>Structured high-top support with an easy streetwear fit.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-10/640/480" width="640" height="480" alt="Cream leather loafer" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Soft Penny</h2>
+                  <p><strong>$138</strong></p>
+                  <p><small>A relaxed penny loafer with a cushioned footbed.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-11/640/480" width="640" height="480" alt="Burgundy leather ankle boot" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Westside Boot</h2>
+                  <p><strong>$178</strong></p>
+                  <p><small>Polished leather, dependable tread, and a soft lining.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated padding="sm">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/stride-12/640/480" width="640" height="480" alt="Lavender and white casual sneaker" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Daylight Court</h2>
+                  <p><strong>$115</strong></p>
+                  <p><small>Playful color and all-day comfort for off-duty hours.</small></p>
+                </ui-stack>
+                <ui-button variant="primary" data-add> Add to cart </ui-button>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <nav aria-label="Pagination">
+            <ui-row justify="center" gap="sm" wrap>
+              <ui-button variant="outline" disabled>Previous</ui-button>
+              <ui-button variant="primary" aria-current="page">1</ui-button>
+              <ui-button variant="outline">2</ui-button>
+              <ui-button variant="outline">3</ui-button>
+              <ui-button variant="outline">Next</ui-button>
+            </ui-row>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <ui-row justify="space-between" padding="lg" wrap>
+          <small>© 2026 Stride Supply</small>
+          <small>Free shipping on orders over $100</small>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    const count = document.getElementById("cart-count");
+    let cartItems = 0;
+
+    document.querySelectorAll("[data-add]").forEach((button) => {
+      button.addEventListener("click", () => {
+        cartItems += 1;
+        count.textContent = cartItems;
+        button.textContent = "Added";
+        button.setAttribute("variant", "secondary");
+        setTimeout(() => {
+          button.textContent = "Add to cart";
+          button.setAttribute("variant", "primary");
+        }, 900);
+      });
+    });
+  </script>
+</body>
+</html>

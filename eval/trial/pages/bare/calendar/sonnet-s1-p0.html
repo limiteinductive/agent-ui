@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Calendar</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-container>
+  <ui-stack gap="lg">
+    <ui-stack direction="row" justify="between" align="center">
+      <ui-stack gap="xs">
+        <h1>Team Calendar</h1>
+        <p>Product &amp; Engineering · 8 members</p>
+      </ui-stack>
+      <ui-stack direction="row" gap="sm" align="center">
+        <ui-button id="prev" variant="outline" aria-label="Previous month">‹</ui-button>
+        <h2 id="monthLabel">November 2026</h2>
+        <ui-button id="next" variant="outline" aria-label="Next month">›</ui-button>
+      </ui-stack>
+    </ui-stack>
+
+    <ui-grid cols="3" gap="lg" min="320px">
+      <ui-card>
+        <ui-stack gap="sm">
+          <ui-grid cols="7" gap="xs" id="weekdays"></ui-grid>
+          <ui-grid cols="7" gap="xs" id="grid"></ui-grid>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <ui-stack gap="md">
+          <h3>Upcoming events</h3>
+          <ui-stack gap="md" id="upcoming"></ui-stack>
+        </ui-stack>
+      </ui-card>
+    </ui-grid>
+  </ui-stack>
+</ui-container>
+
+<script>
+const events = [
+  {d:"2026-11-03", t:"Sprint planning", c:"info", who:"Priya N."},
+  {d:"2026-11-10", t:"Design review", c:"success", who:"Marco L."},
+  {d:"2026-11-17", t:"Release v4.2", c:"warning", who:"Dana K."},
+  {d:"2026-11-19", t:"1:1 with Sam", c:"info", who:"Alex R."},
+  {d:"2026-11-24", t:"Customer demo", c:"success", who:"Priya N."},
+  {d:"2026-11-26", t:"Team lunch", c:"warning", who:"Everyone"},
+  {d:"2026-11-30", t:"Retro", c:"info", who:"Marco L."},
+  {d:"2026-12-02", t:"Roadmap sync", c:"info", who:"Dana K."},
+  {d:"2026-12-15", t:"Holiday party", c:"success", who:"Everyone"}
+];
+const today = "2026-11-21";
+let view = new Date(2026, 10, 1);
+const pad = n => String(n).padStart(2, "0");
+const key = (y,m,d) => `${y}-${pad(m+1)}-${pad(d)}`;
+const names = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+document.getElementById("weekdays").innerHTML =
+  names.map(n => `<small><strong>${n}</strong></small>`).join("");
+
+function render() {
+  const y = view.getFullYear(), m = view.getMonth();
+  document.getElementById("monthLabel").textContent =
+    view.toLocaleString("en-US", {month:"long", year:"numeric"});
+  const offset = (new Date(y, m, 1).getDay() + 6) % 7;
+  const days = new Date(y, m + 1, 0).getDate();
+  let html = "";
+  for (let i = 0; i < offset; i++) html += "<div></div>";
+  for (let d = 1; d <= days; d++) {
+    const k = key(y, m, d);
+    const evs = events.filter(e => e.d === k);
+    const isToday = k === today;
+    html += `<ui-card${isToday ? ' variant="outline"' : ''}><ui-stack gap="xs">` +
+      `<small>${isToday ? "<strong>" + d + "</strong>" : d}</small>` +
+      evs.map(e => `<ui-badge variant="${e.c}" title="${e.t}">${e.t}</ui-badge>`).join("") +
+      `</ui-stack></ui-card>`;
+  }
+  document.getElementById("grid").innerHTML = html;
+
+  const up = events.filter(e => e.d >= today).sort((a,b) => a.d.localeCompare(b.d)).slice(0, 6);
+  document.getElementById("upcoming").innerHTML = up.map((e, i) => {
+    const dt = new Date(e.d + "T00:00:00");
+    return `<ui-stack direction="row" gap="md" align="center">` +
+      `<img src="https://picsum.photos/seed/team${i}/80/80" alt="${e.who}" width="48" height="48" loading="lazy">` +
+      `<ui-stack gap="xs"><strong>${e.t}</strong>` +
+      `<small>${dt.toLocaleDateString("en-US",{weekday:"short", month:"short", day:"numeric"})} · ${e.who}</small></ui-stack>` +
+      `</ui-stack>`;
+  }).join("");
+}
+document.getElementById("prev").addEventListener("click", () => { view.setMonth(view.getMonth() - 1); render(); });
+document.getElementById("next").addEventListener("click", () => { view.setMonth(view.getMonth() + 1); render(); });
+render();
+</script>
+</body>
+</html>

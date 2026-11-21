@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="What a rainy walk taught us about designing maps for people on the move.">
+  <title>Designing trail maps for tired eyes | Contour Journal</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header id="top">
+      <ui-container size="lg">
+        <ui-stack gap="sm" padding="md">
+          <ui-row wrap gap="md" justify="space-between">
+            <strong>Contour Journal</strong>
+            <nav aria-label="Journal">
+              <a href="#related">Related posts</a>
+            </nav>
+          </ui-row>
+          <hr>
+        </ui-stack>
+      </ui-container>
+    </header>
+
+    <main>
+      <article aria-labelledby="article-title">
+        <ui-stack gap="xl">
+          <header>
+            <ui-container size="sm">
+              <ui-stack gap="md" padding="md">
+                <p><small>Field notes · Cartography</small></p>
+                <h1 id="article-title">Designing trail maps for tired eyes</h1>
+                <p>What a rainy walk taught us about drawing a map people can read in a few seconds.</p>
+                <ui-row gap="sm">
+                  <img
+                    src="https://picsum.photos/id/64/96/96"
+                    width="48"
+                    height="48"
+                    alt=""
+                    style="border-radius: var(--ui-radius-full, 999px); object-fit: cover;"
+                  >
+                  <ui-stack gap="0">
+                    <strong>Maya Chen</strong>
+                    <small><time datetime="2026-10-08">October 8, 2026</time></small>
+                  </ui-stack>
+                </ui-row>
+              </ui-stack>
+            </ui-container>
+          </header>
+
+          <ui-container size="lg">
+            <figure style="margin: 0;">
+              <ui-stack gap="sm">
+                <img
+                  src="https://picsum.photos/id/1018/1440/640"
+                  srcset="https://picsum.photos/id/1018/720/320 720w, https://picsum.photos/id/1018/1440/640 1440w"
+                  sizes="(max-width: 72rem) 100vw, 72rem"
+                  width="1440"
+                  height="640"
+                  alt="A river winding through a broad mountain valley"
+                  fetchpriority="high"
+                  style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-lg, 0.75rem);"
+                >
+                <figcaption><small>In a valley, a river or a ridge can give you a reference point long before the next trail sign.</small></figcaption>
+              </ui-stack>
+            </figure>
+          </ui-container>
+
+          <ui-container size="sm">
+            <ui-stack gap="xl" padding="md">
+              <p>At the last fork before the ridge, I pulled out my phone and discovered that three dashed lines met at the same spot. One was the route we’d planned. One was an old service road. The third was a creek. With rain on the screen and my glasses fogging up, I could barely tell them apart.</p>
+
+              <section aria-labelledby="fork-heading">
+                <ui-stack gap="sm">
+                  <h2 id="fork-heading">Start at the fork</h2>
+                  <p>Back at my desk, I opened the map at the same zoom level and gave myself five seconds to pick a direction. I spent most of that time looking for the route line. The basemap had a dozen shades of green, and our thin blue line disappeared where it crossed a patch of dark forest.</p>
+                  <p>I thickened the route and added a light outline so it would hold up over both trees and bare ground. At junctions, I kept the first visible stretch of each connecting trail just prominent enough to show which way it turned. Then I printed the map in grayscale. Two of the creek crossings still needed work, but I could finally follow the main route with my thumb.</p>
+                </ui-stack>
+              </section>
+
+              <ui-card variant="info" rounded="lg" padding="lg">
+                <blockquote style="margin: 0;">
+                  <p><strong>“The map has to answer the question you’re standing still to ask.”</strong></p>
+                </blockquote>
+              </ui-card>
+
+              <section aria-labelledby="landmarks-heading">
+                <ui-stack gap="sm">
+                  <h2 id="landmarks-heading">Name what people can see</h2>
+                  <p>My first draft labeled the summit and the trailhead. On the walk, we talked about the footbridge, the bend in the creek, and the split boulder beside the fork. Those were the places we could recognize from the trail, and they gave us something to check between turns.</p>
+                  <p>At the next review, we looked at each label at the zoom level a walker would actually use. The footbridge stayed visible because it confirmed the crossing. The summit label moved to the overview, where it helped explain the shape of the whole walk. I left the split boulder out of the printed map until we could confirm that it was visible from both directions.</p>
+                </ui-stack>
+              </section>
+
+              <section aria-labelledby="gps-heading">
+                <ui-stack gap="sm">
+                  <h2 id="gps-heading">Show when a position is uncertain</h2>
+                  <p>Near the creek, the location marker jumped between banks. We already had an accuracy estimate from the browser, so I used it to change what the map drew. For this prototype, a fix with an estimated error above 25 meters gets a shaded area and a text label. Twenty-five meters was enough to cover both branches at our test junction.</p>
+
+                  <pre tabindex="0" aria-label="JavaScript example for displaying location accuracy" style="margin: 0; max-width: 100%; overflow-x: auto;"><code>function locationMarker(position) {
+  const { latitude, longitude, accuracy } =
+    position.coords;
+  const uncertain = accuracy &gt; 25;
+
+  return {
+    center: [longitude, latitude],
+    radiusMeters: uncertain ? accuracy : 0,
+    label: uncertain
+      ? "Approximate location"
+      : "Current location"
+  };
+}</code></pre>
+
+                  <p>The map uses that radius to draw the shaded area around the reported coordinates. We also removed the animation that snapped the marker to the closest trail. On the creek bank, it had made a noisy reading look like a confident instruction to cross.</p>
+                </ui-stack>
+              </section>
+
+              <section aria-labelledby="return-heading">
+                <ui-stack gap="sm">
+                  <h2 id="return-heading">Walk it again</h2>
+                  <p>We returned a week later and handed the revised map to someone who hadn’t seen the first draft. At each junction, we asked her which way she was going and what on the map told her so. At the creek she pointed to the footbridge, looked up, and saw it through the trees. At the final fork she paused. From that side, the sign was hidden behind a trunk.</p>
+                  <p>That last pause gave us our next edit. We moved the fork label away from the route line and added a short description of the uphill branch. The following morning, I tried the map again with my phone at half brightness and one hand in my pocket. I could read the turn before I reached the sign.</p>
+                </ui-stack>
+              </section>
+
+              <section aria-labelledby="tags-heading">
+                <ui-stack gap="sm">
+                  <h2 id="tags-heading">Tags</h2>
+                  <ui-row wrap gap="sm">
+                    <ui-card padding="sm" rounded="full"><small>Cartography</small></ui-card>
+                    <ui-card padding="sm" rounded="full"><small>Field testing</small></ui-card>
+                    <ui-card padding="sm" rounded="full"><small>Interface design</small></ui-card>
+                  </ui-row>
+                </ui-stack>
+              </section>
+            </ui-stack>
+          </ui-container>
+        </ui-stack>
+      </article>
+
+      <section id="related" aria-labelledby="related-heading">
+        <ui-container size="lg">
+          <ui-stack gap="md" padding="md">
+            <hr>
+            <h2 id="related-heading">Related posts</h2>
+            <ui-row scroll item-width="18rem" gap="md" align="start" tabindex="0" role="region" aria-labelledby="related-heading">
+              <ui-card padding="md" rounded="lg">
+                <img src="https://picsum.photos/id/29/576/324" width="576" height="324" alt="" loading="lazy" style="display: block; width: 100%; height: auto;">
+                <article>
+                  <ui-stack gap="sm">
+                    <small>Cartography</small>
+                    <h3>What belongs on an offline map?</h3>
+                    <details>
+                      <summary>Read excerpt</summary>
+                      <p>On a weekend hike with no signal, a saved basemap kept the trails visible. It took a separate download to find the bus stop we needed at the end.</p>
+                    </details>
+                  </ui-stack>
+                </article>
+              </ui-card>
+
+              <ui-card padding="md" rounded="lg">
+                <img src="https://picsum.photos/id/1039/576/324" width="576" height="324" alt="" loading="lazy" style="display: block; width: 100%; height: auto;">
+                <article>
+                  <ui-stack gap="sm">
+                    <small>Field testing</small>
+                    <h3>A notebook for awkward junctions</h3>
+                    <details>
+                      <summary>Read excerpt</summary>
+                      <p>Photograph a fork from both approaches. The sign that explains everything on your way out might be behind you on the way back.</p>
+                    </details>
+                  </ui-stack>
+                </article>
+              </ui-card>
+
+              <ui-card padding="md" rounded="lg">
+                <img src="https://picsum.photos/id/1043/576/324" width="576" height="324" alt="" loading="lazy" style="display: block; width: 100%; height: auto;">
+                <article>
+                  <ui-stack gap="sm">
+                    <small>Interface design</small>
+                    <h3>Checking a color palette in sunlight</h3>
+                    <details>
+                      <summary>Read excerpt</summary>
+                      <p>We took three palettes outside and tried to follow the same route on each. The version we liked indoors lost its trail boundaries first.</p>
+                    </details>
+                  </ui-stack>
+                </article>
+              </ui-card>
+
+              <ui-card padding="md" rounded="lg">
+                <img src="https://picsum.photos/id/1015/576/324" width="576" height="324" alt="" loading="lazy" style="display: block; width: 100%; height: auto;">
+                <article>
+                  <ui-stack gap="sm">
+                    <small>Cartography</small>
+                    <h3>Drawing water at walking speed</h3>
+                    <details>
+                      <summary>Read excerpt</summary>
+                      <p>A creek line can show where water runs. At a crossing, a bridge, ford, or seasonal note tells a walker what to look for on the ground.</p>
+                    </details>
+                  </ui-stack>
+                </article>
+              </ui-card>
+
+              <ui-card padding="md" rounded="lg">
+                <img src="https://picsum.photos/id/1016/576/324" width="576" height="324" alt="" loading="lazy" style="display: block; width: 100%; height: auto;">
+                <article>
+                  <ui-stack gap="sm">
+                    <small>Field testing</small>
+                    <h3>Revisiting a route in winter</h3>
+                    <details>
+                      <summary>Read excerpt</summary>
+                      <p>After the first snow, the footpath vanished and the fence became our best reference. Our summer notes had never mentioned it.</p>
+                    </details>
+                  </ui-stack>
+                </article>
+              </ui-card>
+            </ui-row>
+          </ui-stack>
+        </ui-container>
+      </section>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <ui-stack gap="sm" padding="md">
+          <hr>
+          <ui-row wrap gap="md" justify="space-between">
+            <small>Contour Journal</small>
+            <a href="#top">Back to top</a>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

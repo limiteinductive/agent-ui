@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Craft of Resilient Interfaces</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Field Notes</strong>
+        <nav>
+          <ui-row gap="md">
+            <a href="#">Articles</a>
+            <a href="#">About</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="lg">
+
+        <ui-stack gap="md">
+          <h1>The Quiet Craft of Resilient Interfaces</h1>
+          <ui-row gap="sm" align="center">
+            <img src="https://picsum.photos/seed/author/96/96" alt="Portrait of Maya Okafor" width="48" height="48" loading="lazy">
+            <ui-stack gap="0">
+              <strong>Maya Okafor</strong>
+              <small><time datetime="2026-11-12">November 12, 2026</time> · 9 min read</small>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+
+        <img src="https://picsum.photos/seed/cover-resilient/1200/630" alt="Misty hills at dawn, a metaphor for calm systems" width="1200" height="630">
+
+        <ui-stack gap="lg">
+          <p>Every interface eventually meets a condition its designer never imagined: a 360-pixel phone, a translated label three times longer than the English one, a flaky network, a user zooming to 200%. Resilient interfaces are not the ones that avoid these moments. They are the ones that bend without breaking.</p>
+
+          <h2>Start with the content, not the canvas</h2>
+          <p>Designing against a fixed artboard hides problems. Real content is messy: names that wrap, images that arrive late, lists that grow from three items to three hundred. When you begin with realistic content, layout decisions become honest ones, and the container reveals what it needs instead of what you wished it needed.</p>
+          <p>A useful exercise is to take your favorite component and feed it the worst plausible data. Empty strings, very long unbroken words, right-to-left text. Fix what breaks, and you will often find the fix simplifies the component.</p>
+
+          <blockquote>
+            <p>“Flexibility is not a feature you add at the end. It is the shape of the problem you accepted at the start.”</p>
+          </blockquote>
+
+          <h2>Let layout primitives do the heavy lifting</h2>
+          <p>Most responsive bugs come from fighting the browser with magic numbers. A small set of composable primitives, such as stacks, rows and grids, expresses intent: “these items sit in a line, wrap when they must, and share space equally.” The browser then resolves the details at every width.</p>
+          <p>Fewer media queries mean fewer places for a layout to disagree with itself. Intrinsic sizing lets components respond to the space they are given rather than the size of the window they happen to live in.</p>
+
+          <h3>A tiny example</h3>
+          <p>Here is a helper that debounces resize observations so a layout check never runs more than once per frame:</p>
+
+<pre><code>function observeWidth(el, callback) {
+  let frame = 0;
+  const ro = new ResizeObserver(([entry]) =&gt; {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() =&gt; {
+      callback(Math.round(entry.contentRect.width));
+    });
+  });
+  ro.observe(el);
+  return () =&gt; ro.disconnect();
+}
+
+const stop = observeWidth(document.querySelector('.card'), (w) =&gt; {
+  console.log('Card is now', w, 'px wide');
+});</code></pre>
+
+          <h2>Design the failure states first</h2>
+          <p>Loading, empty, error and offline are not edge cases; they are states users meet daily. Give each one a deliberate design, with clear language and a next step. A calm error message that explains what happened and offers a retry builds more trust than a flawless happy path ever could.</p>
+
+          <h2>Test on the narrowest screen you can find</h2>
+          <p>If a layout works at 360 pixels, it will almost always work everywhere wider. Make the narrow viewport your default development size and expand outward. You will write less code, and the desktop version will feel intentional rather than stretched.</p>
+          <p>Resilience is quiet. Nobody praises a page for not breaking. But they remember the ones that did, and they remember the ones that simply worked.</p>
+        </ui-stack>
+
+        <ui-row wrap gap="sm">
+          <mark>Frontend</mark>
+          <mark>Layout</mark>
+          <mark>Responsive Design</mark>
+          <mark>Accessibility</mark>
+          <mark>CSS</mark>
+        </ui-row>
+
+        <hr>
+
+        <ui-stack gap="md">
+          <h2>Related posts</h2>
+          <ui-row scroll item-width="sm" gap="md" align="stretch">
+            <ui-card padding="0" gap="0">
+              <img src="https://picsum.photos/seed/rel1/600/360" alt="Laptop on a wooden desk" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <h3>Container queries in practice</h3>
+                <p>Components that respond to their own space, not the window.</p>
+                <small>6 min read</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="0" gap="0">
+              <img src="https://picsum.photos/seed/rel2/600/360" alt="Colorful design swatches" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <h3>Color systems that survive dark mode</h3>
+                <p>Build tokens once and let both schemes fall out naturally.</p>
+                <small>8 min read</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="0" gap="0">
+              <img src="https://picsum.photos/seed/rel3/600/360" alt="Hands typing on a keyboard" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <h3>Accessible forms, step by step</h3>
+                <p>Labels, errors and focus order that work for everyone.</p>
+                <small>7 min read</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="0" gap="0">
+              <img src="https://picsum.photos/seed/rel4/600/360" alt="City skyline at dusk" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <h3>Performance budgets for humans</h3>
+                <p>Setting limits your whole team can actually remember.</p>
+                <small>5 min read</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="0" gap="0">
+              <img src="https://picsum.photos/seed/rel5/600/360" alt="Notebook with sketches" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <h3>Sketching before you code</h3>
+                <p>Why ten minutes of paper saves ten hours of refactoring.</p>
+                <small>4 min read</small>
+              </ui-stack>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-stack padding="lg" align="center">
+        <small>© 2026 Field Notes. Written with care.</small>
+      </ui-stack>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

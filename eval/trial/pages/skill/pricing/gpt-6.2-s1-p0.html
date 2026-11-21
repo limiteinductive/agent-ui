@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Daymark project management plans for small teams and growing organizations.">
+  <title>Pricing | Daymark</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body id="top">
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" gap="md" wrap>
+          <a href="#top"><strong>Daymark</strong></a>
+          <nav aria-label="Main navigation">
+            <ui-row gap="md" wrap>
+              <a href="#plans">Pricing</a>
+              <a href="#compare">Compare</a>
+              <a href="#faq">FAQ</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+        <hr>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="2xl">
+          <section id="plans" aria-labelledby="pricing-title">
+            <ui-stack gap="xl">
+              <ui-stack align="center" gap="sm" padding="lg" style="text-align: center">
+                <h1 id="pricing-title">Give every project a clear plan</h1>
+                <p>Organize tasks, track deadlines, and see who’s doing what in one shared workspace.</p>
+                <small>Prices in USD. Paid plans are billed monthly.</small>
+              </ui-stack>
+
+              <ui-grid max-columns="3" min-item-width="17rem" gap="lg">
+                <ui-card rounded="xl">
+                  <h2>Starter</h2>
+                  <p>For small teams managing their first projects together.</p>
+                  <p><strong>$0</strong> <small>per workspace / month</small></p>
+                  <ul grow>
+                    <li>Up to 5 members</li>
+                    <li>Up to 3 active projects</li>
+                    <li>List and board views</li>
+                    <li>Task assignments and due dates</li>
+                  </ul>
+                  <ui-button variant="outline" id="starter-action">Get started free</ui-button>
+                </ui-card>
+
+                <ui-card variant="primary" elevated rounded="xl">
+                  <ui-row justify="space-between" gap="sm" wrap>
+                    <h2>Team</h2>
+                    <small><strong>Most popular</strong></small>
+                  </ui-row>
+                  <p>For teams coordinating deadlines across several projects.</p>
+                  <p><strong>$12</strong> <small>per member / month</small></p>
+                  <ul grow>
+                    <li>Unlimited projects</li>
+                    <li>Timeline view and task dependencies</li>
+                    <li>Recurring tasks and templates</li>
+                    <li>250 automation runs per month</li>
+                  </ul>
+                  <ui-button variant="primary" id="team-action">Request a free trial</ui-button>
+                </ui-card>
+
+                <ui-card rounded="xl">
+                  <h2>Business</h2>
+                  <p>For organizations that need reporting and access controls across teams.</p>
+                  <p><strong>$24</strong> <small>per member / month</small></p>
+                  <ul grow>
+                    <li>Everything in Team</li>
+                    <li>Cross-project dashboards</li>
+                    <li>SAML single sign-on and audit logs</li>
+                    <li>2,500 automation runs per month</li>
+                  </ul>
+                  <ui-button variant="outline" id="business-action">Contact sales</ui-button>
+                </ui-card>
+              </ui-grid>
+            </ui-stack>
+          </section>
+
+          <section id="compare" aria-labelledby="compare-title">
+            <ui-stack gap="md">
+              <h2 id="compare-title">Compare plans</h2>
+              <div role="region" aria-labelledby="compare-title" tabindex="0" style="overflow: auto">
+                <table style="width: 100%; min-width: 34rem">
+                  <thead>
+                    <tr>
+                      <th scope="col">Feature</th>
+                      <th scope="col">Starter</th>
+                      <th scope="col">Team</th>
+                      <th scope="col">Business</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Active projects</th>
+                      <td>3</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">List and board views</th>
+                      <td>Included</td>
+                      <td>Included</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Timeline and dependencies</th>
+                      <td>Unavailable</td>
+                      <td>Included</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Monthly automation runs</th>
+                      <td>0</td>
+                      <td>250</td>
+                      <td>2,500</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cross-project dashboards</th>
+                      <td>Unavailable</td>
+                      <td>Unavailable</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">SAML SSO and audit logs</th>
+                      <td>Unavailable</td>
+                      <td>Unavailable</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Support</th>
+                      <td>Help center</td>
+                      <td>Email</td>
+                      <td>Priority email</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ui-stack>
+          </section>
+
+          <section id="faq" aria-labelledby="faq-title">
+            <ui-stack gap="sm">
+              <h2 id="faq-title">Frequently asked questions</h2>
+
+              <ui-card padding="md" rounded="lg">
+                <details>
+                  <summary>How does the Team trial work?</summary>
+                  <p>You get 14 days to try all Team features without a credit card. At the end of the trial, choose a paid plan or move to Starter.</p>
+                </details>
+              </ui-card>
+
+              <ui-card padding="md" rounded="lg">
+                <details>
+                  <summary>Who counts as a paid member?</summary>
+                  <p>Every active workspace member, including admins, counts toward your bill. Guests invited to a single project can view and comment for free.</p>
+                </details>
+              </ui-card>
+
+              <ui-card padding="md" rounded="lg">
+                <details>
+                  <summary>What happens if I downgrade to Starter?</summary>
+                  <p>Your tasks and files stay in your workspace. If you have more than three active projects, choose three to keep editable. You can still view the others.</p>
+                </details>
+              </ui-card>
+
+              <ui-card padding="md" rounded="lg">
+                <details>
+                  <summary>Can I cancel at any time?</summary>
+                  <p>Yes. Your paid features stay available through the end of your current billing period.</p>
+                </details>
+              </ui-card>
+            </ui-stack>
+          </section>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <ui-stack gap="md" padding="lg">
+          <hr>
+          <ui-row justify="space-between" gap="md" wrap>
+            <small>© 2026 Daymark</small>
+            <nav aria-label="Footer navigation">
+              <ui-row gap="md" wrap>
+                <a href="mailto:hello@daymark.example">Contact</a>
+                <a href="#top">Back to top</a>
+              </ui-row>
+            </nav>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <dialog id="plan-dialog" aria-labelledby="dialog-title">
+    <ui-stack gap="md">
+      <h2 id="dialog-title"></h2>
+      <p id="dialog-description"></p>
+      <ui-row justify="space-between" gap="md" wrap>
+        <a id="plan-email" href="mailto:hello@daymark.example">Compose email</a>
+        <ui-button variant="ghost" id="close-dialog">Close</ui-button>
+      </ui-row>
+    </ui-stack>
+  </dialog>
+
+  <script>
+    const dialog = document.getElementById("plan-dialog");
+    const dialogTitle = document.getElementById("dialog-title");
+    const dialogDescription = document.getElementById("dialog-description");
+    const planEmail = document.getElementById("plan-email");
+
+    const planActions = [
+      {
+        buttonId: "starter-action",
+        title: "Set up a Starter workspace",
+        description: "Email us with your workspace name and how many people you’d like to invite.",
+        address: "hello@daymark.example"
+      },
+      {
+        buttonId: "team-action",
+        title: "Request a 14-day Team trial",
+        description: "Email us with your workspace name and team size to request a trial.",
+        address: "hello@daymark.example"
+      },
+      {
+        buttonId: "business-action",
+        title: "Talk to Daymark sales",
+        description: "Tell us your team size and what you’d like to cover in a demo.",
+        address: "sales@daymark.example"
+      }
+    ];
+
+    for (const { buttonId, title, description, address } of planActions) {
+      document.getElementById(buttonId).addEventListener("click", () => {
+        dialogTitle.textContent = title;
+        dialogDescription.textContent = description;
+        planEmail.href = `mailto:${address}?subject=${encodeURIComponent(title)}`;
+        dialog.showModal();
+        planEmail.focus();
+      });
+    }
+
+    document.getElementById("close-dialog").addEventListener("click", () => {
+      dialog.close();
+    });
+  </script>
+</body>
+</html>

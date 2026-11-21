@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings · Northwind</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="lg" padding="md">
+    <ui-stack gap="lg">
+
+      <!-- Header -->
+      <ui-stack gap="xs">
+        <ui-cluster justify="between" align="center" wrap>
+          <h1>Account settings</h1>
+          <ui-badge variant="success">Pro plan</ui-badge>
+        </ui-cluster>
+        <p>Manage your profile, notifications, billing and account security.</p>
+      </ui-stack>
+
+      <ui-grid columns="1" columns-md="3" gap="lg" min="280px">
+
+        <!-- Left column: profile + notifications -->
+        <ui-stack gap="lg" span="2" span-md="2">
+
+          <!-- Profile -->
+          <ui-card>
+            <form id="profile-form">
+              <ui-stack gap="md">
+                <ui-stack gap="xs">
+                  <h2>Profile</h2>
+                  <p>This information is shown to people on your team.</p>
+                </ui-stack>
+
+                <ui-cluster gap="md" align="center" wrap>
+                  <ui-avatar id="avatar-preview" src="https://picsum.photos/seed/maya-chen/160/160" alt="Maya Chen" size="lg"></ui-avatar>
+                  <ui-stack gap="xs">
+                    <label for="avatar">Avatar</label>
+                    <input id="avatar" name="avatar" type="file" accept="image/png, image/jpeg, image/webp">
+                    <small>PNG, JPG or WebP. Max 2 MB.</small>
+                  </ui-stack>
+                </ui-cluster>
+
+                <ui-grid columns="1" columns-md="2" gap="md" min="220px">
+                  <ui-stack gap="xs">
+                    <label for="first-name">First name</label>
+                    <input id="first-name" name="firstName" type="text" value="Maya" autocomplete="given-name" required>
+                  </ui-stack>
+                  <ui-stack gap="xs">
+                    <label for="last-name">Last name</label>
+                    <input id="last-name" name="lastName" type="text" value="Chen" autocomplete="family-name" required>
+                  </ui-stack>
+                </ui-grid>
+
+                <ui-stack gap="xs">
+                  <label for="email">Email address</label>
+                  <input id="email" name="email" type="email" value="maya.chen@northwind.example" autocomplete="email" required>
+                  <small>We'll send a confirmation link if you change this.</small>
+                </ui-stack>
+
+                <ui-stack gap="xs">
+                  <label for="bio">Bio</label>
+                  <textarea id="bio" name="bio" rows="4" maxlength="280">Product designer at Northwind. I write about design systems, accessibility, and the occasional sourdough experiment.</textarea>
+                  <small><span id="bio-count">0</span>/280 characters</small>
+                </ui-stack>
+
+                <ui-cluster justify="end" gap="sm" wrap>
+                  <ui-button type="reset" variant="ghost">Cancel</ui-button>
+                  <ui-button type="submit" variant="primary">Save changes</ui-button>
+                </ui-cluster>
+                <ui-alert id="profile-saved" variant="success" hidden>Profile updated.</ui-alert>
+              </ui-stack>
+            </form>
+          </ui-card>
+
+          <!-- Notifications -->
+          <ui-card>
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <h2>Notifications</h2>
+                <p>Choose what we email you about.</p>
+              </ui-stack>
+
+              <ui-stack gap="md">
+                <ui-cluster justify="between" align="center" gap="md">
+                  <ui-stack gap="none">
+                    <strong>Comments &amp; mentions</strong>
+                    <small>When someone replies to you or @mentions you.</small>
+                  </ui-stack>
+                  <ui-switch name="notify-mentions" checked aria-label="Comments and mentions"></ui-switch>
+                </ui-cluster>
+                <ui-divider></ui-divider>
+                <ui-cluster justify="between" align="center" gap="md">
+                  <ui-stack gap="none">
+                    <strong>Weekly digest</strong>
+                    <small>A Monday summary of activity in your projects.</small>
+                  </ui-stack>
+                  <ui-switch name="notify-digest" checked aria-label="Weekly digest"></ui-switch>
+                </ui-cluster>
+                <ui-divider></ui-divider>
+                <ui-cluster justify="between" align="center" gap="md">
+                  <ui-stack gap="none">
+                    <strong>Security alerts</strong>
+                    <small>New sign-ins and password changes.</small>
+                  </ui-stack>
+                  <ui-switch name="notify-security" checked aria-label="Security alerts"></ui-switch>
+                </ui-cluster>
+                <ui-divider></ui-divider>
+                <ui-cluster justify="between" align="center" gap="md">
+                  <ui-stack gap="none">
+                    <strong>Product updates</strong>
+                    <small>New features and occasional announcements.</small>
+                  </ui-stack>
+                  <ui-switch name="notify-product" aria-label="Product updates"></ui-switch>
+                </ui-cluster>
+                <ui-divider></ui-divider>
+                <ui-cluster justify="between" align="center" gap="md">
+                  <ui-stack gap="none">
+                    <strong>Billing receipts</strong>
+                    <small>Invoices and payment confirmations.</small>
+                  </ui-stack>
+                  <ui-switch name="notify-billing" checked aria-label="Billing receipts"></ui-switch>
+                </ui-cluster>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+
+        <!-- Right column: billing + danger zone -->
+        <ui-stack gap="lg">
+
+          <!-- Billing -->
+          <ui-card>
+            <ui-stack gap="md">
+              <ui-cluster justify="between" align="center">
+                <h2>Billing</h2>
+                <ui-badge variant="info">Active</ui-badge>
+              </ui-cluster>
+
+              <ui-stack gap="xs">
+                <small>Current plan</small>
+                <strong>Pro · Annual</strong>
+                <p><strong>$144</strong> / year &nbsp;($12/month)</p>
+              </ui-stack>
+
+              <ui-stack gap="xs">
+                <small>Seats used</small>
+                <progress value="7" max="10">7 of 10</progress>
+                <small>7 of 10 seats</small>
+              </ui-stack>
+
+              <dl>
+                <dt>Next payment</dt>
+                <dd>March 14, 2027</dd>
+                <dt>Payment method</dt>
+                <dd>Visa ending in 4242</dd>
+                <dt>Billing email</dt>
+                <dd>billing@northwind.example</dd>
+              </dl>
+
+              <ui-stack gap="sm">
+                <ui-button variant="primary" block>Upgrade to Team</ui-button>
+                <ui-button variant="secondary" block>View invoices</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Danger zone -->
+          <ui-card variant="danger">
+            <ui-stack gap="md">
+              <h2>Danger zone</h2>
+              <p>Deleting your account permanently removes your profile, projects and files. This cannot be undone.</p>
+              <ui-stack gap="xs">
+                <label for="confirm-delete">Type <strong>DELETE</strong> to confirm</label>
+                <input id="confirm-delete" type="text" autocomplete="off" placeholder="DELETE">
+              </ui-stack>
+              <ui-button id="delete-btn" variant="danger" block disabled>Delete account</ui-button>
+              <ui-alert id="delete-msg" variant="danger" hidden>Account scheduled for deletion. You'll receive a confirmation email.</ui-alert>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+
+      </ui-grid>
+    </ui-stack>
+  </ui-container>
+
+  <script>
+    // Avatar preview
+    const avatarInput = document.getElementById('avatar');
+    const avatarPreview = document.getElementById('avatar-preview');
+    avatarInput.addEventListener('change', () => {
+      const file = avatarInput.files[0];
+      if (file) avatarPreview.setAttribute('src', URL.createObjectURL(file));
+    });
+
+    // Bio counter
+    const bio = document.getElementById('bio');
+    const bioCount = document.getElementById('bio-count');
+    const updateCount = () => { bioCount.textContent = bio.value.length; };
+    bio.addEventListener('input', updateCount);
+    updateCount();
+
+    // Profile save
+    const form = document.getElementById('profile-form');
+    const saved = document.getElementById('profile-saved');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      saved.hidden = false;
+      setTimeout(() => { saved.hidden = true; }, 3000);
+    });
+    form.addEventListener('reset', () => setTimeout(updateCount));
+
+    // Delete confirmation
+    const confirmInput = document.getElementById('confirm-delete');
+    const deleteBtn = document.getElementById('delete-btn');
+    const deleteMsg = document.getElementById('delete-msg');
+    confirmInput.addEventListener('input', () => {
+      const ok = confirmInput.value.trim() === 'DELETE';
+      deleteBtn.disabled = !ok;
+      ok ? deleteBtn.removeAttribute('disabled') : deleteBtn.setAttribute('disabled', '');
+    });
+    deleteBtn.addEventListener('click', () => {
+      if (deleteBtn.hasAttribute('disabled')) return;
+      if (confirm('Permanently delete your account?')) {
+        deleteMsg.hidden = false;
+        deleteBtn.setAttribute('disabled', '');
+        confirmInput.disabled = true;
+      }
+    });
+  </script>
+</body>
+</html>

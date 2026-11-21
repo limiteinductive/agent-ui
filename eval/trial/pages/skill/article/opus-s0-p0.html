@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing for Slow Networks: Lessons from Shipping to 2G - The Fieldnotes Blog</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md" wrap>
+        <a href="#"><strong>Fieldnotes</strong></a>
+        <nav>
+          <ui-row gap="md" wrap>
+            <a href="#">Articles</a>
+            <a href="#">Topics</a>
+            <a href="#">About</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="md">
+
+        <article>
+          <ui-stack gap="lg">
+            <ui-stack gap="md">
+              <small>Performance · 11 min read</small>
+              <h1>Designing for Slow Networks: Lessons from Shipping to 2G</h1>
+              <p>What we learned rebuilding a checkout flow for users on patchy connections, and why every team should test on a throttled phone at least once a week.</p>
+              <ui-row gap="sm" wrap>
+                <img src="https://picsum.photos/seed/author-maya/96/96" alt="Maya Okafor" width="48" height="48" style="border-radius: 50%; object-fit: cover;">
+                <ui-stack gap="0">
+                  <strong>Maya Okafor</strong>
+                  <small>Staff Engineer, Web Platform · <time datetime="2026-11-14">November 14, 2026</time></small>
+                </ui-stack>
+              </ui-row>
+            </ui-stack>
+
+            <figure>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/slow-network-cover/1280/640" alt="A winding mountain road disappearing into fog" width="1280" height="640" style="width: 100%; height: auto; border-radius: var(--ui-radius-lg);">
+                <figcaption><small>Photo: the long road between a request and a response.</small></figcaption>
+              </ui-stack>
+            </figure>
+
+            <div>
+              <ui-stack gap="md">
+                <p>Last spring our analytics showed something uncomfortable: nearly a third of abandoned checkouts came from sessions where the first meaningful paint took longer than eight seconds. These weren't edge cases. They were people on prepaid data plans, commuters passing through tunnels, and customers in regions where 3G is still the norm rather than the fallback.</p>
+                <p>We had been building on fibre and testing on flagship phones. Our users were not. This article walks through the changes we made over six months, which ones mattered, and which ones turned out to be cargo cult.</p>
+
+                <h2>Start by measuring the real thing</h2>
+                <p>Lab tools are useful, but they lie politely. Lighthouse runs on a simulated throttle that smooths out the jitter and packet loss that make real slow networks so painful. We started collecting field data with the <code>PerformanceObserver</code> API and bucketing it by effective connection type.</p>
+                <p>The results reshaped our priorities. On fast connections, JavaScript execution dominated. On slow ones, the number of round trips before first render mattered far more than the total bytes.</p>
+
+                <h3>The round-trip budget</h3>
+                <p>On a 2G connection, a single round trip can take 300–800 milliseconds. Every redirect, every DNS lookup to a new origin, and every render-blocking stylesheet costs at least one. We set a hard budget: the critical path may not exceed three round trips after the HTML arrives.</p>
+
+                <blockquote>
+                  <p><strong>“Bytes are a cost you pay once. Round trips are a tax you pay on every hop, and slow networks charge interest.”</strong></p>
+                  <p><small>— From our internal performance guidelines</small></p>
+                </blockquote>
+
+                <h2>Ship less, but ship it sooner</h2>
+                <p>Our biggest single win was inlining the critical CSS and deferring everything else. The second was moving third-party scripts behind user interaction. Here is the small helper we used to load non-essential scripts only once the main thread is idle and the network is not saturated:</p>
+
+                <pre style="overflow-x: auto;"><code>function loadWhenIdle(src) {
+  const conn = navigator.connection;
+  const slow = conn &amp;&amp; /2g/.test(conn.effectiveType);
+
+  const inject = () =&gt; {
+    const s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    document.head.append(s);
+  };
+
+  if (slow) {
+    // Wait for the first user interaction on slow links.
+    addEventListener('pointerdown', inject, { once: true });
+  } else if ('requestIdleCallback' in window) {
+    requestIdleCallback(inject, { timeout: 4000 });
+  } else {
+    setTimeout(inject, 2000);
+  }
+}
+
+loadWhenIdle('/js/chat-widget.js');</code></pre>
+
+                <p>This one change cut median time-to-interactive on 2G sessions by 41%. The chat widget, it turned out, was rarely opened before someone had already scrolled the page.</p>
+
+                <h3>Images: the honest trade-off</h3>
+                <p>We adopted responsive images with <code>srcset</code> and modern formats, and lazy-loaded everything below the fold. But we also learned to resist the urge to lazy-load the hero image. Doing so delayed the largest contentful paint by a full round trip, which on slow networks is exactly the wrong trade.</p>
+
+                <h2>Design for the in-between states</h2>
+                <p>Fast networks hide your loading states. Slow networks put them on stage. We audited every interaction for three questions:</p>
+                <ul>
+                  <li>What does the user see if this takes ten seconds?</li>
+                  <li>Can they tell the difference between “loading” and “broken”?</li>
+                  <li>If the request fails, do they lose what they typed?</li>
+                </ul>
+                <p>The third question surfaced the most bugs. Our address form cleared itself on a network error. Fixing it took an afternoon and recovered a measurable slice of revenue.</p>
+
+                <h2>What didn't matter (as much as we thought)</h2>
+                <p>We spent two weeks shaving kilobytes off our icon set. It made no measurable difference, because the icons were already cached for returning visitors and not on the critical path for new ones. Measure before you optimize, and measure again after.</p>
+
+                <h2>Make it a habit</h2>
+                <p>Performance work decays. Every new feature is a chance to regress. We now run a weekly “slow Friday” where the team uses the product on a throttled mid-range Android phone for an hour. It is humbling, occasionally maddening, and the single most effective practice we've adopted.</p>
+                <p>If you only take one thing from this article: go find the slowest device in your office, turn on network throttling, and try to buy something from your own site.</p>
+              </ui-stack>
+            </div>
+
+            <hr>
+
+            <ui-stack gap="sm">
+              <strong>Tags</strong>
+              <ui-row gap="sm" wrap>
+                <a href="#">#performance</a>
+                <a href="#">#web-vitals</a>
+                <a href="#">#mobile</a>
+                <a href="#">#javascript</a>
+                <a href="#">#ux</a>
+                <a href="#">#case-study</a>
+              </ui-row>
+            </ui-stack>
+
+            <ui-card sunken>
+              <ui-row gap="md" align="start">
+                <img src="https://picsum.photos/seed/author-maya/128/128" alt="Maya Okafor" width="64" height="64" style="border-radius: 50%; object-fit: cover;">
+                <ui-stack gap="xs" grow>
+                  <strong>About Maya Okafor</strong>
+                  <p>Maya leads the web platform team and has spent a decade making websites faster for people on unreliable networks. She writes about performance, accessibility, and the craft of frontend engineering.</p>
+                </ui-stack>
+              </ui-row>
+            </ui-card>
+          </ui-stack>
+        </article>
+
+        <section aria-labelledby="related-heading">
+          <ui-stack gap="md">
+            <h2 id="related-heading">Related posts</h2>
+            <ui-row scroll item-width="sm" gap="md" align="stretch">
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-1/480/270" alt="Laptop showing performance charts" width="480" height="270" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>Performance</small>
+                  <h3><a href="#">A Practical Guide to INP</a></h3>
+                  <small>8 min read</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-2/480/270" alt="Phone on a desk" width="480" height="270" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>Mobile</small>
+                  <h3><a href="#">Offline-First Forms That Never Lose Data</a></h3>
+                  <small>12 min read</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-3/480/270" alt="City lights at night" width="480" height="270" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>Images</small>
+                  <h3><a href="#">AVIF in Production: One Year Later</a></h3>
+                  <small>6 min read</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-4/480/270" alt="Server rack lights" width="480" height="270" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>Infrastructure</small>
+                  <h3><a href="#">Cutting Round Trips with Early Hints</a></h3>
+                  <small>9 min read</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-5/480/270" alt="Notebook with sketches" width="480" height="270" style="width: 100%; height: auto; display: block;">
+                <ui-stack gap="xs" padding="md">
+                  <small>UX</small>
+                  <h3><a href="#">Loading States Are a Design Problem</a></h3>
+                  <small>7 min read</small>
+                </ui-stack>
+              </ui-card>
+            </ui-row>
+          </ui-stack>
+        </section>
+
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-row justify="space-between" padding="md" wrap>
+        <small>© 2026 Fieldnotes</small>
+        <ui-row gap="md" wrap>
+          <a href="#">RSS</a>
+          <a href="#">Newsletter</a>
+          <a href="#">Privacy</a>
+        </ui-row>
+      </ui-row>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

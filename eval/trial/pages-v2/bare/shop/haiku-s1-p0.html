@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride & Co. | Men's Running Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="lg" padding="md">
+
+    <!-- Header -->
+    <header>
+      <ui-stack direction="row" justify="between" align="center" wrap="wrap" gap="md">
+        <ui-stack direction="row" align="center" gap="sm">
+          <h1>Stride &amp; Co.</h1>
+        </ui-stack>
+        <nav aria-label="Main">
+          <ui-stack direction="row" gap="md" wrap="wrap">
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Kids</a>
+            <a href="#">Sale</a>
+          </ui-stack>
+        </nav>
+        <ui-button variant="outline" aria-label="Cart, 2 items">
+          Cart <ui-badge variant="primary">2</ui-badge>
+        </ui-button>
+      </ui-stack>
+    </header>
+
+    <!-- Title -->
+    <ui-stack gap="xs">
+      <h2>Men's Running Shoes</h2>
+      <p>Showing 1–12 of 48 products</p>
+    </ui-stack>
+
+    <!-- Filter bar -->
+    <ui-card>
+      <ui-stack gap="md">
+        <ui-stack gap="sm">
+          <label>Size (US)</label>
+          <ui-stack direction="row" gap="xs" wrap="wrap">
+            <ui-chip selectable>7</ui-chip>
+            <ui-chip selectable>7.5</ui-chip>
+            <ui-chip selectable selected>8</ui-chip>
+            <ui-chip selectable>8.5</ui-chip>
+            <ui-chip selectable>9</ui-chip>
+            <ui-chip selectable>9.5</ui-chip>
+            <ui-chip selectable>10</ui-chip>
+            <ui-chip selectable>10.5</ui-chip>
+            <ui-chip selectable>11</ui-chip>
+            <ui-chip selectable>12</ui-chip>
+          </ui-stack>
+        </ui-stack>
+
+        <ui-stack direction="row" justify="between" align="end" wrap="wrap" gap="md">
+          <ui-stack gap="xs">
+            <label for="price-range">Max price: $200</label>
+            <input id="price-range" type="range" min="40" max="200" value="200" step="5">
+          </ui-stack>
+
+          <ui-stack gap="xs">
+            <label for="sort">Sort by</label>
+            <select id="sort">
+              <option value="featured">Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="newest">Newest</option>
+              <option value="rating">Top Rated</option>
+            </select>
+          </ui-stack>
+        </ui-stack>
+      </ui-stack>
+    </ui-card>
+
+    <!-- Product grid -->
+    <ui-grid columns="1" columns-sm="2" columns-lg="4" gap="md">
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe01/600/600" alt="Aero Glide runner in volt green" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Aero Glide 3</h3>
+          <p>Neutral road runner</p>
+          <ui-badge variant="success">New</ui-badge>
+          <p><strong>$129.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe02/600/600" alt="Trail Ridge GTX in olive" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Trail Ridge GTX</h3>
+          <p>Waterproof trail shoe</p>
+          <p><strong>$164.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe03/600/600" alt="Cloud Step 5 in white and coral" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Cloud Step 5</h3>
+          <p>Max-cushion daily trainer</p>
+          <p><strong>$139.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe04/600/600" alt="Velocity Pro in black and red" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Velocity Pro</h3>
+          <p>Carbon plate racer</p>
+          <ui-badge variant="warning">Low stock</ui-badge>
+          <p><strong>$224.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe05/600/600" alt="Summit Lite in navy" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Summit Lite</h3>
+          <p>Lightweight hiking trainer</p>
+          <p><strong>$118.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe06/600/600" alt="Urban Flex in charcoal" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Urban Flex</h3>
+          <p>Everyday lifestyle runner</p>
+          <p><strong>$96.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe07/600/600" alt="Tempo Knit in sky blue" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Tempo Knit</h3>
+          <p>Breathable knit upper</p>
+          <ui-badge variant="success">New</ui-badge>
+          <p><strong>$109.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe08/600/600" alt="Peak Trail Mid in tan" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Peak Trail Mid</h3>
+          <p>Ankle-support trail boot</p>
+          <p><strong>$178.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe09/600/600" alt="Sprint Spike in neon yellow" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Sprint Spike</h3>
+          <p>Track sprint spike</p>
+          <p><strong>$87.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe10/600/600" alt="Stability Pro in grey and orange" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Stability Pro</h3>
+          <p>Medial support runner</p>
+          <p><strong>$149.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe11/600/600" alt="Court Classic in off-white" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Court Classic</h3>
+          <p>Leather court sneaker</p>
+          <p><strong>$82.00</strong></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <img src="https://picsum.photos/seed/shoe12/600/600" alt="Recovery Slide in slate" width="100%" loading="lazy">
+        <ui-stack gap="xs">
+          <h3>Recovery Slide</h3>
+          <p>Post-run recovery slide</p>
+          <ui-badge variant="warning">Sale</ui-badge>
+          <p><strong>$45.00</strong> <s>$60.00</s></p>
+          <ui-button variant="primary" full-width>Add to cart</ui-button>
+        </ui-stack>
+      </ui-card>
+
+    </ui-grid>
+
+    <!-- Pagination -->
+    <nav aria-label="Pagination">
+      <ui-stack direction="row" justify="center" align="center" gap="sm" wrap="wrap">
+        <ui-button variant="outline" disabled>Previous</ui-button>
+        <ui-button variant="primary" aria-current="page">1</ui-button>
+        <ui-button variant="outline">2</ui-button>
+        <ui-button variant="outline">3</ui-button>
+        <ui-button variant="outline">4</ui-button>
+        <ui-button variant="outline">Next</ui-button>
+      </ui-stack>
+    </nav>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Stride &amp; Co. Free returns within 30 days.</p>
+    </footer>
+
+  </ui-stack>
+</body>
+</html>

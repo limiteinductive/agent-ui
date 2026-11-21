@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing | TaskFlow</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="0">
+
+    <!-- Header -->
+    <header>
+      <ui-card padding="md">
+        <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" wrap>
+          <ui-stack direction="horizontal" align="center" gap="sm">
+            <img src="https://picsum.photos/id/1011/48/48" alt="TaskFlow logo" width="32" height="32">
+            <strong>TaskFlow</strong>
+          </ui-stack>
+          <nav>
+            <ui-stack direction="horizontal" align="center" gap="md" wrap>
+              <a href="#features">Features</a>
+              <a href="#pricing" aria-current="page">Pricing</a>
+              <a href="#faq">FAQ</a>
+              <a href="#login">Log in</a>
+              <ui-button variant="primary" size="sm">Start free trial</ui-button>
+            </ui-stack>
+          </nav>
+        </ui-stack>
+      </ui-card>
+    </header>
+
+    <!-- Hero -->
+    <section>
+      <ui-card padding="xl">
+        <ui-stack align="center" gap="md">
+          <mark>New: Timeline view is here</mark>
+          <h1>Simple pricing for teams that ship</h1>
+          <p>Plan projects, track progress, and keep everyone aligned. Start free and upgrade when your team grows. No credit card required.</p>
+          <ui-stack direction="horizontal" gap="sm" justify="center" wrap>
+            <ui-button variant="primary" size="lg">Start free trial</ui-button>
+            <ui-button variant="ghost" size="lg">Talk to sales</ui-button>
+          </ui-stack>
+          <img src="https://picsum.photos/id/180/960/420" alt="Team reviewing a project board" width="960" height="420">
+        </ui-stack>
+      </ui-card>
+    </section>
+
+    <!-- Plans -->
+    <section id="pricing">
+      <ui-stack gap="lg">
+        <ui-stack align="center" gap="sm">
+          <h2>Choose your plan</h2>
+          <p>Billed monthly. Switch or cancel anytime.</p>
+        </ui-stack>
+
+        <ui-grid min-item-width="260px" gap="md">
+
+          <ui-card padding="lg">
+            <ui-stack gap="md">
+              <h3>Starter</h3>
+              <p>For individuals and small projects.</p>
+              <ui-stack direction="horizontal" align="end" gap="xs">
+                <strong>$0</strong>
+                <span>/ user / month</span>
+              </ui-stack>
+              <ui-button variant="outline">Get started</ui-button>
+              <ui-stack gap="sm">
+                <span>✓ Up to 5 users</span>
+                <span>✓ 10 projects</span>
+                <span>✓ Kanban and list views</span>
+                <span>✓ 2 GB file storage</span>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="lg" variant="primary">
+            <ui-stack gap="md">
+              <ui-stack direction="horizontal" align="center" justify="space-between" gap="sm" wrap>
+                <h3>Team</h3>
+                <mark>Most popular</mark>
+              </ui-stack>
+              <p>For growing teams that need shared workflows.</p>
+              <ui-stack direction="horizontal" align="end" gap="xs">
+                <strong>$12</strong>
+                <span>/ user / month</span>
+              </ui-stack>
+              <ui-button variant="primary">Start 14-day trial</ui-button>
+              <ui-stack gap="sm">
+                <span>✓ Unlimited users</span>
+                <span>✓ Unlimited projects</span>
+                <span>✓ Timeline and Gantt views</span>
+                <span>✓ Automations and integrations</span>
+                <span>✓ 100 GB file storage</span>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="lg">
+            <ui-stack gap="md">
+              <h3>Enterprise</h3>
+              <p>For organizations with security and scale needs.</p>
+              <ui-stack direction="horizontal" align="end" gap="xs">
+                <strong>Custom</strong>
+              </ui-stack>
+              <ui-button variant="outline">Contact sales</ui-button>
+              <ui-stack gap="sm">
+                <span>✓ Everything in Team</span>
+                <span>✓ SSO and SAML</span>
+                <span>✓ Audit logs and admin controls</span>
+                <span>✓ Dedicated success manager</span>
+                <span>✓ 99.99% uptime SLA</span>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+        </ui-grid>
+      </ui-stack>
+    </section>
+
+    <!-- Feature comparison -->
+    <section id="features">
+      <ui-stack gap="lg">
+        <ui-stack align="center" gap="sm">
+          <h2>Compare plans</h2>
+          <p>Every feature, side by side.</p>
+        </ui-stack>
+
+        <ui-card padding="0">
+          <ui-stack scroll>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Starter</th>
+                  <th scope="col">Team</th>
+                  <th scope="col">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Users</th>
+                  <td>Up to 5</td>
+                  <td>Unlimited</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Projects</th>
+                  <td>10</td>
+                  <td>Unlimited</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Kanban and list views</th>
+                  <td>✓</td>
+                  <td>✓</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Timeline and Gantt</th>
+                  <td>—</td>
+                  <td>✓</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Automations</th>
+                  <td>—</td>
+                  <td>✓</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Guest access</th>
+                  <td>—</td>
+                  <td>✓</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">File storage</th>
+                  <td>2 GB</td>
+                  <td>100 GB</td>
+                  <td>1 TB</td>
+                </tr>
+                <tr>
+                  <th scope="row">SSO and SAML</th>
+                  <td>—</td>
+                  <td>—</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Audit logs</th>
+                  <td>—</td>
+                  <td>—</td>
+                  <td>✓</td>
+                </tr>
+                <tr>
+                  <th scope="row">Support</th>
+                  <td>Community</td>
+                  <td>Email, 24h response</td>
+                  <td>Dedicated manager</td>
+                </tr>
+              </tbody>
+            </table>
+          </ui-stack>
+        </ui-card>
+      </ui-stack>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <ui-stack gap="lg">
+        <ui-stack align="center" gap="sm">
+          <h2>Frequently asked questions</h2>
+        </ui-stack>
+        <ui-stack gap="sm">
+          <details>
+            <summary>Can I try a paid plan before I pay?</summary>
+            <p>Yes. Team includes a 14-day free trial with full access. You won't be charged until the trial ends, and you can cancel anytime from billing settings.</p>
+          </details>
+          <details>
+            <summary>How does billing work for seats?</summary>
+            <p>You're billed per active user each month. You can add or remove seats at any time, and changes are prorated to the day.</p>
+          </details>
+          <details>
+            <summary>Can I change plans later?</summary>
+            <p>Absolutely. Upgrade instantly, or downgrade at the end of your billing cycle. Your data stays intact across plan changes.</p>
+          </details>
+          <details>
+            <summary>Do you offer discounts for nonprofits or students?</summary>
+            <p>Yes. Registered nonprofits and accredited schools get 50% off Team. Email support@taskflow.example with proof of status.</p>
+          </details>
+          <details>
+            <summary>Where is my data stored?</summary>
+            <p>Data is encrypted at rest and in transit. You can choose US, EU, or APAC hosting on Enterprise plans.</p>
+          </details>
+        </ui-stack>
+      </ui-stack>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <ui-card padding="lg">
+        <ui-stack gap="lg">
+          <ui-grid min-item-width="180px" gap="lg">
+            <ui-stack gap="sm">
+              <strong>TaskFlow</strong>
+              <p>Plan, track, and ship work together.</p>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <strong>Product</strong>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#">Integrations</a>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <strong>Company</strong>
+              <a href="#">About</a>
+              <a href="#">Careers</a>
+              <a href="#">Contact</a>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <strong>Legal</strong>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+              <a href="#">Security</a>
+            </ui-stack>
+          </ui-grid>
+          <ui-stack direction="horizontal" justify="space-between" gap="sm" wrap>
+            <small>© 2026 TaskFlow, Inc. All rights reserved.</small>
+            <small>Made for teams everywhere.</small>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+    </footer>
+
+  </ui-stack>
+</body>
+</html>

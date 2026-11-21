@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why Your Incremental Build Is Still Slow | Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Field Notes</strong>
+        <nav>
+          <ui-row gap="md">
+            <a href="#">Articles</a>
+            <a href="#">Topics</a>
+            <a href="#">About</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="sm">
+      <article>
+        <ui-stack gap="lg" padding="md">
+
+          <ui-stack gap="md">
+            <a href="#">Engineering</a>
+            <h1>Why your incremental build is still slow</h1>
+            <p>A practical tour of dependency graphs, cache keys, and the one environment variable that quietly invalidates everything.</p>
+
+            <ui-row gap="sm">
+              <img src="https://picsum.photos/id/64/96/96" width="48" height="48" alt="Portrait of Maya Okafor">
+              <ui-stack gap="xs">
+                <strong>Maya Okafor</strong>
+                <small>Senior Build Engineer · <time datetime="2026-11-18">November 18, 2026</time> · 9 min read</small>
+              </ui-stack>
+            </ui-row>
+          </ui-stack>
+
+          <figure>
+            <img src="https://picsum.photos/id/1018/1280/720" width="1280" height="720" alt="Mountain ridge at dawn with layers of fog">
+            <figcaption>Layers of cache invalidation look a lot like this ridge: each one hides the last.</figcaption>
+          </figure>
+
+          <div>
+            <p>Every engineering team eventually hits the same wall. The incremental build used to take eight seconds. Now a one-line change to a comment rebuilds half the monorepo, and nobody can explain why. The usual suspects get blamed first: a slow linter, a flaky CI runner, a cache server that is probably down again.</p>
+            <p>In most cases the real problem is simpler. The build system is doing exactly what it was told to do, and what it was told is too broad. This article walks through how incremental builds decide what to rebuild, where those decisions go wrong, and how to find the culprit in an afternoon.</p>
+
+            <h2>How incremental builds decide what to rebuild</h2>
+            <p>Incremental builds rest on a dependency graph. Each node is a unit of work, such as compiling a file, bundling a package, or running a test suite. Each edge says that one node needs the output of another. When something changes, the system walks the graph and marks every downstream node as stale.</p>
+            <p>Staleness alone is not enough, though. A node is only skipped when its <em>cache key</em> matches a previous run. The cache key is a fingerprint of every input that could affect the output. If any input differs, the cached result is thrown away and the work runs again.</p>
+
+            <h3>What goes into a cache key</h3>
+            <p>Most people assume a cache key contains only the source files for a target. In practice it usually contains much more: the lockfile, the compiler version, build flags, and any environment variables the tool has been told to respect. Forgetting one of these causes stale output. Including too many causes needless rebuilds.</p>
+
+            <blockquote>
+              <p>A cache that is too conservative is slow. A cache that is too aggressive is wrong. Most teams spend their time on the first problem and get bitten by the second.</p>
+              <footer>Maya Okafor, in a design review</footer>
+            </blockquote>
+
+            <h2>The environment variable that breaks everything</h2>
+            <p>The most common cause of surprise rebuilds is an environment variable that leaks into the key without anyone noticing. A developer sets <code>BUILD_TIMESTAMP</code> in a shell profile, or CI injects a commit SHA into a version string, and suddenly every target is unique on every run.</p>
+            <p>The fix is to make the environment allowlist explicit. Only variables that genuinely change the output should participate in the hash. Everything else should be ignored by default.</p>
+
+            <pre><code>// Cache key = hash of every input that can change the output
+const key = hash([
+  ...sourceFiles,
+  lockfileContents,
+  toolchainVersion,
+  ...envAllowlist.map((name) =&gt; name + "=" + (process.env[name] ?? "")),
+]);
+
+// BUILD_TIMESTAMP is deliberately absent from envAllowlist.</code></pre>
+
+            <p>Notice what is missing from the list. Timestamps, hostnames, and CI job IDs are useful for logging but harmful for caching. Keep them out of the key and your hit rate usually recovers within a single day.</p>
+
+            <h2>Finding the culprit in an afternoon</h2>
+            <p>Guessing is expensive. Instead, run the same build twice with logging turned on and diff the two cache key manifests. The manifests list every input that went into each key. Any line that differs between runs is a candidate for the bug.</p>
+            <p>Once you have a candidate, verify it by removing it temporarily and checking whether the hit rate changes. If it does, you have found your problem. If it does not, repeat the diff with a different pair of runs, since the cause is often intermittent.</p>
+
+            <h3>Common culprits</h3>
+            <p>In our experience, four causes account for almost every case we have investigated:</p>
+            <ul>
+              <li>Absolute paths embedded in generated files, which differ between laptops and CI.</li>
+              <li>Unsorted file lists, where directory traversal order changes across operating systems.</li>
+              <li>Generated code that includes a random seed or a build date.</li>
+              <li>Plugins that read the system clock or the current user name.</li>
+            </ul>
+
+            <h2>Keeping it fast over time</h2>
+            <p>A fixed cache key is not the end of the story. Build graphs drift as teams add packages and dependencies. A rule that was reasonable last year can become a bottleneck this year. Schedule a quarterly review of your largest targets and check whether their inputs still match what you expect.</p>
+            <p>It also helps to measure the hit rate as a first-class metric. Put it on the same dashboard as test duration and deploy frequency. When it drops, someone should be notified the same way they would be for a failing test.</p>
+
+            <h2>Closing thoughts</h2>
+            <p>Incremental builds are a promise: if nothing relevant changed, nothing needs to run. Slow builds are usually a sign that the promise is being kept too loosely. Tighten the inputs, make the allowlist explicit, and measure the results. The eight-second build is still within reach.</p>
+          </div>
+
+          <hr>
+
+          <ui-row wrap gap="xs">
+            <a href="#">build-systems</a>
+            <a href="#">caching</a>
+            <a href="#">monorepo</a>
+            <a href="#">developer-productivity</a>
+            <a href="#">ci</a>
+          </ui-row>
+
+        </ui-stack>
+      </article>
+    </ui-container>
+  </main>
+
+  <ui-container size="lg">
+    <ui-stack gap="md" padding="md">
+      <h2>Related posts</h2>
+      <ui-row scroll item-width="md" gap="md" padding="xs">
+
+        <ui-card padding="0" rounded="lg" elevated>
+          <img src="https://picsum.photos/id/1011/640/400" width="640" height="400" alt="Stacked wooden crates">
+          <ui-stack padding="md" gap="xs">
+            <small>Tooling</small>
+            <h3>Reproducible builds without the pain</h3>
+            <p>Pin your toolchain, sort your inputs, and stop guessing which step changed.</p>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card padding="0" rounded="lg" elevated>
+          <img src="https://picsum.photos/id/1024/640/400" width="640" height="400" alt="Close-up of a dog looking up">
+          <ui-stack padding="md" gap="xs">
+            <small>Culture</small>
+            <h3>Running a build-health rotation</h3>
+            <p>How one team turned flaky pipelines into a weekly responsibility that actually works.</p>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card padding="0" rounded="lg" elevated>
+          <img src="https://picsum.photos/id/1035/640/400" width="640" height="400" alt="Quiet lake surrounded by pine trees">
+          <ui-stack padding="md" gap="xs">
+            <small>Architecture</small>
+            <h3>When to split a monorepo</h3>
+            <p>Signals that your repository has outgrown a single build graph, and what to do next.</p>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card padding="0" rounded="lg" elevated>
+          <img src="https://picsum.photos/id/1043/640/400" width="640" height="400" alt="Abstract pattern of overlapping shapes">
+          <ui-stack padding="md" gap="xs">
+            <small>Performance</small>
+            <h3>Measuring CI cost per commit</h3>
+            <p>A simple model for estimating what each merge really costs your organization.</p>
+          </ui-stack>
+        </ui-card>
+
+      </ui-row>
+    </ui-stack>
+  </ui-container>
+
+  <footer>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <small>© 2026 Field Notes</small>
+        <small><a href="#">Back to top</a></small>
+      </ui-row>
+    </ui-container>
+  </footer>
+
+</ui-page>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Northwind Product Team</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="xl">
+    <ui-stack gap="lg" padding="md">
+
+      <!-- Page header -->
+      <ui-row justify="space-between" align="center" wrap gap="md">
+        <ui-row align="center" gap="sm">
+          <img src="https://picsum.photos/seed/northwind-team/80/80" alt="Team logo" width="48" height="48">
+          <ui-stack gap="0">
+            <h1>Team Calendar</h1>
+            <small>Northwind Product Team · 12 members</small>
+          </ui-stack>
+        </ui-row>
+        <ui-button variant="primary" id="add-event">+ New event</ui-button>
+      </ui-row>
+
+      <ui-row wrap gap="lg" align="start">
+
+        <!-- Month calendar -->
+        <ui-card grow>
+          <ui-stack gap="md">
+            <ui-row justify="space-between" align="center" gap="sm" wrap>
+              <ui-button variant="ghost" id="prev" aria-label="Previous month">‹</ui-button>
+              <ui-stack gap="0" align="center">
+                <h2 id="month-label" aria-live="polite">November 2026</h2>
+                <ui-button variant="ghost" size="sm" id="today-btn">Today</ui-button>
+              </ui-stack>
+              <ui-button variant="ghost" id="next" aria-label="Next month">›</ui-button>
+            </ui-row>
+
+            <div style="overflow-x: auto">
+              <table aria-label="Month view">
+                <thead>
+                  <tr>
+                    <th scope="col" abbr="Monday">Mon</th>
+                    <th scope="col" abbr="Tuesday">Tue</th>
+                    <th scope="col" abbr="Wednesday">Wed</th>
+                    <th scope="col" abbr="Thursday">Thu</th>
+                    <th scope="col" abbr="Friday">Fri</th>
+                    <th scope="col" abbr="Saturday">Sat</th>
+                    <th scope="col" abbr="Sunday">Sun</th>
+                  </tr>
+                </thead>
+                <tbody id="grid"></tbody>
+              </table>
+            </div>
+
+            <ui-row gap="sm" wrap>
+              <small><strong>M</strong> Meeting</small>
+              <small><strong>R</strong> Release</small>
+              <small><strong>D</strong> Deadline</small>
+              <small><strong>S</strong> Social</small>
+            </ui-row>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Sidebar -->
+        <ui-stack gap="lg" grow>
+          <ui-card>
+            <ui-stack gap="sm">
+              <h3 id="day-title">Selected day</h3>
+              <ui-stack gap="sm" id="day-list"></ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <h3>Upcoming events</h3>
+              <ui-stack gap="sm" id="upcoming"></ui-stack>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+
+      </ui-row>
+    </ui-stack>
+  </ui-container>
+
+  <script>
+    const TODAY = new Date(2026, 10, 21); // 21 Nov 2026
+
+    const EVENTS = [
+      { date: "2026-11-02", time: "09:30", title: "Sprint 24 planning", type: "Meeting", who: "Whole team" },
+      { date: "2026-11-05", time: "14:00", title: "Design review: onboarding", type: "Meeting", who: "Priya, Marco" },
+      { date: "2026-11-10", time: "17:00", title: "Q4 roadmap draft due", type: "Deadline", who: "Elena" },
+      { date: "2026-11-13", time: "18:30", title: "Team dinner at Osteria", type: "Social", who: "Everyone" },
+      { date: "2026-11-16", time: "10:00", title: "Sprint 24 demo", type: "Meeting", who: "Whole team" },
+      { date: "2026-11-19", time: "11:00", title: "v3.8 release", type: "Release", who: "Platform squad" },
+      { date: "2026-11-23", time: "09:30", title: "Sprint 25 planning", type: "Meeting", who: "Whole team" },
+      { date: "2026-11-24", time: "15:00", title: "Customer interview: Acme", type: "Meeting", who: "Priya, Jonas" },
+      { date: "2026-11-26", time: "12:00", title: "Security audit report due", type: "Deadline", who: "Jonas" },
+      { date: "2026-11-27", time: "16:00", title: "Friday board games", type: "Social", who: "Optional" },
+      { date: "2026-12-01", time: "10:00", title: "1:1 retro sweep", type: "Meeting", who: "Leads" },
+      { date: "2026-12-03", time: "11:00", title: "v3.9 release", type: "Release", who: "Platform squad" },
+      { date: "2026-12-07", time: "09:30", title: "Sprint 25 demo", type: "Meeting", who: "Whole team" },
+      { date: "2026-12-11", time: "17:00", title: "Budget proposal due", type: "Deadline", who: "Elena" },
+      { date: "2026-12-18", time: "18:00", title: "Holiday party", type: "Social", who: "Everyone" },
+      { date: "2026-10-28", time: "11:00", title: "v3.7 release", type: "Release", who: "Platform squad" }
+    ];
+
+    const pad = n => String(n).padStart(2, "0");
+    const key = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+    const fmtLong = d => d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+    const fmtShort = d => d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+    const eventsOn = k => EVENTS.filter(e => e.date === k).sort((a, b) => a.time.localeCompare(b.time));
+
+    let view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+    let selected = key(TODAY);
+
+    function el(tag, attrs = {}, children = []) {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (v === true) n.setAttribute(k, "");
+        else if (v !== false && v != null) n.setAttribute(k, v);
+      }
+      [].concat(children).forEach(c => n.append(c));
+      return n;
+    }
+
+    function eventItem(e, showDate) {
+      return el("ui-row", { gap: "sm", align: "start" }, [
+        el("span", {}, el("strong", {}, e.time)),
+        el("ui-stack", { gap: "0" }, [
+          el("strong", {}, e.title),
+          el("small", {},
+            (showDate ? fmtShort(parse(e.date)) + " · " : "") + e.type + " · " + e.who)
+        ])
+      ]);
+    }
+
+    function renderGrid() {
+      document.getElementById("month-label").textContent =
+        view.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+      const offset = (view.getDay() + 6) % 7; // Monday-first
+      const start = new Date(view.getFullYear(), view.getMonth(), 1 - offset);
+
+      for (let w = 0; w < 6; w++) {
+        const row = el("tr");
+        for (let d = 0; d < 7; d++) {
+          const date = new Date(start.getFullYear(), start.getMonth(), start.getDate() + w * 7 + d);
+          const k = key(date);
+          const inMonth = date.getMonth() === view.getMonth();
+          const isToday = k === key(TODAY);
+          const evs = eventsOn(k);
+          const count = evs.length ? `, ${evs.length} event${evs.length > 1 ? "s" : ""}` : "";
+
+          const btn = el("ui-button", {
+            size: "sm",
+            variant: k === selected ? "primary" : (isToday ? "outline" : "ghost"),
+            "aria-label": fmtLong(date) + count,
+            "aria-pressed": k === selected ? "true" : "false"
+          }, inMonth ? String(date.getDate()) : el("small", {}, String(date.getDate())));
+          btn.addEventListener("click", () => { selected = k; renderGrid(); renderDay(); });
+
+          const cellStack = el("ui-stack", { gap: "xs", align: "center" }, [btn]);
+          if (evs.length) {
+            const dots = el("ui-row", { gap: "xs", justify: "center", wrap: true });
+            evs.forEach(e => dots.append(el("small", { title: e.title }, e.type[0])));
+            cellStack.append(dots);
+          }
+          const td = el("td", { "data-muted": inMonth ? null : "true" }, [cellStack]);
+          row.append(td);
+        }
+        grid.append(row);
+        // stop after the week containing the last day of the month
+        const lastOfRow = new Date(start.getFullYear(), start.getMonth(), start.getDate() + w * 7 + 6);
+        if (lastOfRow.getMonth() !== view.getMonth() && w >= 3) break;
+      }
+    }
+
+    function renderDay() {
+      const d = parse(selected);
+      document.getElementById("day-title").textContent = fmtLong(d);
+      const list = document.getElementById("day-list");
+      list.innerHTML = "";
+      const evs = eventsOn(selected);
+      if (!evs.length) list.append(el("p", {}, "No events scheduled."));
+      else evs.forEach(e => list.append(eventItem(e, false)));
+    }
+
+    function renderUpcoming() {
+      const list = document.getElementById("upcoming");
+      list.innerHTML = "";
+      const todayKey = key(TODAY);
+      EVENTS
+        .filter(e => e.date >= todayKey)
+        .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+        .slice(0, 6)
+        .forEach((e, i) => {
+          if (i) list.append(el("hr"));
+          list.append(eventItem(e, true));
+        });
+    }
+
+    document.getElementById("prev").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderGrid();
+    });
+    document.getElementById("next").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderGrid();
+    });
+    document.getElementById("today-btn").addEventListener("click", () => {
+      view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+      selected = key(TODAY); renderGrid(); renderDay();
+    });
+    document.getElementById("add-event").addEventListener("click", () => {
+      alert("Event creation is not available in this demo.");
+    });
+
+    renderGrid();
+    renderDay();
+    renderUpcoming();
+  </script>
+</body>
+</html>

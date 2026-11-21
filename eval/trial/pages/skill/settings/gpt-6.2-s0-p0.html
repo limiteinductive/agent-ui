@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings · Fieldwork</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Avatar cropping and native switch appearance are outside agent-ui's layout controls. */
+    .avatar {
+      flex: none;
+      border-radius: var(--ui-radius-full, 999px);
+      object-fit: cover;
+    }
+
+    input[type="checkbox"].preference-switch {
+      appearance: none;
+      flex: none;
+      inline-size: 2.75rem;
+      block-size: 1.5rem;
+      margin: 0;
+      padding: 0;
+      border: 1px solid var(--ui-ink-muted, #646b75);
+      border-radius: var(--ui-radius-full, 999px);
+      background: var(--ui-surface, #fff)
+        radial-gradient(circle, var(--ui-ink-muted, #646b75) 0.44rem, transparent 0.47rem)
+        left 0.12rem center / 1.125rem 100% no-repeat;
+      cursor: pointer;
+    }
+
+    input[type="checkbox"].preference-switch:checked {
+      border-color: var(--ui-primary, #2456c7);
+      background: var(--ui-primary, #2456c7)
+        radial-gradient(circle, var(--ui-surface, #fff) 0.44rem, transparent 0.47rem)
+        right 0.12rem center / 1.125rem 100% no-repeat;
+    }
+
+    input[type="checkbox"].preference-switch:focus-visible {
+      outline: 2px solid var(--ui-primary, #2456c7);
+      outline-offset: 3px;
+    }
+
+    #delete-dialog {
+      box-sizing: border-box;
+      max-inline-size: min(28rem, calc(100% - 2rem));
+    }
+
+    @media (forced-colors: active) {
+      input[type="checkbox"].preference-switch,
+      input[type="checkbox"].preference-switch:checked {
+        appearance: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="md">
+        <ui-stack gap="sm" padding="md">
+          <strong>Fieldwork</strong>
+        </ui-stack>
+        <hr>
+      </ui-container>
+    </header>
+
+    <main id="main">
+      <ui-container size="md">
+        <ui-stack gap="xl" padding="md">
+          <ui-stack gap="md">
+            <ui-stack gap="xs">
+              <h1>Account settings</h1>
+              <p>Manage your profile and preferences. Changes are saved in this browser.</p>
+            </ui-stack>
+            <nav aria-label="Settings sections">
+              <ui-row wrap gap="md">
+                <a href="#profile">Profile</a>
+                <a href="#notifications">Notifications</a>
+                <a href="#billing">Billing</a>
+                <a href="#danger">Danger zone</a>
+              </ui-row>
+            </nav>
+          </ui-stack>
+
+          <ui-grid max-columns="2" min-item-width="22rem" gap="lg">
+            <section id="profile" aria-labelledby="profile-title">
+              <ui-card elevated rounded="xl" padding="md" gap="lg">
+                <ui-stack gap="xs">
+                  <h2 id="profile-title">Profile</h2>
+                  <p>Update your photo and personal details.</p>
+                </ui-stack>
+
+                <form id="profile-form" method="post">
+                  <ui-stack gap="lg">
+                    <ui-row wrap gap="md">
+                      <img
+                        id="avatar"
+                        class="avatar"
+                        src="https://picsum.photos/id/64/144/144"
+                        width="72"
+                        height="72"
+                        alt="Profile photo"
+                      >
+                      <ui-stack align="start" gap="xs">
+                        <ui-button id="choose-avatar" variant="outline" size="sm" aria-describedby="avatar-hint">
+                          Upload photo
+                        </ui-button>
+                        <small id="avatar-hint">JPEG, PNG or WebP · up to 1 MB</small>
+                      </ui-stack>
+                    </ui-row>
+                    <div hidden>
+                      <input id="avatar-file" type="file" accept="image/jpeg,image/png,image/webp" aria-label="Choose a profile photo">
+                    </div>
+
+                    <ui-stack gap="md">
+                      <label>
+                        Full name
+                        <input name="fullName" type="text" autocomplete="name" value="Maya Chen" required maxlength="80">
+                      </label>
+                      <label>
+                        Email address
+                        <input name="email" type="email" autocomplete="email" value="maya.chen@example.com" required maxlength="254">
+                      </label>
+                      <label>
+                        Bio
+                        <textarea name="bio" rows="4" maxlength="280">I design tools that make everyday work simpler. Based in Portland, Oregon.</textarea>
+                      </label>
+                    </ui-stack>
+
+                    <ui-row wrap gap="sm">
+                      <ui-button id="save-profile" type="submit" variant="primary">Save profile</ui-button>
+                      <small id="profile-status" role="status"></small>
+                    </ui-row>
+                  </ui-stack>
+                </form>
+              </ui-card>
+            </section>
+
+            <ui-stack gap="lg">
+              <section id="notifications" aria-labelledby="notifications-title">
+                <ui-card rounded="xl" padding="md" gap="md">
+                  <ui-stack gap="xs">
+                    <h2 id="notifications-title">Notifications</h2>
+                    <p>Choose which emails you receive.</p>
+                  </ui-stack>
+
+                  <ui-row justify="space-between" gap="sm">
+                    <ui-stack gap="xs">
+                      <label for="activity"><strong>Workspace activity</strong></label>
+                      <small id="activity-hint">Mentions and replies to your comments.</small>
+                    </ui-stack>
+                    <input class="preference-switch" id="activity" type="checkbox" role="switch" aria-describedby="activity-hint" checked>
+                  </ui-row>
+
+                  <hr>
+
+                  <ui-row justify="space-between" gap="sm">
+                    <ui-stack gap="xs">
+                      <label for="digest"><strong>Weekly digest</strong></label>
+                      <small id="digest-hint">A Friday recap of your projects.</small>
+                    </ui-stack>
+                    <input class="preference-switch" id="digest" type="checkbox" role="switch" aria-describedby="digest-hint" checked>
+                  </ui-row>
+
+                  <hr>
+
+                  <ui-row justify="space-between" gap="sm">
+                    <ui-stack gap="xs">
+                      <label for="updates"><strong>Product updates</strong></label>
+                      <small id="updates-hint">New features and tips from Fieldwork.</small>
+                    </ui-stack>
+                    <input class="preference-switch" id="updates" type="checkbox" role="switch" aria-describedby="updates-hint">
+                  </ui-row>
+                  <small id="notification-status" role="status"></small>
+                </ui-card>
+              </section>
+
+              <section id="billing" aria-labelledby="billing-title">
+                <ui-card rounded="xl" padding="md" gap="md">
+                  <h2 id="billing-title">Billing</h2>
+                  <ui-card variant="primary" rounded="lg" padding="md" gap="xs">
+                    <small>Current plan</small>
+                    <ui-row justify="space-between" wrap gap="sm">
+                      <strong>Fieldwork Pro</strong>
+                      <span><strong>$18</strong> / month</span>
+                    </ui-row>
+                  </ui-card>
+                  <ui-stack gap="sm">
+                    <ui-row justify="space-between" wrap gap="sm">
+                      <span>Next payment</span>
+                      <time datetime="2026-12-12">December 12, 2026</time>
+                    </ui-row>
+                    <ui-row justify="space-between" wrap gap="sm">
+                      <span>Payment method</span>
+                      <span>Visa ending in 4242</span>
+                    </ui-row>
+                  </ui-stack>
+                </ui-card>
+              </section>
+
+              <section id="danger" aria-labelledby="danger-title">
+                <ui-card variant="danger" rounded="xl" padding="md" gap="md">
+                  <ui-stack gap="xs">
+                    <h2 id="danger-title">Danger zone</h2>
+                    <p>Deleting your account permanently clears your profile, photo and preferences from this browser.</p>
+                  </ui-stack>
+                  <ui-row wrap>
+                    <ui-button id="open-delete" variant="danger" size="sm">Delete account</ui-button>
+                  </ui-row>
+                </ui-card>
+              </section>
+            </ui-stack>
+          </ui-grid>
+        </ui-stack>
+      </ui-container>
+
+      <dialog id="delete-dialog" aria-labelledby="delete-title" aria-describedby="delete-description">
+        <ui-stack gap="md">
+          <h2 id="delete-title">Delete your account?</h2>
+          <p id="delete-description">Your saved profile, photo and notification preferences will be permanently removed from this browser.</p>
+          <ui-row wrap justify="end" gap="sm">
+            <ui-button id="cancel-delete" variant="outline">Cancel</ui-button>
+            <ui-button id="confirm-delete" variant="danger">Delete account</ui-button>
+          </ui-row>
+          <small id="delete-status" role="status"></small>
+        </ui-stack>
+      </dialog>
+    </main>
+  </ui-page>
+
+  <template id="deleted-view">
+    <ui-container size="md">
+      <ui-stack padding="md">
+        <ui-card rounded="xl">
+          <h1 tabindex="-1">Account deleted</h1>
+          <p>Your profile and preferences have been cleared from this browser.</p>
+        </ui-card>
+      </ui-stack>
+    </ui-container>
+  </template>
+
+  <script>
+    (() => {
+      const storageKey = "fieldwork-account-settings-v1";
+      const main = document.querySelector("#main");
+      const form = document.querySelector("#profile-form");
+      const avatar = document.querySelector("#avatar");
+      const avatarFile = document.querySelector("#avatar-file");
+      const saveProfile = document.querySelector("#save-profile");
+      const profileStatus = document.querySelector("#profile-status");
+      const notificationStatus = document.querySelector("#notification-status");
+      const dialog = document.querySelector("#delete-dialog");
+      const deleteStatus = document.querySelector("#delete-status");
+      const openDelete = document.querySelector("#open-delete");
+      const cancelDelete = document.querySelector("#cancel-delete");
+      const preferenceNames = ["activity", "digest", "updates"];
+      const defaultAvatar = avatar.getAttribute("src");
+
+      const defaults = {
+        profile: {
+          fullName: form.elements.fullName.value,
+          email: form.elements.email.value,
+          bio: form.elements.bio.value,
+          avatar: null
+        },
+        notifications: { activity: true, digest: true, updates: false }
+      };
+
+      let saved;
+      try {
+        saved = JSON.parse(localStorage.getItem(storageKey));
+      } catch {
+        saved = null;
+      }
+
+      function showDeletedAccount() {
+        const view = document.querySelector("#deleted-view");
+        main.replaceChildren(view.content.cloneNode(true));
+        main.querySelector("h1").focus();
+      }
+
+      if (saved?.deleted) {
+        showDeletedAccount();
+        return;
+      }
+
+      let state = {
+        profile: { ...defaults.profile, ...saved?.profile },
+        notifications: { ...defaults.notifications, ...saved?.notifications }
+      };
+      let selectedAvatar = state.profile.avatar;
+      let readingAvatar = false;
+
+      function saveState(nextState) {
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(nextState));
+          state = nextState;
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      for (const name of ["fullName", "email", "bio"]) {
+        form.elements[name].value = state.profile[name];
+      }
+      avatar.src = selectedAvatar || defaultAvatar;
+
+      document.querySelector("#choose-avatar").addEventListener("click", () => {
+        avatarFile.click();
+      });
+
+      avatarFile.addEventListener("change", async () => {
+        const file = avatarFile.files[0];
+        avatarFile.value = "";
+        if (!file || readingAvatar) return;
+
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+          profileStatus.textContent = "Choose a JPEG, PNG or WebP image.";
+          return;
+        }
+        if (file.size > 1_000_000) {
+          profileStatus.textContent = "Choose an image under 1 MB.";
+          return;
+        }
+
+        readingAvatar = true;
+        saveProfile.setAttribute("disabled", "");
+        profileStatus.textContent = "Loading photo…";
+
+        try {
+          const dataUrl = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.addEventListener("load", () => resolve(reader.result), { once: true });
+            reader.addEventListener("error", reject, { once: true });
+            reader.readAsDataURL(file);
+          });
+          const preview = new Image();
+          preview.src = dataUrl;
+          await preview.decode();
+
+          selectedAvatar = dataUrl;
+          avatar.src = dataUrl;
+          profileStatus.textContent = "Save your profile to keep this photo.";
+        } catch {
+          profileStatus.textContent = "This photo could not be opened.";
+        } finally {
+          readingAvatar = false;
+          saveProfile.removeAttribute("disabled");
+        }
+      });
+
+      form.elements.fullName.addEventListener("input", () => {
+        form.elements.fullName.setCustomValidity("");
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (readingAvatar) return;
+
+        const fullName = form.elements.fullName.value.trim();
+        if (!fullName) {
+          form.elements.fullName.setCustomValidity("Enter your full name.");
+          form.elements.fullName.reportValidity();
+          return;
+        }
+
+        const profile = {
+          fullName,
+          email: form.elements.email.value.trim(),
+          bio: form.elements.bio.value.trim(),
+          avatar: selectedAvatar
+        };
+
+        if (saveState({ ...state, profile })) {
+          form.elements.fullName.value = profile.fullName;
+          form.elements.email.value = profile.email;
+          form.elements.bio.value = profile.bio;
+          profileStatus.textContent = "Profile saved.";
+        } else {
+          profileStatus.textContent = "Your browser could not save the profile.";
+        }
+      });
+
+      for (const name of preferenceNames) {
+        const control = document.getElementById(name);
+        control.checked = state.notifications[name];
+
+        control.addEventListener("change", () => {
+          const notifications = { ...state.notifications, [name]: control.checked };
+          if (saveState({ ...state, notifications })) {
+            const label = control.labels[0].textContent.trim();
+            notificationStatus.textContent = `${label} ${control.checked ? "on" : "off"}.`;
+          } else {
+            control.checked = state.notifications[name];
+            notificationStatus.textContent = "Your browser could not save this preference.";
+          }
+        });
+      }
+
+      openDelete.addEventListener("click", () => {
+        deleteStatus.textContent = "";
+        dialog.showModal();
+        cancelDelete.focus();
+      });
+
+      cancelDelete.addEventListener("click", () => dialog.close());
+
+      dialog.addEventListener("close", () => {
+        if (openDelete.isConnected) openDelete.focus();
+      });
+
+      document.querySelector("#confirm-delete").addEventListener("click", () => {
+        if (saveState({ deleted: true })) {
+          dialog.close();
+          showDeletedAccount();
+        } else {
+          deleteStatus.textContent = "Your browser could not delete the saved account.";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

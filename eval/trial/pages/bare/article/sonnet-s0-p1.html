@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Revolution of Container Queries</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-container size="md">
+  <ui-stack gap="lg" padding="md">
+
+    <ui-stack gap="sm">
+      <span>Frontend</span>
+      <h1>The Quiet Revolution of Container Queries</h1>
+      <p>Why components, not pages, should decide how they look, and how to start using that idea today.</p>
+    </ui-stack>
+
+    <ui-row gap="sm" align="center">
+      <img src="https://picsum.photos/seed/author-maya/96/96" alt="Maya Lindqvist" width="48" height="48">
+      <ui-stack gap="0">
+        <strong>Maya Lindqvist</strong>
+        <small>November 18, 2026 · 9 min read</small>
+      </ui-stack>
+    </ui-row>
+
+    <img src="https://picsum.photos/seed/container-queries-cover/1200/630" alt="Abstract layout of nested boxes in soft light" width="1200" height="630">
+
+    <ui-stack gap="md">
+      <p>For more than a decade, responsive design has meant one thing: asking the browser how wide the viewport is. It worked, because pages were the unit of design. But we no longer build pages. We build components, and a component rarely knows where it will end up.</p>
+      <p>A product card might live in a three-column grid, a narrow sidebar, or a full-width hero. Media queries can't tell it which. Container queries can.</p>
+
+      <h2>The problem with viewport thinking</h2>
+      <p>Imagine a card with an image on the left and text on the right. On a wide screen that looks great in the main column. Drop the same card into a 280px sidebar on that same wide screen and it falls apart. The viewport is huge, but the space available to the card is tiny.</p>
+      <p>The traditional fix is a pile of modifier classes: <code>.card--compact</code>, <code>.card--sidebar</code>, <code>.card--stacked</code>. Every new context means another variant, and every variant is a chance for drift.</p>
+
+      <blockquote>
+        “A component should respond to the space it is given, not to the screen it happens to be on.”
+        <footer>Maya Lindqvist</footer>
+      </blockquote>
+
+      <h2>Enter the container</h2>
+      <p>Container queries flip the relationship. You mark an element as a containment context, then write rules that respond to that element's size. The card becomes self-aware, and the layout logic lives next to the component it belongs to.</p>
+
+      <pre><code>.card-wrapper {
+  container-type: inline-size;
+  container-name: card;
+}
+
+.card {
+  display: grid;
+  gap: 1rem;
+}
+
+@container card (min-width: 480px) {
+  .card {
+    grid-template-columns: 160px 1fr;
+    align-items: center;
+  }
+}</code></pre>
+
+      <p>That's the whole idea. The wrapper declares itself a container, and the card adapts once there are 480 pixels to work with, regardless of the viewport.</p>
+
+      <h2>Practical tips for adoption</h2>
+      <p>You don't need to rewrite your design system. Start with the components that appear in the most varied contexts: cards, media objects, navigation lists, and data tables. Wrap them, name the containers, and replace the most brittle media queries first.</p>
+      <ul>
+        <li>Prefer <code>inline-size</code> containment; it avoids height-related surprises.</li>
+        <li>Name your containers so nested components don't query the wrong ancestor.</li>
+        <li>Keep media queries for page-level concerns like navigation and global spacing.</li>
+        <li>Use container query units such as <code>cqi</code> for fluid typography inside components.</li>
+      </ul>
+
+      <h2>What it changes about design</h2>
+      <p>The biggest shift is cultural. Designers can hand over components with defined behaviors at each size, instead of page mockups at three breakpoints. Engineers can test a component in isolation and trust that it will behave the same in production. Documentation tools can show a component at any width without resizing the browser window.</p>
+      <p>Container queries are not flashy. Nothing animates, nothing glows. But they quietly remove an entire category of layout bugs, and that is the best kind of revolution.</p>
+    </ui-stack>
+
+    <ui-row gap="sm" wrap>
+      <span>CSS</span>
+      <span>Responsive Design</span>
+      <span>Components</span>
+      <span>Design Systems</span>
+    </ui-row>
+
+    <hr>
+
+    <ui-stack gap="md">
+      <h2>Related posts</h2>
+      <div style="overflow: auto">
+        <ui-row gap="md">
+          <ui-card>
+            <img src="https://picsum.photos/seed/related-grid/520/300" alt="Grid lines on a dark background" width="520" height="300">
+            <ui-stack gap="xs">
+              <h3>Subgrid Is Finally Ready</h3>
+              <small>6 min read</small>
+            </ui-stack>
+          </ui-card>
+          <ui-card>
+            <img src="https://picsum.photos/seed/related-tokens/520/300" alt="Colorful swatches" width="520" height="300">
+            <ui-stack gap="xs">
+              <h3>Design Tokens Without the Tears</h3>
+              <small>8 min read</small>
+            </ui-stack>
+          </ui-card>
+          <ui-card>
+            <img src="https://picsum.photos/seed/related-layers/520/300" alt="Layered paper shapes" width="520" height="300">
+            <ui-stack gap="xs">
+              <h3>Taming Specificity with Cascade Layers</h3>
+              <small>7 min read</small>
+            </ui-stack>
+          </ui-card>
+          <ui-card>
+            <img src="https://picsum.photos/seed/related-type/520/300" alt="Typography specimen" width="520" height="300">
+            <ui-stack gap="xs">
+              <h3>Fluid Type Scales That Make Sense</h3>
+              <small>5 min read</small>
+            </ui-stack>
+          </ui-card>
+          <ui-card>
+            <img src="https://picsum.photos/seed/related-motion/520/300" alt="Motion blur of lights" width="520" height="300">
+            <ui-stack gap="xs">
+              <h3>Motion That Respects Preferences</h3>
+              <small>4 min read</small>
+            </ui-stack>
+          </ui-card>
+        </ui-row>
+      </div>
+    </ui-stack>
+
+  </ui-stack>
+</ui-container>
+</body>
+</html>

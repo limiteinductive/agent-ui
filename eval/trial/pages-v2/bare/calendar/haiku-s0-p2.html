@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="lg" padding="md">
+
+    <ui-stack direction="horizontal" justify="space-between" align="center" wrap="true">
+      <ui-stack gap="xs">
+        <h1>Team Calendar</h1>
+        <p>Engineering · Product · Design</p>
+      </ui-stack>
+      <img src="https://picsum.photos/seed/teamlead/96/96" alt="Team lead" width="48" height="48">
+    </ui-stack>
+
+    <ui-grid max-columns="3" gap="lg">
+
+      <!-- Calendar -->
+      <ui-card padding="md">
+        <ui-stack gap="md">
+          <ui-stack direction="horizontal" justify="space-between" align="center" wrap="true">
+            <ui-button id="prev" variant="ghost" aria-label="Previous month">‹ Prev</ui-button>
+            <h2 id="month-title">November 2026</h2>
+            <ui-button id="next" variant="ghost" aria-label="Next month">Next ›</ui-button>
+          </ui-stack>
+
+          <ui-grid columns="7" gap="xs" id="weekdays"></ui-grid>
+          <ui-grid columns="7" gap="xs" id="days"></ui-grid>
+        </ui-stack>
+      </ui-card>
+
+      <!-- Upcoming -->
+      <ui-card padding="md">
+        <ui-stack gap="md">
+          <h2>Upcoming</h2>
+          <ui-stack gap="md" id="upcoming"></ui-stack>
+        </ui-stack>
+      </ui-card>
+
+    </ui-grid>
+  </ui-stack>
+
+  <script>
+    const TODAY = '2026-11-21';
+    const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const WEEKDAYS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+    const EVENTS = [
+      { date: '2026-11-02', time: '10:00', title: 'Sprint planning',     owner: 'Priya Shah',   avatar: 'https://picsum.photos/seed/priya/96/96',  tone: 'info' },
+      { date: '2026-11-04', time: '14:00', title: 'Design review',       owner: 'Leo Martins',  avatar: 'https://picsum.photos/seed/leo/96/96',    tone: 'warning' },
+      { date: '2026-11-05', time: '09:30', title: 'Maya 1:1',            owner: 'Maya Chen',    avatar: 'https://picsum.photos/seed/maya/96/96',   tone: 'neutral' },
+      { date: '2026-11-11', time: '11:00', title: 'Client demo',         owner: 'Owen Brooks',  avatar: 'https://picsum.photos/seed/owen/96/96',   tone: 'info' },
+      { date: '2026-11-12', time: '16:00', title: 'Release v2.4',        owner: 'Priya Shah',   avatar: 'https://picsum.photos/seed/priya/96/96',  tone: 'success' },
+      { date: '2026-11-16', time: '13:00', title: 'Hiring panel',        owner: 'Sara Okafor',  avatar: 'https://picsum.photos/seed/sara/96/96',   tone: 'neutral' },
+      { date: '2026-11-18', time: '12:30', title: 'Team lunch',          owner: 'Dev Patel',    avatar: 'https://picsum.photos/seed/dev/96/96',    tone: 'success' },
+      { date: '2026-11-20', time: '15:00', title: 'Retro',               owner: 'Leo Martins',  avatar: 'https://picsum.photos/seed/leo/96/96',    tone: 'info' },
+      { date: '2026-11-24', time: '14:00', title: 'Design review',       owner: 'Leo Martins',  avatar: 'https://picsum.photos/seed/leo/96/96',    tone: 'warning' },
+      { date: '2026-11-26', time: 'All day', title: 'Thanksgiving',      owner: 'Office',       avatar: 'https://picsum.photos/seed/office/96/96', tone: 'success' },
+      { date: '2026-11-30', time: '10:00', title: 'Board update',        owner: 'Maya Chen',    avatar: 'https://picsum.photos/seed/maya/96/96',   tone: 'warning' },
+      { date: '2026-12-02', time: '09:00', title: 'Q1 planning kickoff', owner: 'Owen Brooks',  avatar: 'https://picsum.photos/seed/owen/96/96',   tone: 'info' }
+    ].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+
+    const pad = n => String(n).padStart(2, '0');
+    const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const parse = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+    const formatDay = s => parse(s).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+    const byDate = {};
+    EVENTS.forEach(e => (byDate[e.date] ||= []).push(e));
+
+    function el(tag, attrs = {}, ...children) {
+      const node = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) {
+        if (v === true) node.setAttribute(k, '');
+        else if (v !== false && v != null) node.setAttribute(k, v);
+      }
+      for (const c of children) node.append(c instanceof Node ? c : document.createTextNode(c));
+      return node;
+    }
+
+    let view = new Date(2026, 10, 1);
+
+    const titleEl = document.getElementById('month-title');
+    const daysEl = document.getElementById('days');
+    const weekdaysEl = document.getElementById('weekdays');
+    const upcomingEl = document.getElementById('upcoming');
+
+    WEEKDAYS.forEach(w => weekdaysEl.append(el('span', {}, w)));
+
+    function renderCalendar() {
+      const y = view.getFullYear(), m = view.getMonth();
+      titleEl.textContent = `${MONTHS[m]} ${y}`;
+
+      const offset = (new Date(y, m, 1).getDay() + 6) % 7;
+      const rows = Math.ceil((offset + new Date(y, m + 1, 0).getDate()) / 7);
+      const start = new Date(y, m, 1 - offset);
+
+      daysEl.replaceChildren();
+      for (let i = 0; i < rows * 7; i++) {
+        const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+        const k = keyOf(d);
+        const inMonth = d.getMonth() === m;
+        const isToday = k === TODAY;
+
+        const dayLabel = String(d.getDate());
+        const cell = el('ui-card', {
+          padding: 'xs',
+          sunken: !inMonth,
+          'aria-current': isToday ? 'date' : null,
+          'data-outside': inMonth ? null : true
+        },
+          isToday ? el('strong', {}, dayLabel) : el('span', {}, dayLabel)
+        );
+
+        (byDate[k] || []).forEach(e => {
+          cell.append(el('span', { 'data-tone': e.tone, title: e.owner }, e.title));
+        });
+
+        daysEl.append(cell);
+      }
+    }
+
+    function renderUpcoming() {
+      const items = EVENTS.filter(e => e.date > TODAY).slice(0, 6);
+      upcomingEl.replaceChildren();
+      items.forEach(e => {
+        upcomingEl.append(
+          el('ui-stack', { direction: 'horizontal', align: 'center', gap: 'md' },
+            el('img', { src: e.avatar, alt: e.owner, width: 40, height: 40 }),
+            el('ui-stack', { gap: 'xs' },
+              el('strong', {}, e.title),
+              el('small', {}, `${formatDay(e.date)} · ${e.time} · ${e.owner}`)
+            )
+          )
+        );
+      });
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+      renderCalendar();
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    renderCalendar();
+    renderUpcoming();
+  </script>
+</body>
+</html>

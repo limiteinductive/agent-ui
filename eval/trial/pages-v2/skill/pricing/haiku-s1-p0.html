@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing · Taskflow</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+
+  <header>
+    <ui-container>
+      <ui-row wrap justify="space-between" gap="md" padding="md">
+        <ui-row gap="xs">
+          <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="6" fill="currentColor"/>
+            <path d="M7 12.5l3.2 3.2L17 9" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <strong>Taskflow</strong>
+        </ui-row>
+        <nav aria-label="Primary">
+          <ui-row wrap gap="sm">
+            <a href="#product">Product</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#compare">Compare</a>
+            <a href="#faq">FAQ</a>
+            <a href="#login">Log in</a>
+            <ui-button variant="primary" size="sm">Start free</ui-button>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container>
+      <ui-stack gap="2xl" padding="lg">
+
+        <section>
+          <ui-stack gap="lg" align="center">
+            <ui-stack gap="sm" align="center">
+              <p><mark>New: Timelines for every project</mark></p>
+              <h1>Simple pricing for teams that ship</h1>
+              <p>Plan, track, and deliver work in one place. Start free, then scale to the plan that fits how your team builds.</p>
+            </ui-stack>
+            <ui-row wrap justify="center" gap="sm">
+              <ui-button variant="primary" size="lg">Start 14-day trial</ui-button>
+              <ui-button variant="outline" size="lg">Talk to sales</ui-button>
+            </ui-row>
+            <ui-card padding="0" rounded="lg" elevated>
+              <img src="https://picsum.photos/seed/taskflow-hero/1200/675" alt="Team reviewing a project board on a laptop" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover;">
+            </ui-card>
+          </ui-stack>
+        </section>
+
+        <section id="pricing">
+          <ui-stack gap="lg">
+            <ui-stack gap="xs" align="center">
+              <h2>Plans for every stage</h2>
+              <p>Monthly billing. Cancel anytime. Prices in USD per member.</p>
+            </ui-stack>
+
+            <ui-grid max-columns="3" gap="lg">
+
+              <ui-card gap="md">
+                <h3>Starter</h3>
+                <p>For small teams getting organized.</p>
+                <p><strong>$12</strong> / member / month</p>
+                <ui-button variant="outline">Start free trial</ui-button>
+                <ul>
+                  <li>Up to 5 projects</li>
+                  <li>Up to 5 members</li>
+                  <li>2 GB file storage</li>
+                  <li>100 automations / month</li>
+                  <li>Email support</li>
+                </ul>
+              </ui-card>
+
+              <ui-card elevated variant="primary" gap="md">
+                <ui-row gap="sm">
+                  <h3>Team</h3>
+                  <mark>Most popular</mark>
+                </ui-row>
+                <p>For growing teams running many projects.</p>
+                <p><strong>$29</strong> / member / month</p>
+                <ui-button variant="primary">Start free trial</ui-button>
+                <ul>
+                  <li>Unlimited projects</li>
+                  <li>Up to 50 members</li>
+                  <li>50 GB file storage</li>
+                  <li>5,000 automations / month</li>
+                  <li>Guest access and audit log</li>
+                  <li>Priority email support</li>
+                </ul>
+              </ui-card>
+
+              <ui-card gap="md">
+                <h3>Enterprise</h3>
+                <p>For organizations with security and scale needs.</p>
+                <p><strong>Custom</strong> pricing</p>
+                <ui-button variant="outline">Contact sales</ui-button>
+                <ul>
+                  <li>Unlimited projects and members</li>
+                  <li>1 TB pooled storage</li>
+                  <li>Unlimited automations</li>
+                  <li>Single sign-on (SAML)</li>
+                  <li>Dedicated success manager</li>
+                </ul>
+              </ui-card>
+
+            </ui-grid>
+          </ui-stack>
+        </section>
+
+        <section id="compare">
+          <ui-stack gap="lg">
+            <ui-stack gap="xs" align="center">
+              <h2>Compare plans</h2>
+              <p>Every feature, side by side.</p>
+            </ui-stack>
+            <ui-card padding="0" rounded="lg">
+              <ui-row scroll padding="md">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Feature</th>
+                      <th scope="col">Starter</th>
+                      <th scope="col">Team</th>
+                      <th scope="col">Enterprise</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Projects</th>
+                      <td>5</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Members</th>
+                      <td>Up to 5</td>
+                      <td>Up to 50</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">File storage</th>
+                      <td>2 GB</td>
+                      <td>50 GB</td>
+                      <td>1 TB pooled</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Automations / month</th>
+                      <td>100</td>
+                      <td>5,000</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Guest access</th>
+                      <td>—</td>
+                      <td>Included</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Audit log</th>
+                      <td>—</td>
+                      <td>90 days</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Single sign-on</th>
+                      <td>—</td>
+                      <td>—</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Support</th>
+                      <td>Email</td>
+                      <td>Priority email</td>
+                      <td>Dedicated manager</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ui-row>
+            </ui-card>
+          </ui-stack>
+        </section>
+
+        <section id="faq">
+          <ui-stack gap="lg">
+            <ui-stack gap="xs" align="center">
+              <h2>Frequently asked questions</h2>
+              <p>Can't find what you need? <a href="#contact">Contact our team</a>.</p>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <ui-card padding="md">
+                <details>
+                  <summary>Can I try Taskflow before paying?</summary>
+                  <p>Yes. Every paid plan includes a 14-day free trial with full access. No credit card is required to start.</p>
+                </details>
+              </ui-card>
+              <ui-card padding="md">
+                <details>
+                  <summary>Can I change plans later?</summary>
+                  <p>You can upgrade or downgrade at any time. Upgrades take effect immediately, and unused time is prorated.</p>
+                </details>
+              </ui-card>
+              <ui-card padding="md">
+                <details>
+                  <summary>How does billing work for guests?</summary>
+                  <p>Guests are free on the Team and Enterprise plans. Only full members are billed.</p>
+                </details>
+              </ui-card>
+              <ui-card padding="md">
+                <details>
+                  <summary>Do you offer discounts for nonprofits or education?</summary>
+                  <p>Yes. Verified nonprofits and schools get 40% off the Team plan. Email hello@taskflow.example to apply.</p>
+                </details>
+              </ui-card>
+              <ui-card padding="md">
+                <details>
+                  <summary>Where is my data stored?</summary>
+                  <p>Data is stored in encrypted form in the US and EU regions. Enterprise customers can choose their region.</p>
+                </details>
+              </ui-card>
+            </ui-stack>
+          </ui-stack>
+        </section>
+
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-stack gap="lg" padding="lg">
+        <ui-grid max-columns="4" min-item-width="sm" gap="lg">
+          <ui-stack gap="sm">
+            <strong>Taskflow</strong>
+            <p>Plan, track, and ship work together.</p>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <h3>Product</h3>
+            <ul>
+              <li><a href="#product">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li><a href="#compare">Integrations</a></li>
+            </ul>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="#about">About</a></li>
+              <li><a href="#careers">Careers</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="#docs">Documentation</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#status">System status</a></li>
+            </ul>
+          </ui-stack>
+        </ui-grid>
+        <ui-row wrap justify="space-between" gap="md">
+          <small>© 2026 Taskflow, Inc. All rights reserved.</small>
+          <ui-row wrap gap="md">
+            <a href="#privacy">Privacy</a>
+            <a href="#terms">Terms</a>
+            <a href="#cookies">Cookies</a>
+          </ui-row>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </footer>
+
+</ui-page>
+</body>
+</html>

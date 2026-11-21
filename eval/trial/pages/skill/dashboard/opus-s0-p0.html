@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store Analytics · Northwind Goods</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container size="xl">
+      <ui-row wrap gap="md" padding="sm">
+        <ui-row gap="sm">
+          <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l1.5-5h15L21 9"/><path d="M3 9h18v11H3z"/><path d="M9 20v-6h6v6"/>
+          </svg>
+          <strong>Northwind Goods</strong>
+        </ui-row>
+        <input grow type="search" name="q" placeholder="Search orders, products, customers…" aria-label="Search orders, products, customers">
+        <details>
+          <summary>
+            <ui-row gap="sm" align="center">
+              <img src="https://picsum.photos/seed/maya-avatar/64/64" width="32" height="32" alt="Maya Chen">
+              <span>Maya Chen</span>
+            </ui-row>
+          </summary>
+          <ul>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Store settings</a></li>
+            <li><a href="#">Billing</a></li>
+            <li><a href="#">Sign out</a></li>
+          </ul>
+        </details>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="xl">
+      <ui-stack gap="lg" padding="md">
+        <ui-row wrap justify="space-between" gap="sm">
+          <ui-stack gap="xs">
+            <h1>Dashboard</h1>
+            <small>Last 30 days · Oct 22 – Nov 20, 2026 · compared with previous period</small>
+          </ui-stack>
+          <ui-row wrap gap="sm">
+            <ui-button variant="outline" size="sm">Export CSV</ui-button>
+            <ui-button variant="primary" size="sm">Create report</ui-button>
+          </ui-row>
+        </ui-row>
+
+        <ui-row wrap gap="lg" align="start">
+          <!-- Sidebar filters -->
+          <aside>
+            <ui-card padding="md" gap="md">
+              <h2>Filters</h2>
+              <form>
+                <ui-stack gap="md">
+                  <label>Date range
+                    <select name="range">
+                      <option>Last 7 days</option>
+                      <option selected>Last 30 days</option>
+                      <option>Quarter to date</option>
+                      <option>Year to date</option>
+                    </select>
+                  </label>
+                  <label>Sales channel
+                    <select name="channel">
+                      <option selected>All channels</option>
+                      <option>Online store</option>
+                      <option>Instagram Shop</option>
+                      <option>Marketplace</option>
+                    </select>
+                  </label>
+                  <fieldset>
+                    <legend>Order status</legend>
+                    <ui-stack gap="xs">
+                      <label><input type="checkbox" name="status" value="paid" checked> Paid</label>
+                      <label><input type="checkbox" name="status" value="fulfilled" checked> Fulfilled</label>
+                      <label><input type="checkbox" name="status" value="pending" checked> Pending</label>
+                      <label><input type="checkbox" name="status" value="refunded"> Refunded</label>
+                    </ui-stack>
+                  </fieldset>
+                  <fieldset>
+                    <legend>Category</legend>
+                    <ui-stack gap="xs">
+                      <label><input type="checkbox" name="cat" value="home" checked> Home &amp; Kitchen</label>
+                      <label><input type="checkbox" name="cat" value="apparel" checked> Apparel</label>
+                      <label><input type="checkbox" name="cat" value="outdoor"> Outdoor</label>
+                      <label><input type="checkbox" name="cat" value="beauty"> Beauty</label>
+                    </ui-stack>
+                  </fieldset>
+                  <label><input type="checkbox" role="switch" name="returning"> Returning customers only</label>
+                  <ui-row gap="sm" wrap>
+                    <ui-button type="submit" variant="primary" size="sm">Apply</ui-button>
+                    <ui-button type="reset" variant="ghost" size="sm">Reset</ui-button>
+                  </ui-row>
+                </ui-stack>
+              </form>
+            </ui-card>
+          </aside>
+
+          <!-- Main column -->
+          <ui-stack grow gap="lg">
+            <ui-grid max-columns="4" min-item-width="xs" gap="md">
+              <ui-card padding="md">
+                <ui-stack gap="xs">
+                  <small>Revenue</small>
+                  <strong>$84,320</strong>
+                  <ui-row gap="xs">
+                    <svg width="60" height="20" viewBox="0 0 60 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><polyline points="0,16 10,14 20,15 30,10 40,11 50,6 60,3"/></svg>
+                    <span>▲ 12.4%</span>
+                  </ui-row>
+                  <small>vs $75,010 last period</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="md">
+                <ui-stack gap="xs">
+                  <small>Orders</small>
+                  <strong>1,286</strong>
+                  <ui-row gap="xs">
+                    <svg width="60" height="20" viewBox="0 0 60 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><polyline points="0,14 10,15 20,11 30,12 40,9 50,8 60,6"/></svg>
+                    <span>▲ 6.8%</span>
+                  </ui-row>
+                  <small>vs 1,204 last period</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="md">
+                <ui-stack gap="xs">
+                  <small>Conversion</small>
+                  <strong>3.42%</strong>
+                  <ui-row gap="xs">
+                    <svg width="60" height="20" viewBox="0 0 60 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><polyline points="0,6 10,8 20,7 30,10 40,9 50,12 60,13"/></svg>
+                    <span>▼ 0.3 pts</span>
+                  </ui-row>
+                  <small>vs 3.72% last period</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="md">
+                <ui-stack gap="xs">
+                  <small>Refunds</small>
+                  <strong>$2,147</strong>
+                  <ui-row gap="xs">
+                    <svg width="60" height="20" viewBox="0 0 60 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><polyline points="0,14 10,13 20,14 30,11 40,10 50,9 60,7"/></svg>
+                    <span>▲ 4.1% (worse)</span>
+                  </ui-row>
+                  <small>31 orders · 2.5% of revenue</small>
+                </ui-stack>
+              </ui-card>
+            </ui-grid>
+
+            <ui-card padding="md">
+              <ui-row wrap justify="space-between" gap="sm">
+                <h2>Recent orders</h2>
+                <a href="#">View all orders →</a>
+              </ui-row>
+              <div style="overflow-x: auto; contain: inline-size">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Order</th>
+                      <th scope="col">Customer</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><a href="#">#10482</a></td><td>Olivia Martínez</td><td><time datetime="2026-11-20T14:12">Nov 20, 2:12 PM</time></td><td><span>● Paid</span></td><td>$148.00</td></tr>
+                    <tr><td><a href="#">#10481</a></td><td>Liam O'Connor</td><td><time datetime="2026-11-20T11:47">Nov 20, 11:47 AM</time></td><td><span>✓ Fulfilled</span></td><td>$62.50</td></tr>
+                    <tr><td><a href="#">#10480</a></td><td>Aiko Tanaka</td><td><time datetime="2026-11-20T09:03">Nov 20, 9:03 AM</time></td><td><span>◷ Pending</span></td><td>$219.90</td></tr>
+                    <tr><td><a href="#">#10479</a></td><td>Noah Williams</td><td><time datetime="2026-11-19T18:26">Nov 19, 6:26 PM</time></td><td><span>✓ Fulfilled</span></td><td>$34.00</td></tr>
+                    <tr><td><a href="#">#10478</a></td><td>Fatima Al-Sayed</td><td><time datetime="2026-11-19T15:40">Nov 19, 3:40 PM</time></td><td><mark>↺ Refunded</mark></td><td>$89.99</td></tr>
+                    <tr><td><a href="#">#10477</a></td><td>Ethan Brooks</td><td><time datetime="2026-11-19T10:15">Nov 19, 10:15 AM</time></td><td><span>● Paid</span></td><td>$312.40</td></tr>
+                    <tr><td><a href="#">#10476</a></td><td>Sofia Rossi</td><td><time datetime="2026-11-18T20:58">Nov 18, 8:58 PM</time></td><td><span>✓ Fulfilled</span></td><td>$76.25</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </ui-card>
+
+            <ui-card padding="md">
+              <ui-row wrap justify="space-between" gap="sm">
+                <h2>Top products</h2>
+                <small>By revenue, last 30 days</small>
+              </ui-row>
+              <ul>
+                <li>
+                  <ui-row gap="md">
+                    <img src="https://picsum.photos/seed/ceramic-mug/96/96" width="48" height="48" alt="Stoneware pour-over mug">
+                    <ui-stack grow gap="0">
+                      <strong>Stoneware Pour-Over Mug</strong>
+                      <small>412 sold · Home &amp; Kitchen</small>
+                    </ui-stack>
+                    <strong>$13,184</strong>
+                  </ui-row>
+                </li>
+                <li>
+                  <ui-row gap="md">
+                    <img src="https://picsum.photos/seed/linen-shirt/96/96" width="48" height="48" alt="Washed linen shirt">
+                    <ui-stack grow gap="0">
+                      <strong>Washed Linen Shirt</strong>
+                      <small>168 sold · Apparel</small>
+                    </ui-stack>
+                    <strong>$11,592</strong>
+                  </ui-row>
+                </li>
+                <li>
+                  <ui-row gap="md">
+                    <img src="https://picsum.photos/seed/trail-pack/96/96" width="48" height="48" alt="Canvas trail daypack">
+                    <ui-stack grow gap="0">
+                      <strong>Canvas Trail Daypack</strong>
+                      <small>94 sold · Outdoor</small>
+                    </ui-stack>
+                    <strong>$9,306</strong>
+                  </ui-row>
+                </li>
+                <li>
+                  <ui-row gap="md">
+                    <img src="https://picsum.photos/seed/olive-candle/96/96" width="48" height="48" alt="Olive and fig soy candle">
+                    <ui-stack grow gap="0">
+                      <strong>Olive &amp; Fig Soy Candle</strong>
+                      <small>287 sold · Home &amp; Kitchen</small>
+                    </ui-stack>
+                    <strong>$7,175</strong>
+                  </ui-row>
+                </li>
+                <li>
+                  <ui-row gap="md">
+                    <img src="https://picsum.photos/seed/face-oil/96/96" width="48" height="48" alt="Rosehip face oil">
+                    <ui-stack grow gap="0">
+                      <strong>Rosehip Face Oil</strong>
+                      <small>203 sold · Beauty</small>
+                    </ui-stack>
+                    <strong>$6,293</strong>
+                  </ui-row>
+                </li>
+              </ul>
+            </ui-card>
+          </ui-stack>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+</ui-page>
+</body>
+</html>

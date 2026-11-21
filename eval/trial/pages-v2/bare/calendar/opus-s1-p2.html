@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Product Design</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="xl">
+    <ui-stack gap="lg" padding="md">
+
+      <!-- Page header -->
+      <ui-stack direction="horizontal" align="center" justify="space-between" wrap gap="md">
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <img src="https://picsum.photos/seed/teamlogo/80/80" alt="Team logo" width="40" height="40">
+          <ui-stack gap="0">
+            <h1>Team Calendar</h1>
+            <small>Product Design · 8 members</small>
+          </ui-stack>
+        </ui-stack>
+        <ui-button variant="primary" id="today-btn">Today</ui-button>
+      </ui-stack>
+
+      <ui-grid max-columns="2" gap="lg" min-item-width="300px">
+
+        <!-- Calendar -->
+        <ui-card padding="md">
+          <ui-stack gap="md">
+            <ui-stack direction="horizontal" align="center" justify="space-between" gap="sm" wrap>
+              <ui-button variant="ghost" id="prev-btn" aria-label="Previous month">‹</ui-button>
+              <h2 id="month-label" aria-live="polite">November 2026</h2>
+              <ui-button variant="ghost" id="next-btn" aria-label="Next month">›</ui-button>
+            </ui-stack>
+
+            <ui-grid columns="7" gap="xs" id="weekday-row" aria-hidden="true">
+              <ui-stack align="center"><small><strong>Mon</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Tue</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Wed</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Thu</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Fri</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Sat</strong></small></ui-stack>
+              <ui-stack align="center"><small><strong>Sun</strong></small></ui-stack>
+            </ui-grid>
+
+            <ui-grid columns="7" gap="xs" id="month-grid"></ui-grid>
+
+            <hr>
+
+            <ui-stack gap="sm" id="day-detail">
+              <h3 id="day-detail-title">Selected day</h3>
+              <ui-stack gap="xs" id="day-detail-list"></ui-stack>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Upcoming events -->
+        <ui-card padding="md">
+          <ui-stack gap="md">
+            <ui-stack direction="horizontal" align="center" justify="space-between">
+              <h2>Upcoming</h2>
+              <mark id="upcoming-count">0</mark>
+            </ui-stack>
+            <ui-stack gap="sm" id="upcoming-list"></ui-stack>
+          </ui-stack>
+        </ui-card>
+
+      </ui-grid>
+    </ui-stack>
+  </ui-container>
+
+  <script>
+    const TODAY = new Date(2026, 10, 21); // Sat 21 Nov 2026
+
+    const EVENTS = [
+      { date: "2026-11-02", time: "09:30", title: "Sprint 24 planning", type: "Meeting", who: "Whole team" },
+      { date: "2026-11-05", time: "14:00", title: "Usability test: onboarding", type: "Research", who: "Maya, Jonas" },
+      { date: "2026-11-11", time: "11:00", title: "Design critique", type: "Review", who: "Whole team" },
+      { date: "2026-11-13", time: "All day", title: "Priya out of office", type: "Leave", who: "Priya" },
+      { date: "2026-11-18", time: "16:00", title: "Stakeholder demo", type: "Demo", who: "Lena, Tom" },
+      { date: "2026-11-23", time: "10:00", title: "Design system sync", type: "Meeting", who: "Jonas, Aiko" },
+      { date: "2026-11-23", time: "15:30", title: "1:1 Lena / Maya", type: "1:1", who: "Lena, Maya" },
+      { date: "2026-11-25", time: "13:00", title: "Accessibility audit kickoff", type: "Review", who: "Aiko, Tom" },
+      { date: "2026-11-27", time: "17:00", title: "Team retro & pizza", type: "Social", who: "Whole team" },
+      { date: "2026-11-30", time: "09:30", title: "Sprint 25 planning", type: "Meeting", who: "Whole team" },
+      { date: "2026-12-03", time: "11:00", title: "Mobile nav prototype review", type: "Review", who: "Maya, Priya" },
+      { date: "2026-12-09", time: "14:00", title: "Customer interviews (x3)", type: "Research", who: "Jonas" },
+      { date: "2026-12-16", time: "16:00", title: "Q4 roadmap demo", type: "Demo", who: "Lena" },
+      { date: "2026-12-18", time: "18:30", title: "Holiday dinner", type: "Social", who: "Whole team" },
+      { date: "2026-12-24", time: "All day", title: "Office closed", type: "Holiday", who: "Everyone" }
+    ];
+
+    const fmtKey = d =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const parseKey = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d); };
+
+    let view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+    let selected = fmtKey(TODAY);
+
+    const grid = document.getElementById("month-grid");
+    const label = document.getElementById("month-label");
+
+    function eventsOn(key) {
+      return EVENTS.filter(e => e.date === key).sort((a, b) => a.time.localeCompare(b.time));
+    }
+
+    function el(tag, attrs = {}, text) {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) if (v !== null && v !== undefined) n.setAttribute(k, v);
+      if (text !== undefined) n.textContent = text;
+      return n;
+    }
+
+    function eventRow(e, showDate) {
+      const row = el("ui-stack", { direction: "horizontal", gap: "sm", align: "start" });
+      const badge = el("mark", {}, e.type);
+      const body = el("ui-stack", { gap: "0" });
+      body.append(el("strong", {}, e.title));
+      const d = parseKey(e.date);
+      const when = showDate
+        ? `${d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })} · ${e.time}`
+        : e.time;
+      body.append(el("small", {}, `${when} · ${e.who}`));
+      row.append(badge, body);
+      return row;
+    }
+
+    function renderGrid() {
+      label.textContent = view.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+      grid.innerHTML = "";
+      const first = new Date(view.getFullYear(), view.getMonth(), 1);
+      const offset = (first.getDay() + 6) % 7; // Monday-first
+      const start = new Date(first); start.setDate(1 - offset);
+      const todayKey = fmtKey(TODAY);
+
+      for (let i = 0; i < 42; i++) {
+        const d = new Date(start); d.setDate(start.getDate() + i);
+        const key = fmtKey(d);
+        const inMonth = d.getMonth() === view.getMonth();
+        if (i >= 35 && !inMonth && d.getDate() <= 7 && (i % 7 === 0)) break; // trim empty 6th row
+        const evs = eventsOn(key);
+
+        const cell = el("ui-button", {
+          variant: key === selected ? "primary" : key === todayKey ? "secondary" : "ghost",
+          size: "sm",
+          "aria-label": `${d.toDateString()}${key === todayKey ? " (today)" : ""}${evs.length ? `, ${evs.length} event${evs.length > 1 ? "s" : ""}` : ""}`,
+          "aria-pressed": key === selected ? "true" : "false"
+        });
+        const inner = el("ui-stack", { gap: "0", align: "center" });
+        const num = key === todayKey
+          ? el("strong", {}, String(d.getDate()))
+          : inMonth ? el("span", {}, String(d.getDate())) : el("small", {}, String(d.getDate()));
+        inner.append(num);
+        inner.append(el("small", { "aria-hidden": "true" }, evs.length ? `•${evs.length}` : "·"));
+        cell.append(inner);
+        cell.addEventListener("click", () => {
+          selected = key;
+          if (!inMonth) view = new Date(d.getFullYear(), d.getMonth(), 1);
+          renderAll();
+        });
+        grid.append(cell);
+      }
+    }
+
+    function renderDetail() {
+      const d = parseKey(selected);
+      document.getElementById("day-detail-title").textContent =
+        d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+      const list = document.getElementById("day-detail-list");
+      list.innerHTML = "";
+      const evs = eventsOn(selected);
+      if (!evs.length) {
+        list.append(el("p", {}, "No events scheduled. Enjoy the focus time."));
+      } else {
+        evs.forEach(e => list.append(eventRow(e, false)));
+      }
+    }
+
+    function renderUpcoming() {
+      const list = document.getElementById("upcoming-list");
+      list.innerHTML = "";
+      const todayKey = fmtKey(TODAY);
+      const up = EVENTS.filter(e => e.date >= todayKey)
+        .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+        .slice(0, 8);
+      document.getElementById("upcoming-count").textContent = String(up.length);
+      up.forEach((e, i) => {
+        if (i) list.append(el("hr"));
+        list.append(eventRow(e, true));
+      });
+      if (!up.length) list.append(el("p", {}, "Nothing coming up."));
+    }
+
+    function renderAll() { renderGrid(); renderDetail(); }
+
+    document.getElementById("prev-btn").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderGrid();
+    });
+    document.getElementById("next-btn").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderGrid();
+    });
+    document.getElementById("today-btn").addEventListener("click", () => {
+      view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+      selected = fmtKey(TODAY); renderAll();
+    });
+
+    renderAll();
+    renderUpcoming();
+  </script>
+</body>
+</html>

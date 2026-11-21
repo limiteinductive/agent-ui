@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing for Calm: Why Slow Interfaces Win Trust | The Interface Journal</title>
+  <meta name="description" content="A field guide to building interfaces that feel calm, predictable and trustworthy, with lessons from five years of product work.">
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="lg">
+    <ui-stack gap="xl" padding="md">
+
+      <!-- Site header -->
+      <header>
+        <ui-row justify="space-between" align="center" wrap gap="md">
+          <a href="#"><strong>The Interface Journal</strong></a>
+          <nav aria-label="Primary">
+            <ui-row gap="md" wrap>
+              <a href="#">Articles</a>
+              <a href="#">Newsletter</a>
+              <a href="#">About</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </header>
+
+      <hr>
+
+      <main>
+        <ui-stack gap="xl">
+
+          <!-- Article -->
+          <article>
+            <ui-container size="md">
+              <ui-stack gap="lg">
+
+                <ui-stack gap="md">
+                  <ui-row gap="sm" wrap align="center">
+                    <mark>Design</mark>
+                    <small>12 min read</small>
+                  </ui-row>
+
+                  <h1>Designing for Calm: Why Slow Interfaces Win Trust</h1>
+
+                  <p>
+                    Speed has been the default metric for a decade. But the products people trust most
+                    often feel deliberate, quiet and predictable. Here is what we learned rebuilding a
+                    banking app around calm.
+                  </p>
+
+                  <!-- Byline -->
+                  <ui-row gap="md" align="center" wrap>
+                    <img src="https://picsum.photos/seed/maya-author/96/96" alt="Maya Okafor" width="48" height="48">
+                    <ui-stack gap="0">
+                      <strong>Maya Okafor</strong>
+                      <small>
+                        Principal Designer · <time datetime="2026-11-18">November 18, 2026</time>
+                      </small>
+                    </ui-stack>
+                  </ui-row>
+                </ui-stack>
+
+                <!-- Cover image -->
+                <figure>
+                  <img
+                    src="https://picsum.photos/seed/calm-cover/1280/720"
+                    alt="A misty lake at dawn with a single wooden pier"
+                    width="1280" height="720" loading="eager">
+                  <figcaption>
+                    <small>Calm is not the absence of activity, it is the absence of surprise.</small>
+                  </figcaption>
+                </figure>
+
+                <!-- Body -->
+                <ui-stack gap="md">
+                  <p>
+                    When our team inherited the mobile banking app at Fernwood, it was objectively fast.
+                    Screens rendered in under 200 milliseconds, transfers confirmed instantly, and every
+                    tap triggered a satisfying micro-animation. Yet the support queue told a different
+                    story: people did not trust it. "Did my payment actually go through?" was the single
+                    most common ticket, accounting for nearly a third of all contacts.
+                  </p>
+                  <p>
+                    That paradox kicked off an eighteen-month project to redesign the app around a
+                    principle we started calling <em>calm interaction</em>. This article covers what that
+                    means, the patterns we adopted, and the numbers that convinced our leadership it was
+                    worth the effort.
+                  </p>
+
+                  <h2>The problem with instant</h2>
+                  <p>
+                    Instant feedback is wonderful for low-stakes actions like liking a post or toggling a
+                    filter. For high-stakes actions, instant can read as <strong>careless</strong>. When
+                    a $2,400 rent payment disappears from the screen in the same flicker as a
+                    dismissed notification, people lose the sense that something meaningful happened.
+                  </p>
+                  <p>
+                    We ran a small diary study with 24 customers over three weeks. Participants described
+                    the old flow with words like "jumpy," "too easy," and, memorably, "like it forgot what
+                    I asked." None of them complained about speed. All of them complained about certainty.
+                  </p>
+
+                  <!-- Pull quote -->
+                  <ui-card padding="lg">
+                    <blockquote>
+                      <ui-stack gap="sm">
+                        <p><strong>
+                          “People don’t want the fastest possible confirmation. They want the most
+                          believable one.”
+                        </strong></p>
+                        <small>— Diary study participant, week two</small>
+                      </ui-stack>
+                    </blockquote>
+                  </ui-card>
+
+                  <h2>Three patterns for calm</h2>
+
+                  <h3>1. Make consequential actions take a breath</h3>
+                  <p>
+                    We introduced a deliberate 600ms “settling” state for money movement. The button
+                    morphs into a progress indicator, the amount stays visible, and the confirmation
+                    screen slides in only after the server acknowledges the transaction. It is slower on
+                    paper and faster in perception, because users stopped double-checking their history.
+                  </p>
+
+                  <h3>2. Keep the subject on screen</h3>
+                  <p>
+                    Every confirmation now repeats the noun the user acted on: the recipient, the amount,
+                    and the date. Nothing about the transaction vanishes between steps. This sounds
+                    obvious, but our audit found eleven flows where key details disappeared mid-task.
+                  </p>
+
+                  <h3>3. Reduce motion, not meaning</h3>
+                  <p>
+                    We cut our animation inventory from 47 distinct motions to 9. Each remaining motion
+                    communicates a spatial relationship: something entering, leaving, or expanding. We
+                    also honor the system's reduced-motion setting everywhere, swapping movement for
+                    simple cross-fades.
+                  </p>
+
+                  <h2>A tiny utility that did a lot of work</h2>
+                  <p>
+                    The settling state needed to be consistent across dozens of screens, so we wrapped it
+                    in a small helper. It guarantees a minimum duration without ever delaying a slow
+                    response further:
+                  </p>
+
+                  <pre><code>// Resolve no sooner than `minMs`, but never later than the task itself.
+export async function withMinimumDuration(task, minMs = 600) {
+  const prefersReduced = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  const floor = prefersReduced ? 0 : minMs;
+  const [result] = await Promise.all([
+    task,
+    new Promise((resolve) => setTimeout(resolve, floor)),
+  ]);
+
+  return result;
+}
+
+// Usage
+const receipt = await withMinimumDuration(api.sendPayment(draft));
+showConfirmation(receipt);</code></pre>
+
+                  <p>
+                    Notice that the floor drops to zero when reduced motion is requested. Calm should
+                    never come at the cost of accessibility, and some people simply want the result now.
+                  </p>
+
+                  <h2>What changed</h2>
+                  <p>
+                    Six months after launch, “did my payment go through” tickets fell by 64%. App store
+                    ratings rose from 3.9 to 4.6. Perhaps most surprisingly, our median task completion
+                    time <em>improved</em> by 8%, because people stopped navigating back to verify their
+                    activity feed.
+                  </p>
+                  <ul>
+                    <li>Payment-confirmation support contacts: down 64%</li>
+                    <li>Repeat visits to activity feed within 30 seconds of a transfer: down 71%</li>
+                    <li>Self-reported trust score (1–7 scale): up from 4.2 to 5.8</li>
+                  </ul>
+
+                  <h2>Where to start</h2>
+                  <p>
+                    You do not need an eighteen-month program. Pick your single most consequential flow,
+                    watch five people use it, and write down every moment they hesitate or double-check.
+                    Each hesitation is an invitation to slow down, show more, and move less. Calm is a
+                    practice, not a feature, and it begins with paying attention.
+                  </p>
+                </ui-stack>
+
+                <!-- Tags -->
+                <ui-stack gap="sm">
+                  <small><strong>Tagged</strong></small>
+                  <ui-row gap="sm" wrap>
+                    <mark>Interaction Design</mark>
+                    <mark>Fintech</mark>
+                    <mark>Motion</mark>
+                    <mark>Accessibility</mark>
+                    <mark>UX Research</mark>
+                    <mark>JavaScript</mark>
+                  </ui-row>
+                </ui-stack>
+
+                <hr>
+
+                <!-- Author card -->
+                <ui-card padding="lg">
+                  <ui-row gap="md" align="start" wrap>
+                    <img src="https://picsum.photos/seed/maya-author/160/160" alt="Maya Okafor" width="80" height="80">
+                    <ui-stack gap="xs">
+                      <strong>Written by Maya Okafor</strong>
+                      <small>
+                        Maya leads product design at Fernwood Bank and writes about trust, motion and
+                        the ethics of persuasive interfaces. She lives in Lisbon with two very loud cats.
+                      </small>
+                      <ui-row gap="sm" wrap>
+                        <ui-button variant="primary" size="sm">Follow</ui-button>
+                        <ui-button variant="ghost" size="sm">More from Maya</ui-button>
+                      </ui-row>
+                    </ui-stack>
+                  </ui-row>
+                </ui-card>
+
+              </ui-stack>
+            </ui-container>
+          </article>
+
+          <!-- Related posts rail -->
+          <section aria-labelledby="related-heading">
+            <ui-stack gap="md">
+              <ui-row justify="space-between" align="center" wrap gap="sm">
+                <h2 id="related-heading">Related posts</h2>
+                <a href="#">View all →</a>
+              </ui-row>
+
+              <ui-row gap="md" scroll item-width="280px">
+
+                <ui-card padding="0">
+                  <img src="https://picsum.photos/seed/related-1/560/320" alt="Abstract gradient of soft blue shapes" width="560" height="320" loading="lazy">
+                  <ui-stack gap="xs" padding="md">
+                    <small><mark>Motion</mark></small>
+                    <h3><a href="#">The Nine Animations Every Product Actually Needs</a></h3>
+                    <small>Jonas Weber · 8 min read</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="0">
+                  <img src="https://picsum.photos/seed/related-2/560/320" alt="Hands holding a phone over a wooden table" width="560" height="320" loading="lazy">
+                  <ui-stack gap="xs" padding="md">
+                    <small><mark>Research</mark></small>
+                    <h3><a href="#">Running Diary Studies on a Shoestring Budget</a></h3>
+                    <small>Priya Raman · 10 min read</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="0">
+                  <img src="https://picsum.photos/seed/related-3/560/320" alt="City skyline at dusk" width="560" height="320" loading="lazy">
+                  <ui-stack gap="xs" padding="md">
+                    <small><mark>Fintech</mark></small>
+                    <h3><a href="#">Dark Patterns in Banking and How to Unlearn Them</a></h3>
+                    <small>Leo Martins · 14 min read</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="0">
+                  <img src="https://picsum.photos/seed/related-4/560/320" alt="Desk with sketchbook and pencils" width="560" height="320" loading="lazy">
+                  <ui-stack gap="xs" padding="md">
+                    <small><mark>Accessibility</mark></small>
+                    <h3><a href="#">Reduced Motion Is a Design Constraint, Not a Toggle</a></h3>
+                    <small>Aiko Tanaka · 7 min read</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="0">
+                  <img src="https://picsum.photos/seed/related-5/560/320" alt="Forest path in morning fog" width="560" height="320" loading="lazy">
+                  <ui-stack gap="xs" padding="md">
+                    <small><mark>Design</mark></small>
+                    <h3><a href="#">Quiet Software: A Manifesto for Fewer Notifications</a></h3>
+                    <small>Maya Okafor · 6 min read</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="0">
+                  <img src="https://picsum.photos/seed/related-6/560/320" alt="Close-up of code on a laptop screen" width="560" height="320" loading="lazy">
+                  <ui-stack gap="xs" padding="md">
+                    <small><mark>JavaScript</mark></small>
+                    <h3><a href="#">Optimistic UI Without the Lies</a></h3>
+                    <small>Sam Delacroix · 11 min read</small>
+                  </ui-stack>
+                </ui-card>
+
+              </ui-row>
+            </ui-stack>
+          </section>
+
+        </ui-stack>
+      </main>
+
+      <hr>
+
+      <footer>
+        <ui-row justify="space-between" align="center" wrap gap="md">
+          <small>© 2026 The Interface Journal. All rights reserved.</small>
+          <ui-row gap="md" wrap>
+            <a href="#">RSS</a>
+            <a href="#">Privacy</a>
+            <a href="#">Contact</a>
+          </ui-row>
+        </ui-row>
+      </footer>
+
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

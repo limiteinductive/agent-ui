@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" padding="md">
+          <strong>Northstar</strong>
+          <nav aria-label="Primary navigation">
+            <ui-row gap="md">
+              <a href="#">Dashboard</a>
+              <a href="#">Projects</a>
+              <a href="#">Help</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="xl" padding="lg">
+          <ui-stack gap="xs">
+            <p><a href="#">Settings</a> / Account</p>
+            <h1>Account settings</h1>
+            <p>Manage your profile, notifications, subscription, and account access.</p>
+          </ui-stack>
+
+          <ui-grid max-columns="2" min-item-width="sm" gap="lg">
+            <ui-card>
+              <form action="#" method="post" enctype="multipart/form-data">
+                <ui-stack gap="lg">
+                  <ui-stack gap="xs">
+                    <h2>Profile</h2>
+                    <p>Keep your personal information up to date.</p>
+                  </ui-stack>
+
+                  <ui-row gap="md" align="center" wrap>
+                    <img src="https://picsum.photos/seed/alex-avatar/96/96" alt="Alex Morgan profile avatar" width="96" height="96">
+                    <ui-stack gap="xs">
+                      <strong>Profile photo</strong>
+                      <small>JPG, PNG, or GIF. Maximum size 5 MB.</small>
+                      <label>
+                        Upload a new avatar
+                        <input type="file" name="avatar" accept="image/png,image/jpeg,image/gif">
+                      </label>
+                    </ui-stack>
+                  </ui-row>
+
+                  <label>
+                    Full name
+                    <input type="text" name="name" value="Alex Morgan" autocomplete="name">
+                  </label>
+
+                  <label>
+                    Email address
+                    <input type="email" name="email" value="alex.morgan@example.com" autocomplete="email">
+                  </label>
+
+                  <label>
+                    Bio
+                    <textarea name="bio" rows="5" maxlength="280">Product designer building thoughtful tools for creative teams. Based in San Francisco.</textarea>
+                    <small>280 characters maximum.</small>
+                  </label>
+
+                  <ui-row justify="end" wrap>
+                    <ui-button type="reset" variant="ghost">Cancel</ui-button>
+                    <ui-button type="submit" variant="primary">Save changes</ui-button>
+                  </ui-row>
+                </ui-stack>
+              </form>
+            </ui-card>
+
+            <ui-stack gap="lg">
+              <ui-card>
+                <ui-stack gap="lg">
+                  <ui-stack gap="xs">
+                    <h2>Notifications</h2>
+                    <p>Choose how Northstar keeps you informed.</p>
+                  </ui-stack>
+
+                  <ui-stack gap="md">
+                    <ui-row justify="space-between" align="start" gap="md">
+                      <ui-stack gap="xs" grow>
+                        <strong>Weekly product digest</strong>
+                        <small>A short summary of updates, tips, and community highlights.</small>
+                      </ui-stack>
+                      <label>
+                        <span>Weekly digest</span>
+                        <input type="checkbox" name="weekly_digest" role="switch" checked>
+                      </label>
+                    </ui-row>
+
+                    <hr>
+
+                    <ui-row justify="space-between" align="start" gap="md">
+                      <ui-stack gap="xs" grow>
+                        <strong>Project activity</strong>
+                        <small>Get notified when someone comments, mentions you, or completes a task.</small>
+                      </ui-stack>
+                      <label>
+                        <span>Project activity</span>
+                        <input type="checkbox" name="project_activity" role="switch" checked>
+                      </label>
+                    </ui-row>
+
+                    <hr>
+
+                    <ui-row justify="space-between" align="start" gap="md">
+                      <ui-stack gap="xs" grow>
+                        <strong>Marketing emails</strong>
+                        <small>Occasional news about new features, events, and special offers.</small>
+                      </ui-stack>
+                      <label>
+                        <span>Marketing emails</span>
+                        <input type="checkbox" name="marketing_emails" role="switch">
+                      </label>
+                    </ui-row>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card variant="info">
+                <ui-stack gap="lg">
+                  <ui-row justify="space-between" align="start" gap="md">
+                    <ui-stack gap="xs" grow>
+                      <h2>Billing</h2>
+                      <p>Your subscription renews automatically.</p>
+                    </ui-stack>
+                    <span>Active</span>
+                  </ui-row>
+
+                  <ui-stack gap="xs">
+                    <strong>Professional plan</strong>
+                    <ui-row justify="space-between" gap="md">
+                      <span>$24 per month</span>
+                      <time datetime="2026-12-15">Renews Dec 15, 2026</time>
+                    </ui-row>
+                  </ui-stack>
+
+                  <ui-row wrap gap="sm">
+                    <ui-button variant="primary" size="sm">Manage billing</ui-button>
+                    <ui-button variant="outline" size="sm">View invoices</ui-button>
+                  </ui-row>
+                </ui-stack>
+              </ui-card>
+            </ui-stack>
+          </ui-grid>
+
+          <ui-card variant="danger">
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <h2>Danger zone</h2>
+                <p>Deleting your account is permanent. Your projects, profile, and billing history will be removed.</p>
+              </ui-stack>
+              <ui-row justify="space-between" align="center" gap="md" wrap>
+                <small>You can export your data before continuing.</small>
+                <ui-button variant="danger">Delete account</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+</body>
+</html>

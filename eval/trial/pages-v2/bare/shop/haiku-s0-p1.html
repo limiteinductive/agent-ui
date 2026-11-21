@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride Shoe Co. | Men's & Women's Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="lg">
+
+    <header>
+      <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" padding="md" gap="sm">
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <h1>Stride</h1>
+          <span>New season</span>
+        </ui-stack>
+        <nav aria-label="Main">
+          <ui-stack direction="horizontal" gap="md" align="center" wrap="wrap">
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Kids</a>
+            <a href="#">Sale</a>
+          </ui-stack>
+        </nav>
+        <ui-button variant="ghost" aria-label="Open cart">
+          Cart <span id="cart-count">0</span>
+        </ui-button>
+      </ui-stack>
+    </header>
+
+    <main>
+      <ui-stack gap="lg" padding="md">
+
+        <ui-stack gap="xs">
+          <h2>Running shoes</h2>
+          <p>Showing <span id="result-count">12</span> of 48 styles</p>
+        </ui-stack>
+
+        <section aria-label="Filters">
+          <ui-card>
+            <ui-stack gap="md">
+
+              <ui-stack gap="sm">
+                <label>Size (US)</label>
+                <ui-stack direction="horizontal" wrap="wrap" gap="sm">
+                  <button type="button" aria-pressed="false">6</button>
+                  <button type="button" aria-pressed="false">6.5</button>
+                  <button type="button" aria-pressed="false">7</button>
+                  <button type="button" aria-pressed="false">7.5</button>
+                  <button type="button" aria-pressed="false">8</button>
+                  <button type="button" aria-pressed="false">8.5</button>
+                  <button type="button" aria-pressed="false">9</button>
+                  <button type="button" aria-pressed="false">9.5</button>
+                  <button type="button" aria-pressed="false">10</button>
+                  <button type="button" aria-pressed="false">11</button>
+                  <button type="button" aria-pressed="false">12</button>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" wrap="wrap" gap="lg" align="end">
+                <ui-stack gap="xs" grow>
+                  <label for="price-range">Max price: <output id="price-out">$200</output></label>
+                  <input id="price-range" type="range" min="40" max="200" step="5" value="200">
+                </ui-stack>
+
+                <ui-stack gap="xs" grow>
+                  <label for="sort">Sort by</label>
+                  <select id="sort">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: low to high</option>
+                    <option value="price-desc">Price: high to low</option>
+                    <option value="newest">Newest</option>
+                    <option value="rating">Top rated</option>
+                  </select>
+                </ui-stack>
+              </ui-stack>
+
+            </ui-stack>
+          </ui-card>
+        </section>
+
+        <section aria-label="Products">
+          <ui-grid min-item-width="220px" gap="md">
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-01/600/600" alt="Velocity Runner in white and coral" width="600" height="600" loading="lazy">
+                  <span>Bestseller</span>
+                  <h3>Velocity Runner</h3>
+                  <p>Lightweight mesh upper with responsive foam.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$129.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-02/600/600" alt="Trail Summit GTX in olive" width="600" height="600" loading="lazy">
+                  <h3>Trail Summit GTX</h3>
+                  <p>Waterproof membrane with aggressive lugs.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$165.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-03/600/600" alt="Court Classic Low in black" width="600" height="600" loading="lazy">
+                  <span>New</span>
+                  <h3>Court Classic Low</h3>
+                  <p>Clean leather silhouette for everyday wear.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$89.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-04/600/600" alt="Cloud Glide in sky blue" width="600" height="600" loading="lazy">
+                  <h3>Cloud Glide</h3>
+                  <p>Maximum cushioning for long recovery days.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$149.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-05/600/600" alt="Sprint Pro in volt green" width="600" height="600" loading="lazy">
+                  <span>Staff pick</span>
+                  <h3>Sprint Pro</h3>
+                  <p>Carbon plate and racing fit for tempo runs.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$199.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-06/600/600" alt="Canvas Slip-On in navy" width="600" height="600" loading="lazy">
+                  <h3>Canvas Slip-On</h3>
+                  <p>Easy on, easy off with a breathable canvas upper.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$56.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-07/600/600" alt="Ridge Hiker Mid in tan" width="600" height="600" loading="lazy">
+                  <h3>Ridge Hiker Mid</h3>
+                  <p>Supportive mid-cut with a grippy rubber outsole.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$142.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-08/600/600" alt="Metro Loafer in brown" width="600" height="600" loading="lazy">
+                  <span>Limited</span>
+                  <h3>Metro Loafer</h3>
+                  <p>Polished leather loafer with a cushioned insole.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$118.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-09/600/600" alt="Flex Trainer in graphite" width="600" height="600" loading="lazy">
+                  <h3>Flex Trainer</h3>
+                  <p>Multi-directional support for gym and court.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$110.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-10/600/600" alt="Daybreak Sneaker in cream" width="600" height="600" loading="lazy">
+                  <span>New</span>
+                  <h3>Daybreak Sneaker</h3>
+                  <p>Soft knit upper with a retro-inspired sole.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$97.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-11/600/600" alt="Peak Boot in charcoal" width="600" height="600" loading="lazy">
+                  <h3>Peak Boot</h3>
+                  <p>Insulated winter boot rated to -10°C.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$185.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+            <article>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/stride-12/600/600" alt="Sunset Sandal in terracotta" width="600" height="600" loading="lazy">
+                  <h3>Sunset Sandal</h3>
+                  <p>Adjustable straps and a cork-lined footbed.</p>
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+                    <strong>$64.00</strong>
+                    <ui-button>Add to cart</ui-button>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </article>
+
+          </ui-grid>
+        </section>
+
+        <nav aria-label="Pagination">
+          <ui-stack direction="horizontal" justify="center" align="center" wrap="wrap" gap="sm">
+            <ui-button variant="ghost" disabled>Previous</ui-button>
+            <ui-button variant="ghost" aria-current="page">1</ui-button>
+            <ui-button variant="ghost">2</ui-button>
+            <ui-button variant="ghost">3</ui-button>
+            <span>…</span>
+            <ui-button variant="ghost">4</ui-button>
+            <ui-button variant="ghost">Next</ui-button>
+          </ui-stack>
+        </nav>
+
+      </ui-stack>
+    </main>
+
+    <footer>
+      <ui-stack padding="md" align="center">
+        <p>© 2026 Stride Shoe Co. Free returns within 30 days.</p>
+      </ui-stack>
+    </footer>
+
+  </ui-stack>
+
+  <script>
+    const range = document.getElementById('price-range');
+    const priceOut = document.getElementById('price-out');
+    range.addEventListener('input', () => {
+      priceOut.textContent = '$' + range.value;
+    });
+
+    document.querySelectorAll('button[aria-pressed]').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const pressed = chip.getAttribute('aria-pressed') === 'true';
+        chip.setAttribute('aria-pressed', String(!pressed));
+      });
+    });
+
+    const cartCount = document.getElementById('cart-count');
+    let count = 0;
+    document.querySelectorAll('article ui-button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        count += 1;
+        cartCount.textContent = String(count);
+      });
+    });
+  </script>
+</body>
+</html>

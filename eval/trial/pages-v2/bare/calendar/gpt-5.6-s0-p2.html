@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c147/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="lg">
+    <ui-stack gap="lg">
+      <ui-stack direction="horizontal" justify="space-between" align="center" wrap gap="sm">
+        <ui-stack gap="xs">
+          <h1>Team calendar</h1>
+          <p>November 2026 · Product &amp; Design</p>
+        </ui-stack>
+
+        <ui-stack direction="horizontal" gap="sm">
+          <button aria-label="Previous month">←</button>
+          <button>Today</button>
+          <button aria-label="Next month">→</button>
+        </ui-stack>
+      </ui-stack>
+
+      <ui-grid max-columns="7" gap="sm">
+        <ui-card padding="sm"><strong>Monday</strong></ui-card>
+        <ui-card padding="sm"><strong>Tuesday</strong></ui-card>
+        <ui-card padding="sm"><strong>Wednesday</strong></ui-card>
+        <ui-card padding="sm"><strong>Thursday</strong></ui-card>
+        <ui-card padding="sm"><strong>Friday</strong></ui-card>
+        <ui-card padding="sm"><strong>Saturday</strong></ui-card>
+        <ui-card padding="sm"><strong>Sunday</strong></ui-card>
+
+        <ui-card padding="sm"><small>26</small></ui-card>
+        <ui-card padding="sm"><small>27</small></ui-card>
+        <ui-card padding="sm"><small>28</small></ui-card>
+        <ui-card padding="sm"><small>29</small></ui-card>
+        <ui-card padding="sm"><small>30</small></ui-card>
+        <ui-card padding="sm"><small>31</small></ui-card>
+        <ui-card padding="sm">
+          <strong>1</strong>
+          <p><mark>Team offsite</mark></p>
+        </ui-card>
+
+        <ui-card padding="sm">
+          <strong>2</strong>
+          <p><mark>Design critique</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>3</strong></ui-card>
+        <ui-card padding="sm">
+          <strong>4</strong>
+          <p><mark>Product sync</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>5</strong></ui-card>
+        <ui-card padding="sm">
+          <strong>6</strong>
+          <p><mark>Launch review</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>7</strong></ui-card>
+        <ui-card padding="sm"><strong>8</strong></ui-card>
+
+        <ui-card padding="sm"><strong>9</strong></ui-card>
+        <ui-card padding="sm">
+          <strong>10</strong>
+          <p><mark>Research interviews</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>11</strong></ui-card>
+        <ui-card padding="sm">
+          <strong>12</strong>
+          <p><mark>Engineering demo</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>13</strong></ui-card>
+        <ui-card padding="sm"><strong>14</strong></ui-card>
+        <ui-card padding="sm"><strong>15</strong></ui-card>
+
+        <ui-card padding="sm">
+          <strong>16</strong>
+          <p><mark>Planning workshop</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>17</strong></ui-card>
+        <ui-card padding="sm"><strong>18</strong></ui-card>
+        <ui-card padding="sm">
+          <strong>19</strong>
+          <p><mark>Customer council</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>20</strong></ui-card>
+        <ui-card padding="sm"><strong>21</strong></ui-card>
+        <ui-card padding="sm"><strong>22</strong></ui-card>
+
+        <ui-card padding="sm"><strong>23</strong></ui-card>
+        <ui-card padding="sm">
+          <strong>24</strong>
+          <p><mark>Quarterly review</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>25</strong></ui-card>
+        <ui-card padding="sm"><strong>26</strong></ui-card>
+        <ui-card padding="sm">
+          <strong>27</strong>
+          <p><mark>Team lunch</mark></p>
+        </ui-card>
+        <ui-card padding="sm"><strong>28</strong></ui-card>
+        <ui-card padding="sm"><strong>29</strong></ui-card>
+
+        <ui-card padding="sm"><strong>30</strong></ui-card>
+        <ui-card padding="sm"><small>1</small></ui-card>
+        <ui-card padding="sm"><small>2</small></ui-card>
+        <ui-card padding="sm"><small>3</small></ui-card>
+        <ui-card padding="sm"><small>4</small></ui-card>
+        <ui-card padding="sm"><small>5</small></ui-card>
+        <ui-card padding="sm"><small>6</small></ui-card>
+      </ui-grid>
+
+      <ui-grid max-columns="2" gap="lg">
+        <ui-card padding="md">
+          <ui-stack gap="md">
+            <ui-stack direction="horizontal" justify="space-between" align="center">
+              <h2>Upcoming events</h2>
+              <button>View all</button>
+            </ui-stack>
+
+            <ui-stack gap="md">
+              <ui-stack direction="horizontal" gap="sm" align="center">
+                <img src="https://picsum.photos/seed/design/64/64" alt="Abstract design workspace" width="56" height="56" />
+                <ui-stack gap="xs">
+                  <strong>Design critique</strong>
+                  <small>Monday, November 2 · 10:00 AM</small>
+                  <small>Room Atlas · 6 attendees</small>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" gap="sm" align="center">
+                <img src="https://picsum.photos/seed/product/64/64" alt="Product planning notes" width="56" height="56" />
+                <ui-stack gap="xs">
+                  <strong>Product sync</strong>
+                  <small>Wednesday, November 4 · 2:00 PM</small>
+                  <small>Zoom · 12 attendees</small>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" gap="sm" align="center">
+                <img src="https://picsum.photos/seed/launch/64/64" alt="Product launch preparation" width="56" height="56" />
+                <ui-stack gap="xs">
+                  <strong>Launch review</strong>
+                  <small>Friday, November 6 · 3:30 PM</small>
+                  <small>Room Cedar · 8 attendees</small>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" gap="sm" align="center">
+                <img src="https://picsum.photos/seed/research/64/64" alt="User research session" width="56" height="56" />
+                <ui-stack gap="xs">
+                  <strong>Research interviews</strong>
+                  <small>Tuesday, November 10 · 9:00 AM</small>
+                  <small>Research lab · 4 attendees</small>
+                </ui-stack>
+              </ui-stack>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card padding="md">
+          <ui-stack gap="md">
+            <h2>Team availability</h2>
+
+            <ui-stack direction="horizontal" gap="sm" align="center">
+              <img src="https://picsum.photos/seed/alex/80/80" alt="Alex Morgan" width="48" height="48" />
+              <ui-stack gap="xs">
+                <strong>Alex Morgan</strong>
+                <small>Product · Available today</small>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-stack direction="horizontal" gap="sm" align="center">
+              <img src="https://picsum.photos/seed/priya/80/80" alt="Priya Shah" width="48" height="48" />
+              <ui-stack gap="xs">
+                <strong>Priya Shah</strong>
+                <small>Design · In a focus session</small>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-stack direction="horizontal" gap="sm" align="center">
+              <img src="https://picsum.photos/seed/jordan/80/80" alt="Jordan Lee" width="48" height="48" />
+              <ui-stack gap="xs">
+                <strong>Jordan Lee</strong>
+                <small>Engineering · Available after 1 PM</small>
+              </ui-stack>
+            </ui-stack>
+
+            <button>Schedule a meeting</button>
+          </ui-stack>
+        </ui-card>
+      </ui-grid>
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

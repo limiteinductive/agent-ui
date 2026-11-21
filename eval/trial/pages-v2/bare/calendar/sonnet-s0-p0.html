@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Calendar</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-container>
+  <ui-stack gap="lg">
+    <ui-row justify="between" align="center">
+      <ui-stack gap="xs">
+        <h1>Team Calendar</h1>
+        <p>Product &amp; Engineering · Berlin</p>
+      </ui-stack>
+      <ui-row gap="sm" align="center">
+        <ui-button id="prev" variant="outline" aria-label="Previous month">‹</ui-button>
+        <h2 id="month-label">November 2026</h2>
+        <ui-button id="next" variant="outline" aria-label="Next month">›</ui-button>
+      </ui-row>
+    </ui-row>
+
+    <ui-grid cols="1" cols-lg="3" gap="lg">
+      <ui-card id="calendar-card" span-lg="2">
+        <ui-stack gap="md">
+          <ui-grid cols="7" gap="xs" id="weekdays"></ui-grid>
+          <ui-grid cols="7" gap="xs" id="days"></ui-grid>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <ui-stack gap="md">
+          <h3>Upcoming events</h3>
+          <ui-stack gap="md" id="upcoming"></ui-stack>
+        </ui-stack>
+      </ui-card>
+    </ui-grid>
+  </ui-stack>
+</ui-container>
+
+<script>
+const events = [
+  { d: "2026-11-03", t: "Sprint planning", time: "10:00", who: "Priya N.", tag: "blue", img: 11 },
+  { d: "2026-11-05", t: "Design review", time: "14:00", who: "Marco L.", tag: "purple", img: 22 },
+  { d: "2026-11-12", t: "Customer demo", time: "11:30", who: "Aisha K.", tag: "green", img: 33 },
+  { d: "2026-11-19", t: "Retrospective", time: "16:00", who: "Tom W.", tag: "blue", img: 44 },
+  { d: "2026-11-24", t: "Release 4.2 go/no-go", time: "09:30", who: "Priya N.", tag: "red", img: 55 },
+  { d: "2026-11-26", t: "Team lunch", time: "12:30", who: "Sofia R.", tag: "green", img: 66 },
+  { d: "2026-11-26", t: "Security training", time: "15:00", who: "Jon B.", tag: "purple", img: 77 },
+  { d: "2026-12-02", t: "Quarterly roadmap", time: "10:00", who: "Marco L.", tag: "blue", img: 88 },
+  { d: "2026-12-10", t: "Holiday party", time: "18:00", who: "Sofia R.", tag: "red", img: 99 },
+  { d: "2026-10-29", t: "Hackathon kickoff", time: "09:00", who: "Aisha K.", tag: "green", img: 15 }
+];
+const today = "2026-11-21";
+let view = new Date(2026, 10, 1);
+const pad = n => String(n).padStart(2, "0");
+const key = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+const fmt = s => new Date(s + "T00:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+function el(tag, attrs = {}, text) {
+  const e = document.createElement(tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function render() {
+  const y = view.getFullYear(), m = view.getMonth();
+  document.getElementById("month-label").textContent =
+    view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+
+  const wd = document.getElementById("weekdays");
+  wd.replaceChildren();
+  ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(n => {
+    const c = el("small", { style: "text-align:center" }, n);
+    wd.append(c);
+  });
+
+  const days = document.getElementById("days");
+  days.replaceChildren();
+  const offset = (new Date(y, m, 1).getDay() + 6) % 7;
+  const count = new Date(y, m + 1, 0).getDate();
+  for (let i = 0; i < offset; i++) days.append(el("div"));
+  for (let d = 1; d <= count; d++) {
+    const k = key(y, m, d);
+    const evs = events.filter(e => e.d === k);
+    const cell = el("ui-card", { padding: "xs" });
+    const stack = el("ui-stack", { gap: "xs" });
+    stack.append(k === today ? (() => { const b = el("ui-badge", { variant: "primary" }, d); return b; })() : el("small", {}, d));
+    evs.forEach(e => {
+      const b = el("ui-badge", { variant: e.tag === "red" ? "destructive" : e.tag === "green" ? "success" : "secondary", title: e.t + " · " + e.time }, evs.length ? e.time : "");
+      stack.append(b);
+    });
+    cell.append(stack);
+    days.append(cell);
+  }
+
+  const up = document.getElementById("upcoming");
+  up.replaceChildren();
+  const list = events.filter(e => e.d >= today).sort((a, b) => (a.d + a.time).localeCompare(b.d + b.time)).slice(0, 6);
+  list.forEach(e => {
+    const row = el("ui-row", { gap: "md", align: "center" });
+    const img = el("img", { src: `https://picsum.photos/seed/${e.img}/96/96`, alt: e.who, width: "48", height: "48", loading: "lazy" });
+    const info = el("ui-stack", { gap: "xs" });
+    info.append(el("strong", {}, e.t), el("small", {}, `${fmt(e.d)} · ${e.time} · ${e.who}`));
+    row.append(img, info);
+    up.append(row);
+  });
+}
+
+document.getElementById("prev").addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); });
+document.getElementById("next").addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); });
+render();
+</script>
+</body>
+</html>

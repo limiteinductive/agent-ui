@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row wrap justify="space-between" gap="sm">
+          <strong>Northstar</strong>
+          <nav aria-label="Primary navigation">
+            <ui-row gap="sm" wrap>
+              <a href="#">Dashboard</a>
+              <a href="#">Projects</a>
+              <a href="#" aria-current="page">Settings</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="md">
+        <ui-stack gap="xl" padding="xl">
+          <ui-stack gap="xs">
+            <p><a href="#">← Back to dashboard</a></p>
+            <h1>Account settings</h1>
+            <p>Manage your profile, notifications, subscription, and account security.</p>
+          </ui-stack>
+
+          <form id="profile-form">
+            <ui-stack gap="lg">
+              <ui-card elevated>
+                <ui-stack gap="lg">
+                  <ui-stack gap="xs">
+                    <h2>Profile</h2>
+                    <p>Keep your personal information up to date.</p>
+                  </ui-stack>
+
+                  <ui-stack direction="horizontal" stack-below="40rem" wrap gap="lg" align="center">
+                    <ui-stack align="center" gap="sm" style="max-inline-size: 100%">
+                      <img
+                        id="avatar-preview"
+                        src="https://picsum.photos/seed/alex-morgan/160/160"
+                        alt="Alex Morgan profile avatar"
+                        width="128"
+                        height="128"
+                      >
+                      <label>
+                        Change avatar
+                        <input id="avatar-upload" type="file" accept="image/*">
+                      </label>
+                    </ui-stack>
+
+                    <ui-stack grow gap="md">
+                      <label>
+                        Full name
+                        <input type="text" name="name" value="Alex Morgan" autocomplete="name">
+                      </label>
+
+                      <label>
+                        Email address
+                        <input type="email" name="email" value="alex.morgan@example.com" autocomplete="email">
+                      </label>
+
+                      <label>
+                        Bio
+                        <textarea name="bio" rows="4">Product designer building thoughtful tools for creative teams.</textarea>
+                      </label>
+                    </ui-stack>
+                  </ui-stack>
+
+                  <ui-row justify="end" wrap gap="sm">
+                    <ui-button type="reset" variant="outline">Cancel</ui-button>
+                    <ui-button type="submit" variant="primary">Save changes</ui-button>
+                  </ui-row>
+                </ui-stack>
+              </ui-card>
+            </ui-stack>
+          </form>
+
+          <ui-card elevated>
+            <ui-stack gap="lg">
+              <ui-stack gap="xs">
+                <h2>Notifications</h2>
+                <p>Choose how Northstar keeps you informed.</p>
+              </ui-stack>
+
+              <ui-stack gap="md">
+                <ui-row justify="space-between" align="start" gap="lg">
+                  <ui-stack gap="xs" grow>
+                    <strong>Product updates</strong>
+                    <p>Receive occasional news about features and improvements.</p>
+                  </ui-stack>
+                  <label>
+                    <span>On</span>
+                    <input type="checkbox" role="switch" checked aria-label="Product updates">
+                  </label>
+                </ui-row>
+
+                <hr>
+
+                <ui-row justify="space-between" align="start" gap="lg">
+                  <ui-stack gap="xs" grow>
+                    <strong>Weekly digest</strong>
+                    <p>Get a summary of activity from your workspace every Monday.</p>
+                  </ui-stack>
+                  <label>
+                    <span>On</span>
+                    <input type="checkbox" role="switch" checked aria-label="Weekly digest">
+                  </label>
+                </ui-row>
+
+                <hr>
+
+                <ui-row justify="space-between" align="start" gap="lg">
+                  <ui-stack gap="xs" grow>
+                    <strong>Comment mentions</strong>
+                    <p>Be notified when someone mentions you in a comment.</p>
+                  </ui-stack>
+                  <label>
+                    <span>Off</span>
+                    <input type="checkbox" role="switch" aria-label="Comment mentions">
+                  </label>
+                </ui-row>
+
+                <hr>
+
+                <ui-row justify="space-between" align="start" gap="lg">
+                  <ui-stack gap="xs" grow>
+                    <strong>Security alerts</strong>
+                    <p>Receive important alerts about sign-ins and account changes.</p>
+                  </ui-stack>
+                  <label>
+                    <span>On</span>
+                    <input type="checkbox" role="switch" checked aria-label="Security alerts">
+                  </label>
+                </ui-row>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card elevated>
+            <ui-stack gap="lg">
+              <ui-stack gap="xs">
+                <h2>Billing</h2>
+                <p>Review your plan and payment details.</p>
+              </ui-stack>
+
+              <ui-card variant="primary">
+                <ui-stack gap="md">
+                  <ui-row justify="space-between" align="start" gap="md" stack-below="13rem">
+                    <ui-stack gap="xs">
+                      <small>Current plan</small>
+                      <h3>Professional</h3>
+                      <p>For growing teams that need more room to collaborate.</p>
+                    </ui-stack>
+                    <mark>$24<span aria-hidden="true">/</span><small>month</small></mark>
+                  </ui-row>
+                  <hr>
+                  <ui-row wrap gap="sm">
+                    <span>Up to 10 members</span>
+                    <span>•</span>
+                    <span>Unlimited projects</span>
+                    <span>•</span>
+                    <span>Priority support</span>
+                  </ui-row>
+                </ui-stack>
+              </ui-card>
+
+              <ui-row justify="space-between" align="center" wrap gap="md">
+                <ui-stack gap="xs">
+                  <strong>Next billing date</strong>
+                  <p>December 12, 2026 · Visa ending in 4242</p>
+                </ui-stack>
+                <ui-button variant="outline">Manage billing</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card variant="danger" elevated>
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <h2>Danger zone</h2>
+                <p>Deleting your account is permanent. All projects, files, and workspace history will be removed.</p>
+              </ui-stack>
+              <ui-row justify="end" wrap gap="sm">
+                <ui-button id="delete-account" variant="danger">Delete account</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container>
+        <p><small>© 2026 Northstar. Need help? <a href="#">Contact support</a>.</small></p>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    const avatarUpload = document.getElementById("avatar-upload");
+    const avatarPreview = document.getElementById("avatar-preview");
+    const deleteAccount = document.getElementById("delete-account");
+    const profileForm = document.getElementById("profile-form");
+
+    avatarUpload.addEventListener("change", function () {
+      const file = this.files && this.files[0];
+      if (file) {
+        avatarPreview.src = URL.createObjectURL(file);
+      }
+    });
+
+    profileForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      alert("Your profile changes have been saved.");
+    });
+
+    deleteAccount.addEventListener("click", function () {
+      const confirmed = confirm("Are you sure you want to permanently delete your account?");
+      if (confirmed) {
+        alert("Account deletion requires an additional verification step.");
+      }
+    });
+  </script>
+</body>
+</html>

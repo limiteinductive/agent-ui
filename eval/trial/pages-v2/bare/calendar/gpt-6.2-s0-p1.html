@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    .page {
+      box-sizing: border-box;
+      width: min(100%, 76rem);
+      margin-inline: auto;
+      padding: clamp(.625rem, 3vw, 2.5rem);
+    }
+
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(17rem, 19rem);
+      align-items: start;
+      gap: 1rem;
+    }
+
+    .month-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+    }
+
+    .month-header h2 {
+      margin: 0;
+    }
+
+    .month-controls {
+      display: flex;
+      gap: .375rem;
+    }
+
+    .month-controls button {
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    .month-grid {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      margin-block-start: .75rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .month-grid th,
+    .month-grid td {
+      border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    }
+
+    .month-grid th {
+      padding: .45rem .15rem;
+      text-align: center;
+      font-size: .75rem;
+    }
+
+    .month-grid td {
+      box-sizing: border-box;
+      height: 5.25rem;
+      padding: .35rem;
+      vertical-align: top;
+    }
+
+    .day-number {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.6rem;
+      min-height: 1.6rem;
+      font-size: .8125rem;
+    }
+
+    .outside-month .day-number {
+      opacity: .55;
+    }
+
+    .day-number[aria-current="date"] {
+      border-radius: 50%;
+      background: #244abb;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .day-event {
+      display: block;
+      margin-block-start: .25rem;
+      padding: .18rem .28rem;
+      border-inline-start: 2px solid currentColor;
+      border-radius: .25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: .6875rem;
+      line-height: 1.35;
+    }
+
+    .day-event[data-kind="design"] {
+      background: #ede9fe;
+      color: #4c2f91;
+    }
+
+    .day-event[data-kind="planning"] {
+      background: #dceaff;
+      color: #17417c;
+    }
+
+    .day-event[data-kind="release"] {
+      background: #d9f3e7;
+      color: #17543d;
+    }
+
+    .day-event abbr {
+      display: none;
+      text-decoration: none;
+    }
+
+    .upcoming-list {
+      display: grid;
+      gap: .875rem;
+      margin-block-end: 0;
+      padding-inline-start: 0;
+      list-style: none;
+    }
+
+    .upcoming-list li {
+      display: grid;
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      align-items: start;
+      gap: .625rem;
+    }
+
+    .upcoming-list img {
+      display: block;
+      border-radius: 50%;
+    }
+
+    .upcoming-list strong,
+    .upcoming-list small {
+      display: block;
+    }
+
+    @media (max-width: 48rem) {
+      .calendar-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 38rem) {
+      .month-grid td {
+        height: 3.6rem;
+        padding: .14rem;
+      }
+
+      .day-event {
+        padding-inline: .1rem;
+      }
+
+      .day-event .full-title {
+        display: none;
+      }
+
+      .day-event abbr {
+        display: inline;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <ui-stack gap="2xl">
+      <h1>Team calendar</h1>
+
+      <div class="calendar-layout">
+        <section aria-labelledby="month-title">
+          <ui-card>
+            <div class="month-header">
+              <h2 id="month-title" aria-live="polite" aria-atomic="true"></h2>
+              <div class="month-controls" role="group" aria-label="Change month">
+                <button id="previous-month" type="button" aria-label="Previous month">
+                  <span aria-hidden="true">←</span>
+                </button>
+                <button id="next-month" type="button" aria-label="Next month">
+                  <span aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+
+            <table class="month-grid" aria-labelledby="month-title">
+              <thead>
+                <tr>
+                  <th scope="col" abbr="Monday">Mon</th>
+                  <th scope="col" abbr="Tuesday">Tue</th>
+                  <th scope="col" abbr="Wednesday">Wed</th>
+                  <th scope="col" abbr="Thursday">Thu</th>
+                  <th scope="col" abbr="Friday">Fri</th>
+                  <th scope="col" abbr="Saturday">Sat</th>
+                  <th scope="col" abbr="Sunday">Sun</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-days"></tbody>
+            </table>
+          </ui-card>
+        </section>
+
+        <aside aria-labelledby="upcoming-title">
+          <ui-card>
+            <ui-stack gap="2xl">
+              <h2 id="upcoming-title">Upcoming events</h2>
+              <ol class="upcoming-list" id="upcoming-events" role="list"></ol>
+            </ui-stack>
+          </ui-card>
+        </aside>
+      </div>
+    </ui-stack>
+  </main>
+
+  <template id="upcoming-event-template">
+    <li>
+      <img src="" alt="" width="36" height="36">
+      <div>
+        <strong></strong>
+        <small><time></time></small>
+        <small class="event-location"></small>
+      </div>
+    </li>
+  </template>
+
+  <script>
+    const monthTitle = document.querySelector('#month-title');
+    const calendarDays = document.querySelector('#calendar-days');
+    const upcomingList = document.querySelector('#upcoming-events');
+    const upcomingTemplate = document.querySelector('#upcoming-event-template');
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let displayedMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const monthFormat = new Intl.DateTimeFormat('en', { month: 'long', year: 'numeric' });
+    const fullDateFormat = new Intl.DateTimeFormat('en', { dateStyle: 'full' });
+    const shortDateFormat = new Intl.DateTimeFormat('en', {
+      weekday: 'short', month: 'short', day: 'numeric'
+    });
+    const timeFormat = new Intl.DateTimeFormat('en', { hour: 'numeric', minute: '2-digit' });
+
+    const schedule = [
+      { week: 1, weekday: 1, hour: 10, minute: 0, title: 'Sprint planning',
+        short: 'Sprint', kind: 'planning', location: 'Studio A', host: 'morgan' },
+      { week: 2, weekday: 3, hour: 11, minute: 30, title: 'Design critique',
+        short: 'Design', kind: 'design', location: 'FigJam', host: 'priya' },
+      { week: 2, weekday: 5, hour: 14, minute: 0, title: 'Release readiness review',
+        short: 'Release', kind: 'release', location: 'Google Meet', host: 'jules' },
+      { week: 3, weekday: 2, hour: 10, minute: 0, title: 'Product roadmap review',
+        short: 'Roadmap', kind: 'planning', location: 'Studio A', host: 'morgan' },
+      { week: 4, weekday: 4, hour: 15, minute: 0, title: 'Customer research readout',
+        short: 'Research', kind: 'design', location: 'Google Meet', host: 'priya' }
+    ];
+
+    function eventsForMonth(month) {
+      return schedule.map(event => {
+        const weekdayOffset = (event.weekday - month.getDay() + 7) % 7;
+        const day = 1 + weekdayOffset + 7 * (event.week - 1);
+        const date = new Date(
+          month.getFullYear(), month.getMonth(), day, event.hour, event.minute
+        );
+        return { ...event, date };
+      }).sort((a, b) => a.date - b.date);
+    }
+
+    function dateKey(date) {
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${date.getFullYear()}-${month}-${day}`;
+    }
+
+    function renderMonth() {
+      const year = displayedMonth.getFullYear();
+      const month = displayedMonth.getMonth();
+      const firstOffset = (displayedMonth.getDay() + 6) % 7;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const weekCount = Math.ceil((firstOffset + daysInMonth) / 7);
+      const eventsByDay = new Map();
+      const rows = document.createDocumentFragment();
+
+      for (const event of eventsForMonth(displayedMonth)) {
+        const day = event.date.getDate();
+        if (!eventsByDay.has(day)) eventsByDay.set(day, []);
+        eventsByDay.get(day).push(event);
+      }
+
+      for (let week = 0; week < weekCount; week++) {
+        const row = document.createElement('tr');
+
+        for (let weekday = 0; weekday < 7; weekday++) {
+          const date = new Date(year, month, 1 - firstOffset + week * 7 + weekday);
+          const cell = row.insertCell();
+          const isInMonth = date.getMonth() === month;
+          const dayNumber = document.createElement('time');
+
+          cell.classList.toggle('outside-month', !isInMonth);
+          dayNumber.className = 'day-number';
+          dayNumber.dateTime = dateKey(date);
+          dayNumber.textContent = date.getDate();
+          dayNumber.setAttribute('aria-label', fullDateFormat.format(date));
+          if (+date === +today) dayNumber.setAttribute('aria-current', 'date');
+          cell.append(dayNumber);
+
+          const events = isInMonth ? (eventsByDay.get(date.getDate()) ?? []) : [];
+          for (const event of events) {
+            const label = document.createElement('span');
+            const fullTitle = document.createElement('span');
+            const shortTitle = document.createElement('abbr');
+
+            label.className = 'day-event';
+            label.dataset.kind = event.kind;
+            label.title = `${event.title}, ${timeFormat.format(event.date)}`;
+            fullTitle.className = 'full-title';
+            fullTitle.textContent = event.title;
+            shortTitle.title = event.title;
+            shortTitle.setAttribute('aria-label', event.title);
+            shortTitle.textContent = event.short;
+            label.append(fullTitle, shortTitle);
+            cell.append(label);
+          }
+        }
+
+        rows.append(row);
+      }
+
+      monthTitle.textContent = monthFormat.format(displayedMonth);
+      calendarDays.replaceChildren(rows);
+    }
+
+    function renderUpcomingEvents() {
+      const currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+      const upcoming = [...eventsForMonth(currentMonth), ...eventsForMonth(nextMonth)]
+        .filter(event => event.date >= now)
+        .slice(0, 4);
+
+      const items = document.createDocumentFragment();
+
+      for (const event of upcoming) {
+        const item = upcomingTemplate.content.cloneNode(true);
+        const time = item.querySelector('time');
+        const hours = String(event.date.getHours()).padStart(2, '0');
+        const minutes = String(event.date.getMinutes()).padStart(2, '0');
+
+        item.querySelector('img').src = `https://picsum.photos/seed/${event.host}/72/72`;
+        item.querySelector('strong').textContent = event.title;
+        item.querySelector('.event-location').textContent = event.location;
+        time.dateTime = `${dateKey(event.date)}T${hours}:${minutes}`;
+        time.textContent = `${shortDateFormat.format(event.date)} · ${timeFormat.format(event.date)}`;
+        items.append(item);
+      }
+
+      upcomingList.replaceChildren(items);
+    }
+
+    function changeMonth(offset) {
+      displayedMonth = new Date(
+        displayedMonth.getFullYear(), displayedMonth.getMonth() + offset, 1
+      );
+      renderMonth();
+    }
+
+    document.querySelector('#previous-month').addEventListener('click', () => changeMonth(-1));
+    document.querySelector('#next-month').addEventListener('click', () => changeMonth(1));
+
+    renderMonth();
+    renderUpcomingEvents();
+  </script>
+</body>
+</html>

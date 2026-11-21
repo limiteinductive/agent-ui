@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing Calm Interfaces for Busy Products</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="0">
+
+    <header>
+      <ui-container max-width="1180px">
+        <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" padding="md">
+          <a href="/" aria-label="Field Notes home">
+            <strong>Field Notes</strong>
+          </a>
+
+          <nav aria-label="Primary navigation">
+            <ui-stack direction="horizontal" gap="md" align="center">
+              <a href="/stories">Stories</a>
+              <a href="/about">About</a>
+              <ui-button variant="primary">Subscribe</ui-button>
+            </ui-stack>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </header>
+
+    <main>
+      <article>
+        <ui-container max-width="980px">
+          <ui-stack gap="lg" padding="lg">
+
+            <ui-stack gap="md" align="center">
+              <span>Design systems</span>
+              <h1>Designing Calm Interfaces for Busy Products</h1>
+              <ui-container max-width="700px">
+                <p>
+                  A practical guide to reducing visual noise, clarifying decisions, and helping people move through complex work with confidence.
+                </p>
+              </ui-container>
+
+              <ui-stack direction="horizontal" gap="sm" align="center">
+                <img
+                  src="https://picsum.photos/seed/author-maya/96/96"
+                  alt="Portrait of Maya Chen"
+                  width="48"
+                  height="48"
+                  loading="eager"
+                  decoding="async"
+                >
+                <ui-stack gap="sm" align="start">
+                  <strong>Maya Chen</strong>
+                  <small>
+                    Product designer · November 18, 2026 · 9 min read
+                  </small>
+                </ui-stack>
+              </ui-stack>
+            </ui-stack>
+
+            <figure>
+              <img
+                src="https://picsum.photos/seed/calm-interface/1600/900"
+                alt="A quiet desk with a notebook, laptop, and soft afternoon light"
+                width="1600"
+                height="900"
+                loading="eager"
+                decoding="async"
+              >
+              <figcaption>
+                Good interface design gives attention somewhere useful to go.
+              </figcaption>
+            </figure>
+
+            <ui-container max-width="720px">
+              <ui-stack gap="md">
+                <p>
+                  Most products do not become difficult because they contain too many features. They become difficult because every feature asks for attention at the same time. The screen fills with badges, alerts, secondary actions, helper text, and controls that compete with the one decision a person actually needs to make.
+                </p>
+
+                <p>
+                  Calm design is not minimalism for its own sake. It is the deliberate organization of complexity so that the next useful action is easy to see. The goal is not to remove information, but to give each piece of information an appropriate moment.
+                </p>
+
+                <h2>Start with the user's moment</h2>
+
+                <p>
+                  Before changing a layout, name the moment that brought someone to the page. Are they checking progress, recovering from an error, comparing options, or trying to finish a task before a meeting? The same data can require completely different presentations depending on the user's intent.
+                </p>
+
+                <p>
+                  A dashboard that supports exploration can afford density. A confirmation screen should usually do the opposite: acknowledge what happened, make the outcome unmistakable, and provide a clear path forward. When we treat every page as a dashboard, we make every page feel like work.
+                </p>
+
+                <ui-card variant="info" role="status">
+                  <blockquote>
+                    “Clarity is not the absence of information. It is information arranged in the order that a person can use it.”
+                  </blockquote>
+                  <small>— Anika Rao, information architect</small>
+                </ui-card>
+
+                <h2>Use hierarchy before decoration</h2>
+
+                <p>
+                  Visual hierarchy is the quiet infrastructure of a good interface. It tells people what is primary, what is supporting, what has changed, and what can wait. Strong hierarchy often comes from a small set of repeatable decisions: a consistent type scale, predictable spacing, restrained color, and controls that look like they belong to the same system.
+                </p>
+
+                <p>
+                  When a page feels noisy, teams often reach for more visual styling. They add color to distinguish sections, shadows to emphasize cards, or icons to make every label feel more approachable. These additions can help, but they can also mask the real problem: the page has not decided what matters most.
+                </p>
+
+                <h3>A simple hierarchy audit</h3>
+
+                <ol>
+                  <li>Read only the headings. Can you explain the page's purpose?</li>
+                  <li>Look only at the buttons. Is there one obvious primary action?</li>
+                  <li>Blur the page mentally. Do the most important regions still have the strongest shape?</li>
+                  <li>Remove one decorative treatment. Does the meaning become less clear?</li>
+                </ol>
+
+                <h2>Make states feel intentional</h2>
+
+                <p>
+                  Empty, loading, error, and success states are not edge cases. They are the moments when people form their strongest impression of a product. A blank panel with no explanation feels broken. A useful empty state explains what belongs there, why it is empty, and what the person can do next.
+                </p>
+
+                <p>
+                  The same principle applies to errors. “Something went wrong” is technically accurate but operationally empty. A good error message names the failed action, preserves whatever work can be preserved, and offers a recovery path in plain language.
+                </p>
+
+                <pre><code>function getStatusMessage(state) {
+  const messages = {
+    loading: "Loading your projects…",
+    empty: "You have no projects yet.",
+    error: "We couldn't load your projects.",
+    ready: `${state.count} projects available`
+  };
+
+  return messages[state.status] || "Project status unavailable";
+}</code></pre>
+
+                <p>
+                  The code is small, but the design decision behind it is important: each state has a human-readable purpose. The interface is not merely reporting an internal condition. It is helping someone understand what to do with that condition.
+                </p>
+
+                <h2>Design for attention, not just space</h2>
+
+                <p>
+                  Responsive design is often described as rearranging content to fit smaller screens. In practice, it is also about changing the amount of attention each element demands. On a phone, a dense side rail may become a horizontal list. A table may become a sequence of summaries. A long form may become a series of focused steps.
+                </p>
+
+                <p>
+                  The best mobile layouts do not simply shrink desktop layouts. They preserve the user's decision-making flow while removing distractions that are less useful in a constrained context. This is why responsive behavior should be discussed in terms of priorities, not only breakpoints.
+                </p>
+
+                <h2>Leave room for confidence</h2>
+
+                <p>
+                  The final ingredient of a calm interface is space. Space gives a result time to register. It separates a warning from the action that resolves it. It lets a heading establish context before the details begin. It can make a product feel trustworthy even before a person understands every feature.
+                </p>
+
+                <p>
+                  Calm interfaces are not passive. They are active systems of guidance. They tell people where to look, what changed, what matters, and what will happen next. When we design that guidance with care, complexity becomes manageable without pretending that it does not exist.
+                </p>
+
+                <ui-stack direction="horizontal" gap="sm" wrap>
+                  <span>Interface design</span>
+                  <span>Design systems</span>
+                  <span>Accessibility</span>
+                  <span>Product thinking</span>
+                </ui-stack>
+              </ui-stack>
+            </ui-container>
+          </ui-stack>
+        </ui-container>
+      </article>
+
+      <section aria-labelledby="related-heading">
+        <ui-container max-width="1180px">
+          <ui-stack gap="md" padding="lg">
+            <ui-stack direction="horizontal" justify="space-between" align="end" gap="md">
+              <ui-stack gap="sm">
+                <small>Keep reading</small>
+                <h2 id="related-heading">Related posts</h2>
+              </ui-stack>
+              <a href="/stories">View all stories →</a>
+            </ui-stack>
+
+            <ui-stack direction="horizontal" gap="md" scroll="horizontal" item-width="280px" aria-label="Related posts">
+              <ui-card>
+                <img
+                  src="https://picsum.photos/seed/design-rituals/640/400"
+                  alt="Notebook and pen beside a cup of coffee"
+                  width="640"
+                  height="400"
+                  loading="lazy"
+                >
+                <ui-stack gap="sm" padding="md">
+                  <span>Process</span>
+                  <h3>The Small Rituals Behind Better Design Reviews</h3>
+                  <p>
+                    How teams create space for useful disagreement.
+                  </p>
+                  <a href="/stories/design-reviews">Read story →</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <img
+                  src="https://picsum.photos/seed/design-tokens/640/400"
+                  alt="Color swatches arranged on a design desk"
+                  width="640"
+                  height="400"
+                  loading="lazy"
+                >
+                <ui-stack gap="sm" padding="md">
+                  <span>Systems</span>
+                  <h3>When Design Tokens Become Team Language</h3>
+                  <p>
+                    A practical model for making consistency feel flexible.
+                  </p>
+                  <a href="/stories/design-tokens">Read story →</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <img
+                  src="https://picsum.photos/seed/accessibility/640/400"
+                  alt="Person using a laptop in a bright room"
+                  width="640"
+                  height="400"
+                  loading="lazy"
+                >
+                <ui-stack gap="sm" padding="md">
+                  <span>Accessibility</span>
+                  <h3>The Case for Fewer Clever Interactions</h3>
+                  <p>
+                    Why predictability is one of the most generous design choices.
+                  </p>
+                  <a href="/stories/predictable-interactions">Read story →</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <img
+                  src="https://picsum.photos/seed/product-teams/640/400"
+                  alt="People collaborating around a table"
+                  width="640"
+                  height="400"
+                  loading="lazy"
+                >
+                <ui-stack gap="sm" padding="md">
+                  <span>Collaboration</span>
+                  <h3>A Better Way to Share Product Context</h3>
+                  <p>
+                    Turning scattered decisions into a living reference.
+                  </p>
+                  <a href="/stories/product-context">Read story →</a>
+                </ui-stack>
+              </ui-card>
+            </ui-stack>
+          </ui-stack>
+        </ui-container>
+      </section>
+    </main>
+
+    <footer>
+      <ui-container max-width="1180px">
+        <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" padding="lg">
+          <small>© 2026 Field Notes</small>
+          <ui-stack direction="horizontal" gap="md">
+            <a href="/privacy">Privacy</a>
+            <a href="/contact">Contact</a>
+          </ui-stack>
+        </ui-stack>
+      </ui-container>
+    </footer>
+
+  </ui-stack>
+</body>
+</html>

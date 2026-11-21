@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing Calm Interfaces for Busy Engineers</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" padding="md">
+          <strong>Field Notes</strong>
+          <nav>
+            <ui-row gap="md">
+              <a href="#">Essays</a>
+              <a href="#">Teardowns</a>
+              <a href="#">About</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="md">
+        <article>
+          <ui-stack gap="lg" padding="md">
+
+            <ui-stack gap="sm">
+              <ui-row wrap gap="xs">
+                <a href="#">Frontend</a>
+                <a href="#">Design Systems</a>
+                <a href="#">Performance</a>
+              </ui-row>
+              <h1>Designing Calm Interfaces for Busy Engineers</h1>
+              <p>Most dashboards are loud by default. Here is how we rebuilt ours around restraint, predictable layout, and a handful of rules that any team can adopt this week.</p>
+            </ui-stack>
+
+            <ui-row gap="sm">
+              <ui-card rounded="full" padding="0">
+                <img src="https://picsum.photos/seed/author-mara/96/96" width="48" height="48" alt="Portrait of Mara Okafor">
+              </ui-card>
+              <ui-stack gap="xs">
+                <strong>Mara Okafor</strong>
+                <small>
+                  Staff engineer · <time datetime="2026-11-18">November 18, 2026</time> · 9 min read
+                </small>
+              </ui-stack>
+            </ui-row>
+
+            <img src="https://picsum.photos/seed/calm-cover/1200/630" width="1200" height="630" alt="A quiet desk with a laptop and a notebook in soft morning light">
+
+            <h2>The problem with urgency everywhere</h2>
+            <p>Our internal operations dashboard had grown the way many tools do. Every metric got a color, every change got a badge, and every alert arrived with the same red border. Within a few months, nobody could tell which numbers mattered. People scanned the screen, felt vaguely anxious, and then closed it to go look at the thing they actually needed somewhere else.</p>
+            <p>The fix was not a redesign in the usual sense. We did not change the brand, swap the component library, or hire a consultant to tell us our palette was wrong. We changed how the page decided what deserved attention, and we wrote those decisions down so they could survive the next round of feature requests.</p>
+
+            <blockquote>
+              <p>A dashboard that shouts about everything has quietly stopped communicating anything at all.</p>
+              <footer>— from our design review notes, March</footer>
+            </blockquote>
+
+            <h2>Start with a single resting state</h2>
+            <p>Before adding any emphasis, we defined what the page looks like when nothing is wrong. That resting state became the baseline. Numbers were set in a single neutral ink, labels were muted, and the grid had no color at all. Only deviations from expected ranges were allowed to draw the eye.</p>
+            <p>This sounds obvious, but it forced an uncomfortable conversation. Several teams had come to rely on their metric being bright red so it would be noticed in standup. We moved those teams to a dedicated status strip at the top of the page, where a single sentence summarizes what is off, and the rest of the grid stayed quiet.</p>
+
+            <h2>Make layout do the work</h2>
+            <p>Color is the loudest tool in the box, so we reached for layout first. Related metrics sit together in tight groups separated by generous space. Each group has one heading and nothing else competing for attention. When the grid reflows on a narrow phone screen, the groups stack in the same order, which means a person who learned the page on a desktop does not have to relearn it on their commute.</p>
+            <p>We also stopped putting everything in cards. A card is a strong statement that a thing is separate from its neighbors. Using cards for every value told the reader that every value was equally separate, which is exactly the opposite of what a summary should say.</p>
+
+            <h2>Measure the reading, not the rendering</h2>
+            <p>Calm is a property of how people read a page, so we tested it that way. We recorded how long it took a new engineer to answer three questions: is the service healthy, what changed in the last hour, and where should I look next. The first version took almost forty seconds on average. After the rework it dropped to under twelve.</p>
+            <p>Performance mattered too. A calm page that jitters while data loads feels anything but calm. We reserved space for every number before its value arrived, which eliminated layout shift entirely and made the page feel settled the moment it appeared.</p>
+
+            <h2>A small example</h2>
+            <p>Most of the status logic lives in one function. It takes a metric and its expected range and returns a single state, and the view never makes its own decisions about color. Keeping that logic in one place made it easy to review and easy to change when a threshold turned out to be wrong.</p>
+
+<pre><code>// Returns a single state per metric; the view maps state to ink.
+function resolveState(value, { expected, tolerance = 0.1 }) {
+  const [low, high] = expected;
+  const span = high - low;
+  if (value >= low && value <= high) return "nominal";
+  const drift = value < low ? (low - value) / span : (value - high) / span;
+  return drift <= tolerance ? "watch" : "attention";
+}
+
+resolveState(412, { expected: [200, 400] }); // "watch"</code></pre>
+
+            <p>The important design choice is the middle state. Without "watch," everything outside the range became an alarm, and people learned to ignore alarms. A mild deviation now reads as a note rather than a siren, and "attention" is reserved for things that genuinely need a response.</p>
+
+            <h2>What we would tell another team</h2>
+            <p>If you are about to add another color to a page that already has five, stop and ask what question the new color answers. If the answer is "it looks important," that is not enough. Write down the resting state, decide who is allowed to interrupt it, and make the cost of interruption visible in the design itself.</p>
+            <p>Calm does not mean empty. It means every element on the page has earned its place by changing what someone does next. Everything else can wait, and the page should be honest enough to let it.</p>
+
+            <ui-row wrap gap="xs">
+              <span>Tagged:</span>
+              <a href="#">Dashboards</a>
+              <a href="#">Information design</a>
+              <a href="#">Engineering culture</a>
+            </ui-row>
+
+          </ui-stack>
+        </article>
+      </ui-container>
+
+      <ui-container size="lg">
+        <ui-stack gap="md" padding="md">
+          <h2>Related posts</h2>
+          <ui-row scroll item-width="md" gap="md" padding="sm">
+            <ui-card elevated padding="0">
+              <img src="https://picsum.photos/seed/related-one/640/360" width="640" height="360" alt="Abstract grid of soft blue squares">
+              <ui-stack gap="xs" padding="md">
+                <h3>Tokens before components</h3>
+                <p>Why naming your spacing scale first saves months of rework.</p>
+                <a href="#">Read the essay</a>
+              </ui-stack>
+            </ui-card>
+            <ui-card elevated padding="0">
+              <img src="https://picsum.photos/seed/related-two/640/360" width="640" height="360" alt="Hands sketching wireframes on paper">
+              <ui-stack gap="xs" padding="md">
+                <h3>Wireframes that survive review</h3>
+                <p>A practical method for sketching layouts that teammates actually read.</p>
+                <a href="#">Read the essay</a>
+              </ui-stack>
+            </ui-card>
+            <ui-card elevated padding="0">
+              <img src="https://picsum.photos/seed/related-three/640/360" width="640" height="360" alt="Close view of a monitor showing a line chart">
+              <ui-stack gap="xs" padding="md">
+                <h3>Alerts nobody mutes</h3>
+                <p>Designing notification thresholds that earn trust over time.</p>
+                <a href="#">Read the essay</a>
+              </ui-stack>
+            </ui-card>
+            <ui-card elevated padding="0">
+              <img src="https://picsum.photos/seed/related-four/640/360" width="640" height="360" alt="Stacked paper notes pinned to a board">
+              <ui-stack gap="xs" padding="md">
+                <h3>Writing down your defaults</h3>
+                <p>How a one-page principles document changed our review meetings.</p>
+                <a href="#">Read the essay</a>
+              </ui-stack>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+</body>
+</html>

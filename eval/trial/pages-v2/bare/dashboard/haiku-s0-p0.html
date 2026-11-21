@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen Goods · Store Analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack as="header" direction="row" align="center" justify="between" gap="md" wrap padding="md">
+    <ui-stack direction="row" align="center" gap="sm">
+      <ui-icon name="store"></ui-icon>
+      <strong>Lumen Goods</strong>
+    </ui-stack>
+
+    <ui-stack direction="row" align="center" gap="sm" grow>
+      <input type="search" placeholder="Search orders, products, customers" aria-label="Search">
+    </ui-stack>
+
+    <details>
+      <summary>
+        <ui-avatar src="https://picsum.photos/seed/maya-chen/64/64" alt="Maya Chen" size="sm"></ui-avatar>
+        Maya Chen
+      </summary>
+      <ui-menu>
+        <ui-menu-item><a href="#">Profile</a></ui-menu-item>
+        <ui-menu-item><a href="#">Store settings</a></ui-menu-item>
+        <ui-menu-item><a href="#">Billing</a></ui-menu-item>
+        <ui-divider></ui-divider>
+        <ui-menu-item><a href="#">Sign out</a></ui-menu-item>
+      </ui-menu>
+    </details>
+  </ui-stack>
+
+  <ui-layout sidebar="start" sidebar-collapse="md" gap="lg" padding="md">
+    <aside slot="sidebar">
+      <ui-card>
+        <ui-stack direction="column" gap="md">
+          <ui-stack direction="row" align="center" justify="between">
+            <h2>Filters</h2>
+            <ui-button variant="ghost" size="sm">Reset</ui-button>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="xs">
+            <label for="range">Date range</label>
+            <select id="range">
+              <option>Last 7 days</option>
+              <option selected>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Year to date</option>
+            </select>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="xs">
+            <label for="category">Category</label>
+            <select id="category">
+              <option>All categories</option>
+              <option>Apparel</option>
+              <option>Home &amp; Kitchen</option>
+              <option>Outdoor</option>
+              <option>Electronics</option>
+            </select>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="xs">
+            <span>Order status</span>
+            <label><input type="checkbox" checked> Paid</label>
+            <label><input type="checkbox" checked> Shipped</label>
+            <label><input type="checkbox"> Pending</label>
+            <label><input type="checkbox"> Refunded</label>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="xs">
+            <span>Channel</span>
+            <label><input type="radio" name="channel" checked> All channels</label>
+            <label><input type="radio" name="channel"> Online store</label>
+            <label><input type="radio" name="channel"> Marketplace</label>
+            <label><input type="radio" name="channel"> Wholesale</label>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="xs">
+            <label for="min">Minimum order value: $25</label>
+            <input id="min" type="range" min="0" max="500" value="25">
+          </ui-stack>
+
+          <ui-button variant="primary">Apply filters</ui-button>
+        </ui-stack>
+      </ui-card>
+    </aside>
+
+    <main>
+      <ui-stack direction="column" gap="lg">
+        <ui-stack direction="column" gap="xs">
+          <h1>Overview</h1>
+          <p>Nov 1 – Nov 21, 2026 · Updated 5 minutes ago</p>
+        </ui-stack>
+
+        <ui-grid min="13rem" gap="md">
+          <ui-card>
+            <ui-stack direction="column" gap="xs">
+              <span>Revenue</span>
+              <h2>$248,930</h2>
+              <ui-badge variant="success">▲ 12.4%</ui-badge>
+              <svg viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Revenue trend">
+                <polyline fill="none" stroke="currentColor" stroke-width="2" points="0,26 15,22 30,24 45,16 60,18 75,11 90,13 105,6 120,4"></polyline>
+              </svg>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="column" gap="xs">
+              <span>Orders</span>
+              <h2>3,482</h2>
+              <ui-badge variant="success">▲ 8.1%</ui-badge>
+              <svg viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Orders trend">
+                <polyline fill="none" stroke="currentColor" stroke-width="2" points="0,20 15,18 30,22 45,19 60,15 75,17 90,12 105,10 120,8"></polyline>
+              </svg>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="column" gap="xs">
+              <span>Conversion</span>
+              <h2>3.27%</h2>
+              <ui-badge variant="danger">▼ 0.4 pts</ui-badge>
+              <svg viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Conversion trend">
+                <polyline fill="none" stroke="currentColor" stroke-width="2" points="0,10 15,12 30,9 45,13 60,14 75,12 90,17 105,18 120,21"></polyline>
+              </svg>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="column" gap="xs">
+              <span>Refunds</span>
+              <h2>$6,118</h2>
+              <ui-badge variant="danger">▲ 0.3 pts of revenue</ui-badge>
+              <svg viewBox="0 0 120 32" width="100%" height="32" role="img" aria-label="Refunds trend">
+                <polyline fill="none" stroke="currentColor" stroke-width="2" points="0,22 15,20 30,23 45,21 60,18 75,20 90,16 105,15 120,12"></polyline>
+              </svg>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+
+        <ui-grid min="20rem" gap="md">
+          <ui-card>
+            <ui-stack direction="column" gap="md">
+              <h2>Recent orders</h2>
+              <ui-scroll-area>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Order</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>#10482</td>
+                      <td>
+                        <ui-stack direction="row" align="center" gap="sm">
+                          <ui-avatar src="https://picsum.photos/seed/ava1/64/64" alt="" size="xs"></ui-avatar>
+                          Priya Raman
+                        </ui-stack>
+                      </td>
+                      <td>Nov 21</td>
+                      <td><ui-badge variant="success">Paid</ui-badge></td>
+                      <td>$184.00</td>
+                    </tr>
+                    <tr>
+                      <td>#10481</td>
+                      <td>
+                        <ui-stack direction="row" align="center" gap="sm">
+                          <ui-avatar src="https://picsum.photos/seed/ava2/64/64" alt="" size="xs"></ui-avatar>
+                          Tomás Herrera
+                        </ui-stack>
+                      </td>
+                      <td>Nov 21</td>
+                      <td><ui-badge variant="info">Shipped</ui-badge></td>
+                      <td>$72.50</td>
+                    </tr>
+                    <tr>
+                      <td>#10480</td>
+                      <td>
+                        <ui-stack direction="row" align="center" gap="sm">
+                          <ui-avatar src="https://picsum.photos/seed/ava3/64/64" alt="" size="xs"></ui-avatar>
+                          Aiko Tanaka
+                        </ui-stack>
+                      </td>
+                      <td>Nov 20</td>
+                      <td><ui-badge variant="warning">Pending</ui-badge></td>
+                      <td>$312.90</td>
+                    </tr>
+                    <tr>
+                      <td>#10479</td>
+                      <td>
+                        <ui-stack direction="row" align="center" gap="sm">
+                          <ui-avatar src="https://picsum.photos/seed/ava4/64/64" alt="" size="xs"></ui-avatar>
+                          Daniel Okafor
+                        </ui-stack>
+                      </td>
+                      <td>Nov 20</td>
+                      <td><ui-badge variant="danger">Refunded</ui-badge></td>
+                      <td>$96.00</td>
+                    </tr>
+                    <tr>
+                      <td>#10478</td>
+                      <td>
+                        <ui-stack direction="row" align="center" gap="sm">
+                          <ui-avatar src="https://picsum.photos/seed/ava5/64/64" alt="" size="xs"></ui-avatar>
+                          Sofia Lindqvist
+                        </ui-stack>
+                      </td>
+                      <td>Nov 19</td>
+                      <td><ui-badge variant="success">Paid</ui-badge></td>
+                      <td>$458.20</td>
+                    </tr>
+                    <tr>
+                      <td>#10477</td>
+                      <td>
+                        <ui-stack direction="row" align="center" gap="sm">
+                          <ui-avatar src="https://picsum.photos/seed/ava6/64/64" alt="" size="xs"></ui-avatar>
+                          Kwame Mensah
+                        </ui-stack>
+                      </td>
+                      <td>Nov 19</td>
+                      <td><ui-badge variant="info">Shipped</ui-badge></td>
+                      <td>$129.99</td>
+                    </tr>
+                    <tr>
+                      <td>#10476</td>
+                      <td>
+                        <ui-stack direction="row" align="center" gap="sm">
+                          <ui-avatar src="https://picsum.photos/seed/ava7/64/64" alt="" size="xs"></ui-avatar>
+                          Elena Petrova
+                        </ui-stack>
+                      </td>
+                      <td>Nov 18</td>
+                      <td><ui-badge variant="success">Paid</ui-badge></td>
+                      <td>$55.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ui-scroll-area>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="column" gap="md">
+              <h2>Top products</h2>
+              <ul>
+                <li>
+                  <ui-stack direction="row" align="center" gap="md">
+                    <img src="https://picsum.photos/seed/product1/96/96" alt="" width="48" height="48">
+                    <ui-stack direction="column" grow gap="xs">
+                      <strong>Merino Crew Sweater</strong>
+                      <span>412 units · $32,840</span>
+                      <progress value="82" max="100">82%</progress>
+                    </ui-stack>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="row" align="center" gap="md">
+                    <img src="https://picsum.photos/seed/product2/96/96" alt="" width="48" height="48">
+                    <ui-stack direction="column" grow gap="xs">
+                      <strong>Cast Iron Dutch Oven</strong>
+                      <span>268 units · $28,910</span>
+                      <progress value="64" max="100">64%</progress>
+                    </ui-stack>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="row" align="center" gap="md">
+                    <img src="https://picsum.photos/seed/product3/96/96" alt="" width="48" height="48">
+                    <ui-stack direction="column" grow gap="xs">
+                      <strong>Trail Running Jacket</strong>
+                      <span>197 units · $23,630</span>
+                      <progress value="51" max="100">51%</progress>
+                    </ui-stack>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="row" align="center" gap="md">
+                    <img src="https://picsum.photos/seed/product4/96/96" alt="" width="48" height="48">
+                    <ui-stack direction="column" grow gap="xs">
+                      <strong>Ceramic Pour-Over Set</strong>
+                      <span>175 units · $15,400</span>
+                      <progress value="40" max="100">40%</progress>
+                    </ui-stack>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="row" align="center" gap="md">
+                    <img src="https://picsum.photos/seed/product5/96/96" alt="" width="48" height="48">
+                    <ui-stack direction="column" grow gap="xs">
+                      <strong>Wireless Field Speaker</strong>
+                      <span>121 units · $14,210</span>
+                      <progress value="33" max="100">33%</progress>
+                    </ui-stack>
+                  </ui-stack>
+                </li>
+              </ul>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+      </ui-stack>
+    </main>
+  </ui-layout>
+</body>
+</html>

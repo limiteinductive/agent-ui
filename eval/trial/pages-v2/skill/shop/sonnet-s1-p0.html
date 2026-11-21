@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride &amp; Co. – Shoes</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="sm">
+        <strong>Stride &amp; Co.</strong>
+        <ui-button variant="outline" aria-label="Cart, 0 items" id="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</ui-button>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container>
+      <ui-stack gap="lg" padding="md">
+        <ui-stack gap="xs">
+          <h1>Shoes</h1>
+          <p>12 styles for every stride. Free returns within 30 days.</p>
+        </ui-stack>
+
+        <ui-card padding="md" gap="md" sunken>
+          <ui-stack gap="sm">
+            <strong>Size (US)</strong>
+            <ui-row wrap gap="sm" id="sizes">
+              <ui-button size="sm" variant="primary" data-size="all">All</ui-button>
+              <ui-button size="sm" variant="outline" data-size="7">7</ui-button>
+              <ui-button size="sm" variant="outline" data-size="8">8</ui-button>
+              <ui-button size="sm" variant="outline" data-size="9">9</ui-button>
+              <ui-button size="sm" variant="outline" data-size="10">10</ui-button>
+              <ui-button size="sm" variant="outline" data-size="11">11</ui-button>
+              <ui-button size="sm" variant="outline" data-size="12">12</ui-button>
+            </ui-row>
+          </ui-stack>
+          <ui-row wrap gap="lg" align="end">
+            <label grow>Max price: <strong>$<span id="price-out">200</span></strong>
+              <input type="range" id="price" min="50" max="200" step="10" value="200">
+            </label>
+            <label>Sort by
+              <select id="sort">
+                <option value="featured">Featured</option>
+                <option value="low">Price: low to high</option>
+                <option value="high">Price: high to low</option>
+                <option value="name">Name</option>
+              </select>
+            </label>
+          </ui-row>
+        </ui-card>
+
+        <p id="status" role="status"></p>
+
+        <ui-grid min-item-width="xs" max-columns="4" id="grid"></ui-grid>
+
+        <ui-row justify="center" gap="sm" wrap id="pager"></ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+</ui-page>
+
+<script>
+const shoes = [
+  ["Aero Runner", 120, [8,9,10,11]],
+  ["Cloud Trainer", 95, [7,8,9,10]],
+  ["Metro Leather Oxford", 175, [9,10,11,12]],
+  ["Trail Blazer GTX", 160, [8,9,10,11,12]],
+  ["Canvas Low Classic", 55, [7,8,9,10,11]],
+  ["Court Pro Tennis", 110, [8,9,10]],
+  ["Suede Chelsea Boot", 190, [9,10,11]],
+  ["Studio Slip-On", 65, [7,8,9]],
+  ["Summit Hiker", 140, [10,11,12]],
+  ["Daily Walker", 80, [7,8,9,10,11,12]],
+  ["Retro High-Top", 99, [8,9,10,11]],
+  ["Sprint Racer Elite", 200, [7,8,9,10]]
+].map((s,i)=>({id:i,name:s[0],price:s[1],sizes:s[2]}));
+
+const PER = 8;
+let size = "all", maxPrice = 200, sort = "featured", page = 1, cart = 0;
+const $ = id => document.getElementById(id);
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+function render(){
+  let list = shoes.filter(s => s.price <= maxPrice && (size==="all" || s.sizes.includes(+size)));
+  if (sort==="low") list.sort((a,b)=>a.price-b.price);
+  if (sort==="high") list.sort((a,b)=>b.price-a.price);
+  if (sort==="name") list.sort((a,b)=>a.name.localeCompare(b.name));
+  const pages = Math.max(1, Math.ceil(list.length/PER));
+  if (page>pages) page = pages;
+  const slice = list.slice((page-1)*PER, page*PER);
+  $("status").textContent = `Showing ${slice.length} of ${list.length} shoes`;
+  $("grid").innerHTML = slice.length ? slice.map(s=>`
+    <ui-card padding="0" gap="0" elevated>
+      <img src="https://picsum.photos/seed/shoe${s.id}/400/400" alt="${esc(s.name)}" loading="lazy" width="400" height="400">
+      <ui-stack gap="sm" padding="md">
+        <h3>${esc(s.name)}</h3>
+        <ui-row justify="space-between">
+          <strong>$${s.price}</strong>
+          <small>Sizes ${s.sizes[0]}–${s.sizes[s.sizes.length-1]}</small>
+        </ui-row>
+        <ui-button variant="primary" data-add="${s.id}">Add to cart</ui-button>
+      </ui-stack>
+    </ui-card>`).join("") : "<p>No shoes match these filters.</p>";
+  let html = `<ui-button size="sm" variant="outline" data-page="${page-1}" ${page===1?"disabled":""}>Prev</ui-button>`;
+  for (let p=1;p<=pages;p++) html += `<ui-button size="sm" variant="${p===page?"primary":"outline"}" data-page="${p}" aria-label="Page ${p}">${p}</ui-button>`;
+  html += `<ui-button size="sm" variant="outline" data-page="${page+1}" ${page===pages?"disabled":""}>Next</ui-button>`;
+  $("pager").innerHTML = html;
+}
+
+$("sizes").addEventListener("click", e=>{
+  const b = e.target.closest("[data-size]"); if(!b) return;
+  size = b.dataset.size; page = 1;
+  $("sizes").querySelectorAll("ui-button").forEach(x=>x.setAttribute("variant", x===b?"primary":"outline"));
+  render();
+});
+$("price").addEventListener("input", e=>{ maxPrice=+e.target.value; $("price-out").textContent=maxPrice; page=1; render(); });
+$("sort").addEventListener("change", e=>{ sort=e.target.value; page=1; render(); });
+$("grid").addEventListener("click", e=>{
+  if(!e.target.closest("[data-add]")) return;
+  cart++; $("cart-count").textContent = cart;
+  $("cart-btn").setAttribute("aria-label", `Cart, ${cart} items`);
+});
+$("pager").addEventListener("click", e=>{
+  const b = e.target.closest("[data-page]");
+  if(!b || b.hasAttribute("disabled")) return;
+  page = +b.dataset.page; render();
+});
+render();
+</script>
+</body>
+</html>

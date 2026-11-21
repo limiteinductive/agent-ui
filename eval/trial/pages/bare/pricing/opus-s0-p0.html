@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing · Trellis — Project management for teams that ship</title>
+  <meta name="description" content="Simple, transparent pricing for Trellis. Start free, upgrade as your team grows.">
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <ui-container>
+      <ui-row justify="between" align="center" gap="md" wrap padding="md">
+        <a href="#" aria-label="Trellis home">
+          <ui-row align="center" gap="sm">
+            <img src="https://picsum.photos/seed/trellis-logo/80/80" alt="" width="36" height="36">
+            <strong>Trellis</strong>
+          </ui-row>
+        </a>
+        <nav aria-label="Primary">
+          <ui-row gap="md" wrap align="center">
+            <a href="#">Product</a>
+            <a href="#">Templates</a>
+            <a href="#" aria-current="page">Pricing</a>
+            <a href="#">Customers</a>
+            <ui-button variant="ghost" href="#">Log in</ui-button>
+            <ui-button variant="primary" href="#">Start free</ui-button>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section>
+      <ui-container size="md">
+        <ui-stack gap="md" align="center" text-align="center" padding="xl">
+          <ui-badge>Pricing</ui-badge>
+          <h1>Plans that grow with your team</h1>
+          <p>Plan sprints, track work, and ship on time. Start free for up to 5 people — no credit card required. Save 20% with annual billing.</p>
+          <ui-row gap="sm" justify="center" wrap>
+            <ui-button variant="primary" href="#plans">Compare plans</ui-button>
+            <ui-button variant="secondary" href="#">Talk to sales</ui-button>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </section>
+
+    <!-- Plans -->
+    <section id="plans" aria-labelledby="plans-heading">
+      <ui-container>
+        <ui-stack gap="lg" padding="lg">
+          <h2 id="plans-heading" hidden>Plans</h2>
+          <ui-grid columns="3" min="260px" gap="lg">
+
+            <ui-card>
+              <ui-stack gap="md">
+                <h3>Starter</h3>
+                <p>For small teams getting organized.</p>
+                <ui-row align="baseline" gap="xs">
+                  <strong><big>$0</big></strong>
+                  <small>/ user / month</small>
+                </ui-row>
+                <ui-button variant="secondary" href="#" block>Get started</ui-button>
+                <ui-divider></ui-divider>
+                <ul>
+                  <li>Up to 5 members</li>
+                  <li>Unlimited tasks &amp; 3 projects</li>
+                  <li>List and board views</li>
+                  <li>1 GB file storage</li>
+                  <li>Community support</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card variant="highlight" highlighted elevated>
+              <ui-stack gap="md">
+                <ui-row justify="between" align="center" gap="sm" wrap>
+                  <h3>Team</h3>
+                  <ui-badge variant="primary">Most popular</ui-badge>
+                </ui-row>
+                <p>For growing teams running multiple projects.</p>
+                <ui-row align="baseline" gap="xs">
+                  <strong><big>$12</big></strong>
+                  <small>/ user / month, billed annually</small>
+                </ui-row>
+                <ui-button variant="primary" href="#" block>Start 14-day trial</ui-button>
+                <ui-divider></ui-divider>
+                <ul>
+                  <li>Everything in Starter</li>
+                  <li>Unlimited members &amp; projects</li>
+                  <li>Timeline, calendar &amp; Gantt views</li>
+                  <li>Automations (5,000 runs / mo)</li>
+                  <li>Guest access &amp; integrations</li>
+                  <li>Priority email support</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="md">
+                <h3>Enterprise</h3>
+                <p>For organizations needing control and scale.</p>
+                <ui-row align="baseline" gap="xs">
+                  <strong><big>Custom</big></strong>
+                </ui-row>
+                <ui-button variant="secondary" href="#" block>Contact sales</ui-button>
+                <ui-divider></ui-divider>
+                <ul>
+                  <li>Everything in Team</li>
+                  <li>SAML SSO &amp; SCIM provisioning</li>
+                  <li>Portfolios &amp; workload planning</li>
+                  <li>Audit log &amp; data residency</li>
+                  <li>99.9% uptime SLA</li>
+                  <li>Dedicated success manager</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+          </ui-grid>
+        </ui-stack>
+      </ui-container>
+    </section>
+
+    <!-- Comparison table -->
+    <section aria-labelledby="compare-heading">
+      <ui-container>
+        <ui-stack gap="md" padding="lg">
+          <h2 id="compare-heading">Compare features</h2>
+          <ui-scroll direction="x">
+            <table>
+              <caption>Feature availability by plan</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Starter</th>
+                  <th scope="col">Team</th>
+                  <th scope="col">Enterprise</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Members</th><td>Up to 5</td><td>Unlimited</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Projects</th><td>3</td><td>Unlimited</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Board &amp; list views</th><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr><th scope="row">Timeline &amp; Gantt</th><td>—</td><td>✓</td><td>✓</td></tr>
+                <tr><th scope="row">Automations</th><td>—</td><td>5,000 / mo</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Integrations (Slack, GitHub, Figma)</th><td>2</td><td>✓</td><td>✓</td></tr>
+                <tr><th scope="row">File storage</th><td>1 GB</td><td>100 GB</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Guest access</th><td>—</td><td>✓</td><td>✓</td></tr>
+                <tr><th scope="row">SAML SSO &amp; SCIM</th><td>—</td><td>—</td><td>✓</td></tr>
+                <tr><th scope="row">Audit log</th><td>—</td><td>—</td><td>✓</td></tr>
+                <tr><th scope="row">Uptime SLA</th><td>—</td><td>—</td><td>99.9%</td></tr>
+                <tr><th scope="row">Support</th><td>Community</td><td>Priority email</td><td>Dedicated manager</td></tr>
+              </tbody>
+            </table>
+          </ui-scroll>
+        </ui-stack>
+      </ui-container>
+    </section>
+
+    <!-- Testimonial -->
+    <section aria-label="Customer quote">
+      <ui-container size="md">
+        <ui-card>
+          <ui-row gap="md" align="center" wrap>
+            <img src="https://picsum.photos/seed/trellis-customer/120/120" alt="Portrait of Maya Okafor" width="64" height="64">
+            <ui-stack gap="xs">
+              <blockquote>“We moved 40 engineers off three different tools in a week. Trellis paid for itself in the first sprint.”</blockquote>
+              <small>Maya Okafor, VP Engineering at Northwind Labs</small>
+            </ui-stack>
+          </ui-row>
+        </ui-card>
+      </ui-container>
+    </section>
+
+    <!-- FAQ -->
+    <section aria-labelledby="faq-heading">
+      <ui-container size="md">
+        <ui-stack gap="md" padding="lg">
+          <h2 id="faq-heading">Frequently asked questions</h2>
+          <details>
+            <summary>Is there really a free plan?</summary>
+            <p>Yes. Starter is free forever for teams of up to 5 people. You only pay when you need more members or advanced features.</p>
+          </details>
+          <details>
+            <summary>How does the 14-day trial work?</summary>
+            <p>You get full access to Team features with no credit card. At the end of the trial, choose a plan or drop back to Starter — your data stays intact.</p>
+          </details>
+          <details>
+            <summary>Can I switch plans later?</summary>
+            <p>Anytime. Upgrades take effect immediately and are prorated; downgrades apply at the end of your billing period.</p>
+          </details>
+          <details>
+            <summary>Do you offer discounts for nonprofits or education?</summary>
+            <p>Yes — eligible nonprofits and schools get 50% off Team. Contact us with proof of status to apply.</p>
+          </details>
+          <details>
+            <summary>How is my data secured?</summary>
+            <p>Data is encrypted in transit and at rest. Trellis is SOC 2 Type II certified and GDPR compliant, with EU and US data residency on Enterprise.</p>
+          </details>
+          <details>
+            <summary>Which payment methods do you accept?</summary>
+            <p>All major credit cards. Annual Enterprise plans can also pay by invoice or bank transfer.</p>
+          </details>
+        </ui-stack>
+      </ui-container>
+    </section>
+
+    <!-- CTA -->
+    <section>
+      <ui-container size="md">
+        <ui-stack gap="md" align="center" text-align="center" padding="xl">
+          <h2>Ready to get your team on track?</h2>
+          <p>Join 18,000+ teams planning their work with Trellis.</p>
+          <ui-button variant="primary" href="#">Start free</ui-button>
+        </ui-stack>
+      </ui-container>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <ui-container>
+      <ui-stack gap="lg" padding="lg">
+        <ui-grid columns="4" min="150px" gap="lg">
+          <ui-stack gap="sm">
+            <strong>Trellis</strong>
+            <small>Project management for teams that ship.</small>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <strong>Product</strong>
+            <a href="#">Features</a>
+            <a href="#">Integrations</a>
+            <a href="#">Pricing</a>
+            <a href="#">Changelog</a>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <strong>Company</strong>
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact</a>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <strong>Resources</strong>
+            <a href="#">Help center</a>
+            <a href="#">Security</a>
+            <a href="#">Status</a>
+            <a href="#">API docs</a>
+          </ui-stack>
+        </ui-grid>
+        <ui-divider></ui-divider>
+        <ui-row justify="between" gap="sm" wrap>
+          <small>© 2026 Trellis Software, Inc. All rights reserved.</small>
+          <ui-row gap="md" wrap>
+            <a href="#"><small>Privacy</small></a>
+            <a href="#"><small>Terms</small></a>
+            <a href="#"><small>Cookies</small></a>
+          </ui-row>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="large" padding="large" max-width="1280px" margin="auto">
+    <header>
+      <ui-stack direction="horizontal" justify="between" align="center" wrap gap="medium">
+        <ui-stack gap="small">
+          <p>Workspace / Team planning</p>
+          <h1>November 2026</h1>
+          <p>Keep everyone aligned on launches, reviews, and team moments.</p>
+        </ui-stack>
+
+        <ui-stack direction="horizontal" gap="small">
+          <ui-button aria-label="Previous month">←</ui-button>
+          <ui-button variant="secondary">Today</ui-button>
+          <ui-button aria-label="Next month">→</ui-button>
+        </ui-stack>
+      </ui-stack>
+    </header>
+
+    <ui-stack direction="horizontal" wrap gap="large" align="start">
+      <ui-card grow>
+        <ui-stack gap="medium" padding="medium">
+          <ui-stack direction="horizontal" justify="between" align="center">
+            <h2>November 2026</h2>
+            <ui-badge>Team calendar</ui-badge>
+          </ui-stack>
+
+          <ui-grid columns="7" gap="small">
+            <strong>Mon</strong>
+            <strong>Tue</strong>
+            <strong>Wed</strong>
+            <strong>Thu</strong>
+            <strong>Fri</strong>
+            <strong>Sat</strong>
+            <strong>Sun</strong>
+
+            <ui-card muted><small>26</small></ui-card>
+            <ui-card muted><small>27</small></ui-card>
+            <ui-card muted><small>28</small></ui-card>
+            <ui-card muted><small>29</small></ui-card>
+            <ui-card muted><small>30</small></ui-card>
+            <ui-card><small>31</small></ui-card>
+            <ui-card><small>1</small></ui-card>
+
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>2</strong>
+                <ui-badge color="blue">Sprint planning</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>3</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>4</strong>
+                <ui-badge color="green">Design review</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>5</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>6</strong>
+                <ui-badge color="purple">Demo day</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>7</strong></ui-card>
+            <ui-card><strong>8</strong></ui-card>
+
+            <ui-card><strong>9</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>10</strong>
+                <ui-badge color="orange">Product sync</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>11</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>12</strong>
+                <ui-badge color="red">Release prep</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>13</strong></ui-card>
+            <ui-card><strong>14</strong></ui-card>
+            <ui-card><strong>15</strong></ui-card>
+
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>16</strong>
+                <ui-badge color="blue">Sprint planning</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>17</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>18</strong>
+                <ui-badge color="green">Design review</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>19</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>20</strong>
+                <ui-badge color="purple">Demo day</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>21</strong></ui-card>
+            <ui-card><strong>22</strong></ui-card>
+
+            <ui-card><strong>23</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>24</strong>
+                <ui-badge color="orange">Customer call</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>25</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>26</strong>
+                <ui-badge color="gray">Thanksgiving</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>27</strong></ui-card>
+            <ui-card><strong>28</strong></ui-card>
+            <ui-card><strong>29</strong></ui-card>
+
+            <ui-card>
+              <ui-stack gap="small">
+                <strong>30</strong>
+                <ui-badge color="blue">Sprint planning</ui-badge>
+              </ui-stack>
+            </ui-card>
+            <ui-card muted><small>1</small></ui-card>
+            <ui-card muted><small>2</small></ui-card>
+            <ui-card muted><small>3</small></ui-card>
+            <ui-card muted><small>4</small></ui-card>
+            <ui-card muted><small>5</small></ui-card>
+            <ui-card muted><small>6</small></ui-card>
+          </ui-grid>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card width="360px">
+        <ui-stack gap="medium" padding="medium">
+          <ui-stack direction="horizontal" justify="between" align="center">
+            <h2>Upcoming</h2>
+            <ui-button variant="ghost">View all</ui-button>
+          </ui-stack>
+
+          <ui-stack gap="medium">
+            <ui-stack direction="horizontal" gap="small" align="start">
+              <img src="https://picsum.photos/seed/sprint/64/64" alt="Team planning workspace" width="56" height="56" />
+              <ui-stack gap="small">
+                <strong>Sprint planning</strong>
+                <small>Mon, Nov 2 · 10:00 AM</small>
+                <small>Product team · Zoom</small>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-divider></ui-divider>
+
+            <ui-stack direction="horizontal" gap="small" align="start">
+              <img src="https://picsum.photos/seed/design/64/64" alt="Design review materials" width="56" height="56" />
+              <ui-stack gap="small">
+                <strong>Design review</strong>
+                <small>Wed, Nov 4 · 2:00 PM</small>
+                <small>Design studio · Room 3B</small>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-divider></ui-divider>
+
+            <ui-stack direction="horizontal" gap="small" align="start">
+              <img src="https://picsum.photos/seed/demo/64/64" alt="Product demo presentation" width="56" height="56" />
+              <ui-stack gap="small">
+                <strong>Product demo day</strong>
+                <small>Fri, Nov 6 · 3:30 PM</small>
+                <small>All hands · Main stage</small>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-divider></ui-divider>
+
+            <ui-stack direction="horizontal" gap="small" align="start">
+              <img src="https://picsum.photos/seed/sync/64/64" alt="Team meeting notes" width="56" height="56" />
+              <ui-stack gap="small">
+                <strong>Product sync</strong>
+                <small>Tue, Nov 10 · 11:00 AM</small>
+                <small>Core team · Conference room</small>
+              </ui-stack>
+            </ui-stack>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+    </ui-stack>
+  </ui-stack>
+</body>
+</html>

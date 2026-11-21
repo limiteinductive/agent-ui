@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Northwind Product</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="sm">
+        <strong>Northwind · Product Team</strong>
+        <nav><ui-row gap="md"><a href="#">Calendar</a><a href="#">People</a></ui-row></nav>
+      </ui-row>
+    </ui-container>
+  </header>
+  <main>
+    <ui-container>
+      <ui-stack gap="lg" padding="md">
+        <ui-stack gap="xs">
+          <h1>Team calendar</h1>
+          <p>Meetings, launches and time off for the product team.</p>
+        </ui-stack>
+
+        <ui-row wrap gap="lg" align="start">
+          <ui-card grow padding="sm" gap="sm">
+            <ui-row justify="space-between" gap="sm">
+              <ui-button id="prev" variant="outline" size="sm" aria-label="Previous month">‹ Prev</ui-button>
+              <h2 id="month-label" aria-live="polite">November 2026</h2>
+              <ui-button id="next" variant="outline" size="sm" aria-label="Next month">Next ›</ui-button>
+            </ui-row>
+
+            <ui-grid columns="7" gap="xs" min-item-width="2rem" aria-hidden="true">
+              <small><strong>Mon</strong></small>
+              <small><strong>Tue</strong></small>
+              <small><strong>Wed</strong></small>
+              <small><strong>Thu</strong></small>
+              <small><strong>Fri</strong></small>
+              <small><strong>Sat</strong></small>
+              <small><strong>Sun</strong></small>
+            </ui-grid>
+
+            <ui-grid id="month-grid" columns="7" gap="xs" min-item-width="2rem" role="grid" aria-labelledby="month-label"></ui-grid>
+
+            <small>● = event. Highlighted day is today.</small>
+          </ui-card>
+
+          <ui-card padding="md" gap="sm">
+            <h2>Upcoming</h2>
+            <ul id="upcoming"></ul>
+          </ui-card>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+  <footer>
+    <ui-container>
+      <ui-row padding="sm"><small>Synced with Google Calendar · 2 minutes ago</small></ui-row>
+    </ui-container>
+  </footer>
+</ui-page>
+
+<script>
+  const TODAY = new Date(2026, 10, 21);
+  const events = [
+    { date: "2026-11-03", time: "10:00", title: "Sprint planning", who: "Maya Chen", img: 11 },
+    { date: "2026-11-09", time: "14:00", title: "Design critique", who: "Leo Park", img: 12 },
+    { date: "2026-11-12", time: "09:30", title: "Customer interview: Acme", who: "Priya Nair", img: 13 },
+    { date: "2026-11-17", time: "16:00", title: "Sprint review", who: "Maya Chen", img: 11 },
+    { date: "2026-11-17", time: "17:00", title: "Retro", who: "Tom Alvarez", img: 14 },
+    { date: "2026-11-23", time: "10:00", title: "Sprint planning", who: "Maya Chen", img: 11 },
+    { date: "2026-11-24", time: "13:00", title: "Roadmap Q1 workshop", who: "Priya Nair", img: 13 },
+    { date: "2026-11-26", time: "All day", title: "Thanksgiving (office closed)", who: "Everyone", img: 15 },
+    { date: "2026-12-02", time: "11:00", title: "v4.2 release", who: "Tom Alvarez", img: 14 },
+    { date: "2026-12-08", time: "15:00", title: "Design critique", who: "Leo Park", img: 12 },
+    { date: "2026-12-15", time: "16:00", title: "Sprint review", who: "Maya Chen", img: 11 },
+    { date: "2026-12-18", time: "18:30", title: "Holiday dinner", who: "Everyone", img: 15 },
+    { date: "2027-01-05", time: "10:00", title: "Kickoff 2027", who: "Priya Nair", img: 13 }
+  ];
+
+  const key = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  let view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+
+  function render() {
+    const label = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    document.getElementById("month-label").textContent = label;
+    const grid = document.getElementById("month-grid");
+    grid.innerHTML = "";
+    const offset = (view.getDay() + 6) % 7; // Monday first
+    const start = new Date(view.getFullYear(), view.getMonth(), 1 - offset);
+    const daysInMonth = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+    const cells = Math.ceil((offset + daysInMonth) / 7) * 7;
+
+    for (let i = 0; i < cells; i++) {
+      const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+      const inMonth = d.getMonth() === view.getMonth();
+      const dayEvents = events.filter(e => e.date === key(d));
+      const card = document.createElement("ui-card");
+      card.setAttribute("padding", "xs");
+      card.setAttribute("gap", "xs");
+      card.setAttribute("rounded", "sm");
+      card.setAttribute("role", "gridcell");
+      if (!inMonth) card.setAttribute("sunken", "");
+      if (key(d) === key(TODAY)) card.setAttribute("variant", "primary");
+      else if (dayEvents.length && inMonth) card.setAttribute("variant", "info");
+
+      const num = document.createElement(inMonth ? "strong" : "small");
+      num.textContent = d.getDate();
+      card.appendChild(num);
+
+      const dots = document.createElement("small");
+      dots.textContent = dayEvents.length ? "●".repeat(dayEvents.length) : "\u00a0";
+      card.appendChild(dots);
+
+      const desc = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+      card.setAttribute("aria-label", dayEvents.length
+        ? `${desc}: ${dayEvents.map(e => e.title).join(", ")}`
+        : desc);
+      card.title = dayEvents.map(e => `${e.time} ${e.title}`).join("\n");
+      grid.appendChild(card);
+    }
+  }
+
+  function renderUpcoming() {
+    const list = document.getElementById("upcoming");
+    const upcoming = events.filter(e => parse(e.date) >= TODAY).slice(0, 6);
+    list.innerHTML = upcoming.map(e => {
+      const d = parse(e.date);
+      const when = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+      return `<li>
+        <ui-row gap="sm" align="center">
+          <img src="https://picsum.photos/seed/team${e.img}/80/80" alt="${e.who}" width="40" height="40">
+          <ui-stack gap="0">
+            <strong>${e.title}</strong>
+            <small><time datetime="${e.date}">${when}</time> · ${e.time} · ${e.who}</small>
+          </ui-stack>
+        </ui-row>
+      </li>`;
+    }).join("");
+  }
+
+  document.getElementById("prev").addEventListener("click", () => {
+    view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render();
+  });
+  document.getElementById("next").addEventListener("click", () => {
+    view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render();
+  });
+
+  render();
+  renderUpcoming();
+</script>
+</body>
+</html>

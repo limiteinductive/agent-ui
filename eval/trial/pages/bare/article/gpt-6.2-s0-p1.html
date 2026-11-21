@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A field-tested approach to taking useful notes on a hike, with a small script for indexing them at home.">
+  <title>A Field Notebook You’ll Actually Use</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <main style="max-inline-size: 48rem; margin-inline: auto; padding: 2rem clamp(1rem, 4vw, 2rem);">
+    <ui-stack gap="xl">
+      <article aria-labelledby="article-title">
+        <ui-stack gap="lg">
+          <header>
+            <ui-stack gap="md">
+              <h1 id="article-title">A Field Notebook You’ll Actually Use</h1>
+              <p>What to write down on a hike while there’s still mud on your boots.</p>
+              <ui-stack direction="horizontal" align="center" gap="sm">
+                <img src="https://picsum.photos/id/64/96/96" width="48" height="48" alt="">
+                <div>
+                  <strong>Mara Chen</strong><br>
+                  <time datetime="2026-09-17">September 17, 2026</time>
+                </div>
+              </ui-stack>
+            </ui-stack>
+          </header>
+
+          <img
+            src="https://picsum.photos/id/1018/1200/675"
+            width="1200"
+            height="675"
+            alt="Clouds gathering over a wooded mountain valley"
+            style="display: block; inline-size: 100%; block-size: auto;"
+          >
+
+          <p>Last spring I came home from a hike with 47 photos and no idea where I’d taken the one I cared about. It showed a stream crossing just below a fork. I’d wanted to tell a friend how to get there, but the trail looked the same in every frame. The next weekend I tucked a pocket notebook into my jacket and wrote down the first thing I knew I’d forget.</p>
+
+          <section aria-labelledby="on-the-trail">
+            <h2 id="on-the-trail">Write at the next place you stop</h2>
+            <p>I take notes when I’m already stopping to drink, check the map, or pull on a layer. At a junction, I’ll jot down what the sign actually says. At a crossing, I’ll describe where I stepped in and what the far bank looked like. A ten-second note is usually enough.</p>
+            <p>Use whatever landmark you can pick out again. “Creek after the second footbridge” is more useful on the walk back than “creek at 11:42.” A time stamp earns its place when I want to match a note to a photograph or remember how long a climb took.</p>
+
+            <blockquote>
+              <p><em>Write the detail you’d want someone to tell you at the trailhead.</em></p>
+            </blockquote>
+
+            <p>On a foggy morning in September, that detail was a pair of cairns about thirty paces apart. The first marked the turn, and the second was far enough down the path that I couldn’t see it from the junction. I wrote “turn at first cairn, look for second” and was glad to have it on the way back.</p>
+          </section>
+
+          <section aria-labelledby="at-home">
+            <h2 id="at-home">Give each walk a name you can find later</h2>
+            <p>While dinner is on, I copy the few lines I want to keep into a Markdown file. The filename combines the date and route, like <code>2026-09-12-ridge-loop.md</code>. Inside, the first heading is the name I’d use when telling a friend about the walk. I keep the paper notebook for rough sketches and anything I haven’t made sense of yet.</p>
+            <p>Once I had a few dozen files, I made a small index. This Python script reads the first level-one heading from each dated note and prints a Markdown list with the newest walks first. Run it from the directory that contains your <code>notes</code> folder.</p>
+
+            <pre tabindex="0" aria-label="Python script for indexing field notes" style="max-inline-size: 100%; overflow-x: auto;"><code>from pathlib import Path
+
+notes = Path("notes").glob("????-??-??-*.md")
+
+for path in sorted(notes, reverse=True):
+    date = path.stem[:10]
+    lines = path.read_text(encoding="utf-8").splitlines()
+    title = next(
+        (line[2:].strip() for line in lines if line.startswith("# ")),
+        path.stem[11:].replace("-", " ").title(),
+    )
+    print(f"- {date} · [{title}]({path.as_posix()})")</code></pre>
+
+            <p>I keep the index next to the <code>notes</code> folder so the links resolve when I open it in my editor. Before repeating a route, I skim the last entry for things worth checking again, such as a seasonal water source or a trail sign that was down.</p>
+          </section>
+
+          <section aria-labelledby="overnight">
+            <h2 id="overnight">Leave yourself one reason to come back</h2>
+            <p>I try to end each entry with something I’d like to see on a return trip. On the ridge loop it was the old fire road that branched off toward the coast. The fog was thick enough that I could only see the first hundred yards. A month later I went back on a clear morning, took the turn, and finally saw where it led.</p>
+          </section>
+
+          <footer aria-label="Article tags">
+            <ui-stack direction="horizontal" gap="sm" wrap>
+              <span>Hiking</span>
+              <span>Field notes</span>
+              <span>Python</span>
+            </ui-stack>
+          </footer>
+        </ui-stack>
+      </article>
+
+      <section aria-labelledby="related-title">
+        <h2 id="related-title">Related posts</h2>
+        <div
+          role="region"
+          aria-label="Scrollable related post cards"
+          tabindex="0"
+          style="display: grid; grid-auto-flow: column; grid-auto-columns: min(82%, 16rem); gap: 1rem; overflow-x: auto; scroll-snap-type: x proximity; padding-block: 0.25rem 0.75rem;"
+        >
+          <ui-card style="scroll-snap-align: start;">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/id/1015/512/288" width="512" height="288" alt="" loading="lazy" style="display: block; inline-size: 100%; block-size: auto;">
+              <h3><a href="/posts/read-a-trail-map/">How to Read a Trail Map Before You Go</a></h3>
+              <p>Spot steep stretches, creek crossings, and places to turn back.</p>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card style="scroll-snap-align: start;">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/id/1043/512/288" width="512" height="288" alt="" loading="lazy" style="display: block; inline-size: 100%; block-size: auto;">
+              <h3><a href="/posts/one-pocket-camera/">One Pocket Camera, One Weekend</a></h3>
+              <p>How I decide which trail photos to keep and what to write beside them.</p>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card style="scroll-snap-align: start;">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/id/1039/512/288" width="512" height="288" alt="" loading="lazy" style="display: block; inline-size: 100%; block-size: auto;">
+              <h3><a href="/posts/first-rainy-day-hike/">Packing for a Rainy Day Hike</a></h3>
+              <p>Where to stash dry gloves and what to keep handy when the rain starts.</p>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card style="scroll-snap-align: start;">
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/id/1056/512/288" width="512" height="288" alt="" loading="lazy" style="display: block; inline-size: 100%; block-size: auto;">
+              <h3><a href="/posts/walk-the-same-trail-twice/">Walk the Same Trail Twice</a></h3>
+              <p>What changes when you return to a familiar route in another season.</p>
+            </ui-stack>
+          </ui-card>
+        </div>
+      </section>
+    </ui-stack>
+  </main>
+</body>
+</html>

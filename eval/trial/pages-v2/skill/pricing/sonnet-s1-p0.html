@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tasklane — Pricing</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" wrap padding="md">
+        <ui-row gap="sm">
+          <img src="https://picsum.photos/seed/tasklane-logo/64/64" alt="Tasklane logo" width="32" height="32">
+          <strong>Tasklane</strong>
+        </ui-row>
+        <nav>
+          <ui-row gap="md" wrap>
+            <a href="#">Product</a>
+            <a href="#plans">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href="#">Sign in</a>
+            <ui-button variant="primary" size="sm">Start free</ui-button>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container>
+      <ui-stack gap="2xl" padding="xl">
+
+        <ui-stack gap="md" align="center">
+          <h1>Simple pricing for teams that ship</h1>
+          <p>Plan projects, track work and keep everyone aligned. Start free, upgrade when your team grows. Cancel anytime.</p>
+          <ui-row gap="sm" wrap justify="center">
+            <ui-button variant="primary" size="lg">Try Tasklane free</ui-button>
+            <ui-button variant="outline" size="lg">Talk to sales</ui-button>
+          </ui-row>
+        </ui-stack>
+
+        <section id="plans">
+          <ui-grid max-columns="3" gap="lg">
+            <ui-card>
+              <h3>Starter</h3>
+              <p>For individuals and small side projects.</p>
+              <h2>$0 <small>/ month</small></h2>
+              <ul>
+                <li>Up to 3 projects</li>
+                <li>5 collaborators</li>
+                <li>Kanban and list views</li>
+                <li>1 GB file storage</li>
+              </ul>
+              <ui-button variant="outline">Get started</ui-button>
+            </ui-card>
+
+            <ui-card elevated variant="primary">
+              <ui-row justify="space-between">
+                <h3>Team</h3>
+                <mark>Most popular</mark>
+              </ui-row>
+              <p>For growing teams that need planning and insight.</p>
+              <h2>$12 <small>/ user / month</small></h2>
+              <ul>
+                <li>Unlimited projects</li>
+                <li>Timeline and Gantt views</li>
+                <li>Automations and integrations</li>
+                <li>100 GB file storage</li>
+                <li>Priority email support</li>
+              </ul>
+              <ui-button variant="primary">Start 14-day trial</ui-button>
+            </ui-card>
+
+            <ui-card>
+              <h3>Enterprise</h3>
+              <p>For organizations with advanced security needs.</p>
+              <h2>Custom</h2>
+              <ul>
+                <li>Everything in Team</li>
+                <li>SSO and SCIM provisioning</li>
+                <li>Audit logs and data residency</li>
+                <li>Dedicated success manager</li>
+              </ul>
+              <ui-button variant="outline">Contact sales</ui-button>
+            </ui-card>
+          </ui-grid>
+        </section>
+
+        <section>
+          <ui-stack gap="md">
+            <h2>Compare plans</h2>
+            <ui-container size="full">
+              <div style="overflow-x:auto">
+              <table>
+                <thead>
+                  <tr><th>Feature</th><th>Starter</th><th>Team</th><th>Enterprise</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Projects</td><td>3</td><td>Unlimited</td><td>Unlimited</td></tr>
+                  <tr><td>Collaborators</td><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
+                  <tr><td>Kanban &amp; list views</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                  <tr><td>Timeline &amp; Gantt</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+                  <tr><td>Automations</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+                  <tr><td>File storage</td><td>1 GB</td><td>100 GB</td><td>Unlimited</td></tr>
+                  <tr><td>SSO / SCIM</td><td>No</td><td>No</td><td>Yes</td></tr>
+                  <tr><td>Audit logs</td><td>No</td><td>No</td><td>Yes</td></tr>
+                  <tr><td>Support</td><td>Community</td><td>Priority email</td><td>Dedicated manager</td></tr>
+                </tbody>
+              </table>
+              </div>
+            </ui-container>
+          </ui-stack>
+        </section>
+
+        <section id="faq">
+          <ui-stack gap="md">
+            <h2>Frequently asked questions</h2>
+            <ui-grid max-columns="2" gap="lg" min-item-width="lg">
+              <ui-card>
+                <h4>Can I change plans later?</h4>
+                <p>Yes. Upgrade or downgrade at any time; billing is prorated automatically.</p>
+              </ui-card>
+              <ui-card>
+                <h4>Is there a free trial for Team?</h4>
+                <p>Every Team workspace starts with a 14-day trial. No credit card required.</p>
+              </ui-card>
+              <ui-card>
+                <h4>Do you offer discounts?</h4>
+                <p>Save 20% with annual billing. Nonprofits and education teams get 50% off.</p>
+              </ui-card>
+              <ui-card>
+                <h4>What payment methods do you accept?</h4>
+                <p>All major credit cards, plus invoicing and bank transfer on Enterprise.</p>
+              </ui-card>
+            </ui-grid>
+          </ui-stack>
+        </section>
+
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-stack gap="md" padding="xl">
+        <ui-row justify="space-between" wrap gap="lg" align="start">
+          <ui-stack gap="xs">
+            <strong>Tasklane</strong>
+            <small>Project management that stays out of your way.</small>
+          </ui-stack>
+          <ui-row gap="lg" wrap>
+            <a href="#">Product</a>
+            <a href="#plans">Pricing</a>
+            <a href="#">Docs</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+          </ui-row>
+        </ui-row>
+        <hr>
+        <small>© 2026 Tasklane, Inc. All rights reserved.</small>
+      </ui-stack>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

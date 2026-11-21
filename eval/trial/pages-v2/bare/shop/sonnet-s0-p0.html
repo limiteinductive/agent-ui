@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride &amp; Co. – Shoes</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-stack gap="lg">
+
+  <header>
+    <ui-container>
+      <ui-row justify="between" align="center" wrap>
+        <ui-stack gap="none">
+          <h2>Stride &amp; Co.</h2>
+          <ui-text muted>Footwear for every mile</ui-text>
+        </ui-stack>
+        <ui-button variant="secondary" id="cart-btn">
+          🛒 Cart <ui-badge id="cart-count">0</ui-badge>
+        </ui-button>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <ui-container>
+    <ui-stack gap="lg">
+
+      <ui-stack gap="xs">
+        <h1>All Shoes</h1>
+        <ui-text muted id="result-count">Showing 12 of 48 styles</ui-text>
+      </ui-stack>
+
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-stack gap="xs">
+            <label>Size (US)</label>
+            <ui-row gap="xs" wrap id="size-chips">
+              <ui-chip>6</ui-chip>
+              <ui-chip>7</ui-chip>
+              <ui-chip>8</ui-chip>
+              <ui-chip>9</ui-chip>
+              <ui-chip>10</ui-chip>
+              <ui-chip>11</ui-chip>
+              <ui-chip>12</ui-chip>
+            </ui-row>
+          </ui-stack>
+
+          <ui-grid cols="2" gap="md">
+            <ui-stack gap="xs">
+              <label for="price">Max price: <strong id="price-label">$250</strong></label>
+              <input type="range" id="price" min="50" max="250" step="10" value="250">
+            </ui-stack>
+            <ui-stack gap="xs">
+              <label for="sort">Sort by</label>
+              <select id="sort">
+                <option>Featured</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Newest</option>
+                <option>Top Rated</option>
+              </select>
+            </ui-stack>
+          </ui-grid>
+        </ui-stack>
+      </ui-card>
+
+      <ui-grid cols="1" sm="2" md="3" lg="4" gap="md" min="240px" id="grid"></ui-grid>
+
+      <ui-row justify="center" gap="xs" wrap id="pagination">
+        <ui-button variant="secondary" size="sm">‹ Prev</ui-button>
+        <ui-button size="sm">1</ui-button>
+        <ui-button variant="secondary" size="sm">2</ui-button>
+        <ui-button variant="secondary" size="sm">3</ui-button>
+        <ui-button variant="secondary" size="sm">4</ui-button>
+        <ui-button variant="secondary" size="sm">Next ›</ui-button>
+      </ui-row>
+
+    </ui-stack>
+  </ui-container>
+
+  <footer>
+    <ui-container>
+      <ui-text muted>© 2026 Stride &amp; Co. Free shipping on orders over $100.</ui-text>
+    </ui-container>
+  </footer>
+
+</ui-stack>
+
+<script>
+  const products = [
+    ["Aero Runner 2", "Running", 129],
+    ["Metro Leather Derby", "Dress", 185],
+    ["Trail Blazer GTX", "Trail", 164],
+    ["Court Classic Low", "Sneakers", 89],
+    ["Cloudstep Walker", "Walking", 110],
+    ["Summit Hiking Boot", "Boots", 220],
+    ["Canvas Everyday", "Sneakers", 59],
+    ["Velocity Pro Racer", "Running", 199],
+    ["Harbor Loafer", "Casual", 135],
+    ["Urban Chelsea Boot", "Boots", 175],
+    ["Breeze Slip-On", "Casual", 69],
+    ["Stratus High-Top", "Sneakers", 120]
+  ];
+  const grid = document.getElementById('grid');
+  products.forEach(([name, cat, price], i) => {
+    const el = document.createElement('ui-card');
+    el.innerHTML = `
+      <ui-stack gap="sm">
+        <img src="https://picsum.photos/seed/shoe${i + 10}/400/300" alt="${name}" loading="lazy" width="400" height="300">
+        <ui-text muted>${cat}</ui-text>
+        <h4>${name}</h4>
+        <ui-row justify="between" align="center">
+          <strong>$${price}.00</strong>
+        </ui-row>
+        <ui-button class="add" full>Add to cart</ui-button>
+      </ui-stack>`;
+    grid.appendChild(el);
+  });
+
+  let count = 0;
+  grid.addEventListener('click', e => {
+    if (e.target.closest('.add')) {
+      document.getElementById('cart-count').textContent = ++count;
+    }
+  });
+
+  document.getElementById('price').addEventListener('input', e => {
+    document.getElementById('price-label').textContent = '$' + e.target.value;
+  });
+
+  document.getElementById('size-chips').addEventListener('click', e => {
+    const chip = e.target.closest('ui-chip');
+    if (chip) chip.toggleAttribute('selected');
+  });
+</script>
+</body>
+</html>

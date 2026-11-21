@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing · Trackwise: Project management for teams that ship</title>
+  <meta name="description" content="Simple, transparent pricing for Trackwise. Start free, upgrade when your team grows.">
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <ui-container>
+      <ui-cluster justify="space-between" align="center" gap="md" wrap>
+        <a href="#" aria-label="Trackwise home">
+          <ui-cluster align="center" gap="sm">
+            <img src="https://picsum.photos/seed/trackwise-logo/80/80" alt="" width="36" height="36">
+            <strong>Trackwise</strong>
+          </ui-cluster>
+        </a>
+        <nav aria-label="Main">
+          <ui-cluster gap="md" align="center" wrap>
+            <a href="#">Product</a>
+            <a href="#">Templates</a>
+            <a href="#" aria-current="page">Pricing</a>
+            <a href="#">Customers</a>
+            <a href="#">Log in</a>
+            <ui-button variant="primary" href="#plans">Start free</ui-button>
+          </ui-cluster>
+        </nav>
+      </ui-cluster>
+    </ui-container>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <ui-section>
+      <ui-container>
+        <ui-stack gap="md" align="center" text-align="center">
+          <ui-badge variant="info">New: Annual billing saves 20%</ui-badge>
+          <h1>Pricing that grows with your team</h1>
+          <p>Plan sprints, track tasks, and hit deadlines without the spreadsheet chaos. Start free for up to 5 people, with no credit card required.</p>
+          <ui-cluster gap="sm" justify="center" wrap>
+            <ui-button variant="primary" href="#plans">See plans</ui-button>
+            <ui-button variant="secondary" href="#">Book a demo</ui-button>
+          </ui-cluster>
+        </ui-stack>
+      </ui-container>
+    </ui-section>
+
+    <!-- Plans -->
+    <ui-section id="plans" aria-labelledby="plans-title">
+      <ui-container>
+        <ui-stack gap="lg">
+          <ui-stack gap="xs" align="center" text-align="center">
+            <h2 id="plans-title">Choose your plan</h2>
+            <p>All prices are per user, per month, billed annually.</p>
+          </ui-stack>
+
+          <ui-grid min="16rem" gap="lg">
+            <!-- Starter -->
+            <ui-card>
+              <ui-stack gap="md">
+                <h3>Starter</h3>
+                <p>For small teams getting organized.</p>
+                <p><strong>$0</strong> / user / month</p>
+                <ui-button variant="secondary" href="#">Get started</ui-button>
+                <ui-divider></ui-divider>
+                <ul>
+                  <li>Up to 5 members</li>
+                  <li>3 active projects</li>
+                  <li>List &amp; board views</li>
+                  <li>1 GB file storage</li>
+                  <li>Community support</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+            <!-- Team (highlighted) -->
+            <ui-card variant="primary" highlighted elevated>
+              <ui-stack gap="md">
+                <ui-cluster justify="space-between" align="center" gap="sm" wrap>
+                  <h3>Team</h3>
+                  <ui-badge variant="primary">Most popular</ui-badge>
+                </ui-cluster>
+                <p>For growing teams shipping every week.</p>
+                <p><strong>$12</strong> / user / month</p>
+                <ui-button variant="primary" href="#">Start 14-day trial</ui-button>
+                <ui-divider></ui-divider>
+                <ul>
+                  <li>Unlimited members &amp; projects</li>
+                  <li>Timeline, Gantt &amp; calendar views</li>
+                  <li>Automations (1,000 runs/mo)</li>
+                  <li>Integrations with Slack, GitHub, Figma</li>
+                  <li>100 GB storage</li>
+                  <li>Email support, 24h response</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+            <!-- Business -->
+            <ui-card>
+              <ui-stack gap="md">
+                <h3>Business</h3>
+                <p>For organizations that need control.</p>
+                <p><strong>$24</strong> / user / month</p>
+                <ui-button variant="secondary" href="#">Contact sales</ui-button>
+                <ui-divider></ui-divider>
+                <ul>
+                  <li>Everything in Team</li>
+                  <li>Portfolios &amp; workload planning</li>
+                  <li>Unlimited automations</li>
+                  <li>SAML SSO &amp; SCIM provisioning</li>
+                  <li>Audit log &amp; data residency</li>
+                  <li>Dedicated success manager</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+        </ui-stack>
+      </ui-container>
+    </ui-section>
+
+    <!-- Comparison -->
+    <ui-section aria-labelledby="compare-title">
+      <ui-container>
+        <ui-stack gap="md">
+          <h2 id="compare-title">Compare features</h2>
+          <ui-scroll direction="x">
+            <table>
+              <caption>Feature availability by plan</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Starter</th>
+                  <th scope="col">Team</th>
+                  <th scope="col">Business</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Members</th><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Projects</th><td>3</td><td>Unlimited</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Board &amp; list views</th><td>✓</td><td>✓</td><td>✓</td></tr>
+                <tr><th scope="row">Timeline &amp; Gantt</th><td>—</td><td>✓</td><td>✓</td></tr>
+                <tr><th scope="row">Automations</th><td>—</td><td>1,000/mo</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Integrations</th><td>2</td><td>50+</td><td>50+ &amp; API</td></tr>
+                <tr><th scope="row">Storage</th><td>1 GB</td><td>100 GB</td><td>1 TB</td></tr>
+                <tr><th scope="row">Guest access</th><td>—</td><td>✓</td><td>✓</td></tr>
+                <tr><th scope="row">SSO / SCIM</th><td>—</td><td>—</td><td>✓</td></tr>
+                <tr><th scope="row">Audit log</th><td>—</td><td>—</td><td>✓</td></tr>
+                <tr><th scope="row">Support</th><td>Community</td><td>Email</td><td>Priority</td></tr>
+              </tbody>
+            </table>
+          </ui-scroll>
+        </ui-stack>
+      </ui-container>
+    </ui-section>
+
+    <!-- FAQ -->
+    <ui-section aria-labelledby="faq-title">
+      <ui-container size="md">
+        <ui-stack gap="md">
+          <h2 id="faq-title">Frequently asked questions</h2>
+          <details>
+            <summary>Can I try Trackwise before paying?</summary>
+            <p>Yes. The Starter plan is free forever for up to 5 members, and every paid plan includes a 14-day free trial with no credit card required.</p>
+          </details>
+          <details>
+            <summary>How does per-user billing work?</summary>
+            <p>You pay for each active member in your workspace. Guests and viewers are free. If you add someone mid-cycle, we prorate the charge on your next invoice.</p>
+          </details>
+          <details>
+            <summary>Can I switch plans later?</summary>
+            <p>Absolutely. Upgrade or downgrade at any time from your workspace settings. Changes take effect immediately, and any unused balance is credited.</p>
+          </details>
+          <details>
+            <summary>Do you offer discounts for nonprofits or education?</summary>
+            <p>We offer 50% off the Team and Business plans for registered nonprofits and accredited schools. Contact our team with proof of status to apply.</p>
+          </details>
+          <details>
+            <summary>Is my data secure?</summary>
+            <p>Trackwise is SOC 2 Type II certified, encrypts data in transit and at rest, and offers EU or US data residency on the Business plan.</p>
+          </details>
+          <details>
+            <summary>What payment methods do you accept?</summary>
+            <p>All major credit cards, plus invoicing and bank transfer for annual Business plans over 25 seats.</p>
+          </details>
+        </ui-stack>
+      </ui-container>
+    </ui-section>
+
+    <!-- CTA -->
+    <ui-section>
+      <ui-container>
+        <ui-card variant="primary">
+          <ui-stack gap="md" align="center" text-align="center">
+            <h2>Ready to get your projects on track?</h2>
+            <p>Join 18,000+ teams who plan, track, and ship with Trackwise.</p>
+            <ui-button variant="primary" href="#plans">Start free today</ui-button>
+          </ui-stack>
+        </ui-card>
+      </ui-container>
+    </ui-section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <ui-container>
+      <ui-stack gap="lg">
+        <ui-grid min="10rem" gap="lg">
+          <ui-stack gap="sm">
+            <ui-cluster align="center" gap="sm">
+              <img src="https://picsum.photos/seed/trackwise-logo/80/80" alt="" width="28" height="28">
+              <strong>Trackwise</strong>
+            </ui-cluster>
+            <small>Project management for teams that ship.</small>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <strong>Product</strong>
+            <a href="#">Features</a>
+            <a href="#">Integrations</a>
+            <a href="#">Pricing</a>
+            <a href="#">Changelog</a>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <strong>Company</strong>
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact</a>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <strong>Resources</strong>
+            <a href="#">Help center</a>
+            <a href="#">Templates</a>
+            <a href="#">Security</a>
+            <a href="#">Status</a>
+          </ui-stack>
+        </ui-grid>
+        <ui-divider></ui-divider>
+        <ui-cluster justify="space-between" gap="sm" wrap>
+          <small>© 2026 Trackwise, Inc. All rights reserved.</small>
+          <ui-cluster gap="md" wrap>
+            <small><a href="#">Privacy</a></small>
+            <small><a href="#">Terms</a></small>
+            <small><a href="#">Cookies</a></small>
+          </ui-cluster>
+        </ui-cluster>
+      </ui-stack>
+    </ui-container>
+  </footer>
+
+</body>
+</html>

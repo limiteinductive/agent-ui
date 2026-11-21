@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing · Tasklane</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" wrap padding="md">
+        <a href="#" aria-label="Tasklane home">
+          <ui-row gap="sm">
+            <img src="https://picsum.photos/seed/tasklane-logo/64/64" width="32" height="32" alt="">
+            <strong>Tasklane</strong>
+          </ui-row>
+        </a>
+        <nav aria-label="Main">
+          <ui-row wrap gap="md">
+            <a href="#">Product</a>
+            <a href="#">Integrations</a>
+            <a href="#" aria-current="page">Pricing</a>
+            <a href="#">Customers</a>
+            <a href="#">Sign in</a>
+            <ui-button variant="primary" size="sm">Start free trial</ui-button>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container>
+      <ui-stack gap="2xl" padding="lg">
+
+        <!-- Hero -->
+        <section aria-labelledby="hero-title">
+          <ui-stack gap="md" align="center">
+            <mark>Pricing</mark>
+            <h1 id="hero-title">Plans that grow with your team</h1>
+            <p>Plan sprints, track deadlines and keep every project moving. Start free, upgrade when you're ready. No credit card required for the 14-day trial.</p>
+            <ui-row wrap gap="sm" justify="center">
+              <ui-button variant="primary" size="lg">Start your free trial</ui-button>
+              <ui-button variant="outline" size="lg">Talk to sales</ui-button>
+            </ui-row>
+            <small>Trusted by 18,000+ teams at companies like Northwind, Globex and Initech.</small>
+          </ui-stack>
+        </section>
+
+        <!-- Plans -->
+        <section aria-labelledby="plans-title">
+          <ui-stack gap="lg">
+            <h2 id="plans-title">Choose a plan</h2>
+            <ui-grid max-columns="3" min-item-width="md" gap="lg">
+              <ui-card>
+                <h3>Starter</h3>
+                <p>For individuals and small teams getting organized.</p>
+                <p><strong>$0</strong> forever</p>
+                <ul>
+                  <li>Up to 5 members</li>
+                  <li>3 active projects</li>
+                  <li>List &amp; board views</li>
+                  <li>1 GB file storage</li>
+                  <li>Community support</li>
+                </ul>
+                <ui-button variant="outline">Get started</ui-button>
+              </ui-card>
+
+              <ui-card elevated variant="primary">
+                <ui-row justify="space-between" wrap gap="sm">
+                  <h3>Team</h3>
+                  <mark>Most popular</mark>
+                </ui-row>
+                <p>For growing teams shipping projects together.</p>
+                <p><strong>$12</strong> per user / month, billed annually</p>
+                <ul>
+                  <li>Unlimited members &amp; projects</li>
+                  <li>Timeline, calendar &amp; Gantt views</li>
+                  <li>Automations (5,000 runs/month)</li>
+                  <li>Time tracking &amp; workload</li>
+                  <li>100 GB file storage</li>
+                  <li>Priority email support</li>
+                </ul>
+                <ui-button variant="primary">Start 14-day trial</ui-button>
+              </ui-card>
+
+              <ui-card>
+                <h3>Enterprise</h3>
+                <p>For organizations with advanced security and scale needs.</p>
+                <p><strong>Custom</strong> annual contract</p>
+                <ul>
+                  <li>Everything in Team</li>
+                  <li>SAML SSO &amp; SCIM provisioning</li>
+                  <li>Unlimited automations</li>
+                  <li>Audit logs &amp; data residency</li>
+                  <li>99.9% uptime SLA</li>
+                  <li>Dedicated success manager</li>
+                </ul>
+                <ui-button variant="outline">Contact sales</ui-button>
+              </ui-card>
+            </ui-grid>
+          </ui-stack>
+        </section>
+
+        <!-- Comparison table -->
+        <section aria-labelledby="compare-title">
+          <ui-stack gap="md">
+            <h2 id="compare-title">Compare features</h2>
+            <div style="overflow-x: auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Starter</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Enterprise</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">Members</th><td>Up to 5</td><td>Unlimited</td><td>Unlimited</td></tr>
+                  <tr><th scope="row">Active projects</th><td>3</td><td>Unlimited</td><td>Unlimited</td></tr>
+                  <tr><th scope="row">Board &amp; list views</th><td>✓</td><td>✓</td><td>✓</td></tr>
+                  <tr><th scope="row">Timeline &amp; Gantt</th><td>—</td><td>✓</td><td>✓</td></tr>
+                  <tr><th scope="row">Automations</th><td>—</td><td>5,000 / month</td><td>Unlimited</td></tr>
+                  <tr><th scope="row">Time tracking</th><td>—</td><td>✓</td><td>✓</td></tr>
+                  <tr><th scope="row">File storage</th><td>1 GB</td><td>100 GB</td><td>Unlimited</td></tr>
+                  <tr><th scope="row">Guest access</th><td>—</td><td>✓</td><td>✓</td></tr>
+                  <tr><th scope="row">SAML SSO &amp; SCIM</th><td>—</td><td>—</td><td>✓</td></tr>
+                  <tr><th scope="row">Audit logs</th><td>—</td><td>—</td><td>✓</td></tr>
+                  <tr><th scope="row">Uptime SLA</th><td>—</td><td>—</td><td>99.9%</td></tr>
+                  <tr><th scope="row">Support</th><td>Community</td><td>Priority email</td><td>Dedicated manager</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </ui-stack>
+        </section>
+
+        <!-- FAQ -->
+        <section aria-labelledby="faq-title">
+          <ui-stack gap="md">
+            <h2 id="faq-title">Frequently asked questions</h2>
+            <details>
+              <summary>Can I try Tasklane before paying?</summary>
+              <p>Yes. Every Team plan starts with a 14-day free trial with all features unlocked. No credit card is required, and you can drop back to Starter at any time.</p>
+            </details>
+            <details>
+              <summary>How does per-user billing work?</summary>
+              <p>You pay for each member with full access. Guests and viewers are free. When you add someone mid-cycle, we prorate the charge on your next invoice.</p>
+            </details>
+            <details>
+              <summary>Can I switch between monthly and annual billing?</summary>
+              <p>Absolutely. Annual billing saves 20% compared to monthly ($15 per user / month). You can switch from your workspace's billing settings at any time.</p>
+            </details>
+            <details>
+              <summary>Do you offer discounts for nonprofits or education?</summary>
+              <p>Yes. Registered nonprofits and accredited schools get 50% off the Team plan. Contact our support team with proof of status to apply.</p>
+            </details>
+            <details>
+              <summary>What happens to my data if I cancel?</summary>
+              <p>Your workspace stays readable for 30 days so you can export projects as CSV or JSON. After that, data is permanently deleted from our servers.</p>
+            </details>
+          </ui-stack>
+        </section>
+
+        <!-- CTA -->
+        <ui-card inverse padding="xl">
+          <ui-row stack-below="40rem" gap="lg">
+            <ui-stack gap="sm">
+              <h2>Ready to get your projects on track?</h2>
+              <p>Join thousands of teams who plan, track and ship with Tasklane.</p>
+            </ui-stack>
+            <ui-row wrap gap="sm" justify="end">
+              <ui-button variant="primary" size="lg">Start free trial</ui-button>
+              <ui-button variant="ghost" size="lg">Book a demo</ui-button>
+            </ui-row>
+          </ui-row>
+        </ui-card>
+
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-stack gap="lg" padding="lg">
+        <hr>
+        <ui-row justify="space-between" wrap gap="lg" align="start">
+          <ui-stack gap="sm">
+            <ui-row gap="sm">
+              <img src="https://picsum.photos/seed/tasklane-logo/64/64" width="24" height="24" alt="">
+              <strong>Tasklane</strong>
+            </ui-row>
+            <small>Project management for teams that ship.</small>
+          </ui-stack>
+          <nav aria-label="Footer">
+            <ui-row wrap gap="md">
+              <a href="#">About</a>
+              <a href="#">Blog</a>
+              <a href="#">Careers</a>
+              <a href="#">Security</a>
+              <a href="#">Status</a>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+        <small>© 2026 Tasklane, Inc. All rights reserved.</small>
+      </ui-stack>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

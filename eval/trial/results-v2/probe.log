@@ -1,0 +1,26 @@
+207 pages probed; 33 flagged; flagged but diagnostics-clean: 4
+
+pages-v2/bare/dashboard/haiku-s1-p2.html @360
+  overlap 360px  <ui-row wrap>Filters Date range Last 7 days  ×  <ui-container>Overview Nov 1 – Nov 30, 2026
+
+pages-v2/bare/dashboard/haiku-s1-p2.html @1280
+  overlap 711px  <ui-row wrap>Filters Date range Last 7 days  ×  <ui-container>Overview Nov 1 – Nov 30, 2026
+
+pages-v2/bare/calendar/gpt-6.2-s0-p1.html @360
+  clipped 7px  <abbr title="Design critique" aria-label="Design critique">Design  ×  <span class="day-event" data-kind="design" title="Design critique, 11:30 AM">Design
+  clipped 11px  <abbr title="Release readiness review" aria-label="Release readiness review">Release  ×  <span class="day-event" data-kind="release" title="Release readiness review, 2:00">Release
+  clipped 19px  <abbr title="Product roadmap review" aria-label="Product roadmap review">Roadmap  ×  <span class="day-event" data-kind="planning" title="Product roadmap review, 10:00 ">Roadmap
+  clipped 19px  <abbr title="Customer research readout" aria-label="Customer research readout">Research  ×  <span class="day-event" data-kind="design" title="Customer research readout, 3:0">Research
+
+pages-v2/bare/calendar/gpt-6.2-s0-p1.html @1280
+  clipped 41px  <span class="full-title">Release readiness review  ×  <span class="day-event" data-kind="release" title="Release readiness review, 2:00">Release readiness review
+  clipped 37px  <span class="full-title">Product roadmap review  ×  <span class="day-event" data-kind="planning" title="Product roadmap review, 10:00 ">Product roadmap review
+  clipped 52px  <span class="full-title">Customer research readout  ×  <span class="day-event" data-kind="design" title="Customer research readout, 3:0">Customer research readout
+
+pages-v2/bare/calendar/gpt-6.2-s1-p1.html @1280
+  clipped 41px  <span>Onboarding design review  ×  <li class="event-chip review" title="Onboarding design review, 11:3">Onboarding design review
+  clipped 45px  <span>Customer research debrief  ×  <li class="event-chip review" title="Customer research debrief, 2:0">Customer research debrief
+  clipped 31px  <span>November retrospective  ×  <li class="event-chip team" title="November retrospective, 2:00 P">November retrospective
+
+pages-v2/skill/calendar/gpt-6.2-s0-p0.html @1280
+  clipped 10px  <span>Team retrospective  ×  <span class="calendar-event team" title="Team retrospective · 4:00 PM">Team retrospective

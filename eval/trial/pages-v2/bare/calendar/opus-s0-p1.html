@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Northwind Product Team</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="xl">
+    <ui-stack gap="lg" padding="md">
+
+      <ui-stack direction="horizontal" align="center" justify="space-between" wrap gap="md">
+        <ui-stack direction="horizontal" align="center" gap="sm" wrap>
+          <img src="https://picsum.photos/seed/northwind/80/80" alt="Northwind team" width="48" height="48">
+          <ui-stack gap="xs">
+            <h1>Team Calendar</h1>
+            <p><small>Northwind Product Team · 8 members</small></p>
+          </ui-stack>
+        </ui-stack>
+        <ui-button variant="primary" id="add-event">+ New event</ui-button>
+      </ui-stack>
+
+      <ui-grid max-columns="2" min-item-width="18rem" gap="lg">
+
+        <!-- Month calendar -->
+        <ui-card>
+          <ui-stack gap="md">
+            <ui-stack direction="horizontal" align="center" justify="space-between" gap="sm" wrap>
+              <ui-button variant="ghost" id="prev" aria-label="Previous month">‹ Prev</ui-button>
+              <h2 id="month-title" aria-live="polite">November 2026</h2>
+              <ui-button variant="ghost" id="next" aria-label="Next month">Next ›</ui-button>
+            </ui-stack>
+
+            <div style="overflow-x: auto">
+              <table aria-label="Month view">
+                <thead>
+                  <tr>
+                    <th scope="col" abbr="Monday">Mon</th>
+                    <th scope="col" abbr="Tuesday">Tue</th>
+                    <th scope="col" abbr="Wednesday">Wed</th>
+                    <th scope="col" abbr="Thursday">Thu</th>
+                    <th scope="col" abbr="Friday">Fri</th>
+                    <th scope="col" abbr="Saturday">Sat</th>
+                    <th scope="col" abbr="Sunday">Sun</th>
+                  </tr>
+                </thead>
+                <tbody id="grid"></tbody>
+              </table>
+            </div>
+
+            <p><small>Hover an event for its time and type. Today is highlighted.</small></p>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Upcoming events -->
+        <ui-card>
+          <ui-stack gap="md">
+            <ui-stack gap="xs">
+              <h2>Upcoming</h2>
+              <p><small id="upcoming-sub">Next events from today</small></p>
+            </ui-stack>
+            <ui-stack gap="sm" id="upcoming"></ui-stack>
+          </ui-stack>
+        </ui-card>
+
+      </ui-grid>
+    </ui-stack>
+  </ui-container>
+
+  <script>
+    const TODAY = new Date(2026, 10, 21); // Sat, 21 Nov 2026
+
+    const events = [
+      { date: "2026-10-28", time: "10:00", title: "Q4 roadmap review", type: "Meeting", where: "Room Atlas" },
+      { date: "2026-11-02", time: "09:30", title: "Sprint 23 planning", type: "Meeting", where: "Zoom" },
+      { date: "2026-11-06", time: "17:00", title: "Design handoff: Billing v2", type: "Deadline", where: "Figma" },
+      { date: "2026-11-12", time: "14:00", title: "Release 4.8", type: "Release", where: "Production" },
+      { date: "2026-11-13", time: "18:30", title: "Team dinner", type: "Social", where: "Osteria Nonna" },
+      { date: "2026-11-19", time: "11:00", title: "Customer interviews", type: "Meeting", where: "Room Atlas" },
+      { date: "2026-11-23", time: "09:30", title: "Sprint 24 planning", type: "Meeting", where: "Zoom" },
+      { date: "2026-11-25", time: "16:00", title: "Security audit report due", type: "Deadline", where: "Confluence" },
+      { date: "2026-11-27", time: "15:00", title: "Friday demo & retro", type: "Meeting", where: "Main hall" },
+      { date: "2026-12-01", time: "10:00", title: "1:1 cycle begins", type: "Meeting", where: "Various" },
+      { date: "2026-12-03", time: "14:00", title: "Release 4.9", type: "Release", where: "Production" },
+      { date: "2026-12-10", time: "12:00", title: "Accessibility workshop", type: "Meeting", where: "Room Nova" },
+      { date: "2026-12-16", time: "17:00", title: "Year-end OKR drafts due", type: "Deadline", where: "Notion" },
+      { date: "2026-12-18", time: "19:00", title: "Holiday party", type: "Social", where: "Rooftop Bar 21" },
+      { date: "2027-01-07", time: "09:30", title: "Kickoff 2027", type: "Meeting", where: "Main hall" }
+    ];
+
+    const pad = n => String(n).padStart(2, "0");
+    const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+    const el = (tag, attrs = {}, text) => {
+      const e = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+      if (text != null) e.textContent = text;
+      return e;
+    };
+
+    let view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+
+    function renderMonth() {
+      const title = view.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+      document.getElementById("month-title").textContent = title;
+
+      const grid = document.getElementById("grid");
+      grid.replaceChildren();
+
+      const offset = (view.getDay() + 6) % 7; // Monday = 0
+      const start = new Date(view.getFullYear(), view.getMonth(), 1 - offset);
+      const todayKey = iso(TODAY);
+
+      for (let w = 0; w < 6; w++) {
+        const row = el("tr");
+        for (let d = 0; d < 7; d++) {
+          const day = new Date(start.getFullYear(), start.getMonth(), start.getDate() + w * 7 + d);
+          const key = iso(day);
+          const inMonth = day.getMonth() === view.getMonth();
+          const td = el("td", { "data-date": key });
+          const cell = el("ui-stack", { gap: "xs" });
+
+          const label = day.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+          if (key === todayKey) {
+            const m = el("mark", { "aria-label": `Today, ${label}` });
+            m.append(el("strong", {}, day.getDate()));
+            cell.append(m);
+            td.setAttribute("aria-current", "date");
+          } else if (inMonth) {
+            cell.append(el("strong", { "aria-label": label }, day.getDate()));
+          } else {
+            cell.append(el("small", { "aria-label": label }, day.getDate()));
+          }
+
+          events.filter(e => e.date === key).forEach(e => {
+            cell.append(el("small", { title: `${e.time} · ${e.type} · ${e.title}` }, e.title));
+          });
+
+          td.append(cell);
+          row.append(td);
+        }
+        grid.append(row);
+      }
+    }
+
+    function renderUpcoming() {
+      const list = document.getElementById("upcoming");
+      list.replaceChildren();
+      const upcoming = events
+        .filter(e => parse(e.date) >= TODAY)
+        .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+        .slice(0, 7);
+
+      document.getElementById("upcoming-sub").textContent =
+        `${upcoming.length} events from ${TODAY.toLocaleDateString("en-GB", { day: "numeric", month: "short" })}`;
+
+      upcoming.forEach((e, i) => {
+        const date = parse(e.date);
+        const item = el("ui-stack", { direction: "horizontal", gap: "sm", align: "start", wrap: "" });
+
+        const dateBox = el("ui-stack", { gap: "0", align: "center" });
+        dateBox.append(
+          el("small", {}, date.toLocaleDateString("en-GB", { month: "short" }).toUpperCase()),
+          el("strong", {}, date.getDate())
+        );
+
+        const info = el("ui-stack", { gap: "xs" });
+        info.append(
+          el("strong", {}, e.title),
+          el("small", {},
+            `${date.toLocaleDateString("en-GB", { weekday: "short" })} · ${e.time} · ${e.where}`),
+          el("small", {}, e.type)
+        );
+
+        item.append(dateBox, info);
+        list.append(item);
+        if (i < upcoming.length - 1) list.append(el("hr"));
+      });
+    }
+
+    document.getElementById("prev").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+      renderMonth();
+    });
+    document.getElementById("next").addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+      renderMonth();
+    });
+    document.getElementById("add-event").addEventListener("click", () => {
+      alert("Event creation is not available in this demo.");
+    });
+
+    renderMonth();
+    renderUpcoming();
+  </script>
+</body>
+</html>

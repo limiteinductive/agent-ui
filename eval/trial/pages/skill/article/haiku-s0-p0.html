@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing Layouts That Survive Real Screens</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" padding="md">
+          <strong>Field Notes</strong>
+          <nav>
+            <ui-row gap="md">
+              <a href="#">Essays</a>
+              <a href="#">Guides</a>
+              <a href="#">About</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="sm">
+        <article>
+          <ui-stack gap="lg" padding="md">
+
+            <ui-row wrap gap="sm">
+              <a href="#">CSS</a>
+              <a href="#">Layout</a>
+              <a href="#">Responsive design</a>
+            </ui-row>
+
+            <h1>Designing Layouts That Survive Real Screens</h1>
+            <p>Most pages are designed on a wide monitor and then squeezed onto a phone. Here is a calmer approach: start from the smallest screen, let content decide where the breakpoints go, and treat every horizontal line as a decision.</p>
+
+            <ui-row gap="sm">
+              <img src="https://picsum.photos/seed/author-maya/96/96" width="48" height="48" alt="Portrait of Maya Okafor">
+              <ui-stack gap="0">
+                <strong>Maya Okafor</strong>
+                <small>Published <time datetime="2026-11-12">12 November 2026</time> · 9 min read</small>
+              </ui-stack>
+            </ui-row>
+
+            <figure>
+              <img src="https://picsum.photos/seed/layout-cover/1200/630" width="1200" height="630" alt="Abstract grid of overlapping panels in soft light">
+              <figcaption>Layouts are easier to reason about when every row has a clear behavior.</figcaption>
+            </figure>
+
+            <div>
+              <h2>Start with the narrowest screen</h2>
+              <p>A 360-pixel phone is the most honest test you have. Every element that needs a fixed width will reveal itself there, and every line of text that assumes a wide measure will become hard to read. When you design for the narrowest case first, the wider layouts usually fall into place with fewer overrides.</p>
+              <p>In practice this means writing the page as a single column, checking that tags and buttons wrap, and only then deciding where a second column earns its space. A second column is a commitment: it needs room for both sides to breathe.</p>
+
+              <h2>Let rows declare their behavior</h2>
+              <p>A horizontal line of content can do only a few things when it runs out of room. It can wrap onto new lines, it can scroll as a rail, or it can stack vertically below some width. Picking one on purpose is far better than letting the browser squeeze the items until they overlap.</p>
+
+              <h3>Tags and chips</h3>
+              <p>Tags should wrap. They are independent, short, and unordered, so a second line costs nothing and keeps every label readable.</p>
+
+              <h3>Related content</h3>
+              <p>Cards that sit side by side are a good fit for a horizontal rail. The user can flick through them on a phone, and the desktop layout keeps the same rhythm without forcing a grid of equal rows.</p>
+
+              <blockquote>
+                <p>The best responsive layout is the one you do not notice. It simply keeps working when the window changes size.</p>
+                <footer>Ren Asante, in a conference talk on fluid interfaces</footer>
+              </blockquote>
+
+              <h2>Describe structure, not pixels</h2>
+              <p>Hard-coded pixel widths make pages brittle. Describing intent instead, such as "three tiles at most, never narrower than sixteen rems," lets the page adapt without a pile of media queries. The snippet below shows the idea: a grid that caps its column count and a card that fills whatever space it is given.</p>
+
+              <pre><code>&lt;ui-grid max-columns="3" min-item-width="md"&gt;
+  &lt;ui-card&gt;
+    &lt;h3&gt;Shipping faster&lt;/h3&gt;
+    &lt;p&gt;Fewer breakpoints, clearer rules.&lt;/p&gt;
+  &lt;/ui-card&gt;
+  &lt;ui-card&gt;
+    &lt;h3&gt;Easier review&lt;/h3&gt;
+    &lt;p&gt;Each row says what it does.&lt;/p&gt;
+  &lt;/ui-card&gt;
+&lt;/ui-grid&gt;</code></pre>
+
+              <p>Notice what is missing: there is no list of screen sizes and no hand-tuned margins. The layout reads as a sentence about what should happen, and the browser works out the rest.</p>
+
+              <h2>Checklist before you publish</h2>
+              <p>Before shipping a page, run through a short list. It takes ten minutes and catches most of the problems that users actually hit.</p>
+              <ul>
+                <li>Open the page at 360 pixels and scroll the whole document. Nothing should move sideways.</li>
+                <li>Check that every row of tags, buttons, or links either wraps or scrolls on purpose.</li>
+                <li>Confirm that headings still read in order when the columns collapse.</li>
+                <li>Look at the page in dark mode and make sure images do not glare against the background.</li>
+                <li>Read the console once. A clean report is a good sign that the structure matches what you meant.</li>
+              </ul>
+
+              <h2>Closing thoughts</h2>
+              <p>Responsive design is less about breakpoints than about honesty. If a row of content cannot fit, say what should happen instead of hoping it will look fine. The pages that hold up over time are the ones whose authors made those choices explicitly.</p>
+            </div>
+
+            <hr>
+
+            <ui-row wrap gap="sm">
+              <small>Filed under:</small>
+              <a href="#">CSS</a>
+              <a href="#">Accessibility</a>
+              <a href="#">Mobile</a>
+            </ui-row>
+
+            <ui-stack gap="md">
+              <h2>Related posts</h2>
+              <ui-row scroll item-width="md" gap="md">
+                <ui-card padding="0" rounded="lg" elevated>
+                  <img src="https://picsum.photos/seed/related-one/640/360" width="640" height="360" alt="Stacked cards on a desk">
+                  <ui-stack padding="md" gap="xs">
+                    <h3>Why cards beat tables on phones</h3>
+                    <p>A short look at when each pattern shines.</p>
+                    <small><time datetime="2026-10-30">30 October 2026</time></small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="0" rounded="lg" elevated>
+                  <img src="https://picsum.photos/seed/related-two/640/360" width="640" height="360" alt="Hands sketching a wireframe">
+                  <ui-stack padding="md" gap="xs">
+                    <h3>Sketching layouts before code</h3>
+                    <p>Paper prototypes that catch problems early.</p>
+                    <small><time datetime="2026-10-14">14 October 2026</time></small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="0" rounded="lg" elevated>
+                  <img src="https://picsum.photos/seed/related-three/640/360" width="640" height="360" alt="Colorful tiles arranged in a grid">
+                  <ui-stack padding="md" gap="xs">
+                    <h3>A grid that knows its limits</h3>
+                    <p>Capping columns without hard breakpoints.</p>
+                    <small><time datetime="2026-09-22">22 September 2026</time></small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="0" rounded="lg" elevated>
+                  <img src="https://picsum.photos/seed/related-four/640/360" width="640" height="360" alt="Phone displaying a long scrolling list">
+                  <ui-stack padding="md" gap="xs">
+                    <h3>Scrolling rails, done well</h3>
+                    <p>Snap points, peeking edges, and keyboard access.</p>
+                    <small><time datetime="2026-09-03">3 September 2026</time></small>
+                  </ui-stack>
+                </ui-card>
+              </ui-row>
+            </ui-stack>
+
+          </ui-stack>
+        </article>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container>
+        <ui-row justify="space-between" padding="md" wrap gap="sm">
+          <small>© 2026 Field Notes</small>
+          <small><a href="#">Subscribe</a> · <a href="#">Contact</a></small>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

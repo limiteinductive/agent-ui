@@ -1,0 +1,291 @@
+sonnet skill/pricing s0 p0: clean
+sonnet skill/dashboard s1 p0: clean
+sonnet skill/dashboard s0 p0: clean
+sonnet skill/pricing s1 p0: clean
+sonnet skill/settings s0 p0: clean
+haiku skill/pricing s0 p0: 1E 1W
+opus skill/pricing s1 p0: clean
+sonnet skill/settings s1 p0: clean
+haiku skill/pricing s1 p0: clean
+opus skill/dashboard s1 p0: clean
+opus skill/pricing s0 p0: clean
+sonnet skill/article s0 p0: clean
+opus skill/dashboard s0 p0: clean
+gpt-5.6 skill/pricing s0 p0: 1E 0W
+haiku skill/dashboard s1 p0: clean
+haiku skill/dashboard s0 p0: clean
+sonnet skill/article s1 p0: clean
+gpt-5.6 skill/dashboard s0 p0: clean
+gpt-5.6 skill/pricing s1 p0: clean
+haiku skill/pricing s0 p1: 0E 1W
+sonnet skill/shop s0 p0: clean
+sonnet skill/calendar s1 p0: clean
+sonnet skill/calendar s0 p0: 2E 1W
+haiku skill/settings s0 p0: clean
+gpt-6.2 skill/pricing s1 p0: clean
+sonnet skill/shop s1 p0: clean
+opus skill/settings s0 p0: clean
+haiku skill/pricing s0 p2: 0E 1W
+opus skill/settings s1 p0: clean
+sonnet bare/pricing s0 p0: 4E 5W
+sonnet skill/calendar s0 p1: clean
+sonnet bare/pricing s1 p0: 3E 3W
+haiku skill/article s0 p0: clean
+haiku skill/settings s1 p0: clean
+sonnet bare/dashboard s0 p0: 9E 3W
+gpt-6.2 skill/pricing s0 p0: clean
+opus skill/article s1 p0: clean
+gpt-5.6 skill/pricing s0 p1: clean
+opus skill/article s0 p0: clean
+haiku skill/article s1 p0: clean
+sonnet bare/pricing s0 p1: clean
+gpt-5.6 skill/settings s0 p0: clean
+sonnet bare/pricing s1 p1: clean
+sonnet bare/dashboard s1 p0: 13E 2W
+opus skill/calendar s1 p0: clean
+sonnet bare/dashboard s0 p1: 0E 1W
+opus skill/calendar s0 p0: clean
+sonnet bare/settings s0 p0: 7E 4W
+gpt-5.6 skill/dashboard s1 p0: clean
+sonnet bare/settings s1 p0: 11E 0W
+haiku skill/calendar s0 p0: clean
+sonnet bare/dashboard s1 p1: 0E 2W
+haiku skill/shop s0 p0: clean
+sonnet bare/settings s0 p1: clean
+sonnet bare/dashboard s0 p2: clean
+gpt-6.2 skill/dashboard s0 p0: clean
+haiku skill/shop s1 p0: clean
+gpt-5.6 skill/settings s1 p0: clean
+sonnet bare/settings s1 p1: 1E 1W
+haiku skill/calendar s1 p0: clean
+opus skill/shop s1 p0: clean
+haiku bare/pricing s0 p0: 7E 9W
+sonnet bare/dashboard s1 p2: clean
+haiku bare/pricing s1 p0: 18E 10W
+opus bare/pricing s0 p0: 16E 4W
+sonnet bare/settings s1 p2: clean
+opus skill/shop s0 p0: clean
+sonnet bare/article s1 p0: 6E 1W
+opus bare/pricing s1 p0: 22E 2W
+sonnet bare/calendar s0 p0: 13E 1W
+sonnet bare/article s0 p0: 5E 2W
+gpt-5.6 skill/article s0 p0: clean
+haiku bare/dashboard s1 p0: 55E 7W
+haiku bare/pricing s0 p1: 2E 0W
+haiku bare/pricing s1 p1: clean
+gpt-6.2 skill/dashboard s1 p0: clean
+haiku bare/dashboard s0 p0: 20E 12W
+sonnet bare/article s1 p1: 0E 1W
+gpt-5.6 skill/article s1 p0: clean
+sonnet bare/calendar s0 p1: clean
+sonnet bare/article s0 p1: 0E 1W
+haiku bare/pricing s0 p2: clean
+sonnet bare/calendar s1 p0: 1E 1W
+opus bare/pricing s0 p1: clean
+opus bare/dashboard s0 p0: 10E 6W
+gpt-6.2 skill/settings s0 p0: clean
+haiku bare/settings s0 p0: 3E 12W
+opus bare/pricing s1 p1: clean
+gpt-5.6 skill/calendar s0 p0: 1E 0W
+sonnet bare/article s1 p2: clean
+sonnet bare/shop s0 p0: 7E 4W
+haiku bare/dashboard s0 p1: 0E 6W
+haiku bare/settings s0 p1: clean
+haiku bare/settings s1 p0: 9E 7W
+sonnet bare/article s0 p2: clean
+sonnet bare/calendar s1 p1: clean
+opus bare/dashboard s1 p0: 21E 6W
+haiku bare/dashboard s1 p1: 1E 0W
+gpt-5.6 skill/calendar s1 p0: clean
+sonnet bare/shop s0 p1: clean
+opus bare/settings s0 p0: 23E 3W
+sonnet bare/shop s1 p0: 3E 4W
+opus bare/dashboard s0 p1: clean
+haiku bare/dashboard s0 p2: clean
+haiku bare/settings s1 p1: 1E 0W
+haiku bare/dashboard s1 p2: clean
+opus bare/settings s1 p0: 3E 7W
+gpt-6.2 skill/settings s1 p0: clean
+haiku bare/article s0 p0: 7E 5W
+haiku bare/settings s1 p2: clean
+sonnet bare/shop s1 p1: clean
+gpt-5.6 skill/calendar s0 p1: clean
+gpt-5.6 skill/shop s0 p0: clean
+haiku bare/article s1 p0: 10E 0W
+opus bare/settings s0 p1: 0E 3W
+gpt-6.2 skill/article s1 p0: clean
+haiku bare/article s0 p1: clean
+opus bare/dashboard s1 p1: clean
+opus bare/settings s1 p1: clean
+haiku bare/calendar s0 p0: 21E 4W
+gpt-6.2 skill/article s0 p0: clean
+haiku bare/calendar s1 p0: 12E 4W
+haiku bare/article s1 p1: 0E 2W
+haiku bare/shop s0 p0: 4E 14W
+opus bare/article s0 p0: 17E 4W
+opus bare/settings s0 p2: clean
+haiku bare/calendar s0 p1: 0E 1W
+haiku bare/calendar s0 p2: clean
+haiku bare/shop s1 p0: 7E 7W
+opus bare/calendar s1 p0: 65E 7W
+haiku bare/shop s1 p1: clean
+haiku bare/calendar s1 p1: clean
+haiku bare/article s1 p2: clean
+haiku bare/shop s0 p1: clean
+opus bare/calendar s0 p0: 37E 16W
+opus bare/calendar s1 p1: 0E 1W
+opus bare/article s1 p0: 13E 5W
+opus bare/article s0 p1: clean
+opus bare/calendar s0 p1: clean
+gpt-6.2 skill/shop s0 p0: clean
+opus bare/calendar s1 p2: clean
+opus bare/article s1 p1: clean
+opus bare/shop s0 p0: 20E 4W
+opus bare/shop s1 p0: 36E 6W
+opus bare/shop s0 p1: clean
+opus bare/shop s1 p1: clean
+gpt-6.2 skill/shop s1 p0: clean
+gpt-6.2 bare/pricing s0 p0: 1E 0W
+gpt-5.6 bare/pricing s0 p0: 5E 13W
+gpt-5.6 bare/pricing s0 p1: clean
+gpt-5.6 skill/shop s1 p0: clean
+gpt-5.6 bare/dashboard s0 p0: 21E 20W
+gpt-6.2 skill/calendar s0 p0: GEN FAILED ~/agent-ui/eval/trial/node_modules/.bin/codex exit null: gents].enabled = false` disables subagent tools even when the model selects a subagent versio
+gpt-6.2 bare/pricing s0 p1: clean
+gpt-5.6 bare/dashboard s1 p0: 41E 18W
+gpt-5.6 bare/pricing s1 p0: GEN FAILED ~/agent-ui/eval/trial/node_modules/.bin/codex exit null: 
+
+        <ui-stack direction="row" justify="between" gap="16px" wrap="true">
+          <smal
+gpt-6.2 skill/calendar s1 p0: GEN FAILED ~/agent-ui/eval/trial/node_modules/.bin/codex exit null: gents].enabled = false` disables subagent tools even when the model selects a subagent versio
+gpt-5.6 bare/dashboard s0 p1: 1E 0W
+gpt-5.6 bare/settings s0 p0: 10E 13W
+gpt-6.2 bare/pricing s1 p0: 1E 1W
+gpt-5.6 bare/dashboard s1 p1: 1E 0W
+gpt-6.2 bare/dashboard s0 p0: 3E 0W
+gpt-5.6 bare/dashboard s0 p2: clean
+gpt-5.6 bare/settings s0 p1: 1E 0W
+gpt-6.2 bare/dashboard s1 p0: 7E 0W
+gpt-5.6 bare/settings s1 p0: 6E 18W
+gpt-5.6 bare/dashboard s1 p2: 2E 2W
+gpt-5.6 bare/settings s0 p2: 1E 0W
+gpt-6.2 bare/pricing s1 p1: clean
+gpt-6.2 bare/dashboard s0 p1: clean
+gpt-5.6 bare/settings s1 p1: 1E 0W
+gpt-6.2 bare/dashboard s1 p1: clean
+gpt-5.6 bare/article s0 p0: 4E 9W
+gpt-5.6 bare/article s1 p0: 21E 13W
+gpt-6.2 bare/settings s0 p0: 2E 1W
+gpt-5.6 bare/settings s1 p2: clean
+gpt-6.2 bare/settings s1 p0: 8E 0W
+gpt-6.2 bare/article s0 p0: clean
+gpt-5.6 bare/article s1 p1: 4E 1W
+gpt-6.2 bare/settings s0 p1: clean
+gpt-5.6 bare/calendar s0 p0: 11E 6W
+gpt-6.2 bare/settings s1 p1: clean
+gpt-6.2 bare/article s1 p0: 3E 0W
+gpt-5.6 bare/article s1 p2: clean
+gpt-5.6 bare/calendar s0 p1: 2E 2W
+gpt-6.2 bare/calendar s0 p0: 2E 0W
+gpt-6.2 bare/article s1 p1: clean
+gpt-6.2 bare/calendar s1 p0: 0E 1W
+gpt-5.6 bare/calendar s1 p0: 5E 4W
+gpt-5.6 bare/calendar s0 p2: clean
+gpt-6.2 bare/calendar s0 p1: clean
+gpt-5.6 bare/shop s0 p0: 2E 8W
+gpt-5.6 bare/calendar s1 p1: clean
+gpt-6.2 bare/calendar s1 p1: clean
+gpt-6.2 bare/shop s0 p0: clean
+gpt-5.6 bare/shop s0 p1: clean
+gpt-5.6 bare/shop s1 p0: 13E 1W
+gpt-6.2 bare/shop s1 p0: 13E 2W
+gpt-5.6 bare/shop s1 p1: 1E 1W
+gpt-5.6 bare/article s0 p1: 3E 0W
+gpt-5.6 bare/shop s1 p2: clean
+gpt-5.6 bare/article s0 p2: clean
+gpt-6.2 bare/shop s1 p1: clean
+done: 200 generated, 3 failed
+gpt-5.6 skill/pricing s0 p0: 1E 0W
+gpt-5.6 skill/pricing s0 p1: clean
+gpt-5.6 skill/pricing s1 p0: clean
+gpt-5.6 skill/dashboard s0 p0: clean
+gpt-6.2 skill/pricing s0 p0: clean
+gpt-6.2 skill/pricing s1 p0: clean
+gpt-6.2 skill/dashboard s0 p0: clean
+gpt-5.6 skill/dashboard s1 p0: clean
+gpt-5.6 skill/settings s0 p0: clean
+gpt-5.6 skill/settings s1 p0: clean
+gpt-6.2 skill/dashboard s1 p0: clean
+gpt-6.2 skill/settings s0 p0: clean
+gpt-6.2 skill/settings s1 p0: clean
+gpt-5.6 skill/article s0 p0: clean
+gpt-5.6 skill/article s1 p0: clean
+gpt-5.6 skill/calendar s0 p0: 1E 0W
+gpt-5.6 skill/calendar s0 p1: clean
+gpt-6.2 skill/article s0 p0: clean
+gpt-6.2 skill/article s1 p0: clean
+gpt-5.6 skill/calendar s1 p0: clean
+gpt-5.6 skill/shop s0 p0: clean
+gpt-5.6 skill/shop s1 p0: clean
+gpt-6.2 skill/shop s0 p0: clean
+gpt-5.6 bare/pricing s0 p0: 5E 13W
+gpt-5.6 bare/pricing s0 p1: clean
+gpt-5.6 bare/dashboard s0 p0: 21E 20W
+gpt-5.6 bare/dashboard s0 p1: 1E 0W
+gpt-5.6 bare/dashboard s0 p2: clean
+gpt-6.2 skill/shop s1 p0: clean
+gpt-5.6 bare/dashboard s1 p0: 41E 18W
+gpt-5.6 bare/dashboard s1 p1: 1E 0W
+gpt-5.6 bare/dashboard s1 p2: 2E 2W
+gpt-5.6 bare/settings s0 p0: 10E 13W
+gpt-5.6 bare/settings s0 p1: 1E 0W
+gpt-5.6 bare/settings s0 p2: 1E 0W
+gpt-6.2 bare/pricing s0 p0: 1E 0W
+gpt-6.2 bare/pricing s0 p1: clean
+gpt-5.6 bare/settings s1 p0: 6E 18W
+gpt-5.6 bare/settings s1 p1: 1E 0W
+gpt-5.6 bare/settings s1 p2: clean
+gpt-5.6 bare/article s0 p0: 4E 9W
+gpt-5.6 bare/article s0 p1: 3E 0W
+gpt-5.6 bare/article s0 p2: clean
+gpt-6.2 bare/pricing s1 p0: 1E 1W
+gpt-6.2 bare/pricing s1 p1: clean
+gpt-5.6 bare/article s1 p0: 21E 13W
+gpt-5.6 bare/article s1 p1: 4E 1W
+gpt-5.6 bare/article s1 p2: clean
+gpt-5.6 bare/calendar s0 p0: 11E 6W
+gpt-5.6 bare/calendar s0 p1: 2E 2W
+gpt-5.6 bare/calendar s0 p2: clean
+gpt-6.2 bare/dashboard s0 p0: 3E 0W
+gpt-6.2 bare/dashboard s0 p1: clean
+gpt-5.6 bare/calendar s1 p0: 5E 4W
+gpt-5.6 bare/calendar s1 p1: clean
+gpt-5.6 bare/shop s0 p0: 2E 8W
+gpt-5.6 bare/shop s0 p1: clean
+gpt-6.2 bare/dashboard s1 p0: 7E 0W
+gpt-6.2 bare/dashboard s1 p1: clean
+gpt-5.6 bare/shop s1 p0: 13E 1W
+gpt-5.6 bare/shop s1 p1: 1E 1W
+gpt-5.6 bare/shop s1 p2: clean
+gpt-6.2 bare/settings s0 p0: 2E 1W
+gpt-6.2 bare/settings s0 p1: clean
+gpt-6.2 bare/settings s1 p0: 8E 0W
+gpt-6.2 bare/settings s1 p1: clean
+gpt-6.2 bare/article s0 p0: clean
+gpt-6.2 bare/article s1 p0: 3E 0W
+gpt-6.2 bare/article s1 p1: clean
+gpt-6.2 bare/calendar s0 p0: 2E 0W
+gpt-6.2 bare/calendar s0 p1: clean
+gpt-6.2 bare/calendar s1 p0: 0E 1W
+gpt-6.2 bare/calendar s1 p1: clean
+gpt-6.2 bare/shop s0 p0: clean
+gpt-6.2 bare/shop s1 p0: 13E 2W
+gpt-6.2 bare/shop s1 p1: clean
+gpt-5.6 bare/pricing s1 p0: 15E 11W
+gpt-6.2 skill/calendar s0 p0: clean
+gpt-6.2 skill/calendar s1 p0: 0E 1W
+gpt-5.6 bare/pricing s1 p1: 0E 1W
+gpt-5.6 bare/pricing s1 p2: clean
+gpt-6.2 skill/calendar s1 p1: 0E 1W
+gpt-6.2 skill/calendar s1 p2: clean
+done: 7 generated, 0 failed

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride Supply | Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="xl">
+        <ui-row justify="space-between" padding="lg">
+          <a href="#" aria-label="Stride Supply home"><strong>STRIDE SUPPLY</strong></a>
+          <ui-button id="cart-button" variant="outline" aria-label="Shopping cart">
+            Cart <span id="cart-count">0</span>
+          </ui-button>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-stack gap="xl" padding="xl">
+          <ui-stack gap="xs">
+            <p>New arrivals · Everyday essentials</p>
+            <h1>Find your next pair</h1>
+            <p>Comfort-first shoes designed for wherever the day takes you.</p>
+          </ui-stack>
+
+          <form id="filters">
+            <ui-card variant="neutral" padding="lg">
+              <ui-stack gap="lg">
+                <ui-row wrap gap="lg" align="end">
+                  <ui-stack gap="xs">
+                    <strong>Size</strong>
+                    <ui-row wrap gap="xs">
+                      <ui-button type="button" class="size-chip" variant="primary" value="6">6</ui-button>
+                      <ui-button type="button" class="size-chip" variant="outline" value="7">7</ui-button>
+                      <ui-button type="button" class="size-chip" variant="outline" value="8">8</ui-button>
+                      <ui-button type="button" class="size-chip" variant="outline" value="9">9</ui-button>
+                      <ui-button type="button" class="size-chip" variant="outline" value="10">10</ui-button>
+                      <ui-button type="button" class="size-chip" variant="outline" value="11">11</ui-button>
+                    </ui-row>
+                  </ui-stack>
+
+                  <ui-stack gap="xs">
+                    <label for="min-price"><strong>Min price</strong></label>
+                    <input id="min-price" name="min-price" type="number" min="0" value="0" placeholder="$0">
+                  </ui-stack>
+
+                  <ui-stack gap="xs">
+                    <label for="max-price"><strong>Max price</strong></label>
+                    <input id="max-price" name="max-price" type="number" min="0" value="250" placeholder="$250">
+                  </ui-stack>
+
+                  <ui-stack gap="xs">
+                    <label for="sort"><strong>Sort by</strong></label>
+                    <select id="sort" name="sort">
+                      <option value="featured">Featured</option>
+                      <option value="low">Price: low to high</option>
+                      <option value="high">Price: high to low</option>
+                      <option value="newest">Newest arrivals</option>
+                    </select>
+                  </ui-stack>
+
+                  <ui-button type="submit" variant="primary">Apply filters</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+          </form>
+
+          <ui-row justify="space-between" align="baseline">
+            <h2>All shoes</h2>
+            <p id="result-count">12 styles</p>
+          </ui-row>
+
+          <ui-grid id="product-grid" max-columns="3" min-item-width="sm" gap="lg">
+            <ui-card class="product-card" data-price="128" data-name="cloudstep runner">
+              <img src="https://picsum.photos/seed/cloudstep/600/450" alt="Cloudstep Runner shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Running shoes</p>
+                <h3>Cloudstep Runner</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$128</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="96" data-name="terra court">
+              <img src="https://picsum.photos/seed/terracourt/600/450" alt="Terra Court shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Canvas sneakers</p>
+                <h3>Terra Court</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$96</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="154" data-name="northline trail">
+              <img src="https://picsum.photos/seed/northline/600/450" alt="Northline Trail shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Trail shoes</p>
+                <h3>Northline Trail</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$154</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="110" data-name="marlow slip-on">
+              <img src="https://picsum.photos/seed/marlow/600/450" alt="Marlow Slip-On shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Slip-on shoes</p>
+                <h3>Marlow Slip-On</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$110</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="180" data-name="summit leather">
+              <img src="https://picsum.photos/seed/summitleather/600/450" alt="Summit Leather shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Leather boots</p>
+                <h3>Summit Leather</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$180</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="88" data-name="daily knit">
+              <img src="https://picsum.photos/seed/dailyknit/600/450" alt="Daily Knit shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Casual sneakers</p>
+                <h3>Daily Knit</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$88</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="142" data-name="harbor loafer">
+              <img src="https://picsum.photos/seed/harborloafer/600/450" alt="Harbor Loafer shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Everyday loafers</p>
+                <h3>Harbor Loafer</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$142</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="76" data-name="park day">
+              <img src="https://picsum.photos/seed/parkday/600/450" alt="Park Day shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Lightweight sneakers</p>
+                <h3>Park Day</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$76</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="210" data-name="ridge hiker">
+              <img src="https://picsum.photos/seed/ridgehiker/600/450" alt="Ridge Hiker shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Water-resistant hikers</p>
+                <h3>Ridge Hiker</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$210</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="118" data-name="coast canvas">
+              <img src="https://picsum.photos/seed/coastcanvas/600/450" alt="Coast Canvas shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Canvas sneakers</p>
+                <h3>Coast Canvas</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$118</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="132" data-name="studio mule">
+              <img src="https://picsum.photos/seed/studiomule/600/450" alt="Studio Mule shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Minimal mules</p>
+                <h3>Studio Mule</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$132</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="165" data-name="afterglow high">
+              <img src="https://picsum.photos/seed/afterglow/600/450" alt="Afterglow High shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>High-top sneakers</p>
+                <h3>Afterglow High</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$165</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card class="product-card" data-price="104" data-name="field walk">
+              <img src="https://picsum.photos/seed/fieldwalk/600/450" alt="Field Walk shoes" width="600" height="450">
+              <ui-stack padding="lg" gap="sm">
+                <p>Walking shoes</p>
+                <h3>Field Walk</h3>
+                <ui-row justify="space-between" align="center">
+                  <strong>$104</strong>
+                  <ui-button class="add-to-cart" variant="primary" size="sm">Add</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <nav aria-label="Pagination">
+            <ui-row justify="center" gap="xs" wrap>
+              <ui-button variant="primary" aria-current="page">1</ui-button>
+              <ui-button variant="outline">2</ui-button>
+              <ui-button variant="outline">3</ui-button>
+              <ui-button variant="outline" aria-label="Next page">Next →</ui-button>
+            </ui-row>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="xl">
+        <ui-row justify="space-between" wrap padding="lg">
+          <small>© 2026 Stride Supply</small>
+          <small>Free shipping on orders over $100</small>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    const cartCount = document.getElementById("cart-count");
+    let cartItems = 0;
+
+    document.querySelectorAll(".add-to-cart").forEach((button) => {
+      button.addEventListener("click", () => {
+        cartItems += 1;
+        cartCount.textContent = cartItems;
+        button.textContent = "Added";
+        button.setAttribute("variant", "secondary");
+        setTimeout(() => {
+          button.textContent = "Add";
+          button.setAttribute("variant", "primary");
+        }, 900);
+      });
+    });
+
+    document.querySelectorAll(".size-chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll(".size-chip").forEach((item) => {
+          item.setAttribute("variant", "outline");
+          item.removeAttribute("aria-pressed");
+        });
+        chip.setAttribute("variant", "primary");
+        chip.setAttribute("aria-pressed", "true");
+      });
+    });
+
+    document.getElementById("filters").addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const min = Number(document.getElementById("min-price").value) || 0;
+      const max = Number(document.getElementById("max-price").value) || Infinity;
+      const sort = document.getElementById("sort").value;
+      const grid = document.getElementById("product-grid");
+      const cards = [...grid.querySelectorAll(".product-card")];
+
+      cards.forEach((card) => {
+        const price = Number(card.dataset.price);
+        card.hidden = price < min || price > max;
+      });
+
+      const visible = cards.filter((card) => !card.hidden);
+      if (sort === "low") visible.sort((a, b) => Number(a.dataset.price) - Number(b.dataset.price));
+      if (sort === "high") visible.sort((a, b) => Number(b.dataset.price) - Number(a.dataset.price));
+      if (sort === "newest") visible.reverse();
+
+      visible.forEach((card) => grid.appendChild(card));
+      document.getElementById("result-count").textContent =
+        `${visible.length} ${visible.length === 1 ? "style" : "styles"}`;
+    });
+  </script>
+</body>
+</html>

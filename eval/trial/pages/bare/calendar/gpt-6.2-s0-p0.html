@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Northline Studio</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Calendar-specific styling and responsive layout. */
+    :root {
+      color-scheme: light;
+      --ink: #1e2932;
+      --muted: #53626d;
+      --line: #e0e6ea;
+      --paper: #fff;
+      --background: #f5f7f8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--background);
+      color: var(--ink);
+      font-family: system-ui, sans-serif;
+    }
+
+    .page {
+      width: min(100% - 2rem, 74rem);
+      margin-inline: auto;
+      padding-block: clamp(1.5rem, 5vw, 4rem);
+    }
+
+    .intro { margin-bottom: 1.5rem; }
+
+    .team-name {
+      margin: 0 0 .35rem;
+      color: #256454;
+      font-size: .875rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 2.75rem);
+      line-height: 1.12;
+      letter-spacing: -.04em;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    .panel {
+      display: block;
+      min-width: 0;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      background: var(--paper);
+    }
+
+    .panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem;
+      padding: .875rem 1rem;
+    }
+
+    .panel-heading h2 {
+      margin: 0;
+      font-size: 1.125rem;
+      line-height: 1.25;
+    }
+
+    .month-controls { display: flex; gap: .375rem; }
+
+    .month-controls button {
+      display: grid;
+      width: 2.75rem;
+      height: 2.75rem;
+      place-items: center;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: .625rem;
+      background: var(--paper);
+      color: var(--ink);
+      font: inherit;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    .month-controls button:hover { background: var(--background); }
+
+    .month-controls button:focus-visible {
+      outline: 2px solid #256454;
+      outline-offset: 2px;
+    }
+
+    .month-table {
+      width: 100%;
+      margin: 0;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .month-table th,
+    .month-table td {
+      padding: 0;
+      border: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .month-table th {
+      padding-block: .625rem;
+      background: var(--background);
+      color: var(--muted);
+      font-size: .75rem;
+      font-weight: 650;
+      text-align: center;
+    }
+
+    .month-table td {
+      height: clamp(4.5rem, 8vw, 6rem);
+      padding: .375rem;
+      vertical-align: top;
+    }
+
+    .month-table td + td { border-left: 1px solid var(--line); }
+    .month-table td:nth-child(n + 6) { background: #fafbfc; }
+    .month-table td.outside { background: var(--background); }
+    .outside .day-number { color: var(--muted); }
+
+    .day-number {
+      display: inline-grid;
+      min-width: 1.5rem;
+      height: 1.5rem;
+      place-items: center;
+      font-size: .75rem;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .event-chip {
+      display: block;
+      overflow: hidden;
+      margin-top: .25rem;
+      padding: .25rem .375rem;
+      border-radius: .375rem;
+      background: var(--event-bg);
+      color: var(--event-ink);
+      font-size: .75rem;
+      font-weight: 650;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    [data-kind="planning"] { --event-bg: #def1e9; --event-ink: #215b4d; }
+    [data-kind="review"] { --event-bg: #eae7fa; --event-ink: #514384; }
+    [data-kind="release"] { --event-bg: #fbeed9; --event-ink: #734b17; }
+
+    .chip-short { display: none; }
+    .agenda .panel-heading { min-height: 4.5rem; }
+
+    .agenda-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .agenda-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: .75rem;
+      padding: .875rem 1rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .date-badge {
+      display: grid;
+      flex: 0 0 2.75rem;
+      min-height: 2.75rem;
+      place-content: center;
+      border-radius: .5rem;
+      background: var(--event-bg);
+      color: var(--event-ink);
+      text-align: center;
+    }
+
+    .date-badge span:first-child { font-size: .625rem; font-weight: 750; }
+    .date-badge span:last-child { font-size: 1rem; font-weight: 750; line-height: 1.1; }
+    .event-name { display: block; font-size: .875rem; line-height: 1.3; }
+
+    .event-detail,
+    .empty-message {
+      margin: .25rem 0 0;
+      color: var(--muted);
+      font-size: .8125rem;
+      line-height: 1.45;
+    }
+
+    .empty-message {
+      margin: 0;
+      padding: 1rem;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 52rem) {
+      .layout { grid-template-columns: minmax(0, 1fr); }
+    }
+
+    @media (max-width: 34rem) {
+      .page { width: calc(100% - 1rem); }
+      .intro { padding-inline: .5rem; }
+      .month-table td { height: 3.75rem; padding: .125rem; }
+      .event-chip { padding-inline: .125rem; font-size: .6875rem; text-align: center; }
+      .chip-full { display: none; }
+      .chip-short { display: inline; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <ui-stack gap="lg">
+      <header class="intro">
+        <p class="team-name">Northline Studio</p>
+        <h1>Team calendar</h1>
+      </header>
+
+      <ui-grid class="layout" gap="lg">
+        <section aria-labelledby="month-title">
+          <ui-card class="panel">
+            <header class="panel-heading">
+              <h2 id="month-title" aria-live="polite" aria-atomic="true">September 2026</h2>
+              <nav class="month-controls" aria-label="Calendar navigation">
+                <button id="previous-month" type="button" aria-label="Previous month">←</button>
+                <button id="next-month" type="button" aria-label="Next month">→</button>
+              </nav>
+            </header>
+
+            <table class="month-table" aria-labelledby="month-title">
+              <thead>
+                <tr>
+                  <th scope="col" aria-label="Monday">Mon</th>
+                  <th scope="col" aria-label="Tuesday">Tue</th>
+                  <th scope="col" aria-label="Wednesday">Wed</th>
+                  <th scope="col" aria-label="Thursday">Thu</th>
+                  <th scope="col" aria-label="Friday">Fri</th>
+                  <th scope="col" aria-label="Saturday">Sat</th>
+                  <th scope="col" aria-label="Sunday">Sun</th>
+                </tr>
+              </thead>
+              <tbody id="month-days"></tbody>
+            </table>
+          </ui-card>
+        </section>
+
+        <aside class="agenda" aria-labelledby="agenda-title">
+          <ui-card class="panel">
+            <header class="panel-heading">
+              <h2 id="agenda-title">Upcoming events</h2>
+            </header>
+            <div id="agenda-content"></div>
+          </ui-card>
+        </aside>
+      </ui-grid>
+    </ui-stack>
+  </main>
+
+  <script>
+    const events = [
+      { date: "2026-08-27", time: "14:00", name: "August studio retrospective", short: "Retro", detail: "Studio B", kind: "review" },
+      { date: "2026-09-03", time: "10:00", name: "September project kickoff", short: "Kickoff", detail: "Studio B", kind: "planning" },
+      { date: "2026-09-09", time: "13:00", name: "Homepage design critique", short: "Crit", detail: "Studio B", kind: "review" },
+      { date: "2026-09-16", time: "10:00", name: "Sprint planning", short: "Plan", detail: "Studio B", kind: "planning" },
+      { date: "2026-09-18", time: "14:30", name: "Homepage walkthrough", short: "Demo", detail: "Google Meet", kind: "review" },
+      { date: "2026-09-23", time: "11:00", name: "Accessibility QA", short: "QA", detail: "Google Meet", kind: "review" },
+      { date: "2026-09-29", time: "09:00", name: "Website launch", short: "Launch", detail: "Release channel", kind: "release" },
+      { date: "2026-10-02", time: "10:00", name: "Launch metrics review", short: "Review", detail: "Google Meet", kind: "review" },
+      { date: "2026-10-06", time: "11:00", name: "October roadmap planning", short: "Plan", detail: "Studio B", kind: "planning" }
+    ];
+
+    const agendaStart = "2026-09-14";
+    let displayedMonth = new Date(2026, 8, 1);
+
+    const formatMonth = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" });
+    const formatDate = new Intl.DateTimeFormat("en-US", { dateStyle: "full" });
+    const formatBadge = new Intl.DateTimeFormat("en-US", { month: "short" });
+    const formatSchedule = new Intl.DateTimeFormat("en-US", {
+      weekday: "short", hour: "numeric", minute: "2-digit"
+    });
+
+    const monthTitle = document.getElementById("month-title");
+    const monthDays = document.getElementById("month-days");
+    const agendaContent = document.getElementById("agenda-content");
+
+    function dateKey(date) {
+      const year = String(date.getFullYear()).padStart(4, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function element(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    }
+
+    function renderCalendar(year, month, monthEvents) {
+      const leadingDays = (displayedMonth.getDay() + 6) % 7;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const weeks = Math.ceil((leadingDays + daysInMonth) / 7);
+      const rows = document.createDocumentFragment();
+
+      for (let week = 0; week < weeks; week++) {
+        const row = element("tr");
+
+        for (let weekday = 0; weekday < 7; weekday++) {
+          const date = new Date(year, month, 1 - leadingDays + week * 7 + weekday);
+          const key = dateKey(date);
+          const inMonth = date.getMonth() === month;
+          const day = element("td", inMonth ? "" : "outside");
+          const number = element("time", "day-number", date.getDate());
+
+          number.dateTime = key;
+          number.setAttribute("aria-label", formatDate.format(date));
+          day.append(number);
+
+          if (inMonth) {
+            for (const event of monthEvents.filter(item => item.date === key)) {
+              const chip = element("div", "event-chip");
+              chip.dataset.kind = event.kind;
+              chip.title = event.name;
+              chip.setAttribute("role", "group");
+              chip.setAttribute("aria-label", event.name);
+
+              const full = element("span", "chip-full", event.name);
+              const short = element("span", "chip-short", event.short);
+              full.setAttribute("aria-hidden", "true");
+              short.setAttribute("aria-hidden", "true");
+              chip.append(full, short);
+              day.append(chip);
+            }
+          }
+
+          row.append(day);
+        }
+
+        rows.append(row);
+      }
+
+      monthDays.replaceChildren(rows);
+    }
+
+    function renderAgenda(monthEvents) {
+      const upcoming = monthEvents.filter(event => event.date >= agendaStart);
+
+      if (!upcoming.length) {
+        agendaContent.replaceChildren(
+          element("p", "empty-message", "No upcoming events in this month.")
+        );
+        return;
+      }
+
+      const list = element("ul", "agenda-list");
+
+      for (const event of upcoming) {
+        const date = new Date(`${event.date}T${event.time}`);
+        const item = element("li");
+        const badge = element("time", "date-badge");
+
+        badge.dateTime = event.date;
+        badge.dataset.kind = event.kind;
+        badge.setAttribute("aria-label", formatDate.format(date));
+        badge.append(
+          element("span", "", formatBadge.format(date).toUpperCase()),
+          element("span", "", date.getDate())
+        );
+
+        const summary = element("div");
+        summary.append(
+          element("strong", "event-name", event.name),
+          element("p", "event-detail", `${formatSchedule.format(date)} · ${event.detail}`)
+        );
+        item.append(badge, summary);
+        list.append(item);
+      }
+
+      agendaContent.replaceChildren(list);
+    }
+
+    function render() {
+      const year = displayedMonth.getFullYear();
+      const month = displayedMonth.getMonth();
+      const monthKey = dateKey(displayedMonth).slice(0, 7);
+      const monthEvents = events.filter(event => event.date.startsWith(monthKey));
+
+      monthTitle.textContent = formatMonth.format(displayedMonth);
+      renderCalendar(year, month, monthEvents);
+      renderAgenda(monthEvents);
+    }
+
+    function moveMonth(offset) {
+      displayedMonth = new Date(
+        displayedMonth.getFullYear(),
+        displayedMonth.getMonth() + offset,
+        1
+      );
+      render();
+    }
+
+    document.getElementById("previous-month").addEventListener("click", () => moveMonth(-1));
+    document.getElementById("next-month").addEventListener("click", () => moveMonth(1));
+    render();
+  </script>
+</body>
+</html>

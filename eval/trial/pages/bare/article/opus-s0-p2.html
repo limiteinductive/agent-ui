@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Quiet Cost of Premature Abstraction · Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Fallback only: agent-ui 0.1.0 has no scroll-rail or responsive-image primitive */
+    .rail { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .75rem; -webkit-overflow-scrolling: touch; }
+    .rail > * { flex: 0 0 min(78vw, 280px); scroll-snap-align: start; }
+    .rail img, .cover img { width: 100%; height: auto; display: block; }
+    .avatar { border-radius: 50%; flex: none; }
+    pre { overflow-x: auto; max-width: 100%; }
+  </style>
+</head>
+<body>
+  <ui-container size="md">
+    <ui-stack gap="xl">
+
+      <!-- Header -->
+      <header>
+        <ui-stack gap="md">
+          <ui-row gap="sm" align="center">
+            <span><strong>Engineering</strong></span>
+            <small>9 min read</small>
+          </ui-row>
+          <h1>The Quiet Cost of Premature Abstraction</h1>
+          <p>Why the cleverest code in your repository is often the hardest to change, and how to tell when duplication is actually the right call.</p>
+          <ui-row gap="md" align="center">
+            <img class="avatar" src="https://picsum.photos/seed/author-maya/96/96" alt="Maya Okafor" width="48" height="48">
+            <ui-stack gap="0">
+              <strong>Maya Okafor</strong>
+              <small>Staff Engineer · <time datetime="2026-11-18">November 18, 2026</time></small>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+      </header>
+
+      <!-- Cover -->
+      <figure class="cover">
+        <img src="https://picsum.photos/seed/abstraction-cover/1280/640" alt="Stacked wooden blocks on a desk" width="1280" height="640">
+        <figcaption><small>Every layer we add is a promise to maintain it.</small></figcaption>
+      </figure>
+
+      <!-- Body -->
+      <article>
+        <ui-stack gap="lg">
+          <p>Three years ago, our team shipped a "universal" data-fetching layer. It handled retries, caching, pagination, optimistic updates, and offline sync behind a single elegant interface. It was, by most accounts, beautiful. It was also the reason a two-line bug fix took us eleven days last spring.</p>
+          <p>This isn't a story about bad engineers. Everyone involved was thoughtful and experienced. It's a story about how good instincts — don't repeat yourself, design for the future, make things reusable — can quietly compound into a codebase that resists change.</p>
+
+          <h2>The rule of three, revisited</h2>
+          <p>Most of us learned some version of the rule of three: tolerate duplication twice, abstract on the third occurrence. It's decent advice, but it hides an assumption — that the three occurrences are actually the <em>same thing</em>. Often they merely look alike today.</p>
+          <p>Two functions that format currency for an invoice and for a dashboard widget share ninety percent of their code. Then finance asks for accounting-style negatives on invoices only, and product wants abbreviated values ("$1.2M") on the dashboard. Now your shared helper grows flags, and every flag doubles the number of states you need to reason about.</p>
+
+          <ui-card padding="lg">
+            <blockquote>
+              <ui-stack gap="sm">
+                <p><strong>“Duplication is far cheaper than the wrong abstraction. You can always merge two things later; untangling one thing into two is surgery.”</strong></p>
+                <small>— a lesson we paid for in sprint time</small>
+              </ui-stack>
+            </blockquote>
+          </ui-card>
+
+          <h2>What a bad abstraction looks like</h2>
+          <p>The warning signs tend to arrive gradually. A boolean parameter appears. Then an options object. Then a callback that lets callers override "just this one step." Here's a lightly anonymized excerpt from our old fetching layer:</p>
+
+<pre><code class="language-typescript">export function useResource&lt;T&gt;(key: string, opts: ResourceOptions&lt;T&gt; = {}) {
+  const {
+    retry = 3,
+    paginate = false,
+    optimistic = false,
+    skipCacheIf,          // added for checkout
+    transformBeforeCache, // added for search
+    legacyMode = false,   // do not remove: billing
+  } = opts;
+
+  if (legacyMode &amp;&amp; paginate) {
+    // TODO: this combination is "unsupported" but billing uses it
+    return useLegacyPaginated(key, opts);
+  }
+  // ...340 more lines
+}</code></pre>
+
+          <p>None of these options were unreasonable on their own. Together they formed a matrix of behaviors no one could hold in their head. Tests covered the common paths; production found the rest.</p>
+
+          <h2>A healthier default</h2>
+          <p>We didn't replace the layer with a better abstraction. We replaced it with several small, boring hooks, each owned by the feature that used it. Shared pieces — a retry helper, a cache key builder — stayed shared because they were genuinely identical in intent, not just in shape.</p>
+          <ul>
+            <li><strong>Abstract behavior, not appearance.</strong> Ask whether two pieces of code change for the same reasons.</li>
+            <li><strong>Prefer composition over configuration.</strong> Small functions callers can combine beat one function with twelve flags.</li>
+            <li><strong>Make inlining cheap.</strong> If an abstraction is easy to delete, it's safe to try.</li>
+            <li><strong>Watch for flags.</strong> The first boolean parameter is a signal to pause, not a feature request.</li>
+          </ul>
+
+          <h3>Measuring the change</h3>
+          <p>Six months later, median time-to-merge for data-layer changes dropped from 4.2 days to 1.1. Line count went <em>up</em> by about 18%. We consider that a bargain: the extra lines are obvious, local, and owned.</p>
+
+          <h2>Closing thoughts</h2>
+          <p>Abstraction is one of the most powerful tools we have, which is exactly why it deserves restraint. The next time you feel the pull to unify, write the second copy instead, and wait to see whether the two versions drift apart. Often, they will — and you'll be glad you let them.</p>
+        </ui-stack>
+      </article>
+
+      <!-- Tags -->
+      <ui-stack gap="sm">
+        <small><strong>Tagged</strong></small>
+        <ui-row gap="sm" wrap>
+          <a href="#">Software Design</a>
+          <a href="#">Refactoring</a>
+          <a href="#">TypeScript</a>
+          <a href="#">Team Practices</a>
+          <a href="#">Maintainability</a>
+        </ui-row>
+      </ui-stack>
+
+      <hr>
+
+      <!-- Author box -->
+      <ui-card padding="lg">
+        <ui-row gap="md" align="start">
+          <img class="avatar" src="https://picsum.photos/seed/author-maya/96/96" alt="Maya Okafor" width="64" height="64">
+          <ui-stack gap="xs">
+            <strong>Written by Maya Okafor</strong>
+            <small>Maya leads platform engineering at a mid-sized fintech and writes about the human side of software architecture.</small>
+            <ui-row gap="sm"><ui-button size="sm">Follow</ui-button></ui-row>
+          </ui-stack>
+        </ui-row>
+      </ui-card>
+
+      <!-- Related posts rail -->
+      <section aria-labelledby="related-heading">
+        <ui-stack gap="md">
+          <ui-row justify="space-between" align="center">
+            <h2 id="related-heading">Related posts</h2>
+            <small>Scroll →</small>
+          </ui-row>
+          <div class="rail" role="list">
+            <ui-card role="listitem" padding="0">
+              <img src="https://picsum.photos/seed/related-1/560/320" alt="" loading="lazy" width="560" height="320">
+              <ui-stack gap="xs" padding="md">
+                <span>Architecture</span>
+                <a href="#"><strong>Boundaries Before Microservices</strong></a>
+                <small>Modular monoliths and the art of drawing lines you can move later.</small>
+                <small>7 min read</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card role="listitem" padding="0">
+              <img src="https://picsum.photos/seed/related-2/560/320" alt="" loading="lazy" width="560" height="320">
+              <ui-stack gap="xs" padding="md">
+                <span>Refactoring</span>
+                <a href="#"><strong>Deleting Code as a Feature</strong></a>
+                <small>How we removed 40,000 lines and shipped faster the next quarter.</small>
+                <small>6 min read</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card role="listitem" padding="0">
+              <img src="https://picsum.photos/seed/related-3/560/320" alt="" loading="lazy" width="560" height="320">
+              <ui-stack gap="xs" padding="md">
+                <span>TypeScript</span>
+                <a href="#"><strong>Types as Documentation</strong></a>
+                <small>Discriminated unions that make illegal states unrepresentable.</small>
+                <small>11 min read</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card role="listitem" padding="0">
+              <img src="https://picsum.photos/seed/related-4/560/320" alt="" loading="lazy" width="560" height="320">
+              <ui-stack gap="xs" padding="md">
+                <span>Team Practices</span>
+                <a href="#"><strong>Code Review Without the Nitpicks</strong></a>
+                <small>A lightweight rubric for reviews that focus on what matters.</small>
+                <small>5 min read</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card role="listitem" padding="0">
+              <img src="https://picsum.photos/seed/related-5/560/320" alt="" loading="lazy" width="560" height="320">
+              <ui-stack gap="xs" padding="md">
+                <span>Testing</span>
+                <a href="#"><strong>The Test Pyramid Is a Suggestion</strong></a>
+                <small>Rethinking test balance for frontend-heavy products.</small>
+                <small>8 min read</small>
+              </ui-stack>
+            </ui-card>
+          </div>
+        </ui-stack>
+      </section>
+
+      <footer>
+        <small>© 2026 Field Notes · An engineering blog</small>
+      </footer>
+
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

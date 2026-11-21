@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Calendar · Northwind Design</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+<style>
+  /* Only what agent-ui cannot express: calendar cell sizing, truncation, event colors */
+  .cell { min-width: 0; min-height: 6rem; overflow: hidden; }
+  .cell.out { opacity: .45; }
+  .cell.today { outline: 2px solid var(--ui-primary); outline-offset: -2px; }
+  .ev { display: block; min-width: 0; font-size: .72rem; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        border-left: 3px solid var(--c); padding: .1rem .3rem; border-radius: 3px;
+        background: color-mix(in srgb, var(--c) 14%, transparent); }
+  .c-team { --c: var(--ui-primary); }
+  .c-deadline { --c: var(--ui-danger); }
+  .c-social { --c: #16a34a; }
+  .c-ooo { --c: #d97706; }
+  .avatar { border-radius: 50%; flex: none; }
+  .datebox { min-width: 2.75rem; text-align: center; }
+  .aside { flex: 1 1 18rem; max-width: 100%; }
+  @media (max-width: 40rem) {
+    .cell { min-height: 3.5rem; }
+    .ev { height: 5px; padding: 0; border-left: 0; background: var(--c); font-size: 0; }
+  }
+</style>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md" wrap>
+        <strong>Northwind Design · Product Team</strong>
+        <nav><ui-row gap="md" wrap><a href="#">Calendar</a><a href="#">People</a><a href="#">Settings</a></ui-row></nav>
+      </ui-row>
+    </ui-container>
+  </header>
+  <main>
+    <ui-container>
+      <ui-stack gap="lg" padding="md">
+        <ui-stack gap="xs">
+          <h1>Team calendar</h1>
+          <p>Meetings, deadlines and time off for the product team.</p>
+        </ui-stack>
+
+        <ui-row wrap align="start" gap="lg">
+          <ui-card grow padding="md" gap="md">
+            <ui-row justify="space-between" gap="sm" wrap>
+              <ui-button variant="outline" size="sm" id="prev" aria-label="Previous month">‹</ui-button>
+              <h2 id="monthLabel" aria-live="polite">November 2026</h2>
+              <ui-button variant="outline" size="sm" id="next" aria-label="Next month">›</ui-button>
+            </ui-row>
+            <ui-row wrap gap="sm" justify="center">
+              <small><span class="ev c-team">Team</span></small>
+              <small><span class="ev c-deadline">Deadline</span></small>
+              <small><span class="ev c-social">Social</span></small>
+              <small><span class="ev c-ooo">Time off</span></small>
+            </ui-row>
+            <ui-grid columns="7" gap="xs" data-ui-allow="grid/cramped" aria-hidden="true">
+              <small><strong>Mon</strong></small><small><strong>Tue</strong></small><small><strong>Wed</strong></small>
+              <small><strong>Thu</strong></small><small><strong>Fri</strong></small><small><strong>Sat</strong></small>
+              <small><strong>Sun</strong></small>
+            </ui-grid>
+            <ui-grid columns="7" gap="xs" id="grid" data-ui-allow="grid/cramped" role="grid" aria-labelledby="monthLabel"></ui-grid>
+            <ui-row justify="center"><ui-button variant="ghost" size="sm" id="todayBtn">Back to today</ui-button></ui-row>
+          </ui-card>
+
+          <ui-card class="aside" padding="md" gap="md">
+            <ui-row justify="space-between" wrap>
+              <h2>Upcoming</h2>
+              <small id="upcomingCount"></small>
+            </ui-row>
+            <ui-stack gap="md" id="upcoming"></ui-stack>
+            <ui-button variant="primary">+ New event</ui-button>
+          </ui-card>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+  <footer>
+    <ui-container><ui-row padding="md"><small>© 2026 Northwind Design · Times shown in CET</small></ui-row></ui-container>
+  </footer>
+</ui-page>
+
+<script>
+const TODAY = new Date(2026, 10, 21);
+const events = [
+  { d: "2026-10-27", t: "Q4 planning kickoff", time: "10:00", where: "Room Atlas", c: "team", who: "maria" },
+  { d: "2026-10-30", t: "Halloween lunch", time: "12:30", where: "Kitchen", c: "social", who: "tom" },
+  { d: "2026-11-02", t: "Sprint 22 planning", time: "09:30", where: "Room Atlas", c: "team", who: "maria" },
+  { d: "2026-11-04", t: "Design review", time: "14:00", where: "Zoom", c: "team", who: "lena" },
+  { d: "2026-11-06", t: "Brand guide due", time: "17:00", where: "Figma", c: "deadline", who: "lena" },
+  { d: "2026-11-10", t: "Customer interviews", time: "11:00", where: "Zoom", c: "team", who: "omar" },
+  { d: "2026-11-12", t: "Sam – out of office", time: "All day", where: "", c: "ooo", who: "sam" },
+  { d: "2026-11-13", t: "Sam – out of office", time: "All day", where: "", c: "ooo", who: "sam" },
+  { d: "2026-11-13", t: "Team drinks", time: "18:00", where: "The Copper Kettle", c: "social", who: "tom" },
+  { d: "2026-11-16", t: "Sprint 23 planning", time: "09:30", where: "Room Atlas", c: "team", who: "maria" },
+  { d: "2026-11-19", t: "Accessibility audit", time: "13:00", where: "Room Nova", c: "team", who: "omar" },
+  { d: "2026-11-23", t: "Sprint 22 retrospective", time: "15:00", where: "Room Atlas", c: "team", who: "maria" },
+  { d: "2026-11-24", t: "1:1 Lena & Maria", time: "10:30", where: "Café corner", c: "team", who: "lena" },
+  { d: "2026-11-25", t: "v3.2 release freeze", time: "18:00", where: "GitHub", c: "deadline", who: "omar" },
+  { d: "2026-11-25", t: "QA bug bash", time: "14:00", where: "Room Nova", c: "team", who: "sam" },
+  { d: "2026-11-25", t: "Pizza for bug bash", time: "17:00", where: "Kitchen", c: "social", who: "tom" },
+  { d: "2026-11-27", t: "Tom – vacation", time: "All day", where: "", c: "ooo", who: "tom" },
+  { d: "2026-11-30", t: "Stakeholder demo", time: "16:00", where: "Main hall", c: "team", who: "maria" },
+  { d: "2026-12-02", t: "v3.2 launch", time: "09:00", where: "Everywhere", c: "deadline", who: "omar" },
+  { d: "2026-12-04", t: "Roadmap workshop", time: "10:00", where: "Room Atlas", c: "team", who: "lena" },
+  { d: "2026-12-11", t: "Holiday party", time: "19:00", where: "Rooftop Bar Lumen", c: "social", who: "tom" },
+  { d: "2026-12-18", t: "Year-end reviews due", time: "17:00", where: "HR portal", c: "deadline", who: "maria" },
+  { d: "2026-12-21", t: "Office closed", time: "All day", where: "", c: "ooo", who: "sam" }
+];
+const people = { maria: "Maria Chen", tom: "Tom Becker", lena: "Lena Novak", omar: "Omar Haddad", sam: "Sam Rivera" };
+
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const parse = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+const esc = s => s.replace(/[&<>"]/g, ch => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[ch]));
+
+let view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+
+function render() {
+  const label = view.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+  document.getElementById("monthLabel").textContent = label;
+  const lead = (view.getDay() + 6) % 7; // Monday start
+  const start = new Date(view.getFullYear(), view.getMonth(), 1 - lead);
+  const daysInMonth = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+  const cells = Math.ceil((lead + daysInMonth) / 7) * 7;
+  let html = "";
+  for (let i = 0; i < cells; i++) {
+    const day = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+    const key = iso(day);
+    const list = events.filter(e => e.d === key);
+    const out = day.getMonth() !== view.getMonth();
+    const isToday = key === iso(TODAY);
+    const shown = list.slice(0, 2).map(e =>
+      `<span class="ev c-${e.c}" title="${esc(e.t)} · ${e.time}">${esc(e.t)}</span>`).join("");
+    const more = list.length > 2 ? `<small>+${list.length - 2} more</small>` : "";
+    const aria = day.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" }) +
+      (list.length ? `, ${list.length} event${list.length > 1 ? "s" : ""}: ${list.map(e => e.t).join(", ")}` : "");
+    html += `<ui-card role="gridcell" aria-label="${esc(aria)}" class="cell${out ? " out" : ""}${isToday ? " today" : ""}" padding="xs" gap="xs" rounded="sm" ${isToday ? "" : "sunken"}>
+      <small>${isToday ? `<strong>${day.getDate()}</strong>` : day.getDate()}</small>${shown}${more}</ui-card>`;
+  }
+  document.getElementById("grid").innerHTML = html;
+}
+
+function renderUpcoming() {
+  const upcoming = events.filter(e => parse(e.d) >= TODAY).slice(0, 7);
+  document.getElementById("upcomingCount").textContent = `Next ${upcoming.length} events`;
+  document.getElementById("upcoming").innerHTML = upcoming.map(e => {
+    const d = parse(e.d);
+    const mon = d.toLocaleDateString("en-GB", { month: "short" });
+    const wd = d.toLocaleDateString("en-GB", { weekday: "short" });
+    return `<ui-row gap="sm" align="start">
+      <ui-stack gap="0" class="datebox"><small>${mon}</small><strong>${d.getDate()}</strong><small>${wd}</small></ui-stack>
+      <ui-stack gap="xs" grow>
+        <span class="ev c-${e.c}"><strong>${esc(e.t)}</strong></span>
+        <small>${e.time}${e.where ? " · " + esc(e.where) : ""}</small>
+        <small>${people[e.who]}</small>
+      </ui-stack>
+      <img class="avatar" src="https://picsum.photos/seed/${e.who}/64/64" width="32" height="32" alt="${people[e.who]}">
+    </ui-row>`;
+  }).join("<hr>");
+}
+
+document.getElementById("prev").addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); });
+document.getElementById("next").addEventListener("click", () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); });
+document.getElementById("todayBtn").addEventListener("click", () => { view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); render(); });
+
+render();
+renderUpcoming();
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Northwind Product Team</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-row justify="space-between" padding="md">
+      <strong>Northwind · Team Calendar</strong>
+      <nav><a href="#upcoming">Upcoming</a></nav>
+    </ui-row>
+  </header>
+  <main>
+    <ui-container>
+      <ui-stack gap="lg" padding="md">
+        <ui-stack gap="xs">
+          <h1>Product Team</h1>
+          <p>Shared schedule for planning, reviews, launches and time off.</p>
+        </ui-stack>
+
+        <ui-row wrap gap="lg" align="start">
+          <!-- Month view -->
+          <ui-card grow padding="md" gap="md" aria-labelledby="month-title">
+            <ui-row justify="space-between" gap="sm">
+              <ui-button id="prev" variant="outline" size="sm" aria-label="Previous month">‹ Prev</ui-button>
+              <h2 id="month-title" aria-live="polite">November 2026</h2>
+              <ui-button id="next" variant="outline" size="sm" aria-label="Next month">Next ›</ui-button>
+            </ui-row>
+
+            <ui-grid columns="7" gap="xs" aria-hidden="true">
+              <small><strong>Mon</strong></small>
+              <small><strong>Tue</strong></small>
+              <small><strong>Wed</strong></small>
+              <small><strong>Thu</strong></small>
+              <small><strong>Fri</strong></small>
+              <small><strong>Sat</strong></small>
+              <small><strong>Sun</strong></small>
+            </ui-grid>
+
+            <ui-grid id="month-grid" columns="7" gap="xs" role="grid" aria-label="Month days"></ui-grid>
+
+            <small>● = one event. Today is highlighted. Select a day's details in the upcoming list.</small>
+          </ui-card>
+
+          <!-- Upcoming list -->
+          <ui-card id="upcoming" padding="md" gap="md">
+            <img src="https://picsum.photos/seed/northwind-team/640/240" width="320" height="120" alt="The product team at the autumn offsite">
+            <h2>Upcoming</h2>
+            <ul id="upcoming-list"></ul>
+            <ui-button variant="primary">Add event</ui-button>
+          </ui-card>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+  <footer>
+    <ui-row padding="md"><small>Times shown in Central European Time.</small></ui-row>
+  </footer>
+</ui-page>
+
+<script>
+  const TODAY = new Date(2026, 10, 21);
+  const events = [
+    { date: "2026-11-03", time: "10:00", title: "Sprint 22 planning", who: "Whole team" },
+    { date: "2026-11-06", time: "15:00", title: "Design critique", who: "Design" },
+    { date: "2026-11-12", time: "11:00", title: "Customer interview: Halden Foods", who: "Research" },
+    { date: "2026-11-12", time: "16:30", title: "Release 4.8 go/no-go", who: "Eng leads" },
+    { date: "2026-11-17", time: "14:00", title: "Sprint 22 review & demo", who: "Whole team" },
+    { date: "2026-11-23", time: "09:30", title: "Q1 roadmap workshop", who: "Product" },
+    { date: "2026-11-24", time: "13:00", title: "Accessibility audit readout", who: "Design, Eng" },
+    { date: "2026-11-26", time: "All day", title: "Maya – out of office", who: "Maya Lindqvist" },
+    { date: "2026-11-27", time: "17:00", title: "Team dinner at Brasa", who: "Whole team" },
+    { date: "2026-12-01", time: "10:00", title: "Sprint 23 planning", who: "Whole team" },
+    { date: "2026-12-04", time: "12:00", title: "Lunch & learn: Edge caching", who: "Engineering" },
+    { date: "2026-12-09", time: "All day", title: "Release 4.9 launch", who: "Whole team" },
+    { date: "2026-12-15", time: "14:00", title: "Sprint 23 review & demo", who: "Whole team" },
+    { date: "2026-12-18", time: "16:00", title: "Year-end retro", who: "Whole team" },
+    { date: "2027-01-07", time: "10:00", title: "Kickoff 2027", who: "Whole team" }
+  ];
+
+  const pad = n => String(n).padStart(2, "0");
+  const key = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const byDay = events.reduce((m, e) => ((m[e.date] ||= []).push(e), m), {});
+  const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  let view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+
+  function renderMonth() {
+    const title = view.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+    document.getElementById("month-title").textContent = title;
+
+    const first = new Date(view);
+    const offset = (first.getDay() + 6) % 7; // Monday = 0
+    const start = new Date(first); start.setDate(1 - offset);
+    const last = new Date(view.getFullYear(), view.getMonth() + 1, 0);
+    const cells = Math.ceil((offset + last.getDate()) / 7) * 7;
+
+    let html = "";
+    for (let i = 0; i < cells; i++) {
+      const d = new Date(start); d.setDate(start.getDate() + i);
+      const k = key(d);
+      const inMonth = d.getMonth() === view.getMonth();
+      const isToday = k === key(TODAY);
+      const evs = byDay[k] || [];
+      const label = d.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" }) +
+        (evs.length ? ": " + evs.map(e => e.title).join(", ") : "");
+      const attrs = isToday ? 'variant="primary"' : (!inMonth ? "sunken" : (evs.length ? 'variant="info"' : ""));
+      html += `<ui-card padding="xs" gap="xs" rounded="sm" ${attrs} role="gridcell" aria-label="${esc(label)}" title="${esc(label)}">
+        ${inMonth ? `<strong>${d.getDate()}</strong>` : `<small>${d.getDate()}</small>`}
+        <small>${evs.map(() => "●").join("") || "&nbsp;"}</small>
+      </ui-card>`;
+    }
+    document.getElementById("month-grid").innerHTML = html;
+  }
+
+  function renderUpcoming() {
+    const todayKey = key(TODAY);
+    const list = events.filter(e => e.date >= todayKey).slice(0, 6);
+    document.getElementById("upcoming-list").innerHTML = list.map(e => {
+      const d = new Date(e.date + "T00:00");
+      const when = d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+      return `<li><ui-stack gap="0">
+        <strong>${esc(e.title)}</strong>
+        <small><time datetime="${e.date}">${when}</time> · ${esc(e.time)} · ${esc(e.who)}</small>
+      </ui-stack></li>`;
+    }).join("");
+  }
+
+  document.getElementById("prev").addEventListener("click", () => {
+    view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderMonth();
+  });
+  document.getElementById("next").addEventListener("click", () => {
+    view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderMonth();
+  });
+
+  renderMonth();
+  renderUpcoming();
+</script>
+</body>
+</html>

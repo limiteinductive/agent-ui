@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="xl">
+        <ui-row justify="space-between" wrap gap="sm" padding="md">
+          <ui-row gap="sm">
+            <strong>Northstar</strong>
+            <span>Team calendar</span>
+          </ui-row>
+          <nav aria-label="Primary navigation">
+            <ui-row gap="sm" wrap>
+              <a href="#calendar">Calendar</a>
+              <a href="#people">People</a>
+              <a href="#settings">Settings</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main id="calendar">
+      <ui-container size="xl">
+        <ui-stack gap="lg" padding="lg">
+          <ui-row justify="space-between" align="end" wrap gap="md">
+            <ui-stack gap="xs">
+              <small>Workspace schedule</small>
+              <h1 id="month-title">September 2026</h1>
+              <p>Keep projects, launches, and team time in sync.</p>
+            </ui-stack>
+
+            <ui-row gap="sm" wrap>
+              <ui-button id="previous-month" variant="outline" aria-label="Previous month">← Previous</ui-button>
+              <ui-button id="today" variant="secondary">Today</ui-button>
+              <ui-button id="next-month" variant="outline" aria-label="Next month">Next →</ui-button>
+            </ui-row>
+          </ui-row>
+
+          <ui-row stack-below="lg" gap="lg" align="start">
+            <ui-card grow padding="sm" elevated>
+              <ui-stack gap="sm">
+                <ui-row justify="space-between" align="center">
+                  <strong>September 2026</strong>
+                  <small>All times in Pacific Time</small>
+                </ui-row>
+
+                <table aria-label="September 2026 team calendar">
+                  <thead>
+                    <tr>
+                      <th scope="col">Mon</th>
+                      <th scope="col">Tue</th>
+                      <th scope="col">Wed</th>
+                      <th scope="col">Thu</th>
+                      <th scope="col">Fri</th>
+                      <th scope="col">Sat</th>
+                      <th scope="col">Sun</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><small>31</small></td>
+                      <td><strong>1</strong><br><mark>Planning</mark></td>
+                      <td><strong>2</strong></td>
+                      <td><strong>3</strong><br><mark>Design review</mark></td>
+                      <td><strong>4</strong></td>
+                      <td><strong>5</strong></td>
+                      <td><strong>6</strong></td>
+                    </tr>
+                    <tr>
+                      <td><strong>7</strong></td>
+                      <td><strong>8</strong><br><mark>Demo day</mark></td>
+                      <td><strong>9</strong></td>
+                      <td><strong>10</strong></td>
+                      <td><strong>11</strong><br><mark>Launch</mark></td>
+                      <td><strong>12</strong></td>
+                      <td><strong>13</strong></td>
+                    </tr>
+                    <tr>
+                      <td><strong>14</strong><br><mark>Research sync</mark></td>
+                      <td><strong>15</strong></td>
+                      <td><strong>16</strong></td>
+                      <td><strong>17</strong><br><mark>Retro</mark></td>
+                      <td><strong>18</strong></td>
+                      <td><strong>19</strong></td>
+                      <td><strong>20</strong></td>
+                    </tr>
+                    <tr>
+                      <td><strong>21</strong></td>
+                      <td><strong>22</strong><br><mark>Offsite</mark></td>
+                      <td><strong>23</strong></td>
+                      <td><strong>24</strong></td>
+                      <td><strong>25</strong><br><mark>All hands</mark></td>
+                      <td><strong>26</strong></td>
+                      <td><strong>27</strong></td>
+                    </tr>
+                    <tr>
+                      <td><strong>28</strong></td>
+                      <td><strong>29</strong></td>
+                      <td><strong>30</strong><br><mark>Ship it</mark></td>
+                      <td><small>1</small></td>
+                      <td><small>2</small></td>
+                      <td><small>3</small></td>
+                      <td><small>4</small></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card id="upcoming" padding="lg" elevated>
+              <ui-stack gap="md">
+                <ui-row justify="space-between" align="center">
+                  <h2>Upcoming</h2>
+                  <a href="#all-events">View all</a>
+                </ui-row>
+
+                <ui-stack gap="md">
+                  <ui-row gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/alex/64/64" alt="Alex Morgan" width="48" height="48">
+                    <ui-stack gap="xs">
+                      <strong>Design review</strong>
+                      <small>Thu, Sep 3 · 10:00 AM</small>
+                      <span>Product design · Room 4B</span>
+                    </ui-stack>
+                  </ui-row>
+
+                  <hr>
+
+                  <ui-row gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/priya/64/64" alt="Priya Shah" width="48" height="48">
+                    <ui-stack gap="xs">
+                      <strong>Demo day</strong>
+                      <small>Tue, Sep 8 · 2:00 PM</small>
+                      <span>Customer success · Zoom</span>
+                    </ui-stack>
+                  </ui-row>
+
+                  <hr>
+
+                  <ui-row gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/jordan/64/64" alt="Jordan Lee" width="48" height="48">
+                    <ui-stack gap="xs">
+                      <strong>Launch retro</strong>
+                      <small>Thu, Sep 17 · 11:30 AM</small>
+                      <span>Engineering · Room 2A</span>
+                    </ui-stack>
+                  </ui-row>
+
+                  <hr>
+
+                  <ui-row gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/maya/64/64" alt="Maya Chen" width="48" height="48">
+                    <ui-stack gap="xs">
+                      <strong>Company offsite</strong>
+                      <small>Tue, Sep 22 · 9:00 AM</small>
+                      <span>Everyone · Presidio Pavilion</span>
+                    </ui-stack>
+                  </ui-row>
+                </ui-stack>
+              </ui-stack>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="xl">
+        <ui-row justify="space-between" wrap gap="sm" padding="lg">
+          <small>Northstar workspace · 24 teammates</small>
+          <a href="#help">Need help?</a>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    const title = document.querySelector("#month-title");
+    const previous = document.querySelector("#previous-month");
+    const next = document.querySelector("#next-month");
+    const today = document.querySelector("#today");
+
+    let currentMonth = 8;
+    let currentYear = 2026;
+
+    function renderMonth() {
+      const date = new Date(currentYear, currentMonth, 1);
+      title.textContent = date.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    previous.addEventListener("click", () => {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      renderMonth();
+    });
+
+    next.addEventListener("click", () => {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      renderMonth();
+    });
+
+    today.addEventListener("click", () => {
+      const now = new Date();
+      currentMonth = now.getMonth();
+      currentYear = now.getFullYear();
+      renderMonth();
+    });
+  </script>
+</body>
+</html>

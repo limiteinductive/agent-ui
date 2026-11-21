@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="large" padding="large" max-width="1200px" margin="auto">
+    <ui-stack direction="horizontal" justify="space-between" align="center" wrap>
+      <ui-stack gap="small">
+        <small>TEAM WORKSPACE</small>
+        <h1>November 2026</h1>
+        <p>Plan together, stay aligned, and make room for focused work.</p>
+      </ui-stack>
+
+      <ui-stack direction="horizontal" gap="small">
+        <button aria-label="Previous month">←</button>
+        <button>Today</button>
+        <button aria-label="Next month">→</button>
+      </ui-stack>
+    </ui-stack>
+
+    <ui-stack direction="horizontal" gap="large" align="start" wrap>
+      <ui-card grow>
+        <ui-stack gap="medium" padding="medium">
+          <ui-stack direction="horizontal" justify="space-between" align="center">
+            <h2>November 2026</h2>
+            <span>Monthly view</span>
+          </ui-stack>
+
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Mon</th>
+                <th scope="col">Tue</th>
+                <th scope="col">Wed</th>
+                <th scope="col">Thu</th>
+                <th scope="col">Fri</th>
+                <th scope="col">Sat</th>
+                <th scope="col">Sun</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><small>26</small></td>
+                <td><small>27</small></td>
+                <td><small>28</small></td>
+                <td><small>29</small></td>
+                <td><small>30</small></td>
+                <td><small>31</small></td>
+                <td><strong>1</strong></td>
+              </tr>
+              <tr>
+                <td><strong>2</strong></td>
+                <td><strong>3</strong></td>
+                <td><strong>4</strong></td>
+                <td><strong>5</strong></td>
+                <td><strong>6</strong></td>
+                <td><strong>7</strong></td>
+                <td><strong>8</strong></td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>9</strong>
+                  <ui-badge>Design sync</ui-badge>
+                </td>
+                <td><strong>10</strong></td>
+                <td>
+                  <strong>11</strong>
+                  <ui-badge>Launch review</ui-badge>
+                </td>
+                <td><strong>12</strong></td>
+                <td>
+                  <strong>13</strong>
+                  <ui-badge>Team lunch</ui-badge>
+                </td>
+                <td><strong>14</strong></td>
+                <td><strong>15</strong></td>
+              </tr>
+              <tr>
+                <td><strong>16</strong></td>
+                <td>
+                  <strong>17</strong>
+                  <ui-badge>Board meeting</ui-badge>
+                </td>
+                <td><strong>18</strong></td>
+                <td>
+                  <strong>19</strong>
+                  <ui-badge>Demo day</ui-badge>
+                </td>
+                <td><strong>20</strong></td>
+                <td><strong>21</strong></td>
+                <td><strong>22</strong></td>
+              </tr>
+              <tr>
+                <td><strong>23</strong></td>
+                <td><strong>24</strong></td>
+                <td>
+                  <strong>25</strong>
+                  <ui-badge>Office closed</ui-badge>
+                </td>
+                <td><strong>26</strong></td>
+                <td><strong>27</strong></td>
+                <td><strong>28</strong></td>
+                <td><strong>29</strong></td>
+              </tr>
+              <tr>
+                <td><strong>30</strong></td>
+                <td><small>1</small></td>
+                <td><small>2</small></td>
+                <td><small>3</small></td>
+                <td><small>4</small></td>
+                <td><small>5</small></td>
+                <td><small>6</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </ui-stack>
+      </ui-card>
+
+      <ui-stack gap="medium" width="360px">
+        <ui-card>
+          <ui-stack gap="medium" padding="medium">
+            <ui-stack direction="horizontal" justify="space-between" align="center">
+              <h2>Upcoming</h2>
+              <button>View all</button>
+            </ui-stack>
+
+            <ui-stack gap="medium">
+              <ui-stack direction="horizontal" gap="small" align="start">
+                <img src="https://picsum.photos/seed/design/64/64" alt="Design team workspace" width="56" height="56">
+                <ui-stack gap="small">
+                  <strong>Design sync</strong>
+                  <span>Mon, Nov 9 · 10:00 AM</span>
+                  <small>Room Atlas · 6 attendees</small>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" gap="small" align="start">
+                <img src="https://picsum.photos/seed/launch/64/64" alt="Product launch presentation" width="56" height="56">
+                <ui-stack gap="small">
+                  <strong>Product launch review</strong>
+                  <span>Wed, Nov 11 · 2:00 PM</span>
+                  <small>Video call · Product team</small>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" gap="small" align="start">
+                <img src="https://picsum.photos/seed/lunch/64/64" alt="Team lunch table" width="56" height="56">
+                <ui-stack gap="small">
+                  <strong>Team lunch</strong>
+                  <span>Fri, Nov 13 · 12:30 PM</span>
+                  <small>Harvest Kitchen · 14 attendees</small>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" gap="small" align="start">
+                <img src="https://picsum.photos/seed/demo/64/64" alt="Demo presentation" width="56" height="56">
+                <ui-stack gap="small">
+                  <strong>Demo day</strong>
+                  <span>Thu, Nov 19 · 4:00 PM</span>
+                  <small>Main auditorium · All hands</small>
+                </ui-stack>
+              </ui-stack>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="small" padding="medium">
+            <h2>Calendar legend</h2>
+            <ui-stack direction="horizontal" gap="small" wrap>
+              <ui-badge>Team</ui-badge>
+              <ui-badge>Product</ui-badge>
+              <ui-badge>Company</ui-badge>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+      </ui-stack>
+    </ui-stack>
+  </ui-stack>
+</body>
+</html>

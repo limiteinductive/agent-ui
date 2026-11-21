@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store analytics | Fieldwork Prints</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Agent UI handles layout and surfaces. These rules size native controls
+       and media, anchor the account menu, and contain table overflow. */
+    .header-tools, .search, .dashboard, .orders { min-inline-size: 0; }
+    .search { max-inline-size: 27rem; }
+    .search input, .filters select { box-sizing: border-box; inline-size: 100%; }
+    .account { position: relative; flex: none; }
+    .account summary { cursor: pointer; }
+    .account-menu {
+      position: absolute;
+      inset-block-start: calc(100% + var(--ui-space-sm));
+      inset-inline-end: 0;
+      inline-size: 14rem;
+      z-index: 2;
+    }
+    .sidebar { flex: 0 1 13rem; }
+    .dashboard[grow] { flex-basis: min(100%, 42rem); }
+    .orders[grow] { flex-basis: min(100%, 30rem); }
+    .products { flex: 1 1 15rem; min-inline-size: 0; }
+    .table-scroll { overflow-x: auto; }
+    .table-scroll table { inline-size: 100%; white-space: nowrap; }
+    .money { text-align: end; font-variant-numeric: tabular-nums; }
+    .product-list { list-style: none; margin: 0; padding: 0; }
+    .product-list li + li {
+      border-block-start: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+      margin-block-start: var(--ui-space-sm);
+      padding-block-start: var(--ui-space-sm);
+    }
+    .product-photo {
+      display: block;
+      flex: none;
+      object-fit: cover;
+      border-radius: var(--ui-radius-md);
+    }
+    .subtle { color: var(--ui-ink-muted, currentColor); }
+    .trend, .status { font-variant-numeric: tabular-nums; }
+    .trend[data-direction="favorable"], .status[data-state="Delivered"] {
+      color: light-dark(#166247, #89d8b3);
+    }
+    .trend[data-direction="unfavorable"], .status[data-state="Refunded"] {
+      color: light-dark(#a3333b, #ffa8af);
+    }
+    .status[data-state="Processing"] { color: light-dark(#875015, #f5c681); }
+    .sr-only {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    @media (max-width: 40rem) {
+      .header-tools[grow], .sidebar, .products { flex-basis: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-card padding="0" rounded="0">
+        <ui-container size="xl">
+          <ui-row wrap padding="md" gap="md">
+            <strong>Fieldwork Prints</strong>
+            <ui-row class="header-tools" grow justify="space-between" gap="sm">
+              <form class="search" role="search" grow>
+                <label class="sr-only" for="search">Search orders and products</label>
+                <input id="search" type="search" placeholder="Search orders and products" autocomplete="off">
+              </form>
+              <details class="account" id="account">
+                <summary>Maya Chen</summary>
+                <ui-card class="account-menu" elevated padding="md" gap="sm">
+                  <small>maya@fieldworkprints.example</small>
+                  <ui-button id="theme" size="sm" variant="outline">Switch appearance</ui-button>
+                </ui-card>
+              </details>
+            </ui-row>
+          </ui-row>
+        </ui-container>
+      </ui-card>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-stack padding="md" gap="lg">
+          <ui-row wrap justify="space-between" align="baseline" gap="xs">
+            <h1>Store analytics</h1>
+            <small class="subtle" id="report-period">Oct 23–Nov 21, 2026 · USD</small>
+          </ui-row>
+
+          <ui-row wrap align="start" gap="lg">
+            <aside class="sidebar" aria-labelledby="filters-heading">
+              <ui-card padding="md" gap="md">
+                <h2 id="filters-heading">Filters</h2>
+                <form id="filters" class="filters">
+                  <ui-stack gap="md">
+                    <label for="period">Date range</label>
+                    <select id="period" name="period">
+                      <option value="7">Last 7 days</option>
+                      <option value="30" selected>Last 30 days</option>
+                      <option value="90">Last 90 days</option>
+                    </select>
+                    <label for="channel">Sales channel</label>
+                    <select id="channel" name="channel">
+                      <option value="all">All channels</option>
+                      <option value="web">Online store</option>
+                      <option value="market">Marketplace</option>
+                    </select>
+                    <ui-button id="reset" variant="outline" size="sm">Reset filters</ui-button>
+                  </ui-stack>
+                </form>
+              </ui-card>
+            </aside>
+
+            <ui-stack class="dashboard" grow gap="lg">
+              <section aria-label="Key metrics">
+                <ui-stack gap="sm">
+                  <ui-grid max-columns="4" min-item-width="8rem" gap="sm">
+                    <ui-card rounded="lg" padding="md">
+                      <ui-stack gap="xs">
+                        <h3>Revenue</h3>
+                        <h2 id="revenue">$48,562</h2>
+                        <small class="trend" id="revenue-trend" data-direction="favorable">↑ 12.3%</small>
+                      </ui-stack>
+                    </ui-card>
+                    <ui-card rounded="lg" padding="md">
+                      <ui-stack gap="xs">
+                        <h3>Orders</h3>
+                        <h2 id="orders-total">1,248</h2>
+                        <small class="trend" id="orders-trend" data-direction="favorable">↑ 8.9%</small>
+                      </ui-stack>
+                    </ui-card>
+                    <ui-card rounded="lg" padding="md">
+                      <ui-stack gap="xs">
+                        <h3>Conversion</h3>
+                        <h2 id="conversion">3.40%</h2>
+                        <small class="trend" id="conversion-trend" data-direction="favorable">↑ 0.22 pp</small>
+                      </ui-stack>
+                    </ui-card>
+                    <ui-card rounded="lg" padding="md">
+                      <ui-stack gap="xs">
+                        <h3>Refunds</h3>
+                        <h2 id="refunds">22</h2>
+                        <small class="trend" id="refunds-trend" data-direction="favorable">↓ 12.0%</small>
+                      </ui-stack>
+                    </ui-card>
+                  </ui-grid>
+                  <small class="subtle">Changes vs. the preceding period of the same length</small>
+                </ui-stack>
+              </section>
+
+              <ui-row wrap align="start" gap="md">
+                <section class="orders" grow aria-labelledby="orders-heading">
+                  <ui-card rounded="lg" padding="md" gap="md">
+                    <h2 id="orders-heading">Recent orders</h2>
+                    <div class="table-scroll" role="region" aria-labelledby="orders-heading" tabindex="0">
+                      <table aria-labelledby="orders-heading">
+                        <thead>
+                          <tr>
+                            <th scope="col">Order</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" class="money">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody id="order-rows"></tbody>
+                      </table>
+                    </div>
+                  </ui-card>
+                </section>
+
+                <section class="products" aria-labelledby="products-heading">
+                  <ui-card rounded="lg" padding="md" gap="sm">
+                    <h2 id="products-heading">Top products</h2>
+                    <small class="subtle">Ranked by units sold</small>
+                    <ol id="product-rows" class="product-list"></ol>
+                  </ui-card>
+                </section>
+              </ui-row>
+              <p id="results" class="sr-only" role="status"></p>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <script>
+    const reports = {
+      7: {
+        web: { current: [9228, 234, 6580, 3], previous: [8412, 216, 6350, 5] },
+        market: { current: [3016, 77, 2460, 2], previous: [3304, 83, 2310, 2] }
+      },
+      30: {
+        web: { current: [36480, 936, 25814, 15], previous: [32060, 854, 24760, 17] },
+        market: { current: [12082, 312, 10892, 7], previous: [11200, 292, 11240, 8] }
+      },
+      90: {
+        web: { current: [101740, 2590, 74510, 56], previous: [91830, 2412, 72050, 62] },
+        market: { current: [34651, 901, 33280, 21], previous: [33395, 865, 32110, 19] }
+      }
+    };
+
+    const orders = [
+      [1842, "Lena Ortiz", "2026-11-21", "Processing", 78, "web"],
+      [1841, "Noah Patel", "2026-11-21", "Shipped", 42, "market"],
+      [1840, "Amelia Brooks", "2026-11-20", "Shipped", 96, "web"],
+      [1839, "Julian Park", "2026-11-19", "Delivered", 36, "web"],
+      [1838, "Sofia Reyes", "2026-11-18", "Delivered", 64, "market"],
+      [1837, "Theo Nguyen", "2026-11-17", "Refunded", 48, "web"],
+      [1836, "Iris Morgan", "2026-11-12", "Delivered", 84, "market"],
+      [1835, "Ella Martin", "2026-11-08", "Delivered", 42, "web"],
+      [1834, "Owen Shah", "2026-10-28", "Delivered", 36, "market"],
+      [1833, "Avery Kim", "2026-10-12", "Delivered", 92, "web"],
+      [1832, "Ruby Ellis", "2026-09-04", "Delivered", 48, "market"]
+    ];
+
+    const products = [
+      { name: "Evergreen Study", image: 10, price: 42, units: { 7: [45, 16], 30: [158, 56], 90: [451, 163] } },
+      { name: "River Bend", image: 1015, price: 36, units: { 7: [35, 11], 30: [127, 49], 90: [378, 140] } },
+      { name: "Alpine Light", image: 29, price: 48, units: { 7: [23, 20], 30: [85, 49], 90: [256, 133] } },
+      { name: "High Country", image: 1018, price: 32, units: { 7: [25, 8], 30: [76, 29], 90: [230, 80] } }
+    ];
+
+    // The demo ends on November 21 so the filters never age out of the sample data.
+    const reportEnd = new Date("2026-11-21T00:00:00Z");
+    const byId = (id) => document.getElementById(id);
+    const period = byId("period");
+    const channel = byId("channel");
+    const search = byId("search");
+    const account = byId("account");
+    const number = new Intl.NumberFormat("en-US");
+    const currency = new Intl.NumberFormat("en-US", {
+      style: "currency", currency: "USD", maximumFractionDigits: 0
+    });
+    const day = new Intl.DateTimeFormat("en-US", {
+      month: "short", day: "numeric", timeZone: "UTC"
+    });
+    const dateRange = new Intl.DateTimeFormat("en-US", {
+      month: "short", day: "numeric", year: "numeric", timeZone: "UTC"
+    });
+
+    function setTrend(id, change, unit, lowerIsBetter = false) {
+      const trend = byId(id);
+      const magnitude = Math.abs(change).toFixed(unit === "%" ? 1 : 2);
+      if (Number(magnitude) === 0) {
+        trend.textContent = "No change";
+        trend.dataset.direction = "neutral";
+        return;
+      }
+      const rising = change > 0;
+      trend.textContent = `${rising ? "↑" : "↓"} ${magnitude}${unit}`;
+      trend.setAttribute("aria-label",
+        `${rising ? "Up" : "Down"} ${magnitude} ${unit === "%" ? "percent" : "percentage points"}`);
+      trend.dataset.direction = rising !== lowerIsBetter ? "favorable" : "unfavorable";
+    }
+
+    function renderMetrics(days, salesChannel) {
+      const report = reports[days];
+      const selected = salesChannel === "all" ? Object.values(report) : [report[salesChannel]];
+      const totals = (key) => selected.reduce(
+        (sum, entry) => sum.map((value, index) => value + entry[key][index]),
+        [0, 0, 0, 0]
+      );
+      const [revenue, count, visits, refunds] = totals("current");
+      const [oldRevenue, oldCount, oldVisits, oldRefunds] = totals("previous");
+      const conversion = 100 * count / visits;
+
+      byId("revenue").textContent = currency.format(revenue);
+      byId("orders-total").textContent = number.format(count);
+      byId("conversion").textContent = `${conversion.toFixed(2)}%`;
+      byId("refunds").textContent = number.format(refunds);
+
+      const change = (current, previous) => 100 * (current - previous) / previous;
+      setTrend("revenue-trend", change(revenue, oldRevenue), "%");
+      setTrend("orders-trend", change(count, oldCount), "%");
+      setTrend("conversion-trend", conversion - 100 * oldCount / oldVisits, " pp");
+      setTrend("refunds-trend", change(refunds, oldRefunds), "%", true);
+    }
+
+    function renderLists(start, salesChannel) {
+      const query = search.value.trim().toLowerCase();
+      const matches = (text) => text.toLowerCase().includes(query);
+      const matchingOrders = orders.filter(([id, customer, date, status, , source]) =>
+        new Date(`${date}T00:00:00Z`) >= start &&
+        (salesChannel === "all" || salesChannel === source) &&
+        matches(`#FP-${id} ${customer} ${status}`)
+      );
+      const matchingProducts = products
+        .filter(({ name }) => matches(name))
+        .map((product) => {
+          const [web, market] = product.units[period.value];
+          const sold = { all: web + market, web, market };
+          return { ...product, sold: sold[salesChannel] };
+        })
+        .sort((a, b) => b.sold - a.sold);
+
+      // Only the fixed demo records are interpolated into the list markup.
+      byId("order-rows").innerHTML = matchingOrders.slice(0, 6).map(
+        ([id, customer, date, status, total]) => `
+          <tr>
+            <th scope="row">#FP-${id}</th>
+            <td>${customer}</td>
+            <td><time datetime="${date}">${day.format(new Date(date))}</time></td>
+            <td><span class="status" data-state="${status}">${status}</span></td>
+            <td class="money">${currency.format(total)}</td>
+          </tr>`
+      ).join("") || '<tr><td colspan="5">No matching orders</td></tr>';
+
+      byId("product-rows").innerHTML = matchingProducts.map(({ name, image, price, sold }) => `
+        <li>
+          <ui-row gap="sm">
+            <img class="product-photo" src="https://picsum.photos/id/${image}/96/96"
+                 width="44" height="44" alt="">
+            <ui-stack grow gap="0">
+              <strong>${name}</strong>
+              <small class="subtle">${number.format(sold)} sold</small>
+            </ui-stack>
+            <small class="money">${currency.format(price)}</small>
+          </ui-row>
+        </li>`
+      ).join("") || "<li>No matching products</li>";
+
+      byId("results").textContent =
+        `Showing ${Math.min(6, matchingOrders.length)} of ${matchingOrders.length} recent orders ` +
+        `and ${matchingProducts.length} top products.`;
+    }
+
+    function startDate() {
+      const start = new Date(reportEnd);
+      start.setUTCDate(start.getUTCDate() - Number(period.value) + 1);
+      return start;
+    }
+
+    function renderReport() {
+      const start = startDate();
+      byId("report-period").textContent = `${dateRange.formatRange(start, reportEnd)} · USD`;
+      renderMetrics(period.value, channel.value);
+      renderLists(start, channel.value);
+    }
+
+    search.form.addEventListener("submit", (event) => event.preventDefault());
+    search.addEventListener("input", () => renderLists(startDate(), channel.value));
+    byId("filters").addEventListener("change", renderReport);
+    byId("filters").addEventListener("submit", (event) => event.preventDefault());
+    byId("reset").addEventListener("click", () => {
+      byId("filters").reset();
+      renderReport();
+    });
+
+    byId("theme").addEventListener("click", () => {
+      const root = document.documentElement;
+      const appearance = root.dataset.scheme ||
+        (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      root.dataset.scheme = appearance === "dark" ? "light" : "dark";
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!account.contains(event.target)) account.open = false;
+    });
+    account.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && account.open) {
+        account.open = false;
+        account.querySelector("summary").focus();
+      }
+    });
+
+    renderReport();
+  </script>
+</body>
+</html>

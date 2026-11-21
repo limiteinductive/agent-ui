@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen Store · Analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="vertical" gap="lg">
+
+    <!-- Top bar -->
+    <ui-header padding="md" border="bottom">
+      <ui-stack direction="horizontal" align="center" justify="between" gap="md" wrap="wrap">
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <ui-icon name="chart-bar"></ui-icon>
+          <ui-heading level="4">Lumen Store</ui-heading>
+        </ui-stack>
+
+        <ui-stack direction="horizontal" align="center" gap="sm" grow="1" wrap="wrap">
+          <ui-input type="search" placeholder="Search orders, products, customers…" grow="1"></ui-input>
+        </ui-stack>
+
+        <details>
+          <summary>
+            <ui-avatar src="https://picsum.photos/id/1005/96/96" alt="Maya Chen" size="sm"></ui-avatar>
+          </summary>
+          <ui-card padding="sm">
+            <ui-stack direction="vertical" gap="xs">
+              <ui-text weight="semibold">Maya Chen</ui-text>
+              <ui-text tone="muted" size="sm">Store owner</ui-text>
+              <ui-divider></ui-divider>
+              <ui-button variant="ghost" align="start">Profile</ui-button>
+              <ui-button variant="ghost" align="start">Store settings</ui-button>
+              <ui-button variant="ghost" align="start">Billing</ui-button>
+              <ui-divider></ui-divider>
+              <ui-button variant="ghost" align="start" tone="danger">Sign out</ui-button>
+            </ui-stack>
+          </ui-card>
+        </details>
+      </ui-stack>
+    </ui-header>
+
+    <ui-layout gap="lg" padding="md">
+
+      <!-- Sidebar filters -->
+      <ui-sidebar width="240px" gap="md">
+        <ui-stack direction="vertical" gap="md">
+          <ui-heading level="6">Filters</ui-heading>
+
+          <ui-field label="Date range">
+            <ui-select>
+              <option>Last 7 days</option>
+              <option selected>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Year to date</option>
+            </ui-select>
+          </ui-field>
+
+          <ui-field label="Channel">
+            <ui-stack direction="vertical" gap="xs">
+              <ui-checkbox checked>Online store</ui-checkbox>
+              <ui-checkbox checked>Mobile app</ui-checkbox>
+              <ui-checkbox>Marketplace</ui-checkbox>
+              <ui-checkbox>Wholesale</ui-checkbox>
+            </ui-stack>
+          </ui-field>
+
+          <ui-field label="Order status">
+            <ui-stack direction="vertical" gap="xs">
+              <ui-checkbox checked>Paid</ui-checkbox>
+              <ui-checkbox checked>Fulfilled</ui-checkbox>
+              <ui-checkbox>Pending</ui-checkbox>
+              <ui-checkbox>Refunded</ui-checkbox>
+            </ui-stack>
+          </ui-field>
+
+          <ui-field label="Country">
+            <ui-select>
+              <option selected>All countries</option>
+              <option>United States</option>
+              <option>Canada</option>
+              <option>United Kingdom</option>
+              <option>Germany</option>
+            </ui-select>
+          </ui-field>
+
+          <ui-stack direction="horizontal" gap="sm">
+            <ui-button variant="outline">Reset</ui-button>
+            <ui-button variant="primary">Apply</ui-button>
+          </ui-stack>
+        </ui-stack>
+      </ui-sidebar>
+
+      <!-- Main content -->
+      <ui-stack direction="vertical" gap="lg" grow="1">
+
+        <!-- Stat tiles -->
+        <ui-grid min="200px" gap="md">
+          <ui-card padding="md">
+            <ui-stack direction="vertical" gap="xs">
+              <ui-text tone="muted" size="sm">Revenue</ui-text>
+              <ui-text size="2xl" weight="bold">$84,devault</ui-text>
+              <ui-badge tone="success">▲ 12.4% vs prior period</ui-badge>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="md">
+            <ui-stack direction="vertical" gap="xs">
+              <ui-text tone="muted" size="sm">Orders</ui-text>
+              <ui-text size="2xl" weight="bold">1,284</ui-text>
+              <ui-badge tone="success">▲ 8.1% vs prior period</ui-badge>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="md">
+            <ui-stack direction="vertical" gap="xs">
+              <ui-text tone="muted" size="sm">Conversion</ui-text>
+              <ui-text size="2xl" weight="bold">3.27%</ui-text>
+              <ui-badge tone="danger">▼ 0.4 pts vs prior period</ui-badge>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="md">
+            <ui-stack direction="vertical" gap="xs">
+              <ui-text tone="muted" size="sm">Refunds</ui-text>
+              <ui-text size="2xl" weight="bold">$2,190</ui-text>
+              <ui-badge tone="warning">▲ 2.2% vs prior period</ui-badge>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+
+        <!-- Recent orders -->
+        <ui-card padding="md">
+          <ui-stack direction="vertical" gap="md">
+            <ui-stack direction="horizontal" justify="between" align="center" wrap="wrap" gap="sm">
+              <ui-heading level="5">Recent orders</ui-heading>
+              <ui-button variant="outline" size="sm">View all</ui-button>
+            </ui-stack>
+
+            <ui-scroll direction="horizontal">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#LM-10482</td>
+                    <td>Priya Raman</td>
+                    <td>Nov 21, 2026</td>
+                    <td><ui-badge tone="success">Paid</ui-badge></td>
+                    <td>$128.00</td>
+                  </tr>
+                  <tr>
+                    <td>#LM-10481</td>
+                    <td>Daniel Okafor</td>
+                    <td>Nov 21, 2026</td>
+                    <td><ui-badge tone="info">Fulfilled</ui-badge></td>
+                    <td>$64.50</td>
+                  </tr>
+                  <tr>
+                    <td>#LM-10480</td>
+                    <td>Sofia Lindqvist</td>
+                    <td>Nov 20, 2026</td>
+                    <td><ui-badge tone="warning">Pending</ui-badge></td>
+                    <td>$212.75</td>
+                  </tr>
+                  <tr>
+                    <td>#LM-10479</td>
+                    <td>James Whitfield</td>
+                    <td>Nov 20, 2026</td>
+                    <td><ui-badge tone="danger">Refunded</ui-badge></td>
+                    <td>$39.00</td>
+                  </tr>
+                  <tr>
+                    <td>#LM-10478</td>
+                    <td>Aiko Tanaka</td>
+                    <td>Nov 19, 2026</td>
+                    <td><ui-badge tone="success">Paid</ui-badge></td>
+                    <td>$96.20</td>
+                  </tr>
+                  <tr>
+                    <td>#LM-10477</td>
+                    <td>Marco Rossi</td>
+                    <td>Nov 19, 2026</td>
+                    <td><ui-badge tone="info">Fulfilled</ui-badge></td>
+                    <td>$157.40</td>
+                  </tr>
+                </tbody>
+              </table>
+            </ui-scroll>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Top products -->
+        <ui-card padding="md">
+          <ui-stack direction="vertical" gap="md">
+            <ui-heading level="5">Top products</ui-heading>
+            <ui-list>
+              <ui-list-item>
+                <ui-stack direction="horizontal" align="center" gap="md">
+                  <ui-avatar src="https://picsum.photos/id/21/96/96" alt="Ceramic pour-over set" shape="square"></ui-avatar>
+                  <ui-stack direction="vertical" gap="xs" grow="1">
+                    <ui-text weight="semibold">Ceramic pour-over set</ui-text>
+                    <ui-text tone="muted" size="sm">412 sold · $9.8k revenue</ui-text>
+                  </ui-stack>
+                  <ui-badge tone="success">+18%</ui-badge>
+                </ui-stack>
+              </ui-list-item>
+              <ui-list-item>
+                <ui-stack direction="horizontal" align="center" gap="md">
+                  <ui-avatar src="https://picsum.photos/id/42/96/96" alt="Linen tote bag" shape="square"></ui-avatar>
+                  <ui-stack direction="vertical" gap="xs" grow="1">
+                    <ui-text weight="semibold">Linen tote bag</ui-text>
+                    <ui-text tone="muted" size="sm">356 sold · $7.1k revenue</ui-text>
+                  </ui-stack>
+                  <ui-badge tone="success">+9%</ui-badge>
+                </ui-stack>
+              </ui-list-item>
+              <ui-list-item>
+                <ui-stack direction="horizontal" align="center" gap="md">
+                  <ui-avatar src="https://picsum.photos/id/96/96/96" alt="Walnut desk organizer" shape="square"></ui-avatar>
+                  <ui-stack direction="vertical" gap="xs" grow="1">
+                    <ui-text weight="semibold">Walnut desk organizer</ui-text>
+                    <ui-text tone="muted" size="sm">241 sold · $6.0k revenue</ui-text>
+                  </ui-stack>
+                  <ui-badge tone="danger">-3%</ui-badge>
+                </ui-stack>
+              </ui-list-item>
+              <ui-list-item>
+                <ui-stack direction="horizontal" align="center" gap="md">
+                  <ui-avatar src="https://picsum.photos/id/225/96/96" alt="Wool throw blanket" shape="square"></ui-avatar>
+                  <ui-stack direction="vertical" gap="xs" grow="1">
+                    <ui-text weight="semibold">Wool throw blanket</ui-text>
+                    <ui-text tone="muted" size="sm">198 sold · $5.4k revenue</ui-text>
+                  </ui-stack>
+                  <ui-badge tone="success">+22%</ui-badge>
+                </ui-stack>
+              </ui-list-item>
+              <ui-list-item>
+                <ui-stack direction="horizontal" align="center" gap="md">
+                  <ui-avatar src="https://picsum.photos/id/292/96/96" alt="Brass desk lamp" shape="square"></ui-avatar>
+                  <ui-stack direction="vertical" gap="xs" grow="1">
+                    <ui-text weight="semibold">Brass desk lamp</ui-text>
+                    <ui-text tone="muted" size="sm">miles 117 sold · $4.7k revenue</ui-text>
+                  </ui-stack>
+                  <ui-badge tone="success">+5%</ui-badge>
+                </ui-stack>
+              </ui-list-item>
+            </ui-list>
+          </ui-stack>
+        </ui-card>
+
+      </ui-stack>
+    </ui-layout>
+  </ui-stack>
+</body>
+</html>

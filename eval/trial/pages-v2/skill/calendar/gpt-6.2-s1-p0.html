@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Studio North</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Calendar tracks, event colors, and compact day labels. */
+    :root {
+      --calendar-line: light-dark(#e0e5ee, #363e4c);
+      --calendar-weekend: light-dark(#f6f8fb, #242a34);
+      --calendar-accent: light-dark(#2644ad, #b6c5ff);
+      --calendar-today: light-dark(#3049b8, #a8b9ff);
+      --calendar-today-ink: light-dark(#fff, #151e3e);
+    }
+    .masthead { border-block-end: 1px solid var(--calendar-line); }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      inline-size: 2rem;
+      aspect-ratio: 1;
+      border-radius: var(--ui-radius-md);
+      background: var(--calendar-today);
+      color: var(--calendar-today-ink);
+      font-weight: 750;
+    }
+    .intro h1 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.08; }
+    .muted { color: var(--ui-ink-muted); }
+    .calendar-panel { flex-basis: 36rem; min-inline-size: 0; }
+    .agenda { flex: 1 1 18rem; min-inline-size: 0; }
+    .month-board { overflow: hidden; }
+    .month-controls { border-block-end: 1px solid var(--calendar-line); }
+    .month-controls h2, .agenda h2 { font-size: 1.25rem; }
+    .weekdays, .week { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+    .weekdays {
+      text-align: center;
+      background: var(--calendar-weekend);
+      color: var(--ui-ink-muted);
+      font-size: .75rem;
+      font-weight: 650;
+    }
+    .weekdays > div { padding-block: var(--ui-space-sm); }
+    .day {
+      min-inline-size: 0;
+      min-block-size: 5.25rem;
+      border-block-start: 1px solid var(--calendar-line);
+    }
+    .day + .day { border-inline-start: 1px solid var(--calendar-line); }
+    .day:nth-child(n+6), .outside { background: var(--calendar-weekend); }
+    .outside .day-number { color: var(--ui-ink-muted); }
+    .day-number {
+      display: inline-grid;
+      place-items: center;
+      inline-size: 1.65rem;
+      block-size: 1.65rem;
+      border-radius: var(--ui-radius-full);
+      font-size: .82rem;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+    }
+    .day-number[aria-current="date"] {
+      background: var(--calendar-today);
+      color: var(--calendar-today-ink);
+    }
+    .design {
+      --event-ink: light-dark(#3948a2, #c4cbff);
+      --event-fill: light-dark(#e9edff, #2c345f);
+    }
+    .planning {
+      --event-ink: light-dark(#815109, #f6d08a);
+      --event-fill: light-dark(#fff0d4, #49361a);
+    }
+    .team {
+      --event-ink: light-dark(#216450, #9fe3cb);
+      --event-fill: light-dark(#e1f3eb, #1e4138);
+    }
+    .event-link {
+      inline-size: 100%;
+      min-block-size: 1.65rem;
+      overflow: hidden;
+      padding: var(--ui-space-xs);
+      border: 0;
+      border-radius: var(--ui-radius-sm);
+      background: var(--event-fill);
+      color: var(--event-ink);
+      font: inherit;
+      font-size: .72rem;
+      font-weight: 650;
+      text-align: start;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .event-link:hover, .agenda-link:hover { text-decoration: underline; }
+    .event-link:focus-visible, .agenda-link:focus-visible {
+      outline: 2px solid var(--calendar-accent);
+      outline-offset: 1px;
+    }
+    .event-dot {
+      display: inline-block;
+      flex: none;
+      inline-size: .48rem;
+      block-size: .48rem;
+      border-radius: 50%;
+      background: var(--event-ink);
+    }
+    .event-link .event-dot { display: none; }
+    .agenda-list { list-style: none; padding: 0; margin: 0; }
+    .agenda-item { padding-block: var(--ui-space-md); }
+    .agenda-item + .agenda-item { border-block-start: 1px solid var(--calendar-line); }
+    .agenda-date {
+      flex: 0 0 2.9rem;
+      text-align: center;
+      color: var(--event-ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .agenda-date strong { font-size: 1.1rem; line-height: 1; }
+    .agenda-date small { font-size: .64rem; text-transform: uppercase; }
+    .agenda-link {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      font-weight: 700;
+      text-align: start;
+      cursor: pointer;
+    }
+    #event-dialog {
+      inline-size: min(26rem, calc(100% - 2rem));
+      box-sizing: border-box;
+    }
+    #event-dialog::backdrop { background: rgb(16 24 40 / .48); }
+    @media (max-width: 42rem) {
+      .day { min-block-size: 4rem; }
+      .event-link { min-block-size: 1.75rem; text-align: center; }
+      .event-link .event-title { display: none; }
+      .event-link .event-dot { display: inline-block; vertical-align: middle; }
+    }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <header class="masthead">
+      <ui-container size="lg">
+        <ui-row gap="sm" padding="md">
+          <span class="brand-mark" aria-hidden="true">N</span>
+          <strong>Studio North</strong>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="lg" padding="lg">
+          <ui-stack class="intro" gap="xs">
+            <h1>Team calendar</h1>
+            <p class="muted">Reviews, deadlines, and time together.</p>
+          </ui-stack>
+
+          <ui-row wrap gap="lg" align="start">
+            <section class="calendar-panel" grow aria-labelledby="month-heading">
+              <ui-stack gap="md">
+                <ui-card class="month-board" padding="0" gap="0" rounded="xl">
+                  <ui-row class="month-controls" wrap justify="space-between" padding="md" gap="sm">
+                    <h2 id="month-heading" aria-live="polite"></h2>
+                    <ui-row gap="xs">
+                      <ui-button id="today" variant="ghost" size="sm">Today</ui-button>
+                      <ui-button id="previous" variant="outline" size="sm" aria-label="Previous month">
+                        <span aria-hidden="true">←</span>
+                      </ui-button>
+                      <ui-button id="next" variant="outline" size="sm" aria-label="Next month">
+                        <span aria-hidden="true">→</span>
+                      </ui-button>
+                    </ui-row>
+                  </ui-row>
+
+                  <div role="table" aria-labelledby="month-heading">
+                    <ui-grid class="weekdays" columns="7" gap="0" role="row">
+                      <div role="columnheader" aria-label="Monday">Mon</div>
+                      <div role="columnheader" aria-label="Tuesday">Tue</div>
+                      <div role="columnheader" aria-label="Wednesday">Wed</div>
+                      <div role="columnheader" aria-label="Thursday">Thu</div>
+                      <div role="columnheader" aria-label="Friday">Fri</div>
+                      <div role="columnheader" aria-label="Saturday">Sat</div>
+                      <div role="columnheader" aria-label="Sunday">Sun</div>
+                    </ui-grid>
+                    <div id="calendar-weeks" role="rowgroup"></div>
+                  </div>
+                </ui-card>
+
+                <ui-row wrap gap="md" aria-label="Event categories">
+                  <ui-row class="design" gap="xs"><span class="event-dot"></span><small>Design</small></ui-row>
+                  <ui-row class="planning" gap="xs"><span class="event-dot"></span><small>Planning</small></ui-row>
+                  <ui-row class="team" gap="xs"><span class="event-dot"></span><small>Team</small></ui-row>
+                </ui-row>
+              </ui-stack>
+            </section>
+
+            <aside class="agenda" aria-labelledby="agenda-heading">
+              <ui-card padding="md" gap="0" rounded="xl">
+                <ui-stack gap="xs">
+                  <h2 id="agenda-heading">Upcoming events</h2>
+                  <small class="muted">Times shown in your local time</small>
+                </ui-stack>
+                <ul id="upcoming-list" class="agenda-list" role="list"></ul>
+              </ui-card>
+            </aside>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <dialog id="event-dialog" aria-labelledby="event-heading">
+    <ui-stack gap="md">
+      <h2 id="event-heading"></h2>
+      <p id="event-when"></p>
+      <p id="event-location" class="muted"></p>
+      <form method="dialog">
+        <ui-button type="submit" variant="outline">Close</ui-button>
+      </form>
+    </ui-stack>
+  </dialog>
+
+  <script>
+    const schedule = [
+      { day: 3, title: "Sprint planning", short: "Sprint planning", type: "planning", hour: 10, minute: 0, location: "Room 2B" },
+      { day: 6, title: "Design critique", short: "Design critique", type: "design", hour: 14, minute: 0, location: "Design studio" },
+      { day: 10, title: "Customer insights review", short: "Insights review", type: "team", hour: 11, minute: 0, location: "Google Meet" },
+      { day: 13, title: "Website copy handoff", short: "Copy handoff", type: "planning", hour: 13, minute: 30, location: "Project channel" },
+      { day: 17, title: "Prototype walkthrough", short: "Prototype review", type: "design", hour: 10, minute: 30, location: "Design studio" },
+      { day: 21, title: "Roadmap check-in", short: "Roadmap check-in", type: "planning", hour: 14, minute: 0, location: "Room 2B" },
+      { day: 24, title: "Design and engineering sync", short: "Design sync", type: "design", hour: 11, minute: 30, location: "Google Meet" },
+      { day: 26, title: "Studio lunch", short: "Studio lunch", type: "team", hour: 12, minute: 0, location: "Kitchen" },
+      { day: 28, title: "Monthly retrospective", short: "Retrospective", type: "team", hour: 15, minute: 0, location: "Room 2B" }
+    ];
+
+    const now = new Date();
+    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    let visibleMonth = currentMonth;
+
+    const monthFormat = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" });
+    const dateFormat = new Intl.DateTimeFormat("en-US", { dateStyle: "full" });
+    const shortMonthFormat = new Intl.DateTimeFormat("en-US", { month: "short" });
+    const timeFormat = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" });
+    const monthHeading = document.querySelector("#month-heading");
+    const weeks = document.querySelector("#calendar-weeks");
+    const upcomingList = document.querySelector("#upcoming-list");
+    const dialog = document.querySelector("#event-dialog");
+
+    function dateKey(date) {
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${String(date.getFullYear()).padStart(4, "0")}-${month}-${day}`;
+    }
+
+    const todayKey = dateKey(now);
+
+    function eventsForMonth(month) {
+      return schedule.map(event => {
+        const date = new Date(month.getFullYear(), month.getMonth(), event.day, event.hour, event.minute);
+        // Move weekend meetings to the following Monday, or to Friday at month end.
+        const weekday = date.getDay();
+        if (weekday === 0 || weekday === 6) {
+          date.setDate(date.getDate() + (weekday === 0 ? 1 : 2));
+          if (date.getMonth() !== month.getMonth()) date.setDate(date.getDate() - 3);
+        }
+        return { ...event, date };
+      }).sort((first, second) => first.date - second.date);
+    }
+
+    function showEvent(event) {
+      document.querySelector("#event-heading").textContent = event.title;
+      document.querySelector("#event-when").textContent =
+        `${dateFormat.format(event.date)} · ${timeFormat.format(event.date)}`;
+      document.querySelector("#event-location").textContent = event.location;
+      dialog.showModal();
+    }
+
+    function renderMonth() {
+      const year = visibleMonth.getFullYear();
+      const month = visibleMonth.getMonth();
+      const firstColumn = (visibleMonth.getDay() + 6) % 7;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const weekCount = Math.ceil((firstColumn + daysInMonth) / 7);
+      const eventsByDate = new Map();
+
+      for (const event of eventsForMonth(visibleMonth)) {
+        const key = dateKey(event.date);
+        if (!eventsByDate.has(key)) eventsByDate.set(key, []);
+        eventsByDate.get(key).push(event);
+      }
+
+      monthHeading.textContent = monthFormat.format(visibleMonth);
+      const rows = document.createDocumentFragment();
+
+      for (let week = 0; week < weekCount; week++) {
+        const row = document.createElement("ui-grid");
+        row.className = "week";
+        row.setAttribute("columns", "7");
+        row.setAttribute("gap", "0");
+        row.setAttribute("role", "row");
+
+        for (let column = 0; column < 7; column++) {
+          const date = new Date(year, month, 1 - firstColumn + week * 7 + column);
+          const key = dateKey(date);
+          const inMonth = date.getMonth() === month;
+          const cell = document.createElement("ui-stack");
+          cell.className = inMonth ? "day" : "day outside";
+          cell.setAttribute("role", "cell");
+          cell.setAttribute("gap", "xs");
+          cell.setAttribute("padding", "xs");
+
+          const number = document.createElement("time");
+          number.className = "day-number";
+          number.dateTime = key;
+          number.textContent = date.getDate();
+          number.setAttribute("aria-label", dateFormat.format(date));
+          if (key === todayKey) number.setAttribute("aria-current", "date");
+          cell.append(number);
+
+          for (const event of inMonth ? eventsByDate.get(key) ?? [] : []) {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = `event-link ${event.type}`;
+            button.setAttribute("aria-label", `${event.title}, ${dateFormat.format(event.date)}, ${timeFormat.format(event.date)}`);
+            button.innerHTML = '<span class="event-dot" aria-hidden="true"></span><span class="event-title"></span>';
+            button.querySelector(".event-title").textContent = event.short;
+            button.addEventListener("click", () => showEvent(event));
+            cell.append(button);
+          }
+          row.append(cell);
+        }
+        rows.append(row);
+      }
+      weeks.replaceChildren(rows);
+    }
+
+    function renderUpcoming() {
+      const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+      const upcoming = [...eventsForMonth(currentMonth), ...eventsForMonth(nextMonth)]
+        .filter(event => event.date >= now)
+        .slice(0, 5);
+
+      for (const event of upcoming) {
+        const item = document.createElement("li");
+        item.className = `agenda-item ${event.type}`;
+        item.innerHTML = `
+          <ui-row align="start" gap="sm">
+            <ui-card class="agenda-date" padding="xs" gap="0" rounded="md" sunken>
+              <small></small>
+              <strong></strong>
+            </ui-card>
+            <ui-stack gap="xs" grow>
+              <button type="button" class="agenda-link"></button>
+              <small class="muted"><time></time> · <span class="location"></span></small>
+            </ui-stack>
+          </ui-row>`;
+        item.querySelector(".agenda-date small").textContent = shortMonthFormat.format(event.date);
+        item.querySelector(".agenda-date strong").textContent = event.date.getDate();
+        const time = item.querySelector("time");
+        time.dateTime = `${dateKey(event.date)}T${String(event.hour).padStart(2, "0")}:${String(event.minute).padStart(2, "0")}`;
+        time.textContent = timeFormat.format(event.date);
+        item.querySelector(".location").textContent = event.location;
+        const button = item.querySelector("button");
+        button.textContent = event.title;
+        button.addEventListener("click", () => showEvent(event));
+        upcomingList.append(item);
+      }
+    }
+
+    function moveMonth(offset) {
+      visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + offset, 1);
+      renderMonth();
+    }
+
+    document.querySelector("#previous").addEventListener("click", () => moveMonth(-1));
+    document.querySelector("#next").addEventListener("click", () => moveMonth(1));
+    document.querySelector("#today").addEventListener("click", () => {
+      visibleMonth = currentMonth;
+      renderMonth();
+    });
+
+    renderMonth();
+    renderUpcoming();
+  </script>
+</body>
+</html>

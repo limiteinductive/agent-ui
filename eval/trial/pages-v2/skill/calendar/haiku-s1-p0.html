@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <main>
+      <ui-container>
+        <ui-stack gap="lg" padding="md">
+          <h1>Team calendar</h1>
+
+          <ui-row stack-below="40rem" align="start" gap="lg">
+            <ui-card elevated padding="sm">
+              <ui-stack gap="md">
+                <ui-row wrap justify="space-between" gap="sm">
+                  <ui-button id="prev" variant="ghost" size="sm" aria-label="Previous month">← Prev</ui-button>
+                  <h2 id="month-title">November 2026</h2>
+                  <ui-button id="next" variant="ghost" size="sm" aria-label="Next month">Next →</ui-button>
+                </ui-row>
+
+                <ui-grid id="grid" columns="7" gap="xs"></ui-grid>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated>
+              <ui-stack gap="md">
+                <h2>Upcoming</h2>
+                <ui-stack id="upcoming" gap="md"></ui-stack>
+              </ui-stack>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <script>
+    const TODAY = '2026-11-21';
+
+    const EVENTS = [
+      { date: '2026-11-23', time: '10:00', title: 'Sprint planning',      place: 'Room 2A',        owner: 'Maya Chen' },
+      { date: '2026-11-24', time: '14:00', title: 'Design review',        place: 'Studio',         owner: 'Jonas Weber' },
+      { date: '2026-11-24', time: '16:30', title: '1:1 with Priya',       place: 'Focus room 4',   owner: 'Priya Raman' },
+      { date: '2026-11-26', time: '15:00', title: 'Quarterly demo',       place: 'Main hall',      owner: 'Lena Park' },
+      { date: '2026-11-27', time: '12:30', title: 'Team lunch',           place: 'Harbor Kitchen', owner: 'Tom Okafor' },
+      { date: '2026-11-30', time: '09:00', title: 'Release freeze',       place: 'All day',        owner: 'Sam Ruiz' },
+      { date: '2026-12-03', time: '11:00', title: 'Customer interviews',  place: 'Video call',     owner: 'Ana Silva' },
+      { date: '2026-12-10', time: '18:00', title: 'Holiday party',        place: 'Rooftop',        owner: 'Noor Haddad' }
+    ];
+
+    const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                    'August', 'September', 'October', 'November', 'December'];
+
+    let view = new Date(Date.UTC(2026, 10, 1));
+
+    function renderCalendar() {
+      const y = view.getUTCFullYear();
+      const m = view.getUTCMonth();
+      document.getElementById('month-title').textContent = MONTHS[m] + ' ' + y;
+
+      const grid = document.getElementById('grid');
+      grid.replaceChildren();
+
+      WEEKDAYS.forEach(w => {
+        const s = document.createElement('small');
+        s.textContent = w;
+        grid.append(s);
+      });
+
+      const offset = (view.getUTCDay() + 6) % 7;
+      for (let i = 0; i < offset; i++) {
+        grid.append(document.createElement('span'));
+      }
+
+      const days = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+      for (let d = 1; d <= days; d++) {
+        const key = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const evs = EVENTS.filter(e => e.date === key);
+
+        const cell = document.createElement('ui-card');
+        cell.setAttribute('padding', 'xs');
+        cell.setAttribute('rounded', 'sm');
+        if (key === TODAY) {
+          cell.setAttribute('variant', 'primary');
+        } else if (evs.length) {
+          cell.setAttribute('variant', 'info');
+        } else {
+          cell.setAttribute('sunken', '');
+        }
+
+        const num = document.createElement('strong');
+        num.textContent = d;
+        cell.append(num);
+
+        if (evs.length) {
+          const mark = document.createElement('mark');
+          mark.textContent = evs.length;
+          mark.title = evs.map(e => e.title).join(', ');
+          cell.append(mark);
+        }
+
+        grid.append(cell);
+      }
+    }
+
+    function renderUpcoming() {
+      const list = document.getElementById('upcoming');
+      list.replaceChildren();
+
+      EVENTS
+        .filter(e => e.date >= TODAY)
+        .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+        .forEach(e => {
+          const row = document.createElement('ui-row');
+          row.setAttribute('gap', 'md');
+          row.setAttribute('align', 'start');
+
+          const img = document.createElement('img');
+          img.src = 'https://picsum.photos/seed/' + e.owner.toLowerCase().replace(/\s+/g, '-') + '/80/80';
+          img.alt = e.owner;
+          img.width = 40;
+          img.height = 40;
+
+          const text = document.createElement('ui-stack');
+          text.setAttribute('gap', 'xs');
+          text.setAttribute('grow', '');
+
+          const title = document.createElement('strong');
+          title.textContent = e.title;
+
+          const when = new Date(e.date + 'T' + e.time + ':00');
+          const time = document.createElement('time');
+          time.dateTime = e.date + 'T' + e.time;
+          time.textContent = when.toLocaleString('en-US', {
+            weekday: 'short', day: 'numeric', month: 'short',
+            hour: '2-digit', minute: '2-digit'
+          });
+
+          const meta = document.createElement('small');
+          meta.textContent = e.place + ' · ' + e.owner;
+
+          text.append(title, time, meta);
+          row.append(img, text);
+          list.append(row);
+        });
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      view = new Date(Date.UTC(view.getUTCFullYear(), view.getUTCMonth() - 1, 1));
+      renderCalendar();
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      view = new Date(Date.UTC(view.getUTCFullYear(), view.getUTCMonth() + 1, 1));
+      renderCalendar();
+    });
+
+    renderCalendar();
+    renderUpcoming();
+  </script>
+</body>
+</html>

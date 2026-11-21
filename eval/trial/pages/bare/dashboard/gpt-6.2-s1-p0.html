@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Fieldwork Supply · Store analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Responsive placement for the dashboard's named regions. */
+    .topbar,
+    .dashboard,
+    .metrics,
+    .reports {
+      display: grid;
+      gap: 1rem;
+      min-width: 0;
+    }
+
+    .topbar,
+    .dashboard {
+      max-width: 90rem;
+      margin-inline: auto;
+      padding: 1rem;
+    }
+
+    .topbar {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+
+    .order-search {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .order-search input {
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .account {
+      position: relative;
+    }
+
+    .account-panel {
+      position: absolute;
+      z-index: 2;
+      inset-block-start: 100%;
+      inset-inline-end: 0;
+      width: max-content;
+      max-width: calc(100vw - 2rem);
+    }
+
+    .metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .dashboard > *,
+    .reports > * {
+      min-width: 0;
+    }
+
+    /* Keep the native table readable without widening the page. */
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    .table-scroll table {
+      width: 100%;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 48rem) {
+      .topbar {
+        grid-template-columns: minmax(0, 1fr) minmax(16rem, 25rem) auto;
+        align-items: center;
+        gap: 1.5rem;
+      }
+
+      .order-search {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      .dashboard {
+        grid-template-columns: 13rem minmax(0, 1fr);
+        gap: 1.5rem;
+        align-items: start;
+      }
+    }
+
+    @media (min-width: 72rem) {
+      .metrics {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .reports {
+        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        align-items: start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <ui-card>
+      <div class="topbar">
+        <ui-stack gap="xs">
+          <strong>Fieldwork Supply</strong>
+          <small>Store analytics</small>
+        </ui-stack>
+
+        <form class="order-search" id="order-search" role="search">
+          <label for="search">Search recent orders</label>
+          <input id="search" type="search" placeholder="Order number or customer"
+                 aria-controls="orders-table">
+        </form>
+
+        <details class="account" id="account">
+          <summary>Alex Chen</summary>
+          <div class="account-panel">
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>Alex Chen</strong>
+                <small>Store manager</small>
+                <nav aria-label="User menu">
+                  <ui-stack gap="sm">
+                    <a href="#overview">Overview</a>
+                    <a href="#recent-orders">Recent orders</a>
+                    <a href="#top-products">Top products</a>
+                  </ui-stack>
+                </nav>
+              </ui-stack>
+            </ui-card>
+          </div>
+        </details>
+      </div>
+    </ui-card>
+  </header>
+
+  <div class="dashboard">
+    <aside aria-labelledby="filters-title">
+      <ui-card>
+        <ui-stack gap="md">
+          <h2 id="filters-title">Order filters</h2>
+          <form id="order-filters" aria-controls="orders-table">
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                  <option value="">All statuses</option>
+                  <option value="Paid">Paid</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Refunded">Refunded</option>
+                </select>
+              </ui-stack>
+              <ui-stack gap="xs">
+                <label for="channel">Channel</label>
+                <select id="channel" name="channel">
+                  <option value="">All channels</option>
+                  <option value="Online">Online</option>
+                  <option value="Retail">Retail</option>
+                  <option value="Marketplace">Marketplace</option>
+                </select>
+              </ui-stack>
+              <button type="reset">Reset filters</button>
+            </ui-stack>
+          </form>
+        </ui-stack>
+      </ui-card>
+    </aside>
+
+    <main id="overview">
+      <ui-stack gap="lg">
+        <ui-stack gap="xs">
+          <h1>Store overview</h1>
+          <p>October 1–31, 2026 · Compared with September 2026</p>
+        </ui-stack>
+
+        <section class="metrics" aria-label="October key metrics">
+          <ui-card>
+            <ui-stack gap="sm">
+              <h2>Revenue</h2>
+              <strong>$84,620</strong>
+              <ui-badge variant="success">↑ 12.4%</ui-badge>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <h2>Orders</h2>
+              <strong>1,248</strong>
+              <ui-badge variant="success">↑ 8.7%</ui-badge>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <h2>Conversion</h2>
+              <strong>3.42%</strong>
+              <ui-badge variant="success">↑ 0.36 pts</ui-badge>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <h2>Refunds</h2>
+              <strong>$1,186</strong>
+              <ui-badge variant="success">↓ 6.1%</ui-badge>
+            </ui-stack>
+          </ui-card>
+        </section>
+
+        <div class="reports">
+          <section id="recent-orders" aria-labelledby="orders-title">
+            <ui-card>
+              <ui-stack gap="md">
+                <ui-stack gap="xs">
+                  <h2 id="orders-title">Recent orders</h2>
+                  <p id="order-count" role="status">6 orders</p>
+                </ui-stack>
+
+                <div class="table-scroll" role="region" aria-labelledby="orders-title"
+                     tabindex="0" id="order-results">
+                  <table id="orders-table" aria-labelledby="orders-title">
+                    <thead>
+                      <tr>
+                        <th scope="col">Order</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Channel</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">#FW-8164</th>
+                        <td>Maya Patel</td>
+                        <td><time datetime="2026-10-31">Oct 31</time></td>
+                        <td>Online</td>
+                        <td><ui-badge variant="success">Paid</ui-badge></td>
+                        <td>$138.00</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">#FW-8163</th>
+                        <td>Daniel Kim</td>
+                        <td><time datetime="2026-10-31">Oct 31</time></td>
+                        <td>Retail</td>
+                        <td><ui-badge variant="success">Paid</ui-badge></td>
+                        <td>$64.00</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">#FW-8162</th>
+                        <td>Sofia Rivera</td>
+                        <td><time datetime="2026-10-31">Oct 31</time></td>
+                        <td>Online</td>
+                        <td><ui-badge variant="warning">Pending</ui-badge></td>
+                        <td>$92.00</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">#FW-8161</th>
+                        <td>Jordan Brooks</td>
+                        <td><time datetime="2026-10-30">Oct 30</time></td>
+                        <td>Marketplace</td>
+                        <td><ui-badge variant="success">Paid</ui-badge></td>
+                        <td>$48.00</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">#FW-8160</th>
+                        <td>Amelia Wong</td>
+                        <td><time datetime="2026-10-30">Oct 30</time></td>
+                        <td>Online</td>
+                        <td><ui-badge variant="neutral">Refunded</ui-badge></td>
+                        <td>$76.00</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">#FW-8159</th>
+                        <td>Noah Ellis</td>
+                        <td><time datetime="2026-10-29">Oct 29</time></td>
+                        <td>Retail</td>
+                        <td><ui-badge variant="success">Paid</ui-badge></td>
+                        <td>$112.00</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p id="no-orders" hidden>No orders match your search and filters.</p>
+              </ui-stack>
+            </ui-card>
+          </section>
+
+          <section id="top-products" aria-labelledby="products-title">
+            <ui-card>
+              <ui-stack gap="md">
+                <ui-stack gap="xs">
+                  <h2 id="products-title">Top products</h2>
+                  <p>By October sales</p>
+                </ui-stack>
+
+                <ui-stack role="list" gap="md">
+                  <ui-row role="listitem" gap="sm" align="center">
+                    <img src="https://picsum.photos/seed/fieldwork-daypack/96/96"
+                         alt="" width="44" height="44" loading="lazy">
+                    <ui-stack gap="xs">
+                      <strong>Trail Daypack</strong>
+                      <small>248 sold · $15,872</small>
+                    </ui-stack>
+                  </ui-row>
+
+                  <ui-row role="listitem" gap="sm" align="center">
+                    <img src="https://picsum.photos/seed/fieldwork-bottle/96/96"
+                         alt="" width="44" height="44" loading="lazy">
+                    <ui-stack gap="xs">
+                      <strong>Summit Bottle</strong>
+                      <small>314 sold · $10,048</small>
+                    </ui-stack>
+                  </ui-row>
+
+                  <ui-row role="listitem" gap="sm" align="center">
+                    <img src="https://picsum.photos/seed/fieldwork-blanket/96/96"
+                         alt="" width="44" height="44" loading="lazy">
+                    <ui-stack gap="xs">
+                      <strong>Camp Blanket</strong>
+                      <small>116 sold · $8,816</small>
+                    </ui-stack>
+                  </ui-row>
+
+                  <ui-row role="listitem" gap="sm" align="center">
+                    <img src="https://picsum.photos/seed/fieldwork-tote/96/96"
+                         alt="" width="44" height="44" loading="lazy">
+                    <ui-stack gap="xs">
+                      <strong>Utility Tote</strong>
+                      <small>172 sold · $8,256</small>
+                    </ui-stack>
+                  </ui-row>
+                </ui-stack>
+              </ui-stack>
+            </ui-card>
+          </section>
+        </div>
+      </ui-stack>
+    </main>
+  </div>
+
+  <script>
+    const searchForm = document.querySelector('#order-search');
+    const search = document.querySelector('#search');
+    const filters = document.querySelector('#order-filters');
+    const statusFilter = document.querySelector('#status');
+    const channelFilter = document.querySelector('#channel');
+    const orderCount = document.querySelector('#order-count');
+    const orderResults = document.querySelector('#order-results');
+    const noOrders = document.querySelector('#no-orders');
+
+    const orders = Array.from(document.querySelector('#orders-table tbody').rows, row => ({
+      row,
+      searchableText: `${row.cells[0].textContent} ${row.cells[1].textContent}`.toLowerCase(),
+      channel: row.cells[3].textContent.trim(),
+      status: row.cells[4].textContent.trim()
+    }));
+
+    function updateOrders() {
+      const query = search.value.trim().toLowerCase();
+      const status = statusFilter.value;
+      const channel = channelFilter.value;
+      let visibleOrders = 0;
+
+      for (const order of orders) {
+        const matches = order.searchableText.includes(query)
+          && (!status || order.status === status)
+          && (!channel || order.channel === channel);
+
+        order.row.hidden = !matches;
+        if (matches) visibleOrders += 1;
+      }
+
+      orderCount.textContent = `${visibleOrders} ${visibleOrders === 1 ? 'order' : 'orders'}`;
+      orderResults.hidden = visibleOrders === 0;
+      noOrders.hidden = visibleOrders > 0;
+    }
+
+    searchForm.addEventListener('submit', event => {
+      event.preventDefault();
+      updateOrders();
+    });
+    search.addEventListener('input', updateOrders);
+    filters.addEventListener('change', updateOrders);
+    filters.addEventListener('reset', () => requestAnimationFrame(updateOrders));
+    window.addEventListener('pageshow', updateOrders);
+
+    const account = document.querySelector('#account');
+    account.addEventListener('click', event => {
+      if (event.target.closest('a')) account.open = false;
+    });
+    account.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && account.open) {
+        account.open = false;
+        account.querySelector('summary').focus();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Settings</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-container max-width="md">
+  <ui-stack gap="lg">
+
+    <ui-stack gap="xs">
+      <h1>Account settings</h1>
+      <p>Manage your profile, notifications, billing and account.</p>
+    </ui-stack>
+
+    <ui-card>
+      <ui-stack gap="md">
+        <h2>Profile</h2>
+        <form>
+          <ui-stack gap="md">
+            <ui-row gap="md" align="center" wrap>
+              <img src="https://picsum.photos/id/64/160/160" alt="Current avatar" width="80" height="80">
+              <ui-stack gap="xs">
+                <label for="avatar">Avatar</label>
+                <input id="avatar" name="avatar" type="file" accept="image/*">
+                <small>JPG or PNG, up to 2 MB.</small>
+              </ui-stack>
+            </ui-row>
+
+            <ui-grid cols="2" gap="md">
+              <ui-stack gap="xs">
+                <label for="name">Full name</label>
+                <input id="name" name="name" type="text" value="Amelia Hartwell" autocomplete="name">
+              </ui-stack>
+              <ui-stack gap="xs">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" value="amelia.hartwell@example.com" autocomplete="email">
+              </ui-stack>
+            </ui-grid>
+
+            <ui-stack gap="xs">
+              <label for="bio">Bio</label>
+              <textarea id="bio" name="bio" rows="4">Product designer based in Lisbon. I love building accessible interfaces and hiking on weekends.</textarea>
+            </ui-stack>
+
+            <ui-row gap="sm" justify="end">
+              <button type="reset">Cancel</button>
+              <button type="submit">Save changes</button>
+            </ui-row>
+          </ui-stack>
+        </form>
+      </ui-stack>
+    </ui-card>
+
+    <ui-card>
+      <ui-stack gap="md">
+        <h2>Notifications</h2>
+        <ui-stack gap="md">
+          <ui-row gap="md" justify="between" align="center">
+            <ui-stack gap="xs">
+              <strong>Product updates</strong>
+              <small>News about new features and improvements.</small>
+            </ui-stack>
+            <ui-switch label="Product updates" checked></ui-switch>
+          </ui-row>
+          <hr>
+          <ui-row gap="md" justify="between" align="center">
+            <ui-stack gap="xs">
+              <strong>Security alerts</strong>
+              <small>Sign-ins from new devices and password changes.</small>
+            </ui-stack>
+            <ui-switch label="Security alerts" checked></ui-switch>
+          </ui-row>
+          <hr>
+          <ui-row gap="md" justify="between" align="center">
+            <ui-stack gap="xs">
+              <strong>Weekly digest</strong>
+              <small>A summary of your activity every Monday.</small>
+            </ui-stack>
+            <ui-switch label="Weekly digest"></ui-switch>
+          </ui-row>
+          <hr>
+          <ui-row gap="md" justify="between" align="center">
+            <ui-stack gap="xs">
+              <strong>Marketing emails</strong>
+              <small>Offers, tips and event invitations.</small>
+            </ui-stack>
+            <ui-switch label="Marketing emails"></ui-switch>
+          </ui-row>
+        </ui-stack>
+      </ui-stack>
+    </ui-card>
+
+    <ui-card>
+      <ui-stack gap="md">
+        <ui-row gap="sm" justify="between" align="center" wrap>
+          <h2>Billing</h2>
+          <ui-badge>Active</ui-badge>
+        </ui-row>
+        <ui-row gap="md" justify="between" align="center" wrap>
+          <ui-stack gap="xs">
+            <strong>Pro plan</strong>
+            <small>$24 / month, billed monthly</small>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <strong>Next invoice</strong>
+            <small>December 14, 2026</small>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <strong>Payment method</strong>
+            <small>Visa ending in 4242</small>
+          </ui-stack>
+        </ui-row>
+        <ui-row gap="sm" wrap>
+          <button type="button">Change plan</button>
+          <button type="button">View invoices</button>
+        </ui-row>
+      </ui-stack>
+    </ui-card>
+
+    <ui-card>
+      <ui-stack gap="md">
+        <h2>Danger zone</h2>
+        <ui-alert variant="danger">
+          Deleting your account permanently removes your projects, files and billing history. This action cannot be undone.
+        </ui-alert>
+        <ui-row justify="end">
+          <button type="button" data-variant="danger">Delete account</button>
+        </ui-row>
+      </ui-stack>
+    </ui-card>
+
+  </ui-stack>
+</ui-container>
+</body>
+</html>

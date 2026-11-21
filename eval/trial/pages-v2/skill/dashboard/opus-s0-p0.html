@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Northwind Goods — Store Analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container size="xl">
+      <ui-row wrap gap="md" padding="sm" justify="space-between">
+        <ui-row gap="sm">
+          <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <strong>Northwind Goods</strong>
+        </ui-row>
+        <form role="search" grow>
+          <input type="search" name="q" placeholder="Search orders, products, customers…" aria-label="Search orders, products, customers">
+        </form>
+        <ui-row gap="sm">
+          <ui-button variant="ghost" size="sm" aria-label="Notifications (3 unread)">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            3
+          </ui-button>
+          <details>
+            <summary>
+              <img src="https://picsum.photos/seed/maya-user/64/64" alt="Maya Chen" width="28" height="28">
+              Maya Chen
+            </summary>
+            <ui-card elevated padding="sm" gap="xs">
+              <small>maya@northwindgoods.com</small>
+              <hr>
+              <a href="#">Profile</a>
+              <a href="#">Store settings</a>
+              <a href="#">Team &amp; billing</a>
+              <hr>
+              <a href="#">Sign out</a>
+            </ui-card>
+          </details>
+        </ui-row>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="xl">
+      <ui-row wrap gap="lg" align="start">
+
+        <aside aria-label="Filters">
+          <ui-card sunken padding="md">
+            <form>
+              <ui-stack gap="md">
+                <h2>Filters</h2>
+                <label>Date range
+                  <select name="range">
+                    <option>Today</option>
+                    <option selected>Last 7 days</option>
+                    <option>Last 30 days</option>
+                    <option>Quarter to date</option>
+                    <option>Year to date</option>
+                  </select>
+                </label>
+                <label>Category
+                  <select name="category">
+                    <option>All categories</option>
+                    <option>Home &amp; Kitchen</option>
+                    <option>Apparel</option>
+                    <option>Outdoor</option>
+                    <option>Accessories</option>
+                  </select>
+                </label>
+                <fieldset>
+                  <legend>Sales channel</legend>
+                  <ui-stack gap="xs">
+                    <label><input type="checkbox" name="channel" value="web" checked> Online store</label>
+                    <label><input type="checkbox" name="channel" value="mobile" checked> Mobile app</label>
+                    <label><input type="checkbox" name="channel" value="marketplace"> Marketplace</label>
+                    <label><input type="checkbox" name="channel" value="pos"> In-person (POS)</label>
+                  </ui-stack>
+                </fieldset>
+                <fieldset>
+                  <legend>Order status</legend>
+                  <ui-stack gap="xs">
+                    <label><input type="checkbox" name="status" value="paid" checked> Paid</label>
+                    <label><input type="checkbox" name="status" value="shipped" checked> Shipped</label>
+                    <label><input type="checkbox" name="status" value="pending" checked> Pending</label>
+                    <label><input type="checkbox" name="status" value="refunded"> Refunded</label>
+                  </ui-stack>
+                </fieldset>
+                <label><input type="checkbox" role="switch" name="compare" checked> Compare to previous period</label>
+                <ui-row wrap gap="sm">
+                  <ui-button type="submit" variant="primary" size="sm">Apply</ui-button>
+                  <ui-button type="reset" variant="ghost" size="sm">Reset</ui-button>
+                </ui-row>
+              </ui-stack>
+            </form>
+          </ui-card>
+        </aside>
+
+        <ui-stack grow gap="lg">
+          <ui-row wrap justify="space-between" gap="sm">
+            <ui-stack gap="xs">
+              <h1>Overview</h1>
+              <small>Nov 14 – Nov 20, 2026 · compared with Nov 7 – Nov 13</small>
+            </ui-stack>
+            <ui-row wrap gap="sm">
+              <ui-button variant="outline" size="sm">Export CSV</ui-button>
+              <ui-button variant="primary" size="sm">Share report</ui-button>
+            </ui-row>
+          </ui-row>
+
+          <ui-grid max-columns="4" min-item-width="xs" gap="md">
+            <ui-card padding="md">
+              <ui-stack gap="xs">
+                <small>Revenue</small>
+                <strong>$48,260</strong>
+                <small>▲ 12.4% vs last week</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="md">
+              <ui-stack gap="xs">
+                <small>Orders</small>
+                <strong>1,284</strong>
+                <small>▲ 8.1% vs last week</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="md">
+              <ui-stack gap="xs">
+                <small>Conversion</small>
+                <strong>3.42%</strong>
+                <small>▼ 0.3 pts vs last week</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="md" variant="warning">
+              <ui-stack gap="xs">
+                <small>Refunds</small>
+                <strong>$1,912</strong>
+                <small>▲ 4.6% vs last week</small>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <ui-card padding="md">
+            <ui-row wrap justify="space-between" gap="sm">
+              <h2>Recent orders</h2>
+              <a href="#">View all orders</a>
+            </ui-row>
+            <div style="overflow: auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Order</th>
+                    <th scope="col">Customer</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><a href="#">#10482</a></td><td>Olivia Martins</td><td><time datetime="2026-11-20T16:42">Nov 20, 4:42 PM</time></td><td><mark>Paid</mark></td><td>$184.00</td></tr>
+                  <tr><td><a href="#">#10481</a></td><td>Daniel Okafor</td><td><time datetime="2026-11-20T15:10">Nov 20, 3:10 PM</time></td><td><mark>Shipped</mark></td><td>$62.50</td></tr>
+                  <tr><td><a href="#">#10480</a></td><td>Sofia Rossi</td><td><time datetime="2026-11-20T13:27">Nov 20, 1:27 PM</time></td><td><mark>Pending</mark></td><td>$329.99</td></tr>
+                  <tr><td><a href="#">#10479</a></td><td>Liam Becker</td><td><time datetime="2026-11-20T11:05">Nov 20, 11:05 AM</time></td><td><mark>Refunded</mark></td><td>$48.00</td></tr>
+                  <tr><td><a href="#">#10478</a></td><td>Aisha Rahman</td><td><time datetime="2026-11-19T19:51">Nov 19, 7:51 PM</time></td><td><mark>Shipped</mark></td><td>$212.40</td></tr>
+                  <tr><td><a href="#">#10477</a></td><td>Noah Kim</td><td><time datetime="2026-11-19T17:18">Nov 19, 5:18 PM</time></td><td><mark>Paid</mark></td><td>$96.75</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </ui-card>
+
+          <ui-card padding="md">
+            <ui-row wrap justify="space-between" gap="sm">
+              <h2>Top products</h2>
+              <small>By revenue, last 7 days</small>
+            </ui-row>
+            <ol>
+              <li>
+                <ui-row gap="sm">
+                  <img src="https://picsum.photos/seed/ceramic-mug/96/96" alt="Stoneware pour-over set" width="48" height="48">
+                  <ui-stack gap="0" grow>
+                    <strong>Stoneware Pour-Over Set</strong>
+                    <small>212 sold · Home &amp; Kitchen</small>
+                  </ui-stack>
+                  <strong>$9,540</strong>
+                </ui-row>
+              </li>
+              <li>
+                <ui-row gap="sm">
+                  <img src="https://picsum.photos/seed/wool-throw/96/96" alt="Merino wool throw" width="48" height="48">
+                  <ui-stack gap="0" grow>
+                    <strong>Merino Wool Throw</strong>
+                    <small>94 sold · Home &amp; Kitchen</small>
+                  </ui-stack>
+                  <strong>$7,990</strong>
+                </ui-row>
+              </li>
+              <li>
+                <ui-row gap="sm">
+                  <img src="https://picsum.photos/seed/trail-pack/96/96" alt="Trail daypack" width="48" height="48">
+                  <ui-stack gap="0" grow>
+                    <strong>Trail Daypack 22L</strong>
+                    <small>81 sold · Outdoor</small>
+                  </ui-stack>
+                  <strong>$6,480</strong>
+                </ui-row>
+              </li>
+              <li>
+                <ui-row gap="sm">
+                  <img src="https://picsum.photos/seed/linen-shirt/96/96" alt="Linen overshirt" width="48" height="48">
+                  <ui-stack gap="0" grow>
+                    <strong>Linen Overshirt</strong>
+                    <small>73 sold · Apparel</small>
+                  </ui-stack>
+                  <strong>$5,110</strong>
+                </ui-row>
+              </li>
+              <li>
+                <ui-row gap="sm">
+                  <img src="https://picsum.photos/seed/leather-wallet/96/96" alt="Leather card wallet" width="48" height="48">
+                  <ui-stack gap="0" grow>
+                    <strong>Leather Card Wallet</strong>
+                    <small>138 sold · Accessories</small>
+                  </ui-stack>
+                  <strong>$4,830</strong>
+                </ui-row>
+              </li>
+            </ol>
+          </ui-card>
+        </ui-stack>
+
+      </ui-row>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container size="xl">
+      <ui-row wrap justify="space-between" padding="sm">
+        <small>© 2026 Northwind Goods</small>
+        <small>Data refreshed <time datetime="2026-11-21T08:00">today at 8:00 AM</time></small>
+      </ui-row>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

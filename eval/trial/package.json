@@ -1,0 +1,13 @@
+{
+  "name": "agent-trial-eval",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "run": "node run.ts",
+    "report": "node report.ts"
+  },
+  "devDependencies": {
+    "@openai/codex": "^0.171.0",
+    "playwright": "^1.65.1"
+  }
+}

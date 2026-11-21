@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building Resilient Frontends: Lessons from Shipping Offline-First Apps</title>
+  <meta name="description" content="What we learned moving a field-service app to offline-first architecture, and the patterns that held up under real network conditions.">
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-stack direction="horizontal" align="center" justify="space-between" padding="md">
+        <a href="#"><strong>The Field Notes</strong></a>
+        <ui-stack direction="horizontal" gap="md">
+          <a href="#">Articles</a>
+          <a href="#">Topics</a>
+          <a href="#">About</a>
+        </ui-stack>
+      </ui-stack>
+    </header>
+
+    <ui-container size="md">
+      <article>
+        <ui-stack gap="lg" padding="md">
+
+          <ui-stack gap="sm">
+            <span>Engineering</span>
+            <h1>Building Resilient Frontends: Lessons from Shipping Offline-First Apps</h1>
+            <p>
+              Our field technicians work in basements, elevators, and rural substations. Here is how we rebuilt
+              our scheduling app so it never blocked on the network, and what broke along the way.
+            </p>
+          </ui-stack>
+
+          <ui-stack direction="horizontal" align="center" gap="sm">
+            <img src="https://picsum.photos/seed/maya-okafor/96/96" alt="Maya Okafor" width="96" height="96">
+            <ui-stack gap="xs">
+              <strong>Maya Okafor</strong>
+              <ui-stack direction="horizontal" gap="xs">
+                <time datetime="2026-11-18">November 18, 2026</time>
+                <span aria-hidden="true">·</span>
+                <span>9 min read</span>
+              </ui-stack>
+            </ui-stack>
+          </ui-stack>
+
+          <figure>
+            <img
+              src="https://picsum.photos/seed/offline-cover/1280/640"
+              alt="A technician checking a tablet beside a utility pole"
+              width="1280"
+              height="640"
+              loading="eager">
+            <figcaption>Field technicians rely on tablets that often have no signal for hours at a time.</figcaption>
+          </figure>
+
+          <ui-stack gap="md">
+            <p>
+              For most of the app's first two years, every screen assumed a working connection. Loading a work
+              order meant a request. Submitting a checklist meant a request. When a request failed, the user saw a
+              spinner that never resolved, and the technician often drove to the next job with unsaved notes.
+            </p>
+            <p>
+              The rebuild started with one rule: the local device is the source of truth for anything the user is
+              currently doing. The server is a peer that we sync with when we can.
+            </p>
+
+            <h2>Start with the data model, not the screens</h2>
+            <p>
+              We spent the first three weeks mapping every entity a technician touches: work orders, asset
+              records, photos, signatures, and time entries. For each one we answered three questions. Who can
+              create it offline? Who can edit it? And what happens when two people change it at once?
+            </p>
+            <p>
+              Most conflicts turned out to be rare. Two technicians editing the same asset note at the same time
+              happened maybe once a month. Photo uploads were the opposite: they were common, large, and almost
+              never conflicted, so they needed a separate queue with aggressive retry.
+            </p>
+
+            <blockquote>
+              <p>
+                Offline support is not a feature you bolt onto a request-driven app. It changes what the app
+                considers a save, a success, and a failure.
+              </p>
+              <footer>Internal design review, March 2026</footer>
+            </blockquote>
+
+            <h2>Writes go to a local outbox</h2>
+            <p>
+              Every mutation is written to a local store first and appended to an outbox. The UI updates
+              immediately. A background worker drains the outbox when connectivity returns, and each entry carries
+              an idempotency key so a retry after a dropped response can never create a duplicate work log.
+            </p>
+            <p>The core of the outbox looks roughly like this:</p>
+
+            <pre><code class="language-javascript">async function enqueueChange(store, change) {
+  const entry = {
+    id: crypto.randomUUID(),
+    createdAt: Date.now(),
+    attempts: 0,
+    ...change,
+  };
+
+  await store.outbox.add(entry);
+  store.emit('outbox:changed');
+  return entry.id;
+}
+
+async function drainOutbox(store, api) {
+  for (const entry of await store.outbox.all()) {
+    try {
+      await api.send(entry.endpoint, entry.payload, {
+        idempotencyKey: entry.id,
+      });
+      await store.outbox.remove(entry.id);
+    } catch (err) {
+      if (!isRetryable(err)) {
+        await store.outbox.markFailed(entry.id, err);
+        continue;
+      }
+      await store.outbox.incrementAttempts(entry.id);
+      break; // stop draining; back off until the next online event
+    }
+  }
+}</code></pre>
+
+            <p>
+              The <code>break</code> on retryable errors matters more than it looks. Without it, a flaky connection
+              fires dozens of requests in a row, each one timing out, and the worker never reaches a stable state.
+            </p>
+
+            <h2>Show sync state, don't hide it</h2>
+            <p>
+              Early testers said the app felt "fine" but they did not trust it. Nothing told them whether their
+              work had left the device. We added a small status line to every screen: saved on device, syncing,
+              or needs attention. Entries that failed permanently surfaced in a list the technician could resolve
+              with one tap.
+            </p>
+            <p>
+              That single change cut support tickets about "lost" work by more than half in the first month. Users
+              do not need the app to be magically online. They need to know where their data is.
+            </p>
+
+            <h2>What we would do differently</h2>
+            <p>
+              We underestimated how much storage the photo cache would consume on older devices. We also shipped
+              the first sync engine without a way to inspect the outbox from the support tools, which made
+              debugging customer reports slow. Both are fixed now, but both should have been in the first version.
+            </p>
+            <p>
+              If you are considering this kind of rebuild, start by listing the operations your users perform when
+              the network is worst, not when it is best. Those are the paths that define your architecture.
+            </p>
+          </ui-stack>
+
+          <ui-stack gap="sm">
+            <h3>Tags</h3>
+            <ui-stack direction="horizontal" wrap="true" gap="xs">
+              <span>Offline-first</span>
+              <span>Architecture</span>
+              <span>Sync</span>
+              <span>Mobile web</span>
+              <span>Case study</span>
+            </ui-stack>
+          </ui-stack>
+
+        </ui-stack>
+      </article>
+    </ui-container>
+
+    <ui-container size="lg">
+      <section>
+        <ui-stack gap="md" padding="md">
+          <h2>Related posts</h2>
+          <ui-scroll axis="x" gap="md">
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-1/640/360" alt="Laptop displaying code" width="640" height="360" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <span>Performance</span>
+                <h3>Measuring INP on low-end Android devices</h3>
+                <p>Lab numbers lied to us until we tested on a four-year-old phone in a parking garage.</p>
+                <a href="#">Read more</a>
+              </ui-stack>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-2/640/360" alt="Server racks in a data center" width="640" height="360" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <span>Backend</span>
+                <h3>Idempotency keys without a database migration</h3>
+                <p>How we retrofitted safe retries onto an API that never expected to be called twice.</p>
+                <a href="#">Read more</a>
+              </ui-stack>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-3/640/360" alt="Hand sketching a wireframe" width="640" height="360" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <span>Design</span>
+                <h3>Designing empty states that explain the network</h3>
+                <p>A short guide to copy and layout for screens that have no data and no connection.</p>
+                <a href="#">Read more</a>
+              </ui-stack>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-4/640/360" alt="Mobile phone on a wooden desk" width="640" height="360" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <span>Process</span>
+                <h3>Testing flaky networks in CI</h3>
+                <p>Network throttling, packet loss injection, and the flake budget we actually use.</p>
+                <a href="#">Read more</a>
+              </ui-stack>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-5/640/360" alt="Team reviewing a whiteboard" width="640" height="360" loading="lazy">
+              <ui-stack gap="xs" padding="md">
+                <span>Team</span>
+                <h3>Running a two-week architecture spike</h3>
+                <p>Scope, deliverables, and the decision log that kept us from rewriting everything.</p>
+                <a href="#">Read more</a>
+              </ui-stack>
+            </ui-card>
+          </ui-scroll>
+        </ui-stack>
+      </section>
+    </ui-container>
+
+    <footer>
+      <ui-container size="md">
+        <ui-stack padding="md">
+          <p>© 2026 The Field Notes. Written by people who have dropped signal in elevators.</p>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

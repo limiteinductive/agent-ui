@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride Supply | Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="xl" padding="lg">
+
+    <header>
+      <ui-stack direction="horizontal" justify="between" align="center" wrap gap="md">
+        <ui-stack gap="xs">
+          <ui-heading level="1">Stride Supply</ui-heading>
+          <ui-text muted>Everyday shoes, thoughtfully selected.</ui-text>
+        </ui-stack>
+
+        <ui-button variant="secondary" aria-label="Shopping cart">
+          🛒 Cart <ui-badge>2</ui-badge>
+        </ui-button>
+      </ui-stack>
+    </header>
+
+    <main>
+      <ui-stack gap="lg">
+
+        <ui-stack gap="sm">
+          <ui-heading level="2">All shoes</ui-heading>
+          <ui-text muted>Showing 12 of 48 products</ui-text>
+        </ui-stack>
+
+        <ui-card>
+          <ui-stack gap="md">
+            <ui-text weight="bold">Filter by size</ui-text>
+
+            <ui-stack direction="horizontal" wrap gap="sm">
+              <ui-chip selectable>6</ui-chip>
+              <ui-chip selectable>7</ui-chip>
+              <ui-chip selectable>8</ui-chip>
+              <ui-chip selectable>9</ui-chip>
+              <ui-chip selectable>10</ui-chip>
+              <ui-chip selectable>11</ui-chip>
+              <ui-chip selectable>12</ui-chip>
+            </ui-stack>
+
+            <ui-stack direction="horizontal" wrap gap="md" align="end">
+              <ui-field label="Price range">
+                <ui-stack direction="horizontal" gap="sm" align="center">
+                  <ui-input type="number" placeholder="Min" aria-label="Minimum price"></ui-input>
+                  <ui-text muted>to</ui-text>
+                  <ui-input type="number" placeholder="Max" aria-label="Maximum price"></ui-input>
+                </ui-stack>
+              </ui-field>
+
+              <ui-field label="Sort by">
+                <select aria-label="Sort products">
+                  <option>Featured</option>
+                  <option>Price: low to high</option>
+                  <option>Price: high to low</option>
+                  <option>Newest arrivals</option>
+                </select>
+              </ui-field>
+
+              <ui-button variant="secondary">Apply filters</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-grid columns="1" sm-columns="2" lg-columns="4" gap="lg">
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/runner-one/640/480" alt="Cloud white running shoe" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Cloudline Runner</ui-text>
+                <ui-text muted>White / Silver</ui-text>
+                <ui-text weight="bold">$128</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/runner-two/640/480" alt="Black trail running shoe" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Summit Trail</ui-text>
+                <ui-text muted>Black / Moss</ui-text>
+                <ui-text weight="bold">$154</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/court-one/640/480" alt="Cream court sneaker" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Court Classic</ui-text>
+                <ui-text muted>Cream / Gum</ui-text>
+                <ui-text weight="bold">$96</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/loafer-one/640/480" alt="Brown leather loafer" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Harbor Loafer</ui-text>
+                <ui-text muted>Walnut Leather</ui-text>
+                <ui-text weight="bold">$176</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/boot-one/640/480" alt="Tan ankle boot" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Westward Boot</ui-text>
+                <ui-text muted>Sand Suede</ui-text>
+                <ui-text weight="bold">$189</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/sandal-one/640/480" alt="Black leather sandal" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Coast Sandal</ui-text>
+                <ui-text muted>Onyx Leather</ui-text>
+                <ui-text weight="bold">$82</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/tennis-one/640/480" alt="Blue tennis shoe" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Baseline Pro</ui-text>
+                <ui-text muted>Ocean / White</ui-text>
+                <ui-text weight="bold">$142</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/hiker-one/640/480" alt="Gray hiking shoe" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Ridge Hiker</ui-text>
+                <ui-text muted>Stone / Orange</ui-text>
+                <ui-text weight="bold">$168</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/slip-on-one/640/480" alt="Green slip-on shoe" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Easy Slip-On</ui-text>
+                <ui-text muted>Sage Canvas</ui-text>
+                <ui-text weight="bold">$74</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/dress-one/640/480" alt="Black dress shoe" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Mason Derby</ui-text>
+                <ui-text muted>Black Leather</ui-text>
+                <ui-text weight="bold">$198</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/retro-one/640/480" alt="Red and white retro sneaker" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Retro 84</ui-text>
+                <ui-text muted>Brick / White</ui-text>
+                <ui-text weight="bold">$112</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="md">
+              <img src="https://picsum.photos/seed/mule-one/640/480" alt="Beige casual mule" loading="lazy">
+              <ui-stack gap="xs">
+                <ui-text weight="bold">Sunday Mule</ui-text>
+                <ui-text muted>Oat Knit</ui-text>
+                <ui-text weight="bold">$88</ui-text>
+              </ui-stack>
+              <ui-button>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+        </ui-grid>
+
+        <nav aria-label="Pagination">
+          <ui-stack direction="horizontal" justify="center" align="center" gap="sm">
+            <ui-button variant="secondary" disabled>Previous</ui-button>
+            <ui-button variant="primary" aria-current="page">1</ui-button>
+            <ui-button variant="secondary">2</ui-button>
+            <ui-button variant="secondary">3</ui-button>
+            <ui-text muted>…</ui-text>
+            <ui-button variant="secondary">4</ui-button>
+            <ui-button variant="secondary">Next</ui-button>
+          </ui-stack>
+        </nav>
+
+      </ui-stack>
+    </main>
+
+    <footer>
+      <ui-text muted align="center">Free shipping on orders over $100 · Easy 30-day returns</ui-text>
+    </footer>
+
+  </ui-stack>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="column" gap="none" min-height="100vh">
+    <ui-card padding="medium" radius="none">
+      <ui-stack align="center" justify="between" gap="medium" wrap>
+        <ui-stack align="center" gap="small">
+          <ui-button variant="ghost" aria-label="Open navigation">☰</ui-button>
+          <ui-stack direction="column" gap="none">
+            <strong>Northstar Market</strong>
+            <small>Store analytics</small>
+          </ui-stack>
+        </ui-stack>
+
+        <ui-input
+          type="search"
+          placeholder="Search orders, products..."
+          aria-label="Search orders and products"
+          icon="search"
+          grow>
+        </ui-input>
+
+        <ui-stack align="center" gap="small">
+          <ui-button variant="ghost" aria-label="Notifications">🔔</ui-button>
+          <ui-button variant="ghost">Alex Morgan ▾</ui-button>
+        </ui-stack>
+      </ui-stack>
+    </ui-card>
+
+    <ui-stack direction="row" align="stretch" gap="none" wrap>
+      <ui-card padding="medium" width="240px">
+        <ui-stack direction="column" gap="medium">
+          <ui-stack direction="column" gap="small">
+            <strong>Filters</strong>
+            <ui-divider></ui-divider>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="small">
+            <label for="period"><strong>Date range</strong></label>
+            <ui-select id="period" value="last-30-days">
+              <option value="today">Today</option>
+              <option value="last-7-days">Last 7 days</option>
+              <option value="last-30-days" selected>Last 30 days</option>
+              <option value="this-quarter">This quarter</option>
+            </ui-select>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="small">
+            <label for="channel"><strong>Sales channel</strong></label>
+            <ui-select id="channel">
+              <option selected>All channels</option>
+              <option>Online store</option>
+              <option>Marketplace</option>
+              <option>Wholesale</option>
+            </ui-select>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="small">
+            <label for="region"><strong>Region</strong></label>
+            <ui-select id="region">
+              <option selected>All regions</option>
+              <option>North America</option>
+              <option>Europe</option>
+              <option>Asia Pacific</option>
+            </ui-select>
+          </ui-stack>
+
+          <ui-stack direction="column" gap="small">
+            <strong>Order status</strong>
+            <label><input type="checkbox" checked> Completed</label>
+            <label><input type="checkbox" checked> Processing</label>
+            <label><input type="checkbox"> Refunded</label>
+            <label><input type="checkbox"> Cancelled</label>
+          </ui-stack>
+
+          <ui-button variant="secondary">Reset filters</ui-button>
+        </ui-stack>
+      </ui-card>
+
+      <ui-stack direction="column" gap="large" padding="large" grow>
+        <ui-stack align="center" justify="between" wrap gap="small">
+          <ui-stack direction="column" gap="none">
+            <h1>Good morning, Alex</h1>
+            <small>Here’s what’s happening with your store.</small>
+          </ui-stack>
+          <ui-stack align="center" gap="small" wrap>
+            <ui-badge variant="success">Live data</ui-badge>
+            <ui-button variant="primary">Export report</ui-button>
+          </ui-stack>
+        </ui-stack>
+
+        <ui-grid columns="4" gap="medium" responsive>
+          <ui-card padding="medium">
+            <ui-stack direction="column" gap="small">
+              <ui-stack align="center" justify="between">
+                <small>Revenue</small>
+                <ui-badge variant="success">+12.8%</ui-badge>
+              </ui-stack>
+              <strong>¥128,430</strong>
+              <small>vs. ¥113,850 last month</small>
+              <ui-progress value="78" max="100" variant="success"></ui-progress>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="medium">
+            <ui-stack direction="column" gap="small">
+              <ui-stack align="center" justify="between">
+                <small>Orders</small>
+                <ui-badge variant="success">+8.4%</ui-badge>
+              </ui-stack>
+              <strong>1,842</strong>
+              <small>vs. 1,699 last month</small>
+              <ui-progress value="64" max="100" variant="info"></ui-progress>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="medium">
+            <ui-stack direction="column" gap="small">
+              <ui-stack align="center" justify="between">
+                <small>Conversion rate</small>
+                <ui-badge variant="warning">−0.6%</ui-badge>
+              </ui-stack>
+              <strong>4.72%</strong>
+              <small>vs. 5.32% last month</small>
+              <ui-progress value="47" max="100" variant="warning"></ui-progress>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="medium">
+            <ui-stack direction="column" gap="small">
+              <ui-stack align="center" justify="between">
+                <small>Refunds</small>
+                <ui-badge variant="success">−2.1%</ui-badge>
+              </ui-stack>
+              <strong>¥3,284</strong>
+              <small>2.6% of total revenue</small>
+              <ui-progress value="26" max="100" variant="danger"></ui-progress>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+
+        <ui-grid columns="3" gap="medium" responsive>
+          <ui-card padding="medium" colspan="2">
+            <ui-stack direction="column" gap="medium">
+              <ui-stack align="center" justify="between" wrap>
+                <ui-stack direction="column" gap="none">
+                  <h2>Recent orders</h2>
+                  <small>Latest activity across all channels</small>
+                </ui-stack>
+                <ui-button variant="ghost">View all orders →</ui-button>
+              </ui-stack>
+
+              <ui-table responsive>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Order</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>#NS-10482</strong></td>
+                      <td>Olivia Chen</td>
+                      <td>Today, 10:42</td>
+                      <td><ui-badge variant="success">Completed</ui-badge></td>
+                      <td>¥248.00</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#NS-10481</strong></td>
+                      <td>Marcus Lee</td>
+                      <td>Today, 09:18</td>
+                      <td><ui-badge variant="info">Processing</ui-badge></td>
+                      <td>¥96.50</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#NS-10480</strong></td>
+                      <td>Sofia Ramirez</td>
+                      <td>Yesterday, 18:07</td>
+                      <td><ui-badge variant="success">Completed</ui-badge></td>
+                      <td>¥412.00</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#NS-10479</strong></td>
+                      <td>Daniel Kim</td>
+                      <td>Yesterday, 15:26</td>
+                      <td><ui-badge variant="warning">Refunded</ui-badge></td>
+                      <td>¥72.00</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#NS-10478</strong></td>
+                      <td>Emma Wilson</td>
+                      <td>Yesterday, 11:54</td>
+                      <td><ui-badge variant="success">Completed</ui-badge></td>
+                      <td>¥189.90</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ui-table>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card padding="medium">
+            <ui-stack direction="column" gap="medium">
+              <ui-stack align="center" justify="between">
+                <ui-stack direction="column" gap="none">
+                  <h2>Top products</h2>
+                  <small>By revenue this month</small>
+                </ui-stack>
+                <ui-button variant="ghost" aria-label="More product options">•••</ui-button>
+              </ui-stack>
+
+              <ui-stack direction="column" gap="medium">
+                <ui-stack align="center" gap="small">
+                  <img src="https://picsum.photos/seed/linen-shirt/64/64" alt="Linen shirt" width="48" height="48">
+                  <ui-stack direction="column" gap="none" grow>
+                    <strong>Linen Everyday Shirt</strong>
+                    <small>214 sold</small>
+                  </ui-stack>
+                  <strong>¥18.4k</strong>
+                </ui-stack>
+
+                <ui-stack align="center" gap="small">
+                  <img src="https://picsum.photos/seed/ceramic-mug/64/64" alt="Ceramic mug" width="48" height="48">
+                  <ui-stack direction="column" gap="none" grow>
+                    <strong>Speckled Ceramic Mug</strong>
+                    <small>186 sold</small>
+                  </ui-stack>
+                  <strong>¥9.8k</strong>
+                </ui-stack>
+
+                <ui-stack align="center" gap="small">
+                  <img src="https://picsum.photos/seed/canvas-bag/64/64" alt="Canvas bag" width="48" height="48">
+                  <ui-stack direction="column" gap="none" grow>
+                    <strong>Organic Canvas Tote</strong>
+                    <small>149 sold</small>
+                  </ui-stack>
+                  <strong>¥7.2k</strong>
+                </ui-stack>
+
+                <ui-stack align="center" gap="small">
+                  <img src="https://picsum.photos/seed/soy-candle/64/64" alt="Soy candle" width="48" height="48">
+                  <ui-stack direction="column" gap="none" grow>
+                    <strong>Cedar Soy Candle</strong>
+                    <small>128 sold</small>
+                  </ui-stack>
+                  <strong>¥5.6k</strong>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-button variant="secondary">Manage products</ui-button>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+
+        <ui-card padding="medium">
+          <ui-stack align="center" justify="between" wrap gap="small">
+            <ui-stack direction="column" gap="none">
+              <h2>Store health</h2>
+              <small>All systems are operating normally.</small>
+            </ui-stack>
+            <ui-stack align="center" gap="small">
+              <ui-badge variant="success">Payments online</ui-badge>
+              <ui-badge variant="success">Shipping on time</ui-badge>
+              <ui-badge variant="success">Inventory synced</ui-badge>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+      </ui-stack>
+    </ui-stack>
+  </ui-stack>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <main>
+    <ui-stack gap="lg" padding="md">
+
+      <ui-stack direction="horizontal" justify="space-between" align="center" wrap>
+        <ui-stack gap="xs">
+          <h1>Team calendar</h1>
+          <p>Shared schedule for the product and design team</p>
+        </ui-stack>
+      </ui-stack>
+
+      <ui-row wrap gap="lg">
+
+        <aside>
+          <ui-card>
+            <ui-stack gap="md">
+              <ui-stack direction="horizontal" justify="space-between" align="center">
+                <ui-button id="prev" variant="ghost" aria-label="Previous month">&lsaquo;</ui-button>
+                <h2 id="month-title" aria-live="polite">Month</h2>
+                <ui-button id="next" variant="ghost" aria-label="Next month">&rsaquo;</ui-button>
+              </ui-stack>
+
+              <ui-grid id="weekdays" columns="7" gap="xs">
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+                <span>Sun</span>
+              </ui-grid>
+
+              <ui-grid id="days" columns="7" gap="xs"></ui-grid>
+            </ui-stack>
+          </ui-card>
+        </aside>
+
+        <section grow>
+          <ui-stack gap="md">
+            <h2>Upcoming events</h2>
+            <ui-stack id="upcoming" gap="md"></ui-stack>
+          </ui-stack>
+        </section>
+
+      </ui-row>
+
+    </ui-stack>
+  </main>
+
+  <script>
+    const events = [
+      { date: '2026-10-14', time: '10:00', title: 'Roadmap review', place: 'Room Atlas', host: 'Elena Brandt', seed: 'elena' },
+      { date: '2026-10-29', time: '13:00', title: 'Hiring panel', place: 'Room Lumen', host: 'Marco Lenz', seed: 'marco' },
+      { date: '2026-11-03', time: '10:00', title: 'Sprint planning', place: 'Room Lumen', host: 'Priya Shah', seed: 'priya' },
+      { date: '2026-11-05', time: '14:30', title: 'Design review', place: 'Studio B', host: 'Marco Lenz', seed: 'marco' },
+      { date: '2026-11-12', time: '09:00', title: 'Client onboarding', place: 'Zoom', host: 'Dana Okafor', seed: 'dana' },
+      { date: '2026-11-18', time: '12:30', title: 'Lunch and learn: accessibility', place: 'Kitchen', host: 'Sam Ruiz', seed: 'sam' },
+      { date: '2026-11-21', time: '16:00', title: 'Sprint retro', place: 'Room Atlas', host: 'Priya Shah', seed: 'priya' },
+      { date: '2026-11-24', time: '11:00', title: 'Q4 roadmap sync', place: 'Room Helios', host: 'Elena Brandt', seed: 'elena' },
+      { date: '2026-11-26', time: '17:30', title: 'Offsite prep', place: 'Studio B', host: 'Dana Okafor', seed: 'dana' },
+      { date: '2026-12-02', time: '10:00', title: 'Sprint planning', place: 'Room Lumen', host: 'Priya Shah', seed: 'priya' },
+      { date: '2026-12-09', time: '15:00', title: 'Usability sessions', place: 'Lab 2', host: 'Sam Ruiz', seed: 'sam' },
+      { date: '2026-12-15', time: '09:30', title: 'Budget check-in', place: 'Zoom', host: 'Elena Brandt', seed: 'elena' }
+    ];
+
+    const pad = n => String(n).padStart(2, '0');
+    const keyOf = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+
+    const now = new Date();
+    const todayKey = keyOf(now.getFullYear(), now.getMonth(), now.getDate());
+    let view = { y: now.getFullYear(), m: now.getMonth() };
+
+    function el(tag, opts = {}, children = []) {
+      const node = document.createElement(tag);
+      if (opts.text !== undefined) node.textContent = opts.text;
+      if (opts.attrs) {
+        for (const [k, v] of Object.entries(opts.attrs)) node.setAttribute(k, v);
+      }
+      children.forEach(c => node.append(c));
+      return node;
+    }
+
+    function renderCalendar() {
+      document.getElementById('month-title').textContent =
+        new Date(view.y, view.m, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+      const grid = document.getElementById('days');
+      grid.replaceChildren();
+
+      const offset = (new Date(view.y, view.m, 1).getDay() + 6) % 7;
+      const count = new Date(view.y, view.m + 1, 0).getDate();
+
+      for (let i = 0; i < offset; i++) {
+        grid.append(el('div', { attrs: { 'aria-hidden': 'true' } }));
+      }
+
+      for (let d = 1; d <= count; d++) {
+        const k = keyOf(view.y, view.m, d);
+        const dayEvents = events.filter(e => e.date === k);
+        const attrs = { 'data-day': k };
+        if (k === todayKey) attrs['aria-current'] = 'date';
+
+        const children = [el('strong', { text: String(d) })];
+
+        dayEvents.slice(0, 2).forEach(e => {
+          children.push(el('span', {
+            text: `${e.time} ${e.title}`,
+            attrs: { title: `${e.time} ${e.title}, ${e.place}` }
+          }));
+        });
+
+        if (dayEvents.length > 2) {
+          children.push(el('span', { text: `+${dayEvents.length - 2} more` }));
+        }
+
+        grid.append(el('div', { attrs }, children));
+      }
+    }
+
+    function renderUpcoming() {
+      const list = document.getElementById('upcoming');
+      list.replaceChildren();
+
+      const upcoming = events
+        .filter(e => e.date >= todayKey)
+        .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
+        .slice(0, 6);
+
+      if (upcoming.length === 0) {
+        list.append(el('p', { text: 'No upcoming events.' }));
+        return;
+      }
+
+      upcoming.forEach(e => {
+        const when = new Date(e.date + 'T00:00').toLocaleDateString('en-US', {
+          weekday: 'short', month: 'short', day: 'numeric'
+        });
+
+        list.append(el('ui-card', {}, [
+          el('img', {
+            attrs: {
+              src: `https://picsum.photos/seed/${e.seed}-${e.date}/640/320`,
+              alt: '',
+              width: '640',
+              height: '320',
+              loading: 'lazy'
+            }
+          }),
+          el('ui-stack', { attrs: { direction: 'horizontal', gap: 'md', align: 'center' } }, [
+            el('img', {
+              attrs: {
+                src: `https://picsum.photos/seed/${e.seed}/96`,
+                alt: e.host,
+                width: '48',
+                height: '48',
+                loading: 'lazy'
+              }
+            }),
+            el('ui-stack', { attrs: { gap: 'xs' } }, [
+              el('strong', { text: e.title }),
+              el('span', { text: `${when} · ${e.time} · ${e.place}` }),
+              el('span', { text: `Host: ${e.host}` })
+            ])
+          ])
+        ]));
+      });
+    }
+
+    function shiftMonth(delta) {
+      const d = new Date(view.y, view.m + delta, 1);
+      view = { y: d.getFullYear(), m: d.getMonth() };
+      renderCalendar();
+    }
+
+    document.getElementById('prev').addEventListener('click', () => shiftMonth(-1));
+    document.getElementById('next').addEventListener('click', () => shiftMonth(1));
+
+    renderCalendar();
+    renderUpcoming();
+  </script>
+</body>
+</html>

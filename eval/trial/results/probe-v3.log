@@ -1,0 +1,19 @@
+235 pages probed; 45 flagged; flagged but diagnostics-clean: 2
+
+pages/bare/calendar/gpt-6.2-s0-p0.html @1280
+  clipped 55px  <span class="chip-full" aria-hidden="true">September project kickoff  ×  <div class="event-chip" data-kind="planning" title="September project kickoff" aria-label="September>September project kickoff
+  clipped 55px  <span class="chip-full" aria-hidden="true">Homepage design critique  ×  <div class="event-chip" data-kind="review" title="Homepage design critique" aria-label="Homepage des>Homepage design critique
+  clipped 41px  <span class="chip-full" aria-hidden="true">Homepage walkthrough  ×  <div class="event-chip" data-kind="review" title="Homepage walkthrough" aria-label="Homepage walkthr>Homepage walkthrough
+
+pages/bare/calendar/gpt-6.2-s1-p1.html @360
+  clipped 10px  <span class="event-compact">Review  ×  <span class="calendar-event" data-kind="design" title="Onboarding design review, 11:0" aria-label="O>Review
+  clipped 22px  <span class="event-compact">Research  ×  <span class="calendar-event" data-kind="research" title="Customer interview, 10:30 AM" aria-label="C>Research
+  clipped 14px  <span class="event-compact">Release  ×  <span class="calendar-event" data-kind="planning" title="Release readiness check, 2:00 " aria-label=>Release
+  clipped 17px  <span class="event-compact">Readout  ×  <span class="calendar-event" data-kind="research" title="Research readout, 11:00 AM" aria-label="Res>Readout
+
+pages/bare/calendar/gpt-6.2-s1-p1.html @1280
+  clipped 13px  <span class="event-full">October team retro  ×  <span class="calendar-event" data-kind="planning" title="October team retro, 3:00 PM" aria-label="Oc>October team retro
+  clipped 51px  <span class="event-full">Onboarding design review  ×  <span class="calendar-event" data-kind="design" title="Onboarding design review, 11:0" aria-label="O>Onboarding design review
+  clipped 14px  <span class="event-full">Customer interview  ×  <span class="calendar-event" data-kind="research" title="Customer interview, 10:30 AM" aria-label="C>Customer interview
+  clipped 42px  <span class="event-full">Release readiness check  ×  <span class="calendar-event" data-kind="planning" title="Release readiness check, 2:00 " aria-label=>Release readiness check
+  clipped 50px  <span class="event-full">Roadmap working session  ×  <span class="calendar-event" data-kind="planning" title="Roadmap working session, 10:00" aria-label=>Roadmap working session

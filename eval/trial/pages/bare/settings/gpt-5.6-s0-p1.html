@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container max-width="960px">
+    <ui-stack direction="vertical" gap="lg" padding="lg">
+      <ui-stack direction="vertical" gap="sm">
+        <h1>Account settings</h1>
+        <small>Manage your profile, notifications, subscription, and account security.</small>
+      </ui-stack>
+
+      <ui-card>
+        <ui-stack direction="vertical" gap="md" padding="lg">
+          <ui-stack direction="vertical" gap="sm">
+            <h2>Profile</h2>
+            <small>Update the information associated with your account.</small>
+          </ui-stack>
+
+          <ui-stack direction="horizontal" gap="md" align="center" wrap>
+            <img
+              src="https://picsum.photos/seed/alex-profile/128/128"
+              alt="Alex Morgan">
+
+            <ui-stack direction="vertical" gap="sm">
+              <strong>Profile photo</strong>
+              <small>JPG, PNG, or GIF. Maximum file size 5 MB.</small>
+              <label>
+                <ui-button variant="secondary" size="sm">Upload new photo</ui-button>
+                <input type="file" accept="image/png,image/jpeg,image/gif" hidden>
+              </label>
+            </ui-stack>
+          </ui-stack>
+
+          <ui-grid columns="2" gap="md">
+            <label>
+              Full name
+              <input type="text" value="Alex Morgan" placeholder="Your full name">
+            </label>
+
+            <label>
+              Email address
+              <input type="email" value="alex.morgan@example.com" placeholder="you@example.com">
+            </label>
+          </ui-grid>
+
+          <label>
+            Bio
+            <textarea rows="4" placeholder="Write a short bio...">Product designer based in San Francisco. I enjoy thoughtful interfaces, good coffee, and weekend hikes.</textarea>
+            <small>Tell people a little about yourself.</small>
+          </label>
+
+          <ui-stack direction="horizontal" gap="sm" justify="end" wrap>
+            <ui-button variant="secondary">Cancel</ui-button>
+            <ui-button variant="primary">Save changes</ui-button>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <ui-stack direction="vertical" gap="md" padding="lg">
+          <ui-stack direction="vertical" gap="sm">
+            <h2>Notifications</h2>
+            <small>Choose how and when you want to hear from us.</small>
+          </ui-stack>
+
+          <ui-stack direction="vertical" gap="sm">
+            <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" wrap>
+              <ui-stack direction="vertical" gap="sm">
+                <strong>Product updates</strong>
+                <small>Get news about new features and improvements.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" checked aria-label="Product updates">
+            </ui-stack>
+
+            <hr>
+
+            <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" wrap>
+              <ui-stack direction="vertical" gap="sm">
+                <strong>Account activity</strong>
+                <small>Receive alerts about sign-ins and important changes.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" checked aria-label="Account activity">
+            </ui-stack>
+
+            <hr>
+
+            <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" wrap>
+              <ui-stack direction="vertical" gap="sm">
+                <strong>Tips and recommendations</strong>
+                <small>Occasional suggestions to help you get more from the app.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" aria-label="Tips and recommendations">
+            </ui-stack>
+
+            <hr>
+
+            <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" wrap>
+              <ui-stack direction="vertical" gap="sm">
+                <strong>Weekly digest</strong>
+                <small>Receive a weekly summary of your workspace activity.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" checked aria-label="Weekly digest">
+            </ui-stack>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <ui-stack direction="vertical" gap="md" padding="lg">
+          <ui-stack direction="vertical" gap="sm">
+            <h2>Billing</h2>
+            <small>Review your plan and payment details.</small>
+          </ui-stack>
+
+          <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" wrap>
+            <ui-stack direction="vertical" gap="sm">
+              <small>Current plan</small>
+              <h3>Pro</h3>
+              <p>For growing teams that need advanced collaboration tools.</p>
+            </ui-stack>
+            <mark>Active</mark>
+          </ui-stack>
+
+          <hr>
+
+          <ui-grid columns="2" gap="md">
+            <ui-stack direction="vertical" gap="sm">
+              <small>Billing cycle</small>
+              <strong>Monthly</strong>
+            </ui-stack>
+            <ui-stack direction="vertical" gap="sm">
+              <small>Next payment</small>
+              <strong>$24.00 on December 15, 2026</strong>
+            </ui-stack>
+          </ui-grid>
+
+          <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" wrap>
+            <ui-stack direction="horizontal" gap="sm" align="center">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                <path d="M2 10h20"></path>
+              </svg>
+              <ui-stack direction="vertical" gap="sm">
+                <strong>Visa ending in 4242</strong>
+                <small>Expires 08/2028</small>
+              </ui-stack>
+            </ui-stack>
+            <ui-button variant="secondary" size="sm">Manage billing</ui-button>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card variant="danger">
+        <ui-stack direction="vertical" gap="md" padding="lg">
+          <ui-stack direction="vertical" gap="sm">
+            <h2>Danger zone</h2>
+            <small>These actions are permanent and cannot be undone.</small>
+          </ui-stack>
+
+          <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" wrap>
+            <ui-stack direction="vertical" gap="sm">
+              <strong>Delete your account</strong>
+              <small>Remove your profile, data, and all workspace access permanently.</small>
+            </ui-stack>
+            <ui-button variant="danger">Delete account</ui-button>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <ui-stack direction="horizontal" justify="space-between" align="center" gap="md" wrap>
+        <small>Last updated just now</small>
+        <a href="#">Privacy policy</a>
+      </ui-stack>
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

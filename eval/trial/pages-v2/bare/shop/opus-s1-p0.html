@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride & Co. — Men's & Women's Running Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="0">
+
+    <!-- Header -->
+    <header>
+      <ui-container max="1280px" padding="4">
+        <ui-row justify="between" align="center" gap="3" wrap>
+          <ui-row align="center" gap="2">
+            <strong>👟 Stride &amp; Co.</strong>
+          </ui-row>
+          <nav aria-label="Main">
+            <ui-row gap="3" wrap>
+              <a href="#">Running</a>
+              <a href="#">Lifestyle</a>
+              <a href="#">Trail</a>
+              <a href="#">Sale</a>
+            </ui-row>
+          </nav>
+          <ui-button id="cartButton" variant="primary" aria-label="Open cart">
+            🛒 Cart <ui-badge id="cartCount">0</ui-badge>
+          </ui-button>
+        </ui-row>
+      </ui-container>
+      <ui-divider></ui-divider>
+    </header>
+
+    <main>
+      <ui-container max="1280px" padding="4">
+        <ui-stack gap="5">
+
+          <!-- Title -->
+          <ui-stack gap="1">
+            <h1>Running Shoes</h1>
+            <p><ui-text tone="muted" id="resultCount">Showing 12 of 36 products</ui-text></p>
+          </ui-stack>
+
+          <!-- Filter bar -->
+          <ui-card padding="4">
+            <ui-stack gap="4">
+              <ui-stack gap="2">
+                <ui-text weight="bold">Size (US)</ui-text>
+                <ui-row gap="2" wrap id="sizeChips" role="group" aria-label="Filter by size">
+                  <ui-chip data-size="7" role="button" tabindex="0">7</ui-chip>
+                  <ui-chip data-size="8" role="button" tabindex="0">8</ui-chip>
+                  <ui-chip data-size="9" role="button" tabindex="0">9</ui-chip>
+                  <ui-chip data-size="10" role="button" tabindex="0">10</ui-chip>
+                  <ui-chip data-size="11" role="button" tabindex="0">11</ui-chip>
+                  <ui-chip data-size="12" role="button" tabindex="0">12</ui-chip>
+                  <ui-chip data-size="13" role="button" tabindex="0">13</ui-chip>
+                </ui-row>
+              </ui-stack>
+
+              <ui-grid min="240px" gap="4">
+                <ui-stack gap="2">
+                  <label for="priceRange"><ui-text weight="bold">Max price: <span id="priceLabel">$200</span></ui-text></label>
+                  <input type="range" id="priceRange" min="40" max="200" step="10" value="200">
+                </ui-stack>
+                <ui-stack gap="2">
+                  <label for="sortSelect"><ui-text weight="bold">Sort by</ui-text></label>
+                  <select id="sortSelect">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name">Name: A–Z</option>
+                  </select>
+                </ui-stack>
+                <ui-stack gap="2" justify="end">
+                  <ui-button id="clearFilters" variant="ghost">Clear filters</ui-button>
+                </ui-stack>
+              </ui-grid>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Product grid -->
+          <ui-grid id="productGrid" min="220px" gap="4"></ui-grid>
+
+          <ui-alert id="emptyState" tone="info" hidden>No shoes match your filters. Try a different size or a higher price.</ui-alert>
+
+          <!-- Pagination -->
+          <nav aria-label="Pagination">
+            <ui-row justify="center" gap="2" wrap id="pagination">
+              <ui-button data-page="prev" variant="ghost">‹ Prev</ui-button>
+              <ui-button data-page="1" variant="primary" aria-current="page">1</ui-button>
+              <ui-button data-page="2" variant="ghost">2</ui-button>
+              <ui-button data-page="3" variant="ghost">3</ui-button>
+              <ui-button data-page="next" variant="ghost">Next ›</ui-button>
+            </ui-row>
+          </nav>
+
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-divider></ui-divider>
+      <ui-container max="1280px" padding="4">
+        <ui-row justify="between" gap="3" wrap>
+          <ui-text tone="muted">© 2026 Stride &amp; Co. Free shipping on orders over $75.</ui-text>
+          <ui-row gap="3" wrap>
+            <a href="#">Returns</a>
+            <a href="#">Size guide</a>
+            <a href="#">Contact</a>
+          </ui-row>
+        </ui-row>
+      </ui-container>
+    </footer>
+
+  </ui-stack>
+
+  <ui-toast id="toast" hidden></ui-toast>
+
+  <script>
+    const pages = [
+      [
+        { name: "AeroGlide 5 Runner", brand: "Stride", price: 129, sizes: [7,8,9,10,11,12], seed: "shoe1", tag: "New" },
+        { name: "Cloudpath Trail GTX", brand: "Summit", price: 165, sizes: [8,9,10,11,12,13], seed: "shoe2" },
+        { name: "Metro Classic Sneaker", brand: "Urbane", price: 79, sizes: [7,8,9,10,11], seed: "shoe3", tag: "Sale" },
+        { name: "Velocity Pro Carbon", brand: "Stride", price: 199, sizes: [8,9,10,11], seed: "shoe4", tag: "Bestseller" },
+        { name: "Daybreak Knit Slip-On", brand: "Lumen", price: 64, sizes: [7,8,9,10], seed: "shoe5" },
+        { name: "Ridgeback Hiker Mid", brand: "Summit", price: 149, sizes: [9,10,11,12,13], seed: "shoe6" },
+        { name: "Tempo Lite Trainer", brand: "Pace", price: 95, sizes: [7,8,9,10,11,12,13], seed: "shoe7" },
+        { name: "Harbor Canvas Low", brand: "Urbane", price: 55, sizes: [7,8,9,10,11,12], seed: "shoe8", tag: "Sale" },
+        { name: "Pulse Max Cushion", brand: "Pace", price: 139, sizes: [8,9,10,11,12], seed: "shoe9" },
+        { name: "Nomad Leather Court", brand: "Lumen", price: 110, sizes: [7,8,9,10,11], seed: "shoe10" },
+        { name: "Sprint Spike XC", brand: "Stride", price: 89, sizes: [8,9,10,11,12,13], seed: "shoe11" },
+        { name: "Horizon Recovery Slide", brand: "Pace", price: 45, sizes: [7,8,9,10,11,12,13], seed: "shoe12" }
+      ]
+    ];
+    // Generate pages 2 & 3 from page 1 with variations
+    const altNames = ["Apex", "Drift", "Summit", "Echo", "Nova", "Flux", "Orbit", "Breeze", "Atlas", "Crest", "Glide", "Zenith"];
+    for (let p = 1; p < 3; p++) {
+      pages.push(pages[0].map((item, i) => ({
+        ...item,
+        name: `${altNames[(i + p * 3) % 12]} ${item.name.split(" ").slice(1).join(" ")}`,
+        price: Math.max(40, Math.min(200, item.price + (p === 1 ? 10 : -15))),
+        seed: `shoe${p}-${i}`,
+        tag: i % 5 === p ? "New" : undefined
+      })));
+    }
+
+    let currentPage = 1;
+    let selectedSizes = new Set();
+    let maxPrice = 200;
+    let sortBy = "featured";
+    let cartCount = 0;
+
+    const grid = document.getElementById("productGrid");
+    const empty = document.getElementById("emptyState");
+    const resultCount = document.getElementById("resultCount");
+
+    function render() {
+      let items = pages[currentPage - 1].filter(p =>
+        p.price <= maxPrice &&
+        (selectedSizes.size === 0 || p.sizes.some(s => selectedSizes.has(s)))
+      );
+      if (sortBy === "price-asc") items = [...items].sort((a, b) => a.price - b.price);
+      if (sortBy === "price-desc") items = [...items].sort((a, b) => b.price - a.price);
+      if (sortBy === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
+
+      grid.innerHTML = items.map((p, i) => `
+        <ui-card padding="0">
+          <ui-stack gap="0">
+            <img src="https://picsum.photos/seed/${p.seed}/480/480" alt="${p.name} by ${p.brand}" width="480" height="480" loading="lazy">
+            <ui-stack gap="2" padding="3">
+              <ui-row justify="between" align="center" gap="2">
+                <ui-text tone="muted" size="sm">${p.brand}</ui-text>
+                ${p.tag ? `<ui-badge tone="${p.tag === "Sale" ? "danger" : "success"}">${p.tag}</ui-badge>` : ""}
+              </ui-row>
+              <h3>${p.name}</h3>
+              <ui-text tone="muted" size="sm">Sizes ${p.sizes[0]}–${p.sizes[p.sizes.length - 1]}</ui-text>
+              <ui-row justify="between" align="center" gap="2" wrap>
+                <ui-text weight="bold" size="lg">$${p.price.toFixed(2)}</ui-text>
+                <ui-button variant="primary" data-add="${p.name}">Add to cart</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>`).join("");
+
+      empty.hidden = items.length > 0;
+      const start = (currentPage - 1) * 12;
+      resultCount.textContent = `Showing ${items.length ? start + 1 : 0}–${start + items.length} of 36 products`;
+
+      document.querySelectorAll("#pagination [data-page]").forEach(btn => {
+        const pg = btn.dataset.page;
+        if (pg === "prev") btn.toggleAttribute("disabled", currentPage === 1);
+        else if (pg === "next") btn.toggleAttribute("disabled", currentPage === 3);
+        else {
+          const active = Number(pg) === currentPage;
+          btn.setAttribute("variant", active ? "primary" : "ghost");
+          if (active) btn.setAttribute("aria-current", "page"); else btn.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    function toggleChip(chip) {
+      const size = Number(chip.dataset.size);
+      if (selectedSizes.has(size)) {
+        selectedSizes.delete(size);
+        chip.removeAttribute("selected");
+        chip.setAttribute("aria-pressed", "false");
+      } else {
+        selectedSizes.add(size);
+        chip.setAttribute("selected", "");
+        chip.setAttribute("aria-pressed", "true");
+      }
+      render();
+    }
+
+    document.querySelectorAll("#sizeChips ui-chip").forEach(chip => {
+      chip.setAttribute("aria-pressed", "false");
+      chip.addEventListener("click", () => toggleChip(chip));
+      chip.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleChip(chip); }
+      });
+    });
+
+    document.getElementById("priceRange").addEventListener("input", e => {
+      maxPrice = Number(e.target.value);
+      document.getElementById("priceLabel").textContent = `$${maxPrice}`;
+      render();
+    });
+
+    document.getElementById("sortSelect").addEventListener("change", e => {
+      sortBy = e.target.value;
+      render();
+    });
+
+    document.getElementById("clearFilters").addEventListener("click", () => {
+      selectedSizes.clear();
+      document.querySelectorAll("#sizeChips ui-chip").forEach(c => {
+        c.removeAttribute("selected");
+        c.setAttribute("aria-pressed", "false");
+      });
+      maxPrice = 200;
+      document.getElementById("priceRange").value = 200;
+      document.getElementById("priceLabel").textContent = "$200";
+      sortBy = "featured";
+      document.getElementById("sortSelect").value = "featured";
+      render();
+    });
+
+    document.getElementById("pagination").addEventListener("click", e => {
+      const btn = e.target.closest("[data-page]");
+      if (!btn || btn.hasAttribute("disabled")) return;
+      const pg = btn.dataset.page;
+      if (pg === "prev") currentPage = Math.max(1, currentPage - 1);
+      else if (pg === "next") currentPage = Math.min(3, currentPage + 1);
+      else currentPage = Number(pg);
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    const toast = document.getElementById("toast");
+    let toastTimer;
+    grid.addEventListener("click", e => {
+      const btn = e.target.closest("[data-add]");
+      if (!btn) return;
+      cartCount++;
+      document.getElementById("cartCount").textContent = cartCount;
+      toast.textContent = `Added “${btn.dataset.add}” to your cart`;
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.hidden = true; }, 2200);
+    });
+
+    document.getElementById("cartButton").addEventListener("click", () => {
+      toast.textContent = cartCount ? `You have ${cartCount} item${cartCount > 1 ? "s" : ""} in your cart` : "Your cart is empty";
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.hidden = true; }, 2200);
+    });
+
+    render();
+  </script>
+</body>
+</html>

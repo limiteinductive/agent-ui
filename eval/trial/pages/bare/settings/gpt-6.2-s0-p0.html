@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings | Northline</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="md">
+    <main>
+      <ui-stack gap="lg">
+        <header>
+          <p>Northline</p>
+          <h1>Account settings</h1>
+        </header>
+
+        <div id="settings">
+          <ui-stack gap="lg">
+            <section aria-labelledby="profile-heading">
+              <ui-card padding="lg">
+                <ui-stack gap="md">
+                  <header>
+                    <h2 id="profile-heading">Profile</h2>
+                    <p>Update your personal information and profile photo.</p>
+                  </header>
+
+                  <form id="profile-form">
+                    <ui-stack gap="md">
+                      <div>
+                        <img id="avatar-preview" src="https://picsum.photos/id/64/160/160"
+                             width="80" height="80" alt="Current profile photo">
+                        <div>
+                          <label for="avatar">Profile photo</label>
+                        </div>
+                        <input id="avatar" name="avatar" type="file"
+                               accept="image/jpeg,image/png,image/webp"
+                               aria-describedby="avatar-help">
+                        <small id="avatar-help">JPEG, PNG, or WebP. Maximum 1 MB.</small>
+                      </div>
+
+                      <div>
+                        <div><label for="name">Full name</label></div>
+                        <input id="name" name="name" type="text" autocomplete="name"
+                               value="Maya Chen" maxlength="100" required>
+                      </div>
+
+                      <div>
+                        <div><label for="email">Email address</label></div>
+                        <input id="email" name="email" type="email" autocomplete="email"
+                               value="maya.chen@example.com" maxlength="254" required>
+                      </div>
+
+                      <div>
+                        <div><label for="bio">Bio</label></div>
+                        <textarea id="bio" name="bio" rows="3" maxlength="280"
+                                  aria-describedby="bio-help">Product designer in Oakland. Usually planning a weekend hike or trying a new coffee shop.</textarea>
+                        <div><small id="bio-help">Up to 280 characters.</small></div>
+                      </div>
+
+                      <div>
+                        <button id="save-profile" type="submit" data-variant="primary">Save profile</button>
+                        <p id="profile-status" role="status"></p>
+                      </div>
+                    </ui-stack>
+                  </form>
+                </ui-stack>
+              </ui-card>
+            </section>
+
+            <section aria-labelledby="notifications-heading">
+              <ui-card padding="lg">
+                <ui-stack gap="md">
+                  <header>
+                    <h2 id="notifications-heading">Notifications</h2>
+                    <p>Choose which emails you receive. Changes save automatically in this browser.</p>
+                  </header>
+
+                  <ui-stack id="notifications" gap="md">
+                    <div>
+                      <label for="activity">
+                        <input id="activity" type="checkbox" role="switch"
+                               aria-describedby="activity-help" checked>
+                        Account activity
+                      </label>
+                      <div><small id="activity-help">New sign-ins and changes to your account.</small></div>
+                    </div>
+                    <div>
+                      <label for="receipts">
+                        <input id="receipts" type="checkbox" role="switch"
+                               aria-describedby="receipts-help" checked>
+                        Billing reminders
+                      </label>
+                      <div><small id="receipts-help">Upcoming renewals and payment receipts.</small></div>
+                    </div>
+                    <div>
+                      <label for="product-news">
+                        <input id="product-news" type="checkbox" role="switch"
+                               aria-describedby="product-news-help">
+                        Product updates
+                      </label>
+                      <div><small id="product-news-help">New features and occasional tips.</small></div>
+                    </div>
+                  </ui-stack>
+
+                  <p id="notification-status" role="status"></p>
+                </ui-stack>
+              </ui-card>
+            </section>
+
+            <section aria-labelledby="billing-heading">
+              <ui-card padding="lg">
+                <ui-stack gap="md">
+                  <h2 id="billing-heading">Billing</h2>
+                  <dl>
+                    <dt>Current plan</dt>
+                    <dd><strong>Northline Plus</strong></dd>
+                    <dt>Monthly total</dt>
+                    <dd>$12.00 USD</dd>
+                    <dt>Next renewal</dt>
+                    <dd><time datetime="2026-12-15">December 15, 2026</time></dd>
+                    <dt>Payment method</dt>
+                    <dd>Visa ending in 4242</dd>
+                  </dl>
+                </ui-stack>
+              </ui-card>
+            </section>
+
+            <section aria-labelledby="danger-heading">
+              <ui-card padding="lg">
+                <ui-stack gap="md">
+                  <header>
+                    <h2 id="danger-heading">Danger zone</h2>
+                    <p>Deleting this demo account removes your saved profile and notification preferences from this browser.</p>
+                  </header>
+                  <div>
+                    <button id="open-delete" type="button" data-variant="danger">Delete account</button>
+                  </div>
+                </ui-stack>
+              </ui-card>
+            </section>
+          </ui-stack>
+        </div>
+
+        <section id="deleted-state" hidden aria-labelledby="deleted-heading">
+          <ui-card padding="lg">
+            <h2 id="deleted-heading" tabindex="-1">Account deleted</h2>
+            <p>Your saved profile and notification preferences have been removed from this browser.</p>
+          </ui-card>
+        </section>
+      </ui-stack>
+    </main>
+  </ui-container>
+
+  <dialog id="delete-dialog" aria-labelledby="delete-heading" aria-describedby="delete-description">
+    <h2 id="delete-heading">Delete your account?</h2>
+    <p id="delete-description">This permanently removes the profile and preferences saved for this demo account.</p>
+    <form id="delete-form" method="dialog">
+      <button value="cancel" autofocus>Cancel</button>
+      <button value="delete" data-variant="danger">Delete account</button>
+    </form>
+    <p id="delete-status" role="alert"></p>
+  </dialog>
+
+  <script>
+    const storageKey = 'northline.account-settings';
+    const profileForm = document.getElementById('profile-form');
+    const profileStatus = document.getElementById('profile-status');
+    const notificationStatus = document.getElementById('notification-status');
+    const nameField = document.getElementById('name');
+    const emailField = document.getElementById('email');
+    const bioField = document.getElementById('bio');
+    const avatarField = document.getElementById('avatar');
+    const avatarPreview = document.getElementById('avatar-preview');
+    const saveProfile = document.getElementById('save-profile');
+    const notificationFields = document.querySelectorAll('#notifications input');
+    const deleteDialog = document.getElementById('delete-dialog');
+    const deleteStatus = document.getElementById('delete-status');
+
+    let state = {};
+    let previewUrl;
+
+    try {
+      state = JSON.parse(localStorage.getItem(storageKey)) || {};
+    } catch {
+      profileStatus.textContent = 'Saved settings could not be loaded in this browser.';
+    }
+
+    function persist(nextState) {
+      localStorage.setItem(storageKey, JSON.stringify(nextState));
+      state = nextState;
+    }
+
+    function showDeleted(moveFocus = false) {
+      document.getElementById('settings').hidden = true;
+      document.getElementById('deleted-state').hidden = false;
+
+      if (moveFocus) {
+        document.getElementById('deleted-heading').focus();
+      }
+    }
+
+    function clearPreviewUrl() {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        previewUrl = undefined;
+      }
+    }
+
+    function readPhoto(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => resolve(reader.result));
+        reader.addEventListener('error', reject);
+        reader.readAsDataURL(file);
+      });
+    }
+
+    if (state.deleted) {
+      showDeleted();
+    } else {
+      const profile = state.profile || {};
+      nameField.value = profile.name ?? nameField.value;
+      emailField.value = profile.email ?? emailField.value;
+      bioField.value = profile.bio ?? bioField.value;
+      const defaultAvatar = avatarPreview.src;
+      avatarPreview.src = profile.avatar || defaultAvatar;
+
+      nameField.addEventListener('input', () => nameField.setCustomValidity(''));
+
+      avatarField.addEventListener('change', () => {
+        clearPreviewUrl();
+        avatarField.setCustomValidity('');
+        avatarPreview.src = state.profile?.avatar || defaultAvatar;
+        profileStatus.textContent = '';
+
+        const file = avatarField.files[0];
+        if (!file) return;
+
+        if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) ||
+            file.size > 1_000_000) {
+          avatarField.setCustomValidity('Choose a JPEG, PNG, or WebP image up to 1 MB.');
+          avatarField.reportValidity();
+          return;
+        }
+
+        previewUrl = URL.createObjectURL(file);
+        avatarPreview.src = previewUrl;
+      });
+
+      profileForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const name = nameField.value.trim();
+        if (!name) {
+          nameField.setCustomValidity('Enter your full name.');
+          nameField.reportValidity();
+          return;
+        }
+
+        const file = avatarField.files[0];
+        const nextProfile = {
+          name,
+          email: emailField.value.trim(),
+          bio: bioField.value.trim(),
+          avatar: state.profile?.avatar || ''
+        };
+
+        saveProfile.disabled = true;
+        avatarField.disabled = true;
+        profileStatus.textContent = '';
+
+        try {
+          if (file) nextProfile.avatar = await readPhoto(file);
+          if (state.deleted) return;
+
+          persist({ ...state, profile: nextProfile });
+          avatarPreview.src = nextProfile.avatar || defaultAvatar;
+          clearPreviewUrl();
+          avatarField.value = '';
+          profileStatus.textContent = 'Profile saved.';
+        } catch {
+          profileStatus.textContent = 'Your profile could not be saved in this browser.';
+        } finally {
+          saveProfile.disabled = false;
+          avatarField.disabled = false;
+        }
+      });
+
+      notificationFields.forEach((field) => {
+        field.checked = state.notifications?.[field.id] ?? field.checked;
+
+        field.addEventListener('change', () => {
+          try {
+            persist({
+              ...state,
+              notifications: { ...state.notifications, [field.id]: field.checked }
+            });
+            notificationStatus.textContent = 'Preferences saved.';
+          } catch {
+            field.checked = !field.checked;
+            notificationStatus.textContent = 'Your preference could not be saved in this browser.';
+          }
+        });
+      });
+    }
+
+    document.getElementById('open-delete').addEventListener('click', () => {
+      deleteStatus.textContent = '';
+      deleteDialog.showModal();
+    });
+
+    document.getElementById('delete-form').addEventListener('submit', (event) => {
+      if (event.submitter?.value !== 'delete') return;
+      event.preventDefault();
+
+      try {
+        persist({ deleted: true });
+      } catch {
+        deleteStatus.textContent = 'The account could not be deleted in this browser.';
+        return;
+      }
+
+      clearPreviewUrl();
+      profileForm.reset();
+      avatarPreview.removeAttribute('src');
+      deleteDialog.close();
+      showDeleted(true);
+    });
+  </script>
+</body>
+</html>

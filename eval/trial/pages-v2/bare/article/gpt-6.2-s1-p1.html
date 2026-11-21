@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to set a practical image budget for a photo-rich website and catch regressions before they ship.">
+  <title>An image budget you can actually keep | Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    .page-width {
+      inline-size: min(66rem, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .reading-width {
+      inline-size: min(100%, 44rem);
+      min-inline-size: 0;
+      margin-inline: auto;
+    }
+
+    .cover {
+      margin-inline: 0;
+    }
+
+    .cover img,
+    .related-rail img {
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+    }
+
+    .cover figcaption {
+      margin-block-start: 0.5rem;
+    }
+
+    .byline img {
+      display: block;
+      border-radius: 50%;
+    }
+
+    .article-tags {
+      max-inline-size: 100%;
+    }
+
+    pre {
+      box-sizing: border-box;
+      max-inline-size: 100%;
+      min-inline-size: 0;
+      overflow-x: auto;
+    }
+
+    .related-rail {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 1rem;
+      min-inline-size: 0;
+      overflow-x: auto;
+      scroll-snap-type: x proximity;
+      padding: 0.25rem 0.25rem 0.75rem;
+      margin: 0;
+      list-style: none;
+    }
+
+    .related-rail > li {
+      flex: 0 0 min(18rem, 85%);
+      min-inline-size: 0;
+      scroll-snap-align: start;
+    }
+  </style>
+</head>
+<body>
+  <header class="page-width">
+    <ui-stack gap="sm" padding="md">
+      <a href="#article">Field Notes</a>
+    </ui-stack>
+  </header>
+
+  <main class="page-width">
+    <ui-stack gap="xl">
+      <article id="article" aria-labelledby="article-title">
+        <ui-stack gap="lg">
+          <header class="reading-width">
+            <ui-stack gap="md">
+              <h1 id="article-title">An image budget you can actually keep</h1>
+              <p>A practical way to keep a photo-rich site fast as more people publish to it.</p>
+
+              <ui-row class="byline" gap="sm" align="center">
+                <img src="https://picsum.photos/id/64/96/96" alt="" width="48" height="48">
+                <ui-stack gap="xs">
+                  <span>Maya Chen</span>
+                  <time datetime="2026-10-08">October 8, 2026</time>
+                </ui-stack>
+              </ui-row>
+            </ui-stack>
+          </header>
+
+          <figure class="cover">
+            <img
+              src="https://picsum.photos/id/1015/1120/630"
+              srcset="
+                https://picsum.photos/id/1015/480/270 480w,
+                https://picsum.photos/id/1015/800/450 800w,
+                https://picsum.photos/id/1015/1120/630 1120w,
+                https://picsum.photos/id/1015/1600/900 1600w"
+              sizes="(max-width: 68rem) calc(100vw - 2rem), 66rem"
+              alt="A river winding through a rocky mountain valley"
+              width="1120"
+              height="630"
+              fetchpriority="high">
+            <figcaption>A wide cover photo can still be a modest download on a narrow screen.</figcaption>
+          </figure>
+
+          <div class="reading-width">
+            <ui-stack gap="md">
+              <p>Last spring I helped a small travel magazine redesign its article template. The first draft felt quick. Three months later, the same template took several seconds to reveal its cover photo on my phone. The design had barely changed. The editorial team had started uploading full-resolution images so they could reuse the originals in the newsletter.</p>
+
+              <p>We kept the original uploads and changed what the site delivered. Once we agreed on how much an article could download before its opening screen appeared, the editor and the developer could make decisions about each photo without reopening the whole performance discussion.</p>
+
+              <h2>Measure the opening screen</h2>
+
+              <p>Start with a published article on a narrow viewport. Disable the cache in your browser’s developer tools, reload on a throttled connection, and look at the image requests before you scroll. Check which file the browser chose for the cover, how many bytes it transferred, and when that request started.</p>
+
+              <p>Repeat the check on a few different articles. A photo of a foggy hillside may compress easily. A crowded market with signs and faces can look rough at the same file size. Include both kinds of images when you choose a starting budget. Our trial limit was 180 KB for the cover at a 390 CSS pixel viewport with a device pixel ratio of 2.</p>
+
+              <ui-card padding="lg">
+                <blockquote>
+                  <p>Measure the image your reader downloads. That’s the file you can put a budget on.</p>
+                </blockquote>
+              </ui-card>
+
+              <h2>Tell the browser how wide the image will be</h2>
+
+              <p>Export several widths from the same crop and list them in <code>srcset</code>. Use <code>sizes</code> to describe the photo’s width in the layout. In the example below, the viewport supplies the width on small screens, with one rem of space on each side. Once there’s enough room, the image stops growing at 44 rem.</p>
+
+              <pre tabindex="0" aria-label="Responsive article image HTML example"><code>&lt;img
+  src="/photos/coast-800.webp"
+  srcset="/photos/coast-480.webp 480w,
+          /photos/coast-800.webp 800w,
+          /photos/coast-1280.webp 1280w"
+  sizes="(max-width: 46rem) calc(100vw - 2rem), 44rem"
+  width="1280"
+  height="720"
+  alt="A trail above a rocky stretch of coastline"&gt;</code></pre>
+
+              <p>The width and height let the browser reserve space before the photo arrives. Keep the cover eagerly loaded when it appears at the top of the article. Images farther down can use <code>loading="lazy"</code> so their downloads can wait until the reader approaches them.</p>
+
+              <h2>Check the budget before publishing</h2>
+
+              <p>Put the check where someone can still act on it. Our publishing preview showed the size of the cover selected for the standard phone viewport. If the cover exceeded the budget, the editor could try a tighter crop or ask for another export while the article was still in draft.</p>
+
+              <p>We also kept one representative article in our release checks. When a redesign widened the cover, the browser began selecting a larger file. The release check caught the jump, and we updated the image variants and the <code>sizes</code> value together.</p>
+
+              <p>A month later, the team published a feature that opened with a dense aerial photograph. The editor kept the detail that mattered, a small harbor at the bottom of the frame, by cropping closer. The article stayed within budget and the harbor was easier to see on a phone.</p>
+
+              <footer aria-label="Article tags">
+                <ui-row class="article-tags" gap="sm" wrap>
+                  <span>Web performance</span>
+                  <span>Responsive images</span>
+                  <span>Publishing</span>
+                </ui-row>
+              </footer>
+            </ui-stack>
+          </div>
+        </ui-stack>
+      </article>
+
+      <section aria-labelledby="related-heading">
+        <ui-stack gap="md">
+          <h2 id="related-heading">Related posts</h2>
+          <ul class="related-rail" tabindex="0" aria-labelledby="related-heading">
+            <li>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/id/1036/576/324" alt="" width="576" height="324" loading="lazy">
+                  <h3><a href="/posts/a-better-mobile-performance-test">A better mobile performance test</a></h3>
+                  <p>Set up a repeatable test that catches the delays your readers feel.</p>
+                </ui-stack>
+              </ui-card>
+            </li>
+            <li>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/id/1043/576/324" alt="" width="576" height="324" loading="lazy">
+                  <h3><a href="/posts/cropping-for-small-screens">Cropping for small screens</a></h3>
+                  <p>Keep the subject in view when a wide composition gets squeezed.</p>
+                </ui-stack>
+              </ui-card>
+            </li>
+            <li>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/id/1016/576/324" alt="" width="576" height="324" loading="lazy">
+                  <h3><a href="/posts/when-to-lazy-load-an-image">When to lazy-load an image</a></h3>
+                  <p>Decide which photos should load immediately on a long article.</p>
+                </ui-stack>
+              </ui-card>
+            </li>
+            <li>
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/id/1067/576/324" alt="" width="576" height="324" loading="lazy">
+                  <h3><a href="/posts/why-your-page-shifts">Why your page shifts as it loads</a></h3>
+                  <p>Trace unexpected movement back to images, embeds, and fonts.</p>
+                </ui-stack>
+              </ui-card>
+            </li>
+          </ul>
+        </ui-stack>
+      </section>
+    </ui-stack>
+  </main>
+</body>
+</html>

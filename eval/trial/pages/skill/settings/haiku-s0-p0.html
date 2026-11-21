@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings · Acme</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between">
+          <strong>Acme</strong>
+          <nav>
+            <ui-row gap="md">
+              <a href="#">Dashboard</a>
+              <a href="#">Projects</a>
+              <a href="#" aria-current="page">Settings</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="md">
+        <ui-stack gap="xl" padding="md">
+          <ui-stack gap="xs">
+            <h1>Account settings</h1>
+            <p>Manage your profile, notifications, plan, and account.</p>
+          </ui-stack>
+
+          <!-- Profile -->
+          <ui-card>
+            <form id="profile-form">
+              <ui-stack gap="lg">
+                <h2>Profile</h2>
+
+                <ui-row stack-below="30rem" gap="lg">
+                  <img src="https://picsum.photos/seed/maya-chen/200/200" alt="Current avatar" width="96" height="96">
+                  <ui-stack gap="xs" grow>
+                    <label>Profile photo
+                      <input type="file" name="avatar" accept="image/png,image/jpeg">
+                    </label>
+                    <small>JPG or PNG, up to 2 MB.</small>
+                  </ui-stack>
+                </ui-row>
+
+                <ui-row stack-below="30rem" equal gap="md">
+                  <label>Full name
+                    <input type="text" name="name" value="Maya Chen" autocomplete="name">
+                  </label>
+                  <label>Email
+                    <input type="email" name="email" value="maya.chen@example.com" autocomplete="email">
+                  </label>
+                </ui-row>
+
+                <label>Bio
+                  <textarea name="bio" rows="4">Product designer building calm, accessible tools. Previously at Northwind and Lumen Labs. Coffee first, sketches second.</textarea>
+                </label>
+
+                <ui-row justify="end" gap="sm" wrap>
+                  <ui-button variant="ghost" type="reset">Discard</ui-button>
+                  <ui-button variant="primary" type="submit">Save changes</ui-button>
+                </ui-row>
+              </ui-stack>
+            </form>
+          </ui-card>
+
+          <!-- Notifications -->
+          <ui-card>
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <h2>Notifications</h2>
+                <p>Choose what we send you and how often.</p>
+              </ui-stack>
+
+              <ui-stack gap="md">
+                <ui-row justify="space-between" gap="md">
+                  <ui-stack gap="xs" grow>
+                    <strong>Product updates</strong>
+                    <small>New features and monthly release notes.</small>
+                  </ui-stack>
+                  <input type="checkbox" role="switch" name="notify-updates" checked aria-label="Product updates">
+                </ui-row>
+                <hr>
+                <ui-row justify="space-between" gap="md">
+                  <ui-stack gap="xs" grow>
+                    <strong>Comments and mentions</strong>
+                    <small>When someone replies to you or mentions your name.</small>
+                  </ui-stack>
+                  <input type="checkbox" role="switch" name="notify-mentions" checked aria-label="Comments and mentions">
+                </ui-row>
+                <hr>
+                <ui-row justify="space-between" gap="md">
+                  <ui-stack gap="xs" grow>
+                    <strong>Weekly digest</strong>
+                    <small>A Monday summary of activity across your projects.</small>
+                  </ui-stack>
+                  <input type="checkbox" role="switch" name="notify-digest" aria-label="Weekly digest">
+                </ui-row>
+                <hr>
+                <ui-row justify="space-between" gap="md">
+                  <ui-stack gap="xs" grow>
+                    <strong>Security alerts</strong>
+                    <small>Sign-ins from new devices and password changes.</small>
+                  </ui-stack>
+                  <input type="checkbox" role="switch" name="notify-security" checked aria-label="Security alerts">
+                </ui-row>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Billing -->
+          <ui-card>
+            <ui-stack gap="lg">
+              <ui-row justify="space-between" wrap gap="md">
+                <ui-stack gap="xs">
+                  <h2>Billing</h2>
+                  <p>You are on the Pro plan, billed annually.</p>
+                </ui-stack>
+                <ui-button variant="outline" size="sm">View invoices</ui-button>
+              </ui-row>
+
+              <ui-grid max-columns="3" min-item-width="12rem" gap="md">
+                <ui-card rounded="md" variant="neutral">
+                  <ui-stack gap="xs">
+                    <small>Current plan</small>
+                    <strong>Pro · Annual</strong>
+                  </ui-stack>
+                </ui-card>
+                <ui-card rounded="md" variant="neutral">
+                  <ui-stack gap="xs">
+                    <small>Next invoice</small>
+                    <strong><time datetime="2026-12-01">Dec 1, 2026</time></strong>
+                  </ui-stack>
+                </ui-card>
+                <ui-card rounded="md" variant="neutral">
+                  <ui-stack gap="xs">
+                    <small>Amount due</small>
+                    <strong>$288.00</strong>
+                  </ui-stack>
+                </ui-card>
+              </ui-grid>
+
+              <ui-stack gap="xs">
+                <ui-row justify="space-between">
+                  <small>Seats used</small>
+                  <small>6 of 10</small>
+                </ui-row>
+                <progress value="6" max="10">6 of 10</progress>
+              </ui-stack>
+
+              <ui-row justify="end" wrap gap="sm">
+                <ui-button variant="ghost">Update payment method</ui-button>
+                <ui-button variant="primary">Change plan</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Danger zone -->
+          <ui-card variant="danger">
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <h2>Danger zone</h2>
+                <p>Deleting your account removes your projects, files, and billing history. This cannot be undone.</p>
+              </ui-stack>
+              <ui-row justify="end">
+                <ui-button variant="danger" id="open-delete">Delete account</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <dialog id="delete-dialog">
+      <form method="dialog" id="delete-form">
+        <ui-stack gap="lg">
+          <ui-stack gap="xs">
+            <h2>Delete your account?</h2>
+            <p>All projects, files, and invoices will be permanently removed. Type <code>DELETE</code> to confirm.</p>
+          </ui-stack>
+          <label>Confirmation
+            <input type="text" name="confirm" id="confirm-input" autocomplete="off">
+          </label>
+          <ui-row justify="end" gap="sm" wrap>
+            <ui-button variant="ghost" type="submit" value="cancel">Cancel</ui-button>
+            <ui-button variant="danger" type="submit" value="delete" id="confirm-delete" disabled>Delete account</ui-button>
+          </ui-row>
+        </ui-stack>
+      </form>
+    </dialog>
+  </ui-page>
+
+  <script>
+    (function () {
+      var openBtn = document.getElementById('open-delete');
+      var dialog = document.getElementById('delete-dialog');
+      var input = document.getElementById('confirm-input');
+      var confirmBtn = document.getElementById('confirm-delete');
+
+      openBtn.addEventListener('click', function () {
+        input.value = '';
+        confirmBtn.toggleAttribute('disabled', true);
+        dialog.showModal();
+        input.focus();
+      });
+
+      input.addEventListener('input', function () {
+        confirmBtn.toggleAttribute('disabled', input.value.trim() !== 'DELETE');
+      });
+    })();
+  </script>
+</body>
+</html>

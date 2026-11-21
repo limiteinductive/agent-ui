@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing | Taskflow</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" wrap gap="md" padding="md">
+          <ui-row gap="sm">
+            <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+              <rect width="28" height="28" rx="7" fill="currentColor"></rect>
+              <path d="M8 14.5l4 4 8-9" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <strong>Taskflow</strong>
+          </ui-row>
+          <ui-row gap="md" wrap>
+            <nav>
+              <ui-row gap="md" wrap>
+                <a href="#features">Features</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#compare">Compare</a>
+                <a href="#faq">FAQ</a>
+              </ui-row>
+            </nav>
+            <ui-button variant="primary" size="sm">Start free trial</ui-button>
+          </ui-row>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container>
+        <ui-stack gap="2xl" padding="lg">
+
+          <section id="features">
+            <ui-row stack-below="40rem" gap="xl" align="center">
+              <ui-stack gap="md" grow>
+                <p><small>Simple pricing for teams of every size</small></p>
+                <h1>Plans that grow with your team</h1>
+                <p>Plan, track, and ship work in one place. Start free, upgrade when your projects get bigger, and cancel anytime.</p>
+                <ui-row gap="sm" wrap>
+                  <ui-button variant="primary" size="lg">Start free trial</ui-button>
+                  <ui-button variant="outline" size="lg">Talk to sales</ui-button>
+                </ui-row>
+                <p><small>No credit card required. 14-day trial on paid plans.</small></p>
+              </ui-stack>
+              <img src="https://picsum.photos/seed/taskflow-hero/1200/800" width="1200" height="800" alt="Team reviewing a project board together">
+            </ui-row>
+          </section>
+
+          <section id="pricing">
+            <ui-stack gap="lg">
+              <ui-stack gap="sm">
+                <h2>Choose your plan</h2>
+                <p>Prices in USD per user. Billed annually, saving 20% compared to monthly billing.</p>
+              </ui-stack>
+
+              <ui-grid max-columns="3" gap="lg">
+                <ui-card gap="md">
+                  <h3>Starter</h3>
+                  <p>For small teams getting organized.</p>
+                  <p><strong>$0</strong> <small>/ user / month</small></p>
+                  <ui-button variant="outline">Get started free</ui-button>
+                  <ul>
+                    <li>Up to 10 users</li>
+                    <li>5 active projects</li>
+                    <li>Kanban and list views</li>
+                    <li>5 GB file storage</li>
+                    <li>Community support</li>
+                  </ul>
+                </ui-card>
+
+                <ui-card elevated variant="primary" gap="md">
+                  <ui-row justify="space-between" wrap gap="sm">
+                    <h3>Team</h3>
+                    <span><strong>Most popular</strong></span>
+                  </ui-row>
+                  <p>For growing teams that run many projects.</p>
+                  <p><strong>$12</strong> <small>/ user / month</small></p>
+                  <ui-button variant="primary">Start 14-day trial</ui-button>
+                  <ul>
+                    <li>Up to 50 users</li>
+                    <li>Unlimited projects</li>
+                    <li>Timeline and Gantt charts</li>
+                    <li>100 GB file storage</li>
+                    <li>100 automations per month</li>
+                    <li>Priority email support</li>
+                  </ul>
+                </ui-card>
+
+                <ui-card gap="md">
+                  <h3>Business</h3>
+                  <p>For organizations with security and scale needs.</p>
+                  <p><strong>$29</strong> <small>/ user / month</small></p>
+                  <ui-button variant="outline">Contact sales</ui-button>
+                  <ul>
+                    <li>Unlimited users</li>
+                    <li>Unlimited projects and automations</li>
+                    <li>Custom reports and dashboards</li>
+                    <li>1 TB file storage</li>
+                    <li>SSO and SAML</li>
+                    <li>24/7 phone and chat support</li>
+                  </ul>
+                </ui-card>
+              </ui-grid>
+            </ui-stack>
+          </section>
+
+          <section id="compare">
+            <ui-stack gap="md">
+              <h2>Compare plans</h2>
+              <ui-row scroll>
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Feature</th>
+                      <th scope="col">Starter</th>
+                      <th scope="col">Team</th>
+                      <th scope="col">Business</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><th scope="row">Users</th><td>10</td><td>50</td><td>Unlimited</td></tr>
+                    <tr><th scope="row">Active projects</th><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
+                    <tr><th scope="row">File storage</th><td>5 GB</td><td>100 GB</td><td>1 TB</td></tr>
+                    <tr><th scope="row">Guest access</th><td>—</td><td>✓</td><td>✓</td></tr>
+                    <tr><th scope="row">Timeline and Gantt</th><td>—</td><td>✓</td><td>✓</td></tr>
+                    <tr><th scope="row">Automations</th><td>—</td><td>100 per month</td><td>Unlimited</td></tr>
+                    <tr><th scope="row">Custom reports</th><td>—</td><td>—</td><td>✓</td></tr>
+                    <tr><th scope="row">SSO and SAML</th><td>—</td><td>—</td><td>✓</td></tr>
+                    <tr><th scope="row">Support</th><td>Community</td><td>Priority email</td><td>24/7 phone and chat</td></tr>
+                  </tbody>
+                </table>
+              </ui-row>
+            </ui-stack>
+          </section>
+
+          <section id="faq">
+            <ui-stack gap="md">
+              <h2>Frequently asked questions</h2>
+              <details>
+                <summary>Can I change plans later?</summary>
+                <p>Yes. You can upgrade or downgrade at any time from your billing settings. Upgrades take effect immediately, and downgrades apply at the start of your next billing cycle.</p>
+              </details>
+              <details>
+                <summary>Is there a free trial for paid plans?</summary>
+                <p>Every paid plan includes a 14-day free trial with full access to features. No credit card is required to start.</p>
+              </details>
+              <details>
+                <summary>How does billing work for annual plans?</summary>
+                <p>Annual plans are billed once per year at a 20% discount compared to monthly billing. We accept all major credit cards and invoice payment for Business plans.</p>
+              </details>
+              <details>
+                <summary>Can I add guests who are not on my team?</summary>
+                <p>Guests can view and comment on specific projects without using a paid seat. Guest access is included in the Team and Business plans.</p>
+              </details>
+              <details>
+                <summary>What happens to my data if I cancel?</summary>
+                <p>You can export all of your projects and files at any time. After cancellation, your workspace stays read-only for 30 days before it is permanently deleted.</p>
+              </details>
+              <details>
+                <summary>Do you offer discounts for nonprofits or schools?</summary>
+                <p>Yes. Registered nonprofits and accredited educational institutions get 50% off the Team plan. Contact our sales team with proof of status to apply.</p>
+              </details>
+            </ui-stack>
+          </section>
+
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container>
+        <ui-stack gap="lg" padding="xl">
+          <hr>
+          <ui-grid max-columns="4" gap="xl">
+            <ui-stack gap="sm">
+              <strong>Product</strong>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#">Integrations</a>
+              <a href="#">Changelog</a>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <strong>Company</strong>
+              <a href="#">About</a>
+              <a href="#">Careers</a>
+              <a href="#">Press</a>
+              <a href="#">Contact</a>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <strong>Resources</strong>
+              <a href="#">Documentation</a>
+              <a href="#">Templates</a>
+              <a href="#">Blog</a>
+              <a href="#">Status</a>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <strong>Legal</strong>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+              <a href="#">Security</a>
+              <a href="#">Cookies</a>
+            </ui-stack>
+          </ui-grid>
+          <ui-row justify="space-between" wrap gap="md">
+            <small>© 2026 Taskflow, Inc. All rights reserved.</small>
+            <small>Made for teams who ship.</small>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

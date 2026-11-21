@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="xl">
+        <ui-row justify="space-between" wrap gap="sm">
+          <ui-row gap="sm">
+            <strong>Northstar</strong>
+            <span aria-hidden="true">/</span>
+            <span>Team calendar</span>
+          </ui-row>
+          <nav aria-label="Primary navigation">
+            <ui-row gap="sm" wrap>
+              <a href="#">Overview</a>
+              <a href="#">Projects</a>
+              <a href="#" aria-current="page">Calendar</a>
+              <a href="#">People</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-stack gap="lg">
+          <ui-row justify="space-between" wrap gap="md">
+            <ui-stack gap="xs">
+              <p>Workspace</p>
+              <h1>Team calendar</h1>
+              <p>Plan launches, reviews, and team time in one place.</p>
+            </ui-stack>
+            <ui-row gap="sm" wrap>
+              <ui-button id="todayButton" variant="outline">Today</ui-button>
+              <ui-button variant="primary">+ New event</ui-button>
+            </ui-row>
+          </ui-row>
+
+          <ui-row wrap stack-below="50rem" gap="lg" align="start">
+            <ui-card grow padding="md" elevated>
+              <ui-stack gap="md">
+                <ui-row justify="space-between" gap="sm">
+                  <h2 id="monthTitle">November 2026</h2>
+                  <ui-row gap="xs">
+                    <ui-button id="previousButton" variant="outline" size="sm" aria-label="Previous month">←</ui-button>
+                    <ui-button id="nextButton" variant="outline" size="sm" aria-label="Next month">→</ui-button>
+                  </ui-row>
+                </ui-row>
+
+                <table aria-label="Team calendar">
+                  <thead>
+                    <tr>
+                      <th scope="col">Mon</th>
+                      <th scope="col">Tue</th>
+                      <th scope="col">Wed</th>
+                      <th scope="col">Thu</th>
+                      <th scope="col">Fri</th>
+                      <th scope="col">Sat</th>
+                      <th scope="col">Sun</th>
+                    </tr>
+                  </thead>
+                  <tbody id="calendarBody"></tbody>
+                </table>
+
+                <ui-row gap="md" wrap>
+                  <span><mark>Product</mark></span>
+                  <span><mark>Design</mark></span>
+                  <span><mark>Team</mark></span>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="md" elevated>
+              <ui-stack gap="md">
+                <ui-row justify="space-between" gap="sm">
+                  <h2>Upcoming events</h2>
+                  <a href="#">View all</a>
+                </ui-row>
+
+                <ui-stack gap="sm">
+                  <ui-card variant="info" padding="sm">
+                    <ui-stack gap="xs">
+                      <small>Today · 10:00–10:45</small>
+                      <h3>Product sync</h3>
+                      <p>Review sprint progress and unblock the payments team.</p>
+                      <small>Meeting room Atlas · 8 attendees</small>
+                    </ui-stack>
+                  </ui-card>
+
+                  <ui-card variant="primary" padding="sm">
+                    <ui-stack gap="xs">
+                      <small>Tomorrow · 14:00–15:00</small>
+                      <h3>Design critique</h3>
+                      <p>Walk through the new onboarding flow with design and research.</p>
+                      <small>Studio 2 · 5 attendees</small>
+                    </ui-stack>
+                  </ui-card>
+
+                  <ui-card variant="success" padding="sm">
+                    <ui-stack gap="xs">
+                      <small>Thursday · 09:30–10:00</small>
+                      <h3>Engineering stand-up</h3>
+                      <p>Daily check-in for platform and infrastructure work.</p>
+                      <small>Video call · 12 attendees</small>
+                    </ui-stack>
+                  </ui-card>
+
+                  <ui-card variant="warning" padding="sm">
+                    <ui-stack gap="xs">
+                      <small>Friday · 16:00–17:30</small>
+                      <h3>Team offsite planning</h3>
+                      <p>Choose activities and confirm travel details for December.</p>
+                      <small>Commons lounge · 7 attendees</small>
+                    </ui-stack>
+                  </ui-card>
+                </ui-stack>
+              </ui-stack>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="xl">
+        <p><small>Northstar workspace · All times shown in Pacific Time</small></p>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    const monthTitle = document.getElementById("monthTitle");
+    const calendarBody = document.getElementById("calendarBody");
+    const previousButton = document.getElementById("previousButton");
+    const nextButton = document.getElementById("nextButton");
+    const todayButton = document.getElementById("todayButton");
+
+    let visibleDate = new Date(2026, 10, 1);
+
+    const events = {
+      "2026-11-03": [["Product sync", "info"]],
+      "2026-11-05": [["Design critique", "primary"]],
+      "2026-11-09": [["Sprint planning", "success"]],
+      "2026-11-12": [["Research review", "warning"]],
+      "2026-11-16": [["Product sync", "info"]],
+      "2026-11-18": [["Design critique", "primary"]],
+      "2026-11-20": [["Team offsite planning", "warning"]],
+      "2026-11-23": [["Sprint planning", "success"]],
+      "2026-11-26": [["Company holiday", "danger"]],
+      "2026-11-30": [["Product sync", "info"]]
+    };
+
+    const palette = {
+      info: "ℹ",
+      primary: "◆",
+      success: "✓",
+      warning: "!",
+      danger: "•"
+    };
+
+    function dateKey(year, month, day) {
+      return [
+        year,
+        String(month + 1).padStart(2, "0"),
+        String(day).padStart(2, "0")
+      ].join("-");
+    }
+
+    function renderCalendar() {
+      const year = visibleDate.getFullYear();
+      const month = visibleDate.getMonth();
+      const monthName = visibleDate.toLocaleString("en-US", {
+        month: "long",
+        year: "numeric"
+      });
+
+      monthTitle.textContent = monthName;
+      calendarBody.replaceChildren();
+
+      const firstDay = new Date(year, month, 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const mondayIndex = (firstDay.getDay() + 6) % 7;
+      const totalCells = Math.ceil((mondayIndex + daysInMonth) / 7) * 7;
+
+      for (let cell = 0; cell < totalCells; cell += 1) {
+        if (cell % 7 === 0) {
+          calendarBody.appendChild(document.createElement("tr"));
+        }
+
+        const row = calendarBody.lastElementChild;
+        const dayNumber = cell - mondayIndex + 1;
+        const cellElement = document.createElement("td");
+
+        if (dayNumber < 1 || dayNumber > daysInMonth) {
+          cellElement.setAttribute("aria-hidden", "true");
+          cellElement.textContent = "";
+        } else {
+          const key = dateKey(year, month, dayNumber);
+          const dayStack = document.createElement("ui-stack");
+          dayStack.setAttribute("gap", "xs");
+
+          const dayLabel = document.createElement("strong");
+          dayLabel.textContent = dayNumber;
+          dayStack.appendChild(dayLabel);
+
+          (events[key] || []).forEach(([label, variant]) => {
+            const eventCard = document.createElement("ui-card");
+            eventCard.setAttribute("padding", "xs");
+            eventCard.setAttribute("variant", variant);
+            eventCard.setAttribute("title", label);
+            eventCard.textContent = `${palette[variant]} ${label}`;
+            dayStack.appendChild(eventCard);
+          });
+
+          cellElement.appendChild(dayStack);
+        }
+
+        row.appendChild(cellElement);
+      }
+    }
+
+    previousButton.addEventListener("click", () => {
+      visibleDate = new Date(visibleDate.getFullYear(), visibleDate.getMonth() - 1, 1);
+      renderCalendar();
+    });
+
+    nextButton.addEventListener("click", () => {
+      visibleDate = new Date(visibleDate.getFullYear(), visibleDate.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    todayButton.addEventListener("click", () => {
+      visibleDate = new Date();
+      visibleDate = new Date(visibleDate.getFullYear(), visibleDate.getMonth(), 1);
+      renderCalendar();
+    });
+
+    renderCalendar();
+  </script>
+</body>
+</html>

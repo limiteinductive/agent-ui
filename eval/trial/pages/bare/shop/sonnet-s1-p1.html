@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride & Co. – Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="lg">
+
+    <ui-row justify="between" align="center">
+      <ui-stack gap="0">
+        <h2>Stride &amp; Co.</h2>
+        <small>Shoes for every step</small>
+      </ui-stack>
+      <button id="cartBtn" aria-label="Open cart">
+        🛒 Cart <span id="cartCount">0</span>
+      </button>
+    </ui-row>
+
+    <ui-card>
+      <ui-stack gap="md">
+        <ui-stack gap="xs">
+          <strong>Size (US)</strong>
+          <ui-row gap="sm" id="sizeChips"></ui-row>
+        </ui-stack>
+
+        <ui-grid min-item-width="220px" gap="md">
+          <label>
+            <ui-row justify="between">
+              <span>Max price</span>
+              <strong id="priceLabel">$200</strong>
+            </ui-row>
+            <input type="range" id="price" min="40" max="200" step="5" value="200">
+          </label>
+          <label>
+            Sort by
+            <select id="sort">
+              <option value="featured">Featured</option>
+              <option value="low">Price: Low to High</option>
+              <option value="high">Price: High to Low</option>
+              <option value="name">Name A–Z</option>
+            </select>
+          </label>
+        </ui-grid>
+      </ui-stack>
+    </ui-card>
+
+    <small id="resultCount"></small>
+
+    <ui-grid min-item-width="240px" gap="md" id="grid"></ui-grid>
+
+    <ui-row justify="center" gap="sm" id="pager"></ui-row>
+
+  </ui-stack>
+
+  <script>
+    const products = [
+      ["Aero Runner", 120, "Running", [7,8,9,10,11]],
+      ["Cloudstep Lite", 95, "Running", [6,7,8,9]],
+      ["Urban Low Canvas", 55, "Casual", [6,7,8,9,10,11,12]],
+      ["Trailblazer GTX", 160, "Hiking", [8,9,10,11,12]],
+      ["Heritage Leather", 140, "Classic", [7,8,9,10]],
+      ["Pulse Trainer", 85, "Training", [6,7,8,9,10]],
+      ["Court Classic", 75, "Court", [7,8,9,10,11,12]],
+      ["Summit Boot", 190, "Hiking", [9,10,11,12]],
+      ["Breeze Slip-On", 48, "Casual", [6,7,8,9,10]],
+      ["Velocity Elite", 180, "Running", [7,8,9,10,11]],
+      ["Oxford Derby", 130, "Dress", [8,9,10,11]],
+      ["Retro High Top", 99, "Casual", [6,7,8,9,10,11]]
+    ].map((p, i) => ({ id: i, name: p[0], price: p[1], cat: p[2], sizes: p[3] }));
+
+    const sizes = [6,7,8,9,10,11,12];
+    const perPage = 6;
+    let state = { size: null, max: 200, sort: "featured", page: 1 };
+    let cart = 0;
+
+    const $ = id => document.getElementById(id);
+
+    function renderChips() {
+      $("sizeChips").innerHTML = "";
+      const all = document.createElement("button");
+      all.textContent = "All";
+      all.setAttribute("aria-pressed", state.size === null);
+      if (state.size !== null) all.className = "outline";
+      all.onclick = () => { state.size = null; state.page = 1; render(); };
+      $("sizeChips").append(all);
+      sizes.forEach(s => {
+        const b = document.createElement("button");
+        b.textContent = s;
+        b.setAttribute("aria-pressed", state.size === s);
+        if (state.size !== s) b.className = "outline";
+        b.onclick = () => { state.size = s; state.page = 1; render(); };
+        $("sizeChips").append(b);
+      });
+    }
+
+    function render() {
+      renderChips();
+      let list = products.filter(p => p.price <= state.max && (state.size === null || p.sizes.includes(state.size)));
+      if (state.sort === "low") list.sort((a, b) => a.price - b.price);
+      if (state.sort === "high") list.sort((a, b) => b.price - a.price);
+      if (state.sort === "name") list.sort((a, b) => a.name.localeCompare(b.name));
+
+      const pages = Math.max(1, Math.ceil(list.length / perPage));
+      if (state.page > pages) state.page = pages;
+      const slice = list.slice((state.page - 1) * perPage, state.page * perPage);
+      $("resultCount").textContent = `${list.length} product${list.length === 1 ? "" : "s"}`;
+
+      $("grid").innerHTML = slice.length ? slice.map(p => `
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/shoe${p.id}/600/450" alt="${p.name}" loading="lazy" width="600" height="450">
+            <ui-stack gap="0">
+              <small>${p.cat}</small>
+              <strong>${p.name}</strong>
+            </ui-stack>
+            <ui-row justify="between" align="center">
+              <strong>$${p.price}</strong>
+              <button data-add="${p.id}">Add to cart</button>
+            </ui-row>
+          </ui-stack>
+        </ui-card>`).join("") : "<p>No shoes match your filters.</p>";
+
+      $("pager").innerHTML = "";
+      const mk = (label, page, disabled, current) => {
+        const b = document.createElement("button");
+        b.textContent = label;
+        b.disabled = disabled;
+        if (!current) b.className = "outline";
+        if (current) b.setAttribute("aria-current", "page");
+        b.onclick = () => { state.page = page; render(); window.scrollTo({ top: 0, behavior: "smooth" }); };
+        $("pager").append(b);
+      };
+      mk("‹ Prev", state.page - 1, state.page === 1);
+      for (let i = 1; i <= pages; i++) mk(String(i), i, false, i === state.page);
+      mk("Next ›", state.page + 1, state.page === pages);
+    }
+
+    $("grid").addEventListener("click", e => {
+      const b = e.target.closest("[data-add]");
+      if (!b) return;
+      cart++;
+      $("cartCount").textContent = cart;
+      const old = b.textContent;
+      b.textContent = "Added ✓";
+      setTimeout(() => b.textContent = old, 900);
+    });
+
+    $("price").oninput = e => {
+      state.max = +e.target.value;
+      state.page = 1;
+      $("priceLabel").textContent = "$" + state.max;
+      render();
+    };
+    $("sort").onchange = e => { state.sort = e.target.value; state.page = 1; render(); };
+
+    render();
+  </script>
+</body>
+</html>

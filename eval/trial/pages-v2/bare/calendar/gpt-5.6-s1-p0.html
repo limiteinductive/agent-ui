@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="vertical" gap="xl" padding="lg">
+
+    <header>
+      <ui-stack direction="horizontal" align="center" justify="between" gap="md" wrap>
+        <ui-stack direction="vertical" gap="xs">
+          <p>Workspace</p>
+          <h1>Team calendar</h1>
+          <p>Plan together, stay aligned.</p>
+        </ui-stack>
+
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <ui-button id="previous-month" variant="secondary" aria-label="Previous month">←</ui-button>
+          <strong id="month-title">November 2026</strong>
+          <ui-button id="next-month" variant="secondary" aria-label="Next month">→</ui-button>
+          <ui-button id="today-button" variant="primary">Today</ui-button>
+        </ui-stack>
+      </ui-stack>
+    </header>
+
+    <ui-stack direction="horizontal" gap="xl" align="start" wrap>
+
+      <main>
+        <ui-card>
+          <ui-stack direction="vertical" gap="md" padding="md">
+            <ui-stack direction="horizontal" align="center" justify="between" gap="sm" wrap>
+              <h2 id="calendar-heading">November 2026</h2>
+              <ui-stack direction="horizontal" gap="xs" wrap>
+                <ui-badge tone="blue">Design</ui-badge>
+                <ui-badge tone="green">Engineering</ui-badge>
+                <ui-badge tone="purple">Company</ui-badge>
+              </ui-stack>
+            </ui-stack>
+
+            <table aria-labelledby="calendar-heading">
+              <thead>
+                <tr>
+                  <th scope="col">Mon</th>
+                  <th scope="col">Tue</th>
+                  <th scope="col">Wed</th>
+                  <th scope="col">Thu</th>
+                  <th scope="col">Fri</th>
+                  <th scope="col">Sat</th>
+                  <th scope="col">Sun</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <strong>1</strong>
+                    <ui-stack direction="vertical" gap="xs">
+                      <ui-badge tone="purple">All Saints’ Day</ui-badge>
+                    </ui-stack>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>2</strong></td>
+                  <td><strong>3</strong></td>
+                  <td>
+                    <strong>4</strong>
+                    <ui-stack direction="vertical" gap="xs">
+                      <ui-badge tone="blue">10:00 Design sync</ui-badge>
+                    </ui-stack>
+                  </td>
+                  <td><strong>5</strong></td>
+                  <td>
+                    <strong>6</strong>
+                    <ui-stack direction="vertical" gap="xs">
+                      <ui-badge tone="green">14:00 Sprint review</ui-badge>
+                    </ui-stack>
+                  </td>
+                  <td><strong>7</strong></td>
+                  <td><strong>8</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>9</strong></td>
+                  <td>
+                    <strong>10</strong>
+                    <ui-stack direction="vertical" gap="xs">
+                      <ui-badge tone="purple">Company all-hands</ui-badge>
+                    </ui-stack>
+                  </td>
+                  <td><strong>11</strong></td>
+                  <td>
+                    <strong>12</strong>
+                    <ui-stack direction="vertical" gap="xs">
+                      <ui-badge tone="blue">11:30 Research demo</ui-badge>
+                    </ui-stack>
+                  </td>
+                  <td><strong>13</strong></td>
+                  <td><strong>14</strong></td>
+                  <td><strong>15</strong></td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>16</strong>
+                    <ui-stack direction="vertical" gap="xs">
+                      <ui-badge tone="green">09:30 Planning</ui-badge>
+                    </ui-stack>
+                  </td>
+                  <td><strong>17</strong></td>
+                  <td><strong>18</strong></td>
+                  <td>
+                    <strong>19</strong>
+                    <ui-stack direction="vertical" gap="xs">
+                      <ui-badge tone="blue">15:00 Design critique</ui-badge>
+                    </ui-stack>
+                  </td>
+                  <td><strong>20</strong></td>
+                  <td><strong>21</strong></td>
+                  <td><strong>22</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>23</strong></td>
+                  <td>
+                    <strong>24</strong>
+                    <ui-stack direction="vertical" gap="xs">
+                      <ui-badge tone="green">10:00 Release retro</ui-badge>
+                    </ui-stack>
+                  </td>
+                  <td><strong>25</strong></td>
+                  <td><strong>26</strong></td>
+                  <td><strong>27</strong></td>
+                  <td><strong>28</strong></td>
+                  <td><strong>29</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>30</strong></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </ui-stack>
+        </ui-card>
+      </main>
+
+      <aside>
+        <ui-stack direction="vertical" gap="md">
+          <ui-card>
+            <ui-stack direction="vertical" gap="md" padding="md">
+              <ui-stack direction="horizontal" align="center" justify="between">
+                <h2>Upcoming</h2>
+                <ui-badge tone="neutral">6 events</ui-badge>
+              </ui-stack>
+
+              <ui-stack direction="vertical" gap="md">
+                <article>
+                  <ui-stack direction="horizontal" gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/design/64/64" alt="" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs">
+                      <strong>Design sync</strong>
+                      <span>Wed, Nov 4 · 10:00–10:45</span>
+                      <span>Room Atlas · Product design</span>
+                      <ui-badge tone="blue">Design</ui-badge>
+                    </ui-stack>
+                  </ui-stack>
+                </article>
+
+                <article>
+                  <ui-stack direction="horizontal" gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/sprint/64/64" alt="" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs">
+                      <strong>Sprint review</strong>
+                      <span>Fri, Nov 6 · 14:00–15:00</span>
+                      <span>Zoom · Engineering</span>
+                      <ui-badge tone="green">Engineering</ui-badge>
+                    </ui-stack>
+                  </ui-stack>
+                </article>
+
+                <article>
+                  <ui-stack direction="horizontal" gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/allhands/64/64" alt="" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs">
+                      <strong>Company all-hands</strong>
+                      <span>Tue, Nov 10 · 09:00–10:00</span>
+                      <span>Main auditorium · Everyone</span>
+                      <ui-badge tone="purple">Company</ui-badge>
+                    </ui-stack>
+                  </ui-stack>
+                </article>
+
+                <article>
+                  <ui-stack direction="horizontal" gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/research/64/64" alt="" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs">
+                      <strong>Research demo</strong>
+                      <span>Thu, Nov 12 · 11:30–12:15</span>
+                      <span>Room Cedar · Research</span>
+                      <ui-badge tone="blue">Design</ui-badge>
+                    </ui-stack>
+                  </ui-stack>
+                </article>
+
+                <article>
+                  <ui-stack direction="horizontal" gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/planning/64/64" alt="" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs">
+                      <strong>Quarterly planning</strong>
+                      <span>Mon, Nov 16 · 09:30–11:00</span>
+                      <span>Boardroom · Leadership</span>
+                      <ui-badge tone="green">Engineering</ui-badge>
+                    </ui-stack>
+                  </ui-stack>
+                </article>
+
+                <article>
+                  <ui-stack direction="horizontal" gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/critique/64/64" alt="" width="48" height="48">
+                    <ui-stack direction="vertical" gap="xs">
+                      <strong>Design critique</strong>
+                      <span>Thu, Nov 19 · 15:00–16:00</span>
+                      <span>Room Atlas · Product design</span>
+                      <ui-badge tone="blue">Design</ui-badge>
+                    </ui-stack>
+                  </ui-stack>
+                </article>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="horizontal" gap="sm" align="center" padding="md">
+              <img src="https://picsum.photos/seed/team/96/96" alt="Team collaborating around a table" width="64" height="64">
+              <ui-stack direction="vertical" gap="xs">
+                <strong>Keep the team in sync</strong>
+                <span>Share calendars and make planning visible to everyone.</span>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+      </aside>
+
+    </ui-stack>
+  </ui-stack>
+
+  <script>
+    const monthTitle = document.querySelector("#month-title");
+    const calendarHeading = document.querySelector("#calendar-heading");
+    const previousButton = document.querySelector("#previous-month");
+    const nextButton = document.querySelector("#next-month");
+    const todayButton = document.querySelector("#today-button");
+
+    let displayedMonth = new Date(2026, 10, 1);
+
+    function renderMonth() {
+      const label = displayedMonth.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric"
+      });
+
+      monthTitle.textContent = label;
+      calendarHeading.textContent = label;
+    }
+
+    previousButton.addEventListener("click", () => {
+      displayedMonth.setMonth(displayedMonth.getMonth() - 1);
+      renderMonth();
+    });
+
+    nextButton.addEventListener("click", () => {
+      displayedMonth.setMonth(displayedMonth.getMonth() + 1);
+      renderMonth();
+    });
+
+    todayButton.addEventListener("click", () => {
+      displayedMonth = new Date();
+      displayedMonth.setDate(1);
+      renderMonth();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A practical guide to keeping a personal website easy to edit, quick to load, and pleasant to read on a phone.">
+  <title>The quiet work of keeping a website small | Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    .page {
+      width: min(68rem, calc(100% - 2rem));
+      margin-inline: auto;
+    }
+
+    .reading-width {
+      width: min(100%, 68ch);
+      min-width: 0;
+      margin-inline: auto;
+    }
+
+    .cover,
+    .related-photo {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .code-sample {
+      box-sizing: border-box;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    .related-rail {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: min(84%, 20rem);
+      column-gap: 1rem;
+      overflow-x: auto;
+      padding-block: 0.25rem 1rem;
+      scroll-snap-type: x proximity;
+    }
+
+    .related-rail > ui-card {
+      min-width: 0;
+      scroll-snap-align: start;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <ui-stack gap="xl">
+      <article aria-labelledby="article-title">
+        <ui-stack gap="lg">
+          <header class="reading-width">
+            <ui-stack gap="md">
+              <p>Field Notes</p>
+              <h1 id="article-title">The quiet work of keeping a website small</h1>
+              <p>What I learned from rebuilding a six-year-old personal site one page at a time.</p>
+              <ui-stack direction="horizontal" align="center" gap="sm">
+                <img
+                  src="https://picsum.photos/id/64/96/96"
+                  alt=""
+                  width="48"
+                  height="48"
+                >
+                <div>
+                  <strong>Maya Chen</strong><br>
+                  <time datetime="2026-10-14">October 14, 2026</time>
+                </div>
+              </ui-stack>
+            </ui-stack>
+          </header>
+
+          <figure>
+            <img
+              class="cover"
+              src="https://picsum.photos/id/1018/1440/720"
+              srcset="https://picsum.photos/id/1018/640/320 640w,
+                      https://picsum.photos/id/1018/960/480 960w,
+                      https://picsum.photos/id/1018/1440/720 1440w"
+              sizes="(min-width: 70rem) 68rem, calc(100vw - 2rem)"
+              alt="Layered mountain ridges above a winding river"
+              width="1440"
+              height="720"
+              fetchpriority="high"
+            >
+          </figure>
+
+          <div class="reading-width">
+            <ui-stack gap="lg">
+              <p>Last winter I opened my personal site to fix a broken link. By the time I found the right template, I had upgraded a package, chased a build warning, and forgotten which link I meant to fix. The site had twenty-three essays and a contact page. I wanted an edit to feel like opening a notebook and crossing out a line.</p>
+
+              <section aria-labelledby="start-with-a-page">
+                <h2 id="start-with-a-page">Start with one ordinary page</h2>
+                <p>I picked an essay from the middle of the archive. It had a photograph, two headings, and a footnote. I wrote down what I expected a reader to do there: read the essay, follow a source, and find another piece if they felt like staying. That short list gave me somewhere to start when I opened the template.</p>
+                <p>The first thing I removed was a script that highlighted the current section in the sidebar. On a phone the sidebar was hidden, but the script still ran. I kept the section links at the top of longer essays, where readers could reach them on any screen.</p>
+              </section>
+
+              <blockquote>
+                <p>“I wanted to be able to open last year’s essay, fix a sentence, and get on with my afternoon.”</p>
+              </blockquote>
+
+              <section aria-labelledby="give-images-room">
+                <h2 id="give-images-room">Give images their dimensions</h2>
+                <p>On the train home, I noticed that a paragraph jumped down just as I started reading it. The photograph above it had finally loaded. I added the image’s width and height to the markup so the browser could reserve space before the file arrived.</p>
+                <p>I also exported a smaller copy for narrow screens. The browser uses <code>srcset</code> and <code>sizes</code> to choose a candidate based on the space available and the screen’s pixel density. This is roughly what a photograph halfway down an essay looks like now.</p>
+                <pre class="code-sample" tabindex="0" aria-label="Responsive image HTML example"><code>&lt;img
+  src="/photos/ferry-960.jpg"
+  srcset="/photos/ferry-480.jpg 480w,
+          /photos/ferry-960.jpg 960w"
+  sizes="(max-width: 42rem) calc(100vw - 2rem), 40rem"
+  width="960"
+  height="640"
+  loading="lazy"
+  alt="An evening ferry crossing the bay"
+&gt;</code></pre>
+                <p>The same image rule scales each candidate to the column. I leave lazy loading off the cover because it’s usually visible as soon as the article opens.</p>
+              </section>
+
+              <section aria-labelledby="check-the-small-screen">
+                <h2 id="check-the-small-screen">Read an entire draft on your phone</h2>
+                <p>Desktop previews made the redesign look finished sooner than it was. On my phone, an old code block pushed the whole page sideways, and a caption wrapped into five cramped lines. Reading a few paragraphs at a time had missed both. I found them when I read the essay from the byline to the last footnote.</p>
+                <p>I gave wide code samples their own horizontal scroll and shortened the caption to the detail I wanted readers to notice. Then I worked through the archive in batches of three, checking one older photo-heavy essay and one newer text-heavy essay with each change.</p>
+              </section>
+
+              <section aria-labelledby="a-month-later">
+                <h2 id="a-month-later">A month later</h2>
+                <p>A reader emailed me about a typo in an old piece on bus timetables. I found the essay, changed two words, and published the correction before my coffee went cold. I still have a list of things I’d like to change. That afternoon, I got to do the one I came for.</p>
+              </section>
+
+              <footer>
+                <h2>Tags</h2>
+                <ul aria-label="Article tags">
+                  <li>Web performance</li>
+                  <li>Responsive design</li>
+                  <li>Personal websites</li>
+                </ul>
+              </footer>
+            </ui-stack>
+          </div>
+        </ui-stack>
+      </article>
+
+      <section aria-labelledby="related-title">
+        <ui-stack gap="md">
+          <h2 id="related-title">Related posts</h2>
+          <div class="related-rail" role="region" aria-label="Related posts, horizontally scrollable" tabindex="0">
+            <ui-card>
+              <ui-stack gap="sm">
+                <img class="related-photo" src="https://picsum.photos/id/180/640/360" alt="" width="640" height="360" loading="lazy">
+                <h3><a href="/posts/a-photo-archive-that-loads">A photo archive that loads on the train</a></h3>
+                <p>How I export, name, and publish a year’s worth of photographs.</p>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="sm">
+                <img class="related-photo" src="https://picsum.photos/id/20/640/360" alt="" width="640" height="360" loading="lazy">
+                <h3><a href="/posts/choosing-a-reading-width">Choosing a reading width</a></h3>
+                <p>A few pages of type tests and the line length I settled on.</p>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="sm">
+                <img class="related-photo" src="https://picsum.photos/id/48/640/360" alt="" width="640" height="360" loading="lazy">
+                <h3><a href="/posts/what-i-check-before-publishing">What I check before publishing</a></h3>
+                <p>The ten-minute pass that catches broken links and awkward headings.</p>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="sm">
+                <img class="related-photo" src="https://picsum.photos/id/169/640/360" alt="" width="640" height="360" loading="lazy">
+                <h3><a href="/posts/keeping-old-links-alive">Keeping old links alive</a></h3>
+                <p>What happened when I moved six years of essays to a new domain.</p>
+              </ui-stack>
+            </ui-card>
+          </div>
+        </ui-stack>
+      </section>
+    </ui-stack>
+  </main>
+</body>
+</html>

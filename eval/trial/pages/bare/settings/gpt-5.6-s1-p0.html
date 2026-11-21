@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="xl" padding="lg" max-width="1100px" margin="auto">
+    <ui-stack gap="xs">
+      <ui-text size="sm" color="muted">Workspace / Settings</ui-text>
+      <ui-heading level="1">Account settings</ui-heading>
+      <ui-text color="muted">Manage your profile, notifications, billing, and account access.</ui-text>
+    </ui-stack>
+
+    <ui-stack direction="row" gap="xl" align="start" wrap>
+      <ui-stack gap="lg" grow basis="650px">
+        <ui-card padding="lg">
+          <ui-stack gap="lg">
+            <ui-stack gap="xs">
+              <ui-heading level="2">Profile</ui-heading>
+              <ui-text color="muted">Keep your personal information up to date.</ui-text>
+            </ui-stack>
+
+            <ui-stack direction="row" gap="md" align="center" wrap>
+              <ui-avatar src="https://picsum.photos/seed/alex-avatar/160/160" alt="Alex Morgan" size="xl"></ui-avatar>
+              <ui-stack gap="xs">
+                <ui-heading level="3">Profile photo</ui-heading>
+                <ui-text size="sm" color="muted">JPG, PNG, or GIF. Maximum size 5 MB.</ui-text>
+                <ui-input type="file" accept="image/png,image/jpeg,image/gif" label="Upload new photo"></ui-input>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-stack direction="row" gap="md" wrap>
+              <ui-input label="Full name" value="Alex Morgan" placeholder="Your full name" required grow></ui-input>
+              <ui-input label="Email address" type="email" value="alex.morgan@example.com" placeholder="you@example.com" required grow></ui-input>
+            </ui-stack>
+
+            <ui-textarea label="Bio" rows="4" placeholder="Tell your team a little about yourself">Product designer building thoughtful tools for creative teams. Based in San Francisco.</ui-textarea>
+
+            <ui-stack direction="row" justify="end" gap="sm" wrap>
+              <ui-button variant="secondary" type="button">Cancel</ui-button>
+              <ui-button variant="primary" type="submit">Save changes</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card padding="lg">
+          <ui-stack gap="lg">
+            <ui-stack gap="xs">
+              <ui-heading level="2">Notification preferences</ui-heading>
+              <ui-text color="muted">Choose how you want to hear from us.</ui-text>
+            </ui-stack>
+
+            <ui-stack gap="md">
+              <ui-stack direction="row" justify="between" align="center" gap="md">
+                <ui-stack gap="xs">
+                  <ui-text weight="semibold">Product updates</ui-text>
+                  <ui-text size="sm" color="muted">News about features, improvements, and releases.</ui-text>
+                </ui-stack>
+                <ui-toggle label="Product updates" checked></ui-toggle>
+              </ui-stack>
+
+              <ui-divider></ui-divider>
+
+              <ui-stack direction="row" justify="between" align="center" gap="md">
+                <ui-stack gap="xs">
+                  <ui-text weight="semibold">Security alerts</ui-text>
+                  <ui-text size="sm" color="muted">Important activity and sign-in notifications.</ui-text>
+                </ui-stack>
+                <ui-toggle label="Security alerts" checked></ui-toggle>
+              </ui-stack>
+
+              <ui-divider></ui-divider>
+
+              <ui-stack direction="row" justify="between" align="center" gap="md">
+                <ui-stack gap="xs">
+                  <ui-text weight="semibold">Tips and recommendations</ui-text>
+                  <ui-text size="sm" color="muted">Occasional ideas to help you get more from your account.</ui-text>
+                </ui-stack>
+                <ui-toggle label="Tips and recommendations"></ui-toggle>
+              </ui-stack>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card padding="lg">
+          <ui-stack gap="lg">
+            <ui-stack gap="xs">
+              <ui-heading level="2">Danger zone</ui-heading>
+              <ui-text color="muted">Permanently remove your account and all associated data.</ui-text>
+            </ui-stack>
+
+            <ui-stack direction="row" justify="between" align="center" gap="md" wrap>
+              <ui-stack gap="xs">
+                <ui-text weight="semibold">Delete account</ui-text>
+                <ui-text size="sm" color="muted">This action cannot be undone.</ui-text>
+              </ui-stack>
+              <ui-button variant="danger" type="button">Delete account</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+      </ui-stack>
+
+      <ui-stack gap="lg" basis="320px" grow>
+        <ui-card padding="lg">
+          <ui-stack gap="lg">
+            <ui-stack gap="xs">
+              <ui-heading level="2">Billing</ui-heading>
+              <ui-text color="muted">Your current subscription and payment details.</ui-text>
+            </ui-stack>
+
+            <ui-stack gap="md">
+              <ui-stack direction="row" justify="between" align="center">
+                <ui-stack gap="xs">
+                  <ui-text size="sm" color="muted">Current plan</ui-text>
+                  <ui-heading level="3">Pro</ui-heading>
+                </ui-stack>
+                <ui-badge variant="success">Active</ui-badge>
+              </ui-stack>
+
+              <ui-divider></ui-divider>
+
+              <ui-stack gap="xs">
+                <ui-stack direction="row" justify="between">
+                  <ui-text color="muted">Seats</ui-text>
+                  <ui-text weight="semibold">8 members</ui-text>
+                </ui-stack>
+                <ui-stack direction="row" justify="between">
+                  <ui-text color="muted">Billing cycle</ui-text>
+                  <ui-text weight="semibold">Monthly</ui-text>
+                </ui-stack>
+                <ui-stack direction="row" justify="between">
+                  <ui-text color="muted">Next invoice</ui-text>
+                  <ui-text weight="semibold">Dec 1, 2026</ui-text>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="row" justify="between" align="end">
+                <ui-text weight="semibold">Total per month</ui-text>
+                <ui-heading level="2">$96.00</ui-heading>
+              </ui-stack>
+
+              <ui-button variant="secondary" width="full" type="button">Manage billing</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card padding="lg">
+          <ui-stack gap="md">
+            <ui-heading level="2">Need help?</ui-heading>
+            <ui-text color="muted">Our support team is happy to help with your account.</ui-text>
+            <ui-button variant="ghost" type="button">Contact support →</ui-button>
+          </ui-stack>
+        </ui-card>
+      </ui-stack>
+    </ui-stack>
+  </ui-stack>
+</body>
+</html>

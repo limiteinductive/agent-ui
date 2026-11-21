@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" wrap padding="md">
+          <strong>Acme</strong>
+          <nav>
+            <ui-row gap="md" wrap>
+              <a href="#profile">Profile</a>
+              <a href="#notifications">Notifications</a>
+              <a href="#billing">Billing</a>
+              <a href="#danger">Danger zone</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container>
+        <ui-stack gap="xl" padding="md">
+          <ui-stack gap="xs">
+            <h1>Account settings</h1>
+            <p>Manage your profile, notification preferences, and billing.</p>
+          </ui-stack>
+
+          <ui-card id="profile" elevated>
+            <form onsubmit="event.preventDefault()">
+              <ui-stack gap="lg">
+                <h2>Profile</h2>
+
+                <ui-row gap="md" wrap>
+                  <img src="https://picsum.photos/seed/ada-avatar/160/160" alt="Current avatar" width="80" height="80">
+                  <ui-stack gap="xs">
+                    <label>Upload new avatar <input type="file" name="avatar" accept="image/png, image/jpeg"></label>
+                    <small>JPG or PNG, up to 5 MB.</small>
+                  </ui-stack>
+                </ui-row>
+
+                <ui-grid min-item-width="16rem" gap="md">
+                  <label>Full name <input type="text" name="name" value="Ada Lovelace" autocomplete="name"></label>
+                  <label>Email <input type="email" name="email" value="ada@example.com" autocomplete="email"></label>
+                </ui-grid>
+
+                <label>Bio
+                  <textarea name="bio" rows="4">Mathematician and writer. Building tools for people who think in systems. Based in London.</textarea>
+                </label>
+
+                <ui-row justify="end" gap="sm" wrap>
+                  <ui-button variant="ghost" type="reset">Cancel</ui-button>
+                  <ui-button variant="primary" type="submit">Save changes</ui-button>
+                </ui-row>
+              </ui-stack>
+            </form>
+          </ui-card>
+
+          <ui-card id="notifications" elevated>
+            <ui-stack gap="md">
+              <h2>Notifications</h2>
+              <p>Choose what we send you and how often.</p>
+
+              <ui-row justify="space-between" gap="md">
+                <ui-stack gap="xs">
+                  <label for="n-security"><strong>Security alerts</strong></label>
+                  <small>Sign-ins from new devices and password changes.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" id="n-security" name="security" checked>
+              </ui-row>
+              <hr>
+
+              <ui-row justify="space-between" gap="md">
+                <ui-stack gap="xs">
+                  <label for="n-billing"><strong>Billing receipts</strong></label>
+                  <small>Email a receipt after every payment.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" id="n-billing" name="billing" checked>
+              </ui-row>
+              <hr>
+
+              <ui-row justify="space-between" gap="md">
+                <ui-stack gap="xs">
+                  <label for="n-product"><strong>Product updates</strong></label>
+                  <small>New features and improvements, once a month.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" id="n-product" name="product">
+              </ui-row>
+              <hr>
+
+              <ui-row justify="space-between" gap="md">
+                <ui-stack gap="xs">
+                  <label for="n-mentions"><strong>Mentions and replies</strong></label>
+                  <small>When someone mentions you or replies to your comment.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" id="n-mentions" name="mentions" checked>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card id="billing" elevated>
+            <ui-stack gap="lg">
+              <h2>Billing</h2>
+
+              <ui-row justify="space-between" gap="md" wrap>
+                <ui-stack gap="xs">
+                  <small>Current plan</small>
+                  <h3>Pro</h3>
+                  <p>$24 per month, billed monthly</p>
+                </ui-stack>
+                <ui-button variant="outline">Change plan</ui-button>
+              </ui-row>
+
+              <hr>
+
+              <ui-stack gap="xs">
+                <p>Next invoice: <strong>$24.00</strong> on December 1, 2026</p>
+                <p>Payment method: Visa ending in 4242</p>
+              </ui-stack>
+
+              <ui-row gap="sm" wrap>
+                <ui-button variant="outline">Update payment method</ui-button>
+                <ui-button variant="ghost">View invoices</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card id="danger" variant="danger" elevated>
+            <ui-stack gap="md">
+              <h2>Danger zone</h2>
+              <p>Deleting your account removes your profile, saved projects, and billing history. This cannot be undone.</p>
+              <ui-row justify="end" wrap>
+                <ui-button variant="danger" onclick="document.getElementById('delete-dialog').showModal()">Delete account</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <dialog id="delete-dialog">
+      <form method="dialog" onsubmit="">
+        <ui-stack gap="lg">
+          <h2>Delete your account?</h2>
+          <p>All of your data will be permanently removed within 30 days. Type <strong>DELETE</strong> below to confirm.</p>
+          <label>Confirmation
+            <input type="text" name="confirm" autocomplete="off" placeholder="DELETE">
+          </label>
+          <ui-row justify="end" gap="sm" wrap>
+            <ui-button variant="ghost" onclick="document.getElementById('delete-dialog').close()">Cancel</ui-button>
+            <ui-button variant="danger" type="submit">Delete account</ui-button>
+          </ui-row>
+        </ui-stack>
+      </form>
+    </dialog>
+  </ui-page>
+</body>
+</html>

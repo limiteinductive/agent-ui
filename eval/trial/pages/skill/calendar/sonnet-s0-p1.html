@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Calendar</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Northwind Team</strong>
+        <nav><a href="#upcoming">Upcoming</a></nav>
+      </ui-row>
+    </ui-container>
+  </header>
+  <main>
+    <ui-container size="xl">
+      <ui-stack gap="lg" padding="md">
+        <h1>Team calendar</h1>
+        <ui-row wrap align="start" gap="lg">
+          <ui-card grow>
+            <ui-row wrap justify="space-between">
+              <ui-button id="prev" variant="outline" size="sm" aria-label="Previous month">‹ Prev</ui-button>
+              <h2 id="month-title">November 2026</h2>
+              <ui-button id="next" variant="outline" size="sm" aria-label="Next month">Next ›</ui-button>
+            </ui-row>
+            <ui-grid columns="7" gap="xs" data-ui-allow="grid/cramped" id="weekdays">
+              <small>Mon</small><small>Tue</small><small>Wed</small><small>Thu</small><small>Fri</small><small>Sat</small><small>Sun</small>
+            </ui-grid>
+            <ui-grid columns="7" gap="xs" id="days" data-ui-allow="grid/cramped"></ui-grid>
+            <ui-card sunken padding="md" gap="sm" id="selected" aria-live="polite"></ui-card>
+          </ui-card>
+
+          <ui-card id="upcoming">
+            <h2>Upcoming events</h2>
+            <ui-stack gap="md" id="upcoming-list"></ui-stack>
+          </ui-card>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+</ui-page>
+
+<script>
+(function () {
+  var TODAY = '2026-11-21';
+  var events = [
+    { d: '2026-11-03', t: '09:30', title: 'Sprint planning', who: 'Maya Chen', img: 11 },
+    { d: '2026-11-05', t: '14:00', title: 'Design review', who: 'Luis Ortega', img: 12 },
+    { d: '2026-11-10', t: '11:00', title: 'Customer interview', who: 'Priya Nair', img: 13 },
+    { d: '2026-11-12', t: '16:00', title: 'Backend sync', who: 'Tom Becker', img: 14 },
+    { d: '2026-11-12', t: '18:30', title: 'Team dinner', who: 'Ana Souza', img: 15 },
+    { d: '2026-11-19', t: '10:00', title: 'Retro', who: 'Maya Chen', img: 11 },
+    { d: '2026-11-23', t: '09:00', title: 'Release v4.2 go/no-go', who: 'Tom Becker', img: 14 },
+    { d: '2026-11-24', t: '13:00', title: 'Onboarding: new hires', who: 'Priya Nair', img: 13 },
+    { d: '2026-11-26', t: '15:30', title: 'Quarterly OKR check-in', who: 'Luis Ortega', img: 12 },
+    { d: '2026-11-26', t: '17:00', title: 'Offsite logistics', who: 'Ana Souza', img: 15 },
+    { d: '2026-11-30', t: '10:30', title: 'Roadmap workshop', who: 'Maya Chen', img: 11 },
+    { d: '2026-12-02', t: '11:00', title: 'Security training', who: 'Tom Becker', img: 14 },
+    { d: '2026-12-08', t: '14:30', title: 'Holiday party planning', who: 'Ana Souza', img: 15 },
+    { d: '2026-12-15', t: '09:30', title: 'Year-end demo day', who: 'Priya Nair', img: 13 }
+  ];
+  var view = { y: 2026, m: 10 };
+  var selected = TODAY;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var pad = function (n) { return String(n).padStart(2, '0'); };
+  var key = function (y, m, d) { return y + '-' + pad(m + 1) + '-' + pad(d); };
+  var fmt = function (iso, opts) {
+    return new Date(iso + 'T12:00:00').toLocaleDateString('en-US', opts);
+  };
+  var byDate = function (iso) { return events.filter(function (e) { return e.d === iso; }); };
+
+  function eventItem(e, showDate) {
+    return '<ui-row gap="sm" align="start">' +
+      '<img src="https://picsum.photos/seed/' + e.img + '/80/80" alt="' + e.who + '" width="40" height="40" loading="lazy">' +
+      '<ui-stack gap="0" grow>' +
+        '<strong>' + e.title + '</strong>' +
+        '<small>' + (showDate ? '<time datetime="' + e.d + '">' + fmt(e.d, { weekday: 'short', month: 'short', day: 'numeric' }) + '</time> · ' : '') + e.t + ' · ' + e.who + '</small>' +
+      '</ui-stack></ui-row>';
+  }
+
+  function render() {
+    $('month-title').textContent = new Date(view.y, view.m, 1).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    var first = new Date(view.y, view.m, 1);
+    var offset = (first.getDay() + 6) % 7;
+    var count = new Date(view.y, view.m + 1, 0).getDate();
+    var html = '';
+    for (var i = 0; i < offset; i++) html += '<span></span>';
+    for (var d = 1; d <= count; d++) {
+      var k = key(view.y, view.m, d);
+      var n = byDate(k).length;
+      var variant = k === selected ? 'primary' : (k === TODAY ? 'outline' : 'ghost');
+      html += '<ui-button variant="' + variant + '" size="sm" rounded="md" data-date="' + k + '" aria-label="' + fmt(k, { month: 'long', day: 'numeric' }) + (n ? ', ' + n + ' events' : '') + '">' +
+        '<ui-stack gap="0" align="center"><span>' + d + '</span>' + (n ? '<mark>' + n + '</mark>' : '<span>&nbsp;</span>') + '</ui-stack></ui-button>';
+    }
+    $('days').innerHTML = html;
+    renderSelected();
+  }
+
+  function renderSelected() {
+    var list = byDate(selected);
+    $('selected').innerHTML = '<h3>' + fmt(selected, { weekday: 'long', month: 'long', day: 'numeric' }) + '</h3>' +
+      (list.length ? list.map(function (e) { return eventItem(e, false); }).join('') : '<p><small>No events scheduled.</small></p>');
+  }
+
+  function renderUpcoming() {
+    var up = events.filter(function (e) { return e.d >= TODAY; })
+      .sort(function (a, b) { return (a.d + a.t).localeCompare(b.d + b.t); }).slice(0, 7);
+    $('upcoming-list').innerHTML = up.map(function (e) { return eventItem(e, true); }).join('');
+  }
+
+  function shift(delta) {
+    var d = new Date(view.y, view.m + delta, 1);
+    view.y = d.getFullYear(); view.m = d.getMonth();
+    render();
+  }
+
+  $('prev').addEventListener('click', function () { shift(-1); });
+  $('next').addEventListener('click', function () { shift(1); });
+  $('days').addEventListener('click', function (ev) {
+    var b = ev.target.closest('[data-date]');
+    if (!b) return;
+    selected = b.getAttribute('data-date');
+    render();
+  });
+
+  render();
+  renderUpcoming();
+})();
+</script>
+</body>
+</html>

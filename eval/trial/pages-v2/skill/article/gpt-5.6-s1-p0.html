@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing Calm Interfaces for Busy Products</title>
+  <meta name="description" content="A practical guide to creating interfaces that feel clear, calm, and resilient under pressure.">
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" padding="md">
+          <a href="#"><strong>Field Notes</strong></a>
+          <nav aria-label="Primary navigation">
+            <ui-row gap="md">
+              <a href="#stories">Stories</a>
+              <a href="#about">About</a>
+              <a href="#newsletter">Newsletter</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="2xl" padding="xl">
+          <ui-stack gap="md">
+            <p><small>DESIGN SYSTEMS · 8 MIN READ</small></p>
+            <h1>Designing Calm Interfaces for Busy Products</h1>
+            <p>How thoughtful hierarchy, generous spacing, and clear feedback help people make better decisions when everything feels urgent.</p>
+
+            <ui-row gap="sm">
+              <img src="https://picsum.photos/seed/alex-morgan/96/96" alt="Portrait of Alex Morgan" width="48" height="48">
+              <ui-stack gap="0">
+                <strong>Alex Morgan</strong>
+                <small>Product designer · <time datetime="2026-11-18">November 18, 2026</time></small>
+              </ui-stack>
+            </ui-row>
+          </ui-stack>
+
+          <img src="https://picsum.photos/seed/calm-interface/1600/800" alt="A desk with a notebook, laptop, and soft afternoon light" width="1600" height="800">
+
+          <ui-row wrap gap="2xl" align="start">
+            <article grow>
+              <ui-stack gap="lg">
+                <p>Most digital products are designed around a quiet fiction: that the person using them has time, context, and attention to spare. In practice, people open an interface halfway through a meeting, between train stops, or while trying to solve a problem that was already urgent five minutes ago.</p>
+
+                <p>Calm design is not about making software passive or decorative. It is about reducing unnecessary decisions so that the important ones become easier to see. A calm interface gives users a reliable sense of where they are, what changed, and what will happen next.</p>
+
+                <h2>Clarity begins with hierarchy</h2>
+
+                <p>Hierarchy is the order in which an interface asks to be understood. When every element has equal visual weight, users must perform that ordering themselves. The result is often hesitation, scanning, and accidental clicks.</p>
+
+                <p>Start by identifying the one decision that matters most on each screen. Give that decision a clear home, a descriptive label, and enough space to remain legible when the surrounding content becomes dense.</p>
+
+                <ui-card variant="info" padding="lg">
+                  <p><strong>Good hierarchy is a form of hospitality.</strong></p>
+                  <p>It tells people where to begin without making them feel lost, rushed, or foolish for asking.</p>
+                </ui-card>
+
+                <h2>Use space to show relationships</h2>
+
+                <p>Spacing is not empty decoration. It is a visual grammar. Elements that belong together should sit closer to one another than elements that belong to different tasks. Repeating that grammar across a product lets users predict the structure before they read every word.</p>
+
+                <p>A useful test is to blur your eyes or squint at a screen. The groups that remain visible should match the groups you expect people to act on. If the visual grouping and the conceptual grouping disagree, the layout is asking users to translate.</p>
+
+                <h3>Make important changes easy to notice</h3>
+
+                <p>Feedback should arrive at the same place where the user's attention already is. A saved status near the form, an inline error beside the relevant field, and a confirmation near the completed action are usually more useful than a generic message at the top of the page.</p>
+
+                <p>Motion can help, but only when it explains continuity. A panel that gently expands from the button that opened it can preserve context. A notification that slides across the entire screen may interrupt it.</p>
+
+                <h2>Design feedback before the happy path</h2>
+
+                <p>Teams often polish the successful path first because it is easy to demonstrate. Real trust is built in the less glamorous moments: loading, empty states, validation, retries, and partial failure.</p>
+
+                <p>Before shipping a new flow, write down what the interface should communicate when the network is slow, when a person makes a common mistake, and when the system completes only half of the requested work. These states are not edge cases. They are part of the product's voice.</p>
+
+                <pre><code>const message = {
+  status: "saved",
+  label: "Changes saved",
+  nextAction: "Continue editing"
+};
+
+renderStatus(message);</code></pre>
+
+                <p>The code is simple, but the principle is important: status should be explicit, human-readable, and connected to a useful next step. “Success” may be technically accurate, yet it leaves the person wondering what succeeded and what they should do now.</p>
+
+                <h2>Leave room for confidence</h2>
+
+                <p>Dense interfaces can feel efficient to their creators because every pixel appears productive. For users, density often means that actions, explanations, and warnings compete with one another. A little more breathing room can make the whole system feel faster because it lowers the cost of interpretation.</p>
+
+                <p>Calm design is ultimately a commitment to respect. It assumes that attention is valuable, that mistakes are normal, and that people should not need to fight the interface in order to finish their work.</p>
+
+                <ui-row wrap gap="sm" aria-label="Article tags">
+                  <span>Design systems</span>
+                  <span>Product design</span>
+                  <span>UX writing</span>
+                  <span>Accessibility</span>
+                </ui-row>
+              </ui-stack>
+            </article>
+
+            <aside>
+              <ui-stack gap="md">
+                <ui-card elevated padding="lg">
+                  <ui-stack gap="sm">
+                    <h3>In this story</h3>
+                    <nav aria-label="Article contents">
+                      <ul>
+                        <li><a href="#hierarchy">Clarity begins with hierarchy</a></li>
+                        <li><a href="#space">Use space to show relationships</a></li>
+                        <li><a href="#feedback">Design feedback first</a></li>
+                        <li><a href="#confidence">Leave room for confidence</a></li>
+                      </ul>
+                    </nav>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card variant="success" padding="lg" id="newsletter">
+                  <ui-stack gap="sm">
+                    <h3>Get Field Notes</h3>
+                    <p>One thoughtful design essay every other Wednesday.</p>
+                    <form>
+                      <label for="email">Email address</label>
+                      <input id="email" name="email" type="email" placeholder="you@example.com">
+                      <ui-button type="submit" variant="primary">Subscribe</ui-button>
+                    </form>
+                  </ui-stack>
+                </ui-card>
+              </ui-stack>
+            </aside>
+          </ui-row>
+
+          <section id="stories" aria-labelledby="related-heading">
+            <ui-stack gap="md">
+              <ui-row justify="space-between">
+                <h2 id="related-heading">Related posts</h2>
+                <a href="#">View all stories</a>
+              </ui-row>
+
+              <ui-row scroll item-width="md" gap="md">
+                <ui-card elevated>
+                  <img src="https://picsum.photos/seed/design-review/640/360" alt="Team reviewing sketches on a wall" width="640" height="360">
+                  <ui-stack gap="sm">
+                    <small>PROCESS</small>
+                    <h3><a href="#">The Design Review That People Actually Enjoy</a></h3>
+                    <p>Build critique rituals that create momentum instead of defensiveness.</p>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card elevated>
+                  <img src="https://picsum.photos/seed/typography/640/360" alt="Printed typography samples on a table" width="640" height="360">
+                  <ui-stack gap="sm">
+                    <small>CRAFT</small>
+                    <h3><a href="#">Small Type, Big Consequences</a></h3>
+                    <p>Why readable text is one of the strongest signals of product quality.</p>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card elevated>
+                  <img src="https://picsum.photos/seed/accessible-product/640/360" alt="A person using a laptop with a large monitor" width="640" height="360">
+                  <ui-stack gap="sm">
+                    <small>ACCESSIBILITY</small>
+                    <h3><a href="#">Designing for the Moment After the Mistake</a></h3>
+                    <p>Helpful recovery flows make products more humane and more resilient.</p>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card elevated>
+                  <img src="https://picsum.photos/seed/team-workshop/640/360" alt="People collaborating around a table" width="640" height="360">
+                  <ui-stack gap="sm">
+                    <small>TEAMS</small>
+                    <h3><a href="#">A Shared Vocabulary for Better Decisions</a></h3>
+                    <p>How teams can align on principles before debating pixels.</p>
+                  </ui-stack>
+                </ui-card>
+              </ui-row>
+            </ui-stack>
+          </section>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer id="about">
+      <ui-container size="lg">
+        <ui-row justify="space-between" wrap padding="xl">
+          <strong>Field Notes</strong>
+          <small>Thoughtful ideas for people who make digital products.</small>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

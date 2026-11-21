@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar | Northstar Studio</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Keep the calendar wider than the agenda, then let both fill a narrow row. */
+    .workspace > .calendar-panel[grow] {
+      flex: 1 1 36rem;
+      min-inline-size: 0;
+      max-inline-size: 100%;
+    }
+
+    .workspace > .agenda-panel {
+      flex: 1 1 18rem;
+      min-inline-size: 0;
+      max-inline-size: 100%;
+    }
+
+    /* Fixed calendar columns need compact labels and predictable cell heights. */
+    .weekday {
+      padding-block: var(--ui-space-xs);
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--ui-ink-muted);
+    }
+
+    .calendar-day {
+      min-inline-size: 0;
+      min-block-size: 5rem;
+      padding-block: var(--ui-space-sm);
+      font-size: 0.875rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .day-number {
+      padding-inline: var(--ui-space-xs);
+    }
+
+    .outside-month {
+      color: var(--ui-ink-muted);
+    }
+
+    .day-number[aria-current="date"] {
+      font-weight: 700;
+    }
+
+    .event-button {
+      display: flex;
+      align-items: center;
+      gap: var(--ui-space-xs);
+      min-inline-size: 0;
+      min-block-size: 1.625rem;
+      padding: 0 var(--ui-space-xs);
+      border: 0;
+      border-radius: var(--ui-radius-sm);
+      background: var(--ui-canvas);
+      color: inherit;
+      font: inherit;
+      font-size: 0.75rem;
+      text-align: start;
+      cursor: pointer;
+    }
+
+    .event-button::before {
+      content: "";
+      flex: 0 0 0.4rem;
+      block-size: 0.4rem;
+      border-radius: 50%;
+      background: var(--ui-primary);
+    }
+
+    .event-button:hover,
+    .event-button:focus-visible {
+      outline: 2px solid var(--ui-primary);
+      outline-offset: -2px;
+    }
+
+    .event-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Preserve native list semantics while using date tiles as the markers. */
+    .agenda-list {
+      display: grid;
+      gap: var(--ui-space-md);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .agenda-date {
+      flex: 0 0 3.25rem;
+      text-align: center;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .event-dialog {
+      box-sizing: border-box;
+      inline-size: min(28rem, calc(100% - 2rem));
+    }
+
+    @media (max-width: 40rem) {
+      .calendar-day {
+        min-block-size: 3.5rem;
+      }
+
+      .event-button {
+        justify-content: center;
+      }
+
+      .event-label {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="lg" padding="sm">
+          <header>
+            <ui-card inverse rounded="xl" padding="lg" gap="xs">
+              <small>Northstar Studio</small>
+              <h1>Team calendar</h1>
+            </ui-card>
+          </header>
+
+          <ui-row class="workspace" wrap align="start" gap="lg">
+            <section class="calendar-panel" grow aria-labelledby="month-label">
+              <ui-card rounded="xl" padding="sm" gap="sm">
+                <ui-row padding="sm" gap="sm" wrap justify="space-between">
+                  <h2 id="month-label" aria-live="polite"></h2>
+                  <ui-row gap="xs" role="group" aria-label="Month navigation">
+                    <ui-button id="previous-month" variant="outline" aria-label="Previous month">
+                      <span aria-hidden="true">←</span>
+                    </ui-button>
+                    <ui-button id="today" variant="ghost">Today</ui-button>
+                    <ui-button id="next-month" variant="outline" aria-label="Next month">
+                      <span aria-hidden="true">→</span>
+                    </ui-button>
+                  </ui-row>
+                </ui-row>
+
+                <ui-stack
+                  id="month-grid"
+                  gap="xs"
+                  role="table"
+                  aria-labelledby="month-label"
+                  data-ui-allow="grid/cramped"
+                >
+                  <ui-grid columns="7" gap="xs" role="row">
+                    <span class="weekday" role="columnheader" aria-label="Monday">Mon</span>
+                    <span class="weekday" role="columnheader" aria-label="Tuesday">Tue</span>
+                    <span class="weekday" role="columnheader" aria-label="Wednesday">Wed</span>
+                    <span class="weekday" role="columnheader" aria-label="Thursday">Thu</span>
+                    <span class="weekday" role="columnheader" aria-label="Friday">Fri</span>
+                    <span class="weekday" role="columnheader" aria-label="Saturday">Sat</span>
+                    <span class="weekday" role="columnheader" aria-label="Sunday">Sun</span>
+                  </ui-grid>
+                  <ui-stack id="calendar-weeks" gap="xs" role="rowgroup"></ui-stack>
+                </ui-stack>
+              </ui-card>
+            </section>
+
+            <aside class="agenda-panel" aria-labelledby="agenda-heading">
+              <ui-card rounded="xl" padding="md" gap="md">
+                <ui-stack gap="xs">
+                  <h2 id="agenda-heading">Upcoming events</h2>
+                  <small>Times shown in your local time</small>
+                </ui-stack>
+                <ol id="agenda-list" class="agenda-list" role="list"></ol>
+              </ui-card>
+            </aside>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <dialog id="event-dialog" class="event-dialog" aria-labelledby="event-title">
+    <ui-stack gap="md">
+      <h2 id="event-title"></h2>
+      <ui-stack gap="xs">
+        <time id="event-time"></time>
+        <span id="event-location"></span>
+      </ui-stack>
+      <ui-row justify="end">
+        <ui-button id="close-event" variant="primary">Close</ui-button>
+      </ui-row>
+    </ui-stack>
+  </dialog>
+
+  <script>
+    const monthTitle = document.querySelector("#month-label");
+    const calendarWeeks = document.querySelector("#calendar-weeks");
+    const agendaList = document.querySelector("#agenda-list");
+    const dialog = document.querySelector("#event-dialog");
+    const eventTitle = document.querySelector("#event-title");
+    const eventTime = document.querySelector("#event-time");
+    const eventLocation = document.querySelector("#event-location");
+
+    const monthFormat = new Intl.DateTimeFormat("en", { month: "long", year: "numeric" });
+    const shortMonthFormat = new Intl.DateTimeFormat("en", { month: "short" });
+    const dateFormat = new Intl.DateTimeFormat("en", { dateStyle: "full" });
+    const timeFormat = new Intl.DateTimeFormat("en", { timeStyle: "short" });
+
+    // Each entry uses the nth occurrence of a weekday in the month.
+    const schedule = [
+      { week: 1, weekday: 1, hour: 10, minute: 0, title: "Sprint planning", location: "Studio A" },
+      { week: 1, weekday: 3, hour: 14, minute: 0, title: "Design critique", location: "Studio B" },
+      { week: 2, weekday: 2, hour: 11, minute: 30, title: "Product sync", location: "Google Meet" },
+      { week: 2, weekday: 5, hour: 12, minute: 0, title: "Team lunch", location: "The Workshop café" },
+      { week: 3, weekday: 3, hour: 13, minute: 30, title: "Research readout", location: "Studio A" },
+      { week: 3, weekday: 4, hour: 15, minute: 0, title: "Client walkthrough", location: "Google Meet" },
+      { week: 4, weekday: 2, hour: 10, minute: 0, title: "Roadmap review", location: "Studio A" },
+      { week: 4, weekday: 5, hour: 14, minute: 30, title: "Sprint retrospective", location: "Studio B" }
+    ];
+
+    function element(tag, attributes = {}, content = "") {
+      const node = document.createElement(tag);
+      for (const [key, value] of Object.entries(attributes)) {
+        node.setAttribute(key, value);
+      }
+      node.textContent = content;
+      return node;
+    }
+
+    function twoDigits(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function dateKey(date) {
+      return `${date.getFullYear()}-${twoDigits(date.getMonth() + 1)}-${twoDigits(date.getDate())}`;
+    }
+
+    function localDateTime(date) {
+      return `${dateKey(date)}T${twoDigits(date.getHours())}:${twoDigits(date.getMinutes())}`;
+    }
+
+    function eventsForMonth(month) {
+      const year = month.getFullYear();
+      const monthIndex = month.getMonth();
+      const firstWeekday = new Date(year, monthIndex, 1).getDay();
+
+      return schedule.map(({ week, weekday, hour, minute, title, location }) => {
+        const day = 1 + (weekday - firstWeekday + 7) % 7 + (week - 1) * 7;
+        return { date: new Date(year, monthIndex, day, hour, minute), title, location };
+      }).sort((first, second) => first.date - second.date);
+    }
+
+    function showEvent(event) {
+      eventTitle.textContent = event.title;
+      eventTime.dateTime = localDateTime(event.date);
+      eventTime.textContent = `${dateFormat.format(event.date)} · ${timeFormat.format(event.date)}`;
+      eventLocation.textContent = event.location;
+      dialog.showModal();
+    }
+
+    function renderCalendar(month, today) {
+      const year = month.getFullYear();
+      const monthIndex = month.getMonth();
+      const firstWeekday = new Date(year, monthIndex, 1).getDay();
+      const mondayOffset = (firstWeekday + 6) % 7;
+      const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+      const weekCount = Math.ceil((mondayOffset + daysInMonth) / 7);
+      const eventsByDay = new Map();
+
+      for (const event of eventsForMonth(month)) {
+        const day = dateKey(event.date);
+        if (!eventsByDay.has(day)) eventsByDay.set(day, []);
+        eventsByDay.get(day).push(event);
+      }
+
+      monthTitle.textContent = monthFormat.format(month);
+      const weeks = document.createDocumentFragment();
+
+      for (let week = 0; week < weekCount; week += 1) {
+        const row = element("ui-grid", { columns: "7", gap: "xs", role: "row" });
+
+        for (let weekday = 0; weekday < 7; weekday += 1) {
+          const day = new Date(year, monthIndex, 1 - mondayOffset + week * 7 + weekday);
+          const key = dateKey(day);
+          const isToday = key === dateKey(today);
+          const inMonth = day.getMonth() === monthIndex;
+          const cell = element("ui-card", {
+            class: "calendar-day",
+            role: "cell",
+            padding: "xs",
+            gap: "xs",
+            rounded: "sm"
+          });
+
+          if (!inMonth) cell.setAttribute("sunken", "");
+          if (isToday) cell.setAttribute("variant", "primary");
+
+          const label = element("time", {
+            class: inMonth ? "day-number" : "day-number outside-month",
+            datetime: key,
+            "aria-label": dateFormat.format(day)
+          }, day.getDate());
+
+          if (isToday) label.setAttribute("aria-current", "date");
+          cell.append(label);
+
+          for (const event of eventsByDay.get(key) ?? []) {
+            const button = element("button", {
+              type: "button",
+              class: "event-button",
+              "aria-label": `${event.title}, ${dateFormat.format(day)}, ${timeFormat.format(event.date)}`,
+              "aria-haspopup": "dialog",
+              title: event.title
+            });
+            button.append(element("span", { class: "event-label" }, event.title));
+            button.addEventListener("click", () => showEvent(event));
+            cell.append(button);
+          }
+
+          row.append(cell);
+        }
+
+        weeks.append(row);
+      }
+
+      calendarWeeks.replaceChildren(weeks);
+    }
+
+    function renderAgenda(now) {
+      const upcoming = [];
+      for (let offset = 0; offset < 2; offset += 1) {
+        const month = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+        upcoming.push(...eventsForMonth(month).filter(event => event.date >= now));
+      }
+
+      agendaList.replaceChildren(...upcoming.slice(0, 5).map(event => {
+        const item = element("li");
+        const row = element("ui-row", { gap: "sm", align: "center" });
+        const dateTile = element("ui-card", {
+          class: "agenda-date",
+          variant: "primary",
+          padding: "xs",
+          rounded: "md"
+        });
+        const dateLabel = element("time", {
+          datetime: dateKey(event.date),
+          "aria-label": dateFormat.format(event.date)
+        });
+        dateLabel.append(
+          element("small", {}, shortMonthFormat.format(event.date)),
+          document.createElement("br"),
+          element("strong", {}, event.date.getDate())
+        );
+        dateTile.append(dateLabel);
+
+        const details = element("ui-stack", { gap: "0", grow: "" });
+        details.append(
+          element("strong", {}, event.title),
+          element("small", {}, `${timeFormat.format(event.date)} · ${event.location}`)
+        );
+
+        row.append(dateTile, details);
+        item.append(row);
+        return item;
+      }));
+    }
+
+    const initialDate = new Date();
+    let visibleMonth = new Date(initialDate.getFullYear(), initialDate.getMonth(), 1);
+
+    function changeMonth(offset) {
+      visibleMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + offset, 1);
+      renderCalendar(visibleMonth, new Date());
+    }
+
+    document.querySelector("#previous-month").addEventListener("click", () => changeMonth(-1));
+    document.querySelector("#next-month").addEventListener("click", () => changeMonth(1));
+    document.querySelector("#today").addEventListener("click", () => {
+      const now = new Date();
+      visibleMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+      renderCalendar(visibleMonth, now);
+      renderAgenda(now);
+    });
+    document.querySelector("#close-event").addEventListener("click", () => dialog.close());
+
+    renderCalendar(visibleMonth, initialDate);
+    renderAgenda(initialDate);
+  </script>
+</body>
+</html>

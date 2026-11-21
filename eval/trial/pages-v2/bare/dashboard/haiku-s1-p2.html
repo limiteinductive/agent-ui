@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store Analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page layout="app">
+
+    <!-- Top bar -->
+    <header>
+      <ui-stack direction="horizontal" align="center" justify="space-between" gap="sm" wrap>
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="3" y="12" width="4" height="9"></rect>
+            <rect x="10" y="7" width="4" height="14"></rect>
+            <rect x="17" y="3" width="4" height="18"></rect>
+          </svg>
+          <h4>Northwind Goods</h4>
+        </ui-stack>
+
+        <input type="search" placeholder="Search orders, products, customers" aria-label="Search orders, products, customers">
+
+        <details>
+          <summary aria-label="User menu">
+            <img src="https://picsum.photos/seed/maria-chen/80/80" alt="Maria Chen" width="24" height="24">
+            <small>Maria Chen</small>
+          </summary>
+          <ul>
+            <li>Profile</li>
+            <li>Store settings</li>
+            <li>Billing</li>
+            <li>Sign out</li>
+          </ul>
+        </details>
+      </ui-stack>
+    </header>
+
+    <!-- Sidebar filters -->
+    <ui-row wrap>
+      <ui-stack gap="md" padding="md">
+        <h5>Filters</h5>
+
+        <label>
+          <span>Date range</span>
+          <select>
+            <option>Last 7 days</option>
+            <option selected>Last 30 days</option>
+            <option>Last 90 days</option>
+            <option>Year to date</option>
+            <option>Custom</option>
+          </select>
+        </label>
+
+        <fieldset>
+          <legend>Channel</legend>
+          <ui-stack gap="sm">
+            <label><input type="checkbox" checked> Online store</label>
+            <label><input type="checkbox" checked> Mobile app</label>
+            <label><input type="checkbox"> Marketplace</label>
+            <label><input type="checkbox"> Wholesale</label>
+          </ui-stack>
+        </fieldset>
+
+        <fieldset>
+          <legend>Order status</legend>
+          <ui-stack gap="sm">
+            <label><input type="checkbox" checked> Paid</label>
+            <label><input type="checkbox" checked> Shipped</label>
+            <label><input type="checkbox"> Pending</label>
+            <label><input type="checkbox"> Refunded</label>
+          </ui-stack>
+        </fieldset>
+
+        <label>
+          <span>Category</span>
+          <select>
+            <option selected>All categories</option>
+            <option>Apparel</option>
+            <option>Home</option>
+            <option>Outdoor</option>
+            <option>Electronics</option>
+          </select>
+        </label>
+
+        <fieldset>
+          <legend>Order total</legend>
+          <ui-stack direction="horizontal" gap="sm" align="center" wrap>
+            <label>Min <input type="number" placeholder="Min" min="0"></label>
+            <label>Max <input type="number" placeholder="Max" min="0"></label>
+          </ui-stack>
+        </fieldset>
+
+        <ui-stack direction="horizontal" gap="sm" wrap>
+          <ui-button variant="ghost">Reset</ui-button>
+          <ui-button variant="primary">Apply</ui-button>
+        </ui-stack>
+      </ui-stack>
+    </ui-row>
+
+    <!-- Main content -->
+    <ui-container>
+      <ui-stack gap="md" padding="md">
+
+        <ui-stack direction="horizontal" align="center" justify="space-between" wrap gap="sm">
+          <ui-stack gap="xs">
+            <h2>Overview</h2>
+            <p><small>Nov 1 – Nov 30, 2026 · All channels</small></p>
+          </ui-stack>
+          <ui-button variant="outline">Export CSV</ui-button>
+        </ui-stack>
+
+        <!-- Stat tiles -->
+        <ui-grid min-item-width="200px" gap="md">
+          <ui-card>
+            <ui-stack gap="sm">
+              <p><small>Revenue</small></p>
+              <h3>$128,430</h3>
+              <span>▲ 12.5% vs last month</span>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <p><small>Orders</small></p>
+              <h3>1,284</h3>
+              <span>▲ 8.1% vs last month</span>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <p><small>Conversion</small></p>
+              <h3>3.4%</h3>
+              <span>▼ 0.3 pts vs last month</span>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <p><small>Refunds</small></p>
+              <h3>$2,140</h3>
+              <span>▲ 2.2% vs last month</span>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+
+        <!-- Recent orders + top products -->
+        <ui-grid min-item-width="320px" gap="md">
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <ui-stack direction="horizontal" justify="space-between" align="center" wrap>
+                <h4>Recent orders</h4>
+                <ui-button variant="ghost">View all</ui-button>
+              </ui-stack>
+
+              <div style="overflow-x: auto">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Order</th>
+                      <th>Customer</th>
+                      <th hide-on="mobile">Date</th>
+                      <th>Status</th>
+                      <th align="right">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>#10482</td>
+                      <td>Liam Fischer</td>
+                      <td hide-on="mobile">Nov 21</td>
+                      <td><span>Paid</span></td>
+                      <td align="right">$184.00</td>
+                    </tr>
+                    <tr>
+                      <td>#10481</td>
+                      <td>Amara Okafor</td>
+                      <td hide-on="mobile">Nov 21</td>
+                      <td><span>Shipped</span></td>
+                      <td align="right">$92.50</td>
+                    </tr>
+                    <tr>
+                      <td>#10480</td>
+                      <td>Sofia Rossi</td>
+                      <td hide-on="mobile">Nov 20</td>
+                      <td><span>Pending</span></td>
+                      <td align="right">$312.75</td>
+                    </tr>
+                    <tr>
+                      <td>#10479</td>
+                      <td>Jonas Berg</td>
+                      <td hide-on="mobile">Nov 20</td>
+                      <td><span>Paid</span></td>
+                      <td align="right">$48.00</td>
+                    </tr>
+                    <tr>
+                      <td>#10478</td>
+                      <td>Priya Nair</td>
+                      <td hide-on="mobile">Nov 19</td>
+                      <td><span>Refunded</span></td>
+                      <td align="right">$129.00</td>
+                    </tr>
+                    <tr>
+                      <td>#10477</td>
+                      <td>Ethan Walsh</td>
+                      <td hide-on="mobile">Nov 19</td>
+                      <td><span>Paid</span></td>
+                      <td align="right">$265.20</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="sm">
+              <h4>Top products</h4>
+              <ul>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="sm" wrap>
+                    <img src="https://picsum.photos/seed/rainjacket/96/96" alt="Rain jacket" width="48" height="48">
+                    <ui-stack gap="0" grow>
+                      <span>Trailhead Rain Jacket</span>
+                      <small>Outdoor · 214 sold</small>
+                    </ui-stack>
+                    <span>$18.4k</span>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="sm" wrap>
+                    <img src="https://picsum.photos/seed/ceramic/96/96" alt="Ceramic mug" width="48" height="48">
+                    <ui-stack gap="0" grow>
+                      <span>Stoneware Pour-Over Set</span>
+                      <small>Home · 188 sold</small>
+                    </ui-stack>
+                    <span>$11.2k</span>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="sm" wrap>
+                    <img src="https://picsum.photos/seed/linenshirt/96/96" alt="Linen shirt" width="48" height="48">
+                    <ui-stack gap="0" grow>
+                      <span>Relaxed Linen Shirt</span>
+                      <small>Apparel · 162 sold</small>
+                    </ui-stack>
+                    <span>$9.7k</span>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="sm" wrap>
+                    <img src="https://picsum.photos/seed/headphones/96/96" alt="Wireless headphones" width="48" height="48">
+                    <ui-stack gap="0" grow>
+                      <span>Studio Wireless Headphones</span>
+                      <small>Electronics · 97 sold</small>
+                    </ui-stack>
+                    <span>$8.6k</span>
+                  </ui-stack>
+                </li>
+                <li>
+                  <ui-stack direction="horizontal" align="center" gap="sm" wrap>
+                    <img src="https://picsum.photos/seed/candle/96/96" alt="Cedar candle" width="48" height="48">
+                    <ui-stack gap="0" grow>
+                      <span>Cedar &amp; Smoke Candle</span>
+                      <small>Home · 141 sold</small>
+                    </ui-stack>
+                    <span>$3.9k</span>
+                  </ui-stack>
+                </li>
+              </ul>
+            </ui-stack>
+          </ui-card>
+
+        </ui-grid>
+      </ui-stack>
+    </ui-container>
+
+  </ui-page>
+</body>
+</html>

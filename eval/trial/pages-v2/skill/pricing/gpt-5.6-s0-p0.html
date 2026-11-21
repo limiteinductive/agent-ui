@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flowbase Pricing</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="xl">
+        <ui-row justify="space-between" wrap gap="md" padding="md">
+          <a href="#" aria-label="Flowbase home"><strong>◆ Flowbase</strong></a>
+          <nav aria-label="Main navigation">
+            <ui-row gap="md" wrap>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#faq">FAQ</a>
+              <a href="#login">Log in</a>
+              <ui-button variant="primary" size="sm">Start free</ui-button>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="2xl" padding="xl">
+          <section aria-labelledby="hero-title">
+            <ui-stack gap="md" align="center">
+              <small>Simple planning for ambitious teams</small>
+              <h1 id="hero-title">Make work flow.</h1>
+              <p>Flowbase brings projects, conversations, and deadlines into one calm workspace.</p>
+              <ui-row gap="sm" wrap justify="center">
+                <ui-button variant="primary" size="lg">Start your free trial</ui-button>
+                <ui-button variant="outline" size="lg">Book a demo</ui-button>
+              </ui-row>
+              <small>No credit card required · Free for 14 days</small>
+            </ui-stack>
+          </section>
+
+          <section id="pricing" aria-labelledby="pricing-title">
+            <ui-stack gap="lg">
+              <ui-stack gap="xs" align="center">
+                <h2 id="pricing-title">Plans that grow with you</h2>
+                <p>Choose the workspace that fits your team today.</p>
+              </ui-stack>
+
+              <ui-grid max-columns="3" min-item-width="sm" gap="lg">
+                <ui-card rounded="lg">
+                  <ui-stack gap="md">
+                    <small>For individuals</small>
+                    <h3>Starter</h3>
+                    <p>Everything you need to organize personal work.</p>
+                    <p><strong>$0</strong> / forever</p>
+                    <ui-button variant="outline">Get started</ui-button>
+                    <hr>
+                    <ul>
+                      <li>1 workspace</li>
+                      <li>Up to 3 projects</li>
+                      <li>Unlimited tasks</li>
+                      <li>Basic templates</li>
+                    </ul>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card variant="primary" elevated rounded="lg">
+                  <ui-stack gap="md">
+                    <small>Most popular</small>
+                    <h3>Team</h3>
+                    <p>Powerful collaboration for growing teams.</p>
+                    <p><strong>$12</strong> / user / month</p>
+                    <ui-button variant="secondary">Start free trial</ui-button>
+                    <hr>
+                    <ul>
+                      <li>Unlimited projects</li>
+                      <li>Timeline and calendar views</li>
+                      <li>Guest collaborators</li>
+                      <li>Automation rules</li>
+                    </ul>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card rounded="lg">
+                  <ui-stack gap="md">
+                    <small>For organizations</small>
+                    <h3>Business</h3>
+                    <p>Advanced control, support, and security.</p>
+                    <p><strong>$24</strong> / user / month</p>
+                    <ui-button variant="outline">Contact sales</ui-button>
+                    <hr>
+                    <ul>
+                      <li>Everything in Team</li>
+                      <li>Portfolios and reporting</li>
+                      <li>Custom permissions</li>
+                      <li>Priority support</li>
+                    </ul>
+                  </ui-stack>
+                </ui-card>
+              </ui-grid>
+            </ui-stack>
+          </section>
+
+          <section id="features" aria-labelledby="features-title">
+            <ui-stack gap="lg">
+              <h2 id="features-title">Compare features</h2>
+              <table>
+                <caption>Feature availability by plan</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Starter</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Business</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Projects</th>
+                    <td>3</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Task views</th>
+                    <td>List</td>
+                    <td>List, board, timeline</td>
+                    <td>All views</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Automations</th>
+                    <td>—</td>
+                    <td>25 rules</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Reporting</th>
+                    <td>—</td>
+                    <td>Basic</td>
+                    <td>Advanced</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Support</th>
+                    <td>Community</td>
+                    <td>Email</td>
+                    <td>Priority</td>
+                  </tr>
+                </tbody>
+              </table>
+            </ui-stack>
+          </section>
+
+          <section aria-labelledby="testimonial-title">
+            <ui-card variant="info" rounded="lg">
+              <ui-row stack-below="md" gap="lg" align="center">
+                <img src="https://picsum.photos/seed/teamwork/240/180" alt="Team collaborating around a table" width="240" height="180">
+                <ui-stack gap="sm" grow>
+                  <h2 id="testimonial-title">“Our weekly planning takes half the time.”</h2>
+                  <p>Flowbase gives every team member a clear view of priorities without adding another layer of process.</p>
+                  <small>— Jordan Lee, Operations Lead at Northstar Studio</small>
+                </ui-stack>
+              </ui-row>
+            </ui-card>
+          </section>
+
+          <section id="faq" aria-labelledby="faq-title">
+            <ui-stack gap="lg">
+              <h2 id="faq-title">Frequently asked questions</h2>
+              <details>
+                <summary>Can I try Flowbase before paying?</summary>
+                <p>Yes. Every paid plan includes a 14-day free trial with no credit card required.</p>
+              </details>
+              <details>
+                <summary>Can I change plans later?</summary>
+                <p>Absolutely. Upgrade, downgrade, or cancel from your workspace settings whenever you need.</p>
+              </details>
+              <details>
+                <summary>Do you offer discounts for nonprofits?</summary>
+                <p>Yes. Eligible nonprofits and education teams can receive a discounted Business plan.</p>
+              </details>
+              <details>
+                <summary>Is my team’s data secure?</summary>
+                <p>Flowbase uses encryption in transit and at rest, regular backups, and role-based access controls.</p>
+              </details>
+            </ui-stack>
+          </section>
+
+          <section aria-labelledby="cta-title">
+            <ui-card inverse rounded="lg">
+              <ui-stack gap="md" align="center">
+                <h2 id="cta-title">Ready to get organized?</h2>
+                <p>Bring your projects into focus with Flowbase.</p>
+                <ui-button variant="primary" size="lg">Start your free trial</ui-button>
+              </ui-stack>
+            </ui-card>
+          </section>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="xl">
+        <ui-row justify="space-between" wrap gap="md" padding="lg">
+          <ui-stack gap="xs">
+            <strong>◆ Flowbase</strong>
+            <small>Work clearly. Move together.</small>
+          </ui-stack>
+          <nav aria-label="Footer navigation">
+            <ui-row gap="md" wrap>
+              <a href="#">Product</a>
+              <a href="#">Resources</a>
+              <a href="#">Security</a>
+              <a href="#">Terms</a>
+              <a href="#">Privacy</a>
+            </ui-row>
+          </nav>
+          <small>© 2026 Flowbase, Inc.</small>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

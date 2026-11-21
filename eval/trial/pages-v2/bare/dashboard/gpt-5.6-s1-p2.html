@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <ui-stack direction="vertical" gap="0">
+
+      <ui-container>
+        <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" wrap>
+          <ui-stack direction="horizontal" align="center" gap="sm">
+            <ui-button variant="ghost" aria-label="Open navigation">☰</ui-button>
+            <ui-stack direction="vertical" gap="0">
+              <h1>Store Analytics</h1>
+              <small>Tuesday, November 21, 2026</small>
+            </ui-stack>
+          </ui-stack>
+
+          <ui-stack direction="horizontal" align="center" gap="sm" wrap>
+            <label>
+              Search
+              <input type="search" placeholder="Search orders, products..." aria-label="Search">
+            </label>
+            <ui-button variant="ghost" aria-label="Notifications">🔔</ui-button>
+            <ui-stack direction="vertical" gap="0">
+              <ui-button variant="secondary">Alex Morgan ▾</ui-button>
+              <ui-button variant="ghost">Account settings</ui-button>
+              <ui-button variant="ghost">Sign out</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-stack>
+      </ui-container>
+
+      <ui-row wrap gap="lg">
+
+        <aside>
+          <ui-stack direction="vertical" gap="md">
+            <ui-stack direction="horizontal" align="center" justify="space-between" wrap>
+              <h3>Filters</h3>
+              <ui-button variant="ghost" size="sm">Reset</ui-button>
+            </ui-stack>
+
+            <label>
+              Date range
+              <select>
+                <option>Last 30 days</option>
+                <option>Last 7 days</option>
+                <option>Last 90 days</option>
+                <option>This year</option>
+              </select>
+            </label>
+
+            <fieldset>
+              <legend>Sales channel</legend>
+              <label><input type="checkbox" checked> Online store</label>
+              <label><input type="checkbox" checked> Mobile app</label>
+              <label><input type="checkbox"> Marketplace</label>
+            </fieldset>
+
+            <fieldset>
+              <legend>Order status</legend>
+              <label><input type="checkbox" checked> Paid</label>
+              <label><input type="checkbox" checked> Processing</label>
+              <label><input type="checkbox"> Refunded</label>
+            </fieldset>
+
+            <label>
+              Region
+              <select>
+                <option>All regions</option>
+                <option>North America</option>
+                <option>Europe</option>
+                <option>Asia Pacific</option>
+              </select>
+            </label>
+
+            <hr>
+
+            <ui-stack direction="vertical" gap="sm">
+              <small>Quick reports</small>
+              <ui-button variant="ghost">Sales overview</ui-button>
+              <ui-button variant="ghost">Customer retention</ui-button>
+              <ui-button variant="ghost">Inventory health</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </aside>
+
+        <main grow>
+          <ui-stack direction="vertical" gap="lg">
+
+            <ui-stack direction="horizontal" align="center" justify="space-between" wrap>
+              <ui-stack direction="vertical" gap="0">
+                <h2>Overview</h2>
+                <p>Track how your store is performing.</p>
+              </ui-stack>
+              <ui-button variant="primary">Download report</ui-button>
+            </ui-stack>
+
+            <ui-grid columns="4" gap="md">
+              <ui-card>
+                <ui-stack direction="vertical" gap="sm">
+                  <ui-stack direction="horizontal" justify="space-between" wrap>
+                    <small>Revenue</small>
+                    <mark>+12.8%</mark>
+                  </ui-stack>
+                  <h2>$48,294.60</h2>
+                  <small>vs. $42,826.10 last month</small>
+                  <progress value="78" max="100"></progress>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack direction="vertical" gap="sm">
+                  <ui-stack direction="horizontal" justify="space-between" wrap>
+                    <small>Orders</small>
+                    <mark>+8.4%</mark>
+                  </ui-stack>
+                  <h2>1,284</h2>
+                  <small>vs. 1,184 last month</small>
+                  <progress value="64" max="100"></progress>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack direction="vertical" gap="sm">
+                  <ui-stack direction="horizontal" justify="space-between" wrap>
+                    <small>Conversion rate</small>
+                    <mark>+0.6%</mark>
+                  </ui-stack>
+                  <h2>3.42%</h2>
+                  <small>vs. 2.82% last month</small>
+                  <progress value="52" max="100"></progress>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack direction="vertical" gap="sm">
+                  <ui-stack direction="horizontal" justify="space-between" wrap>
+                    <small>Refunds</small>
+                    <mark>-2.1%</mark>
+                  </ui-stack>
+                  <h2>$1,248.20</h2>
+                  <small>vs. $1,275.00 last month</small>
+                  <progress value="24" max="100"></progress>
+                </ui-stack>
+              </ui-card>
+            </ui-grid>
+
+            <ui-row wrap gap="lg">
+              <ui-card grow>
+                <ui-stack direction="vertical" gap="md">
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap>
+                    <ui-stack direction="vertical" gap="0">
+                      <h3>Recent orders</h3>
+                      <small>Latest activity from your store</small>
+                    </ui-stack>
+                    <ui-button variant="ghost">View all</ui-button>
+                  </ui-stack>
+
+                  <div style="overflow-x:auto">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Order</th>
+                          <th>Customer</th>
+                          <th>Status</th>
+                          <th>Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><strong>#10482</strong><br><small>2 min ago</small></td>
+                          <td>Olivia Chen</td>
+                          <td><mark>Paid</mark></td>
+                          <td>$184.00</td>
+                        </tr>
+                        <tr>
+                          <td><strong>#10481</strong><br><small>18 min ago</small></td>
+                          <td>Marcus Williams</td>
+                          <td><mark>Processing</mark></td>
+                          <td>$72.50</td>
+                        </tr>
+                        <tr>
+                          <td><strong>#10480</strong><br><small>42 min ago</small></td>
+                          <td>Sofia Martinez</td>
+                          <td><mark>Paid</mark></td>
+                          <td>$329.99</td>
+                        </tr>
+                        <tr>
+                          <td><strong>#10479</strong><br><small>1 hr ago</small></td>
+                          <td>James Wilson</td>
+                          <td><mark>Pending</mark></td>
+                          <td>$58.00</td>
+                        </tr>
+                        <tr>
+                          <td><strong>#10478</strong><br><small>2 hrs ago</small></td>
+                          <td>Emma Thompson</td>
+                          <td><mark>Paid</mark></td>
+                          <td>$146.75</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card grow>
+                <ui-stack direction="vertical" gap="md">
+                  <ui-stack direction="horizontal" justify="space-between" align="center" wrap>
+                    <ui-stack direction="vertical" gap="0">
+                      <h3>Top products</h3>
+                      <small>By revenue this month</small>
+                    </ui-stack>
+                    <ui-button variant="ghost">View all</ui-button>
+                  </ui-stack>
+
+                  <ui-stack direction="vertical" gap="md">
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/linen-shirt/80/80" alt="Classic linen shirt">
+                      <ui-stack direction="vertical" gap="0" grow>
+                        <strong>Classic Linen Shirt</strong>
+                        <small>248 units sold</small>
+                      </ui-stack>
+                      <strong>$8,920</strong>
+                    </ui-stack>
+
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/leather-bag/80/80" alt="Everyday leather tote">
+                      <ui-stack direction="vertical" gap="0" grow>
+                        <strong>Everyday Leather Tote</strong>
+                        <small>176 units sold</small>
+                      </ui-stack>
+                      <strong>$7,480</strong>
+                    </ui-stack>
+
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/ceramic-mug/80/80" alt="Stoneware mug set">
+                      <ui-stack direction="vertical" gap="0" grow>
+                        <strong>Stoneware Mug Set</strong>
+                        <small>312 units sold</small>
+                      </ui-stack>
+                      <strong>$5,616</strong>
+                    </ui-stack>
+
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/cotton-throw/80/80" alt="Organic cotton throw">
+                      <ui-stack direction="vertical" gap="0" grow>
+                        <strong>Organic Cotton Throw</strong>
+                        <small>94 units sold</small>
+                      </ui-stack>
+                      <strong>$4,230</strong>
+                    </ui-stack>
+
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/soy-candle/80/80" alt="Amber soy candle">
+                      <ui-stack direction="vertical" gap="0" grow>
+                        <strong>Amber Soy Candle</strong>
+                        <small>221 units sold</small>
+                      </ui-stack>
+                      <strong>$3,536</strong>
+                    </ui-stack>
+                  </ui-stack>
+                </ui-stack>
+              </ui-card>
+            </ui-row>
+
+            <ui-card>
+              <ui-stack direction="vertical" gap="md">
+                <ui-stack direction="horizontal" justify="space-between" align="center" wrap>
+                  <ui-stack direction="vertical" gap="0">
+                    <h3>Revenue performance</h3>
+                    <small>Daily revenue across all sales channels</small>
+                  </ui-stack>
+                  <select>
+                    <option>Last 30 days</option>
+                    <option>Last 7 days</option>
+                    <option>This year</option>
+                  </select>
+                </ui-stack>
+
+                <svg viewBox="0 0 700 180" width="100%" height="180" role="img" aria-label="Area chart showing daily revenue increasing from October 23 through November 21">
+                  <polyline fill="none" stroke="currentColor" stroke-width="3" points="0,125 116,90 233,110 350,65 466,88 583,35 700,20"></polyline>
+                  <polygon fill="currentColor" opacity="0.15" points="0,125 116,90 233,110 350,65 466,88 583,35 700,20 700,180 0,180"></polygon>
+                </svg>
+              </ui-stack>
+            </ui-card>
+
+          </ui-stack>
+        </main>
+      </ui-row>
+    </ui-stack>
+  </ui-page>
+</body>
+</html>

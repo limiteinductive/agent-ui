@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride & Co. — Men's & Women's Running Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="0">
+
+    <!-- Header -->
+    <header>
+      <ui-container size="lg">
+        <ui-stack padding="md">
+          <ui-row justify="space-between" align="center" gap="sm" wrap>
+            <ui-row align="center" gap="sm">
+              <strong>👟 Stride &amp; Co.</strong>
+            </ui-row>
+            <nav aria-label="Main">
+              <ui-row gap="sm" wrap>
+                <a href="#">Running</a>
+                <a href="#">Lifestyle</a>
+                <a href="#">Trail</a>
+                <a href="#">Sale</a>
+              </ui-row>
+            </nav>
+            <ui-button id="cartButton" variant="primary" aria-label="Open cart">
+              🛒 Cart (<span id="cartCount">0</span>)
+            </ui-button>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+      <hr>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="md" padding="md">
+
+          <!-- Title -->
+          <ui-stack gap="xs">
+            <h1>Running Shoes</h1>
+            <p id="resultCount">Showing 12 of 36 products</p>
+          </ui-stack>
+
+          <!-- Filter bar -->
+          <ui-card padding="md">
+            <ui-stack gap="md">
+              <ui-stack gap="sm">
+                <strong>Size (US)</strong>
+                <ui-row gap="sm" wrap id="sizeChips" role="group" aria-label="Filter by size">
+                  <ui-button data-size="7" variant="ghost" aria-pressed="false">7</ui-button>
+                  <ui-button data-size="8" variant="ghost" aria-pressed="false">8</ui-button>
+                  <ui-button data-size="9" variant="ghost" aria-pressed="false">9</ui-button>
+                  <ui-button data-size="10" variant="ghost" aria-pressed="false">10</ui-button>
+                  <ui-button data-size="11" variant="ghost" aria-pressed="false">11</ui-button>
+                  <ui-button data-size="12" variant="ghost" aria-pressed="false">12</ui-button>
+                  <ui-button data-size="13" variant="ghost" aria-pressed="false">13</ui-button>
+                </ui-row>
+              </ui-stack>
+
+              <ui-grid min-item-width="240px" gap="md">
+                <ui-stack gap="sm">
+                  <label for="priceRange"><strong>Max price: <span id="priceLabel">$200</span></strong></label>
+                  <input type="range" id="priceRange" min="40" max="200" step="10" value="200">
+                </ui-stack>
+                <ui-stack gap="sm">
+                  <label for="sortSelect"><strong>Sort by</strong></label>
+                  <select id="sortSelect">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name">Name: A–Z</option>
+                  </select>
+                </ui-stack>
+                <ui-stack gap="sm" justify="end">
+                  <ui-button id="clearFilters" variant="ghost">Clear filters</ui-button>
+                </ui-stack>
+              </ui-grid>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Product grid -->
+          <ui-grid id="productGrid" min-item-width="220px" gap="md"></ui-grid>
+
+          <ui-card id="emptyState" variant="info" role="status" hidden>No shoes match your filters. Try a different size or a higher price.</ui-card>
+
+          <!-- Pagination -->
+          <nav aria-label="Pagination">
+            <ui-row justify="center" gap="sm" wrap id="pagination">
+              <ui-button data-page="prev" variant="ghost">‹ Prev</ui-button>
+              <ui-button data-page="1" variant="primary" aria-current="page">1</ui-button>
+              <ui-button data-page="2" variant="ghost">2</ui-button>
+              <ui-button data-page="3" variant="ghost">3</ui-button>
+              <ui-button data-page="next" variant="ghost">Next ›</ui-button>
+            </ui-row>
+          </nav>
+
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <hr>
+      <ui-container size="lg">
+        <ui-stack padding="md">
+          <ui-row justify="space-between" gap="sm" wrap>
+            <small>© 2026 Stride &amp; Co. Free shipping on orders over $75.</small>
+            <ui-row gap="sm" wrap>
+              <a href="#">Returns</a>
+              <a href="#">Size guide</a>
+              <a href="#">Contact</a>
+            </ui-row>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </footer>
+
+  </ui-stack>
+
+  <!-- Fixed positioning for the toast cannot be expressed with agent-ui attributes -->
+  <ui-card id="toast" variant="info" role="status" aria-live="polite" hidden style="position: fixed; bottom: 1rem; left: 1rem; right: 1rem; max-width: 24rem; margin-inline: auto; z-index: 10;"></ui-card>
+
+  <script>
+    const pages = [
+      [
+        { name: "AeroGlide 5 Runner", brand: "Stride", price: 129, sizes: [7,8,9,10,11,12], seed: "shoe1", tag: "New" },
+        { name: "Cloudpath Trail GTX", brand: "Summit", price: 165, sizes: [8,9,10,11,12,13], seed: "shoe2" },
+        { name: "Metro Classic Sneaker", brand: "Urbane", price: 79, sizes: [7,8,9,10,11], seed: "shoe3", tag: "Sale" },
+        { name: "Velocity Pro Carbon", brand: "Stride", price: 199, sizes: [8,9,10,11], seed: "shoe4", tag: "Bestseller" },
+        { name: "Daybreak Knit Slip-On", brand: "Lumen", price: 64, sizes: [7,8,9,10], seed: "shoe5" },
+        { name: "Ridgeback Hiker Mid", brand: "Summit", price: 149, sizes: [9,10,11,12,13], seed: "shoe6" },
+        { name: "Tempo Lite Trainer", brand: "Pace", price: 95, sizes: [7,8,9,10,11,12,13], seed: "shoe7" },
+        { name: "Harbor Canvas Low", brand: "Urbane", price: 55, sizes: [7,8,9,10,11,12], seed: "shoe8", tag: "Sale" },
+        { name: "Pulse Max Cushion", brand: "Pace", price: 139, sizes: [8,9,10,11,12], seed: "shoe9" },
+        { name: "Nomad Leather Court", brand: "Lumen", price: 110, sizes: [7,8,9,10,11], seed: "shoe10" },
+        { name: "Sprint Spike XC", brand: "Stride", price: 89, sizes: [8,9,10,11,12,13], seed: "shoe11" },
+        { name: "Horizon Recovery Slide", brand: "Pace", price: 45, sizes: [7,8,9,10,11,12,13], seed: "shoe12" }
+      ]
+    ];
+    const altNames = ["Apex", "Drift", "Summit", "Echo", "Nova", "Flux", "Orbit", "Breeze", "Atlas", "Crest", "Glide", "Zenith"];
+    for (let p = 1; p < 3; p++) {
+      pages.push(pages[0].map((item, i) => ({
+        ...item,
+        name: `${altNames[(i + p * 3) % 12]} ${item.name.split(" ").slice(1).join(" ")}`,
+        price: Math.max(40, Math.min(200, item.price + (p === 1 ? 10 : -15))),
+        seed: `shoe${p}-${i}`,
+        tag: i % 5 === p ? "New" : undefined
+      })));
+    }
+
+    let currentPage = 1;
+    let selectedSizes = new Set();
+    let maxPrice = 200;
+    let sortBy = "featured";
+    let cartCount = 0;
+
+    const grid = document.getElementById("productGrid");
+    const empty = document.getElementById("emptyState");
+    const resultCount = document.getElementById("resultCount");
+
+    function render() {
+      let items = pages[currentPage - 1].filter(p =>
+        p.price <= maxPrice &&
+        (selectedSizes.size === 0 || p.sizes.some(s => selectedSizes.has(s)))
+      );
+      if (sortBy === "price-asc") items = [...items].sort((a, b) => a.price - b.price);
+      if (sortBy === "price-desc") items = [...items].sort((a, b) => b.price - a.price);
+      if (sortBy === "name") items = [...items].sort((a, b) => a.name.localeCompare(b.name));
+
+      grid.innerHTML = items.map(p => `
+        <ui-card padding="0">
+          <ui-stack gap="0">
+            <img src="https://picsum.photos/seed/${p.seed}/480/480" alt="${p.name} by ${p.brand}" width="480" height="480" loading="lazy">
+            <ui-stack gap="sm" padding="sm">
+              <ui-row justify="space-between" align="center" gap="sm">
+                <small>${p.brand}</small>
+                ${p.tag ? `<mark>${p.tag}</mark>` : ""}
+              </ui-row>
+              <h3>${p.name}</h3>
+              <small>Sizes ${p.sizes[0]}–${p.sizes[p.sizes.length - 1]}</small>
+              <ui-row justify="space-between" align="center" gap="sm" wrap>
+                <strong>$${p.price.toFixed(2)}</strong>
+                <ui-button variant="primary" data-add="${p.name}">Add to cart</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>`).join("");
+
+      empty.hidden = items.length > 0;
+      const start = (currentPage - 1) * 12;
+      resultCount.textContent = `Showing ${items.length ? start + 1 : 0}–${start + items.length} of 36 products`;
+
+      document.querySelectorAll("#pagination [data-page]").forEach(btn => {
+        const pg = btn.dataset.page;
+        if (pg === "prev") btn.toggleAttribute("disabled", currentPage === 1);
+        else if (pg === "next") btn.toggleAttribute("disabled", currentPage === 3);
+        else {
+          const active = Number(pg) === currentPage;
+          btn.setAttribute("variant", active ? "primary" : "ghost");
+          if (active) btn.setAttribute("aria-current", "page"); else btn.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    function setChip(chip, on) {
+      chip.setAttribute("variant", on ? "primary" : "ghost");
+      chip.setAttribute("aria-pressed", on ? "true" : "false");
+    }
+
+    function toggleChip(chip) {
+      const size = Number(chip.dataset.size);
+      if (selectedSizes.has(size)) {
+        selectedSizes.delete(size);
+        setChip(chip, false);
+      } else {
+        selectedSizes.add(size);
+        setChip(chip, true);
+      }
+      render();
+    }
+
+    document.querySelectorAll("#sizeChips [data-size]").forEach(chip => {
+      chip.addEventListener("click", () => toggleChip(chip));
+    });
+
+    document.getElementById("priceRange").addEventListener("input", e => {
+      maxPrice = Number(e.target.value);
+      document.getElementById("priceLabel").textContent = `$${maxPrice}`;
+      render();
+    });
+
+    document.getElementById("sortSelect").addEventListener("change", e => {
+      sortBy = e.target.value;
+      render();
+    });
+
+    document.getElementById("clearFilters").addEventListener("click", () => {
+      selectedSizes.clear();
+      document.querySelectorAll("#sizeChips [data-size]").forEach(c => setChip(c, false));
+      maxPrice = 200;
+      document.getElementById("priceRange").value = 200;
+      document.getElementById("priceLabel").textContent = "$200";
+      sortBy = "featured";
+      document.getElementById("sortSelect").value = "featured";
+      render();
+    });
+
+    document.getElementById("pagination").addEventListener("click", e => {
+      const btn = e.target.closest("[data-page]");
+      if (!btn || btn.hasAttribute("disabled")) return;
+      const pg = btn.dataset.page;
+      if (pg === "prev") currentPage = Math.max(1, currentPage - 1);
+      else if (pg === "next") currentPage = Math.min(3, currentPage + 1);
+      else currentPage = Number(pg);
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    const toast = document.getElementById("toast");
+    let toastTimer;
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.hidden = false;
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { toast.hidden = true; }, 2200);
+    }
+
+    grid.addEventListener("click", e => {
+      const btn = e.target.closest("[data-add]");
+      if (!btn) return;
+      cartCount++;
+      document.getElementById("cartCount").textContent = cartCount;
+      showToast(`Added “${btn.dataset.add}” to your cart`);
+    });
+
+    document.getElementById("cartButton").addEventListener("click", () => {
+      showToast(cartCount ? `You have ${cartCount} item${cartCount > 1 ? "s" : ""} in your cart` : "Your cart is empty");
+    });
+
+    render();
+  </script>
+</body>
+</html>

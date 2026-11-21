@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Designing Calm Interfaces: Notes on Restraint in Modern Web Apps</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="lg">
+    <main>
+      <ui-stack gap="lg" padding="md">
+
+        <!-- Breadcrumb / section label -->
+        <ui-stack direction="horizontal" gap="sm" align="center">
+          <span>Engineering</span>
+          <small>8 min read</small>
+        </ui-stack>
+
+        <article>
+          <ui-stack gap="lg">
+
+            <!-- Header -->
+            <header>
+              <ui-stack gap="md">
+                <h1>Designing Calm Interfaces: Notes on Restraint in Modern Web Apps</h1>
+                <p>
+                  Most interfaces ask for attention they never earn. Here is how we rebuilt our dashboard around fewer colors, fewer animations, and a clearer hierarchy.
+                </p>
+
+                <!-- Byline -->
+                <ui-stack direction="horizontal" gap="md" align="center">
+                  <img src="https://picsum.photos/seed/author-mara/96/96" alt="Mara Okafor" width="48" height="48" />
+                  <ui-stack gap="xs">
+                    <strong>Mara Okafor</strong>
+                    <small>
+                      <time datetime="2026-11-12">November 12, 2026</time>
+                    </small>
+                  </ui-stack>
+                </ui-stack>
+              </ui-stack>
+            </header>
+
+            <!-- Cover image -->
+            <figure>
+              <img src="https://picsum.photos/seed/calm-cover/1200/630" alt="Abstract soft gradient landscape" width="1200" height="630" />
+              <figcaption>
+                <small>A quiet workspace: one accent color, generous whitespace.</small>
+              </figcaption>
+            </figure>
+
+            <!-- Body -->
+            <ui-stack gap="md">
+              <p>
+                When we started redesigning our analytics dashboard, the first thing we measured was not performance or load time. It was how many distinct things the screen was asking the user to notice at once. The answer, after a quick audit, was embarrassing: thirty-one. Badges, pulsing dots, toast notifications, trend arrows, sparklines, and a rotating banner all competed for the same narrow band of attention.
+              </p>
+              <p>
+                Calm design is not the absence of design. It is the deliberate ordering of what matters. A calm interface still has density, still shows dozens of numbers, still supports power users who want everything at once. What it does differently is decide, on every screen, what the eye should land on first and what can wait.
+              </p>
+
+              <h2>Start by removing signals, not adding them</h2>
+              <p>
+                The natural instinct when a screen feels confusing is to add structure: a header, a divider, a card border, a color to mark the important part. Each addition is reasonable on its own. Together they produce noise. Our first pass was subtractive. We removed every colored indicator that did not map to a decision the user could make, and we replaced most of them with plain typography.
+              </p>
+              <p>
+                The result felt almost empty at first. Stakeholders asked where the status colors went. But within a week, support tickets asking "is this bad?" dropped noticeably, because the few remaining color signals meant something again. Scarcity made them legible.
+              </p>
+
+              <ui-card>
+                <blockquote>
+                  <p>
+                    "If everything is highlighted, nothing is. The accent color should be rare enough that seeing it tells you something."
+                  </p>
+                </blockquote>
+              </ui-card>
+
+              <h2>Hierarchy through spacing and rhythm</h2>
+              <p>
+                Once the color budget was spent, we leaned on spacing. We defined a strict vertical rhythm with only four gap values and forbade ad hoc margins. Related items sit close together; unrelated groups are separated by a full step. This single rule did more for scannability than any font change we tried.
+              </p>
+              <p>
+                Type scale matters too, but mostly as a contrast tool. We use two weights and three sizes on any given view. When a number needs attention, it gets the largest size on the screen, not a new color and not a glow. Readers learn quickly that size means importance.
+              </p>
+
+              <h2>Motion should explain, not decorate</h2>
+              <p>
+                Animation was the other big casualty. Our old dashboard animated on every data refresh: numbers counted up, bars grew, cards shuffled. Users told us they found it distracting, and our own engineers admitted they had started ignoring it. We now animate only in response to direct user action, such as expanding a row or opening a filter, and we keep durations under 150 milliseconds.
+              </p>
+              <p>
+                When data updates in the background, nothing moves. If a value changed, a small timestamp in the corner says so. That is enough.
+              </p>
+
+              <h2>Implementing it in code</h2>
+              <p>
+                On the engineering side, the biggest win was making the calm defaults the easy path. Components ship with the restrained variant, and the loud variants require an explicit prop. Here is a simplified version of the status component we now use across the product:
+              </p>
+
+              <pre><code>// StatusLabel.js
+export function StatusLabel({ value, threshold, emphasis = false }) {
+  const breached = value &gt; threshold;
+
+  // Quiet by default. Only breaches earn the accent treatment,
+  // and only when the caller asks for emphasis.
+  const tone = breached &amp;&amp; emphasis ? 'accent' : 'neutral';
+
+  return (
+    &lt;span data-tone={tone} aria-label={breached ? 'Above threshold' : 'Within range'}&gt;
+      {value.toLocaleString()}
+    &lt;/span&gt;
+  );
+}</code></pre>
+
+              <p>
+                The important design decision is that the component does not invent urgency. It reports a value and a comparison, and the parent decides whether that comparison deserves emphasis. Most of the time, the answer is no.
+              </p>
+
+              <h2>What we would do differently</h2>
+              <p>
+                We moved too fast on removing the alert system. For about two weeks, critical incidents were visible only in a secondary panel, and one was missed for nearly an hour. We restored a single, persistent alert surface and made it the only place in the app allowed to use the strongest accent. Restraint works best when the exceptions are clearly defined.
+              </p>
+              <p>
+                We also underestimated how much people rely on color for grouping. Some of our first mockups removed category colors entirely, which made charts unreadable. We reintroduced a small, fixed palette for categories and kept it out of status semantics. The lesson is that calm does not mean monochrome. It means every color has one job.
+              </p>
+              <p>
+                If you are considering a similar pass on your own product, start with a count. Count the distinct things that compete for attention on your busiest screen. Then cut until the number feels uncomfortably low, and add back only what users prove they cannot live without.
+              </p>
+            </ui-stack>
+
+            <!-- Tags -->
+            <ui-stack direction="horizontal" gap="sm" wrap="true">
+              <span>Design systems</span>
+              <span>Accessibility</span>
+              <span>Dashboards</span>
+              <span>Frontend</span>
+            </ui-stack>
+
+          </ui-stack>
+        </article>
+
+        <!-- Related posts rail -->
+        <section aria-labelledby="related-heading">
+          <ui-stack gap="md">
+            <h2 id="related-heading">Related posts</h2>
+            <ui-stack direction="horizontal" gap="md" scroll>
+
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/related-1/640/360" alt="Stacked paper cards on a desk" width="640" height="360" />
+                  <h3>Typography budgets for data-heavy UIs</h3>
+                  <small>Why two weights and three sizes beat a full type scale.</small>
+                  <a href="#">Read article</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/related-2/640/360" alt="Smooth waves of light" width="640" height="360" />
+                  <h3>Motion that respects attention</h3>
+                  <small>A short guide to when animation helps and when it hurts.</small>
+                  <a href="#">Read article</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/related-3/640/360" alt="Grid of colored tiles" width="640" height="360" />
+                  <h3>A color system with one job per hue</h3>
+                  <small>Separating categorical color from status color in charts.</small>
+                  <a href="#">Read article</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/related-4/640/360" alt="Minimal desk with a laptop" width="640" height="360" />
+                  <h3>Writing alerts people actually read</h3>
+                  <small>Copy patterns that cut noise without hiding incidents.</small>
+                  <a href="#">Read article</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack gap="sm">
+                  <img src="https://picsum.photos/seed/related-5/640/360" alt="Mountain ridge at dawn" width="640" height="360" />
+                  <h3>Spacing scales that scale</h3>
+                  <small>Four gap tokens, zero exceptions, and a lot less argument.</small>
+                  <a href="#">Read article</a>
+                </ui-stack>
+              </ui-card>
+
+            </ui-stack>
+          </ui-stack>
+        </section>
+
+      </ui-stack>
+    </main>
+  </ui-container>
+</body>
+</html>

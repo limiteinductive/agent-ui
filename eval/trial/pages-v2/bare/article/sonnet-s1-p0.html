@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Revolution of CSS Container Queries</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-container max-width="760px" padding="md">
+  <ui-stack gap="lg">
+
+    <ui-stack gap="sm">
+      <ui-badge>Engineering</ui-badge>
+      <h1>The Quiet Revolution of CSS Container Queries</h1>
+      <p>Components that respond to the space they live in, not the screen they happen to be viewed on.</p>
+    </ui-stack>
+
+    <ui-row gap="md" align="center">
+      <ui-avatar src="https://picsum.photos/seed/author-mara/96/96" name="Mara Lindqvist" alt="Mara Lindqvist"></ui-avatar>
+      <ui-stack gap="none">
+        <strong>Mara Lindqvist</strong>
+        <small>November 18, 2026 · 9 min read</small>
+      </ui-stack>
+    </ui-row>
+
+    <img src="https://picsum.photos/seed/cover-containers/1200/630" alt="Abstract layered panels in soft light" width="1200" height="630" style="width:100%;height:auto;border-radius:12px">
+
+    <ui-stack gap="md">
+      <p>For more than a decade, responsive design meant one thing: asking the viewport how wide it was. That worked when pages were a handful of templates. It stops working the moment a card can appear in a sidebar, a modal, a full-width grid, and an email preview, all on the same screen size.</p>
+
+      <h2>Why viewport queries fall short</h2>
+      <p>A media query answers the question "how big is the window?" But a component rarely cares about the window. It cares about the slot it was dropped into. Teams end up writing variants like <code>.card--narrow</code> and <code>.card--wide</code>, then threading props through every layout to pick the right one.</p>
+      <p>That coupling is the real cost. Every new placement of a component becomes a negotiation between the component author and the page author.</p>
+
+      <blockquote>
+        "The best component is one that doesn't need to be told where it is."
+      </blockquote>
+
+      <h2>Enter container queries</h2>
+      <p>Container queries let an element ask about the size of its nearest containing ancestor. You declare a container, then write rules against its width. The component adapts on its own, wherever it lands.</p>
+
+      <pre><code>.card-wrap {
+  container-type: inline-size;
+  container-name: card;
+}
+
+.card {
+  display: grid;
+  gap: 1rem;
+}
+
+@container card (min-width: 480px) {
+  .card {
+    grid-template-columns: 160px 1fr;
+    align-items: center;
+  }
+}</code></pre>
+
+      <p>Notice what is missing: no class toggles, no JavaScript, no resize observers. The browser does the measuring and the cascade does the rest.</p>
+
+      <h2>Practical patterns</h2>
+      <p>After migrating a design system of about forty components, a few patterns kept showing up:</p>
+      <ul>
+        <li><strong>Wrap, then query.</strong> Keep the container element separate from the element you restyle, since a container cannot style itself.</li>
+        <li><strong>Prefer inline-size.</strong> Querying height is rarely needed and has layout side effects.</li>
+        <li><strong>Use container units.</strong> <code>cqi</code> makes type and spacing scale with the slot.</li>
+      </ul>
+
+      <h2>What to watch out for</h2>
+      <p>Containment is not free. Declaring <code>container-type</code> applies layout and style containment, which can change how children size themselves. Test intrinsic sizing early, especially for elements that relied on shrink-to-fit behavior.</p>
+      <p>Also resist the urge to query everything. Start with the two or three components that have the most placements, prove the model, and expand from there.</p>
+
+      <h2>Closing thoughts</h2>
+      <p>Container queries do not replace media queries. Page-level decisions like navigation layout still belong to the viewport. But for components, the shift is profound: design systems can finally ship pieces that are genuinely portable.</p>
+    </ui-stack>
+
+    <ui-row gap="sm" wrap>
+      <ui-badge>CSS</ui-badge>
+      <ui-badge>Responsive Design</ui-badge>
+      <ui-badge>Design Systems</ui-badge>
+      <ui-badge>Frontend</ui-badge>
+    </ui-row>
+
+    <ui-divider></ui-divider>
+
+    <ui-stack gap="md">
+      <h2>Related posts</h2>
+      <ui-scroll direction="horizontal" gap="md">
+        <ui-card style="min-width:260px;flex:0 0 260px">
+          <img src="https://picsum.photos/seed/rel1/520/320" alt="" width="520" height="320" style="width:100%;height:auto">
+          <ui-stack gap="xs">
+            <h3>Fluid Type Without the Math</h3>
+            <small>6 min read</small>
+          </ui-stack>
+        </ui-card>
+        <ui-card style="min-width:260px;flex:0 0 260px">
+          <img src="https://picsum.photos/seed/rel2/520/320" alt="" width="520" height="320" style="width:100%;height:auto">
+          <ui-stack gap="xs">
+            <h3>Cascade Layers in Practice</h3>
+            <small>8 min read</small>
+          </ui-stack>
+        </ui-card>
+        <ui-card style="min-width:260px;flex:0 0 260px">
+          <img src="https://picsum.photos/seed/rel3/520/320" alt="" width="520" height="320" style="width:100%;height:auto">
+          <ui-stack gap="xs">
+            <h3>Designing for Touch First</h3>
+            <small>5 min read</small>
+          </ui-stack>
+        </ui-card>
+        <ui-card style="min-width:260px;flex:0 0 260px">
+          <img src="https://picsum.photos/seed/rel4/520/320" alt="" width="520" height="320" style="width:100%;height:auto">
+          <ui-stack gap="xs">
+            <h3>The Case for Subgrid</h3>
+            <small>7 min read</small>
+          </ui-stack>
+        </ui-card>
+        <ui-card style="min-width:260px;flex:0 0 260px">
+          <img src="https://picsum.photos/seed/rel5/520/320" alt="" width="520" height="320" style="width:100%;height:auto">
+          <ui-stack gap="xs">
+            <h3>Building a Token Pipeline</h3>
+            <small>10 min read</small>
+          </ui-stack>
+        </ui-card>
+      </ui-scroll>
+    </ui-stack>
+
+  </ui-stack>
+</ui-container>
+</body>
+</html>

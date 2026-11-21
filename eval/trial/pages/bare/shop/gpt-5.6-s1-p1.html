@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride &amp; Co. | Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="vertical" gap="lg">
+
+    <header>
+      <ui-stack direction="horizontal" align="center" justify="space-between" wrap gap="md">
+        <a href="/" aria-label="Stride and Co. home">
+          <h1>Stride &amp; Co.</h1>
+        </a>
+
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <span aria-label="Shopping cart with 2 items">Cart (2)</span>
+          <ui-button variant="primary" type="button">View cart</ui-button>
+        </ui-stack>
+      </ui-stack>
+    </header>
+
+    <main>
+      <ui-stack direction="vertical" gap="lg">
+        <ui-stack direction="vertical" gap="sm">
+          <h2>Everyday shoes, elevated</h2>
+          <p>Comfort-first styles for wherever the day takes you.</p>
+        </ui-stack>
+
+        <ui-card>
+          <ui-stack direction="vertical" gap="md">
+            <h3>Filter shoes</h3>
+
+            <ui-stack direction="horizontal" align="end" wrap gap="md">
+              <ui-stack direction="vertical" gap="sm">
+                <label for="size-7">Size</label>
+                <ui-stack direction="horizontal" wrap gap="sm">
+                  <ui-button variant="secondary" type="button">6</ui-button>
+                  <ui-button variant="secondary" type="button">7</ui-button>
+                  <ui-button variant="secondary" type="button">8</ui-button>
+                  <ui-button variant="secondary" type="button">9</ui-button>
+                  <ui-button variant="secondary" type="button">10</ui-button>
+                  <ui-button variant="secondary" type="button">11</ui-button>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="vertical" gap="sm">
+                <label for="price">Price range</label>
+                <ui-stack direction="horizontal" align="center" gap="sm">
+                  <input id="price" type="range" min="40" max="240" value="160">
+                  <output for="price">$160</output>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="vertical" gap="sm">
+                <label for="sort">Sort by</label>
+                <select id="sort" name="sort">
+                  <option>Featured</option>
+                  <option>Price: low to high</option>
+                  <option>Price: high to low</option>
+                  <option>Newest arrivals</option>
+                </select>
+              </ui-stack>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-stack direction="horizontal" align="center" justify="space-between" wrap gap="sm">
+          <h3>Featured shoes</h3>
+          <small>12 styles</small>
+        </ui-stack>
+
+        <ui-grid max-columns="4" gap="lg">
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/urban-runner/640/480" alt="Cloudline Runner sneakers" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Cloudline Runner</h4>
+                <p>Lightweight everyday sneakers</p>
+                <p><strong>$128</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/court-classic/640/480" alt="Court Classic white sneakers" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Court Classic</h4>
+                <p>Clean leather court shoes</p>
+                <p><strong>$112</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/trailhead/640/480" alt="Trailhead hiking shoes" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Trailhead</h4>
+                <p>Weather-ready trail shoes</p>
+                <p><strong>$154</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/sunset-slipon/640/480" alt="Sunset Slip-On canvas shoes" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Sunset Slip-On</h4>
+                <p>Relaxed canvas comfort</p>
+                <p><strong>$76</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/metro-derby/640/480" alt="Metro Derby leather shoes" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Metro Derby</h4>
+                <p>Polished leather office shoes</p>
+                <p><strong>$168</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/tempo-knit/640/480" alt="Tempo Knit running shoes" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Tempo Knit</h4>
+                <p>Breathable knit trainers</p>
+                <p><strong>$136</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/highline-boot/640/480" alt="Highline Chelsea boots" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Highline Chelsea</h4>
+                <p>Streamlined all-season boots</p>
+                <p><strong>$196</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/shoreline-sandal/640/480" alt="Shoreline leather sandals" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Shoreline</h4>
+                <p>Soft leather summer sandals</p>
+                <p><strong>$92</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/atlas-hiker/640/480" alt="Atlas Hiker boots" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Atlas Hiker</h4>
+                <p>Supportive boots for long walks</p>
+                <p><strong>$184</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/daybreak/640/480" alt="Daybreak retro sneakers" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Daybreak</h4>
+                <p>Retro-inspired daily sneakers</p>
+                <p><strong>$118</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/formal-loafer/640/480" alt="Formline penny loafers" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Formline Loafer</h4>
+                <p>Classic penny loafers</p>
+                <p><strong>$148</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="md">
+              <img src="https://picsum.photos/seed/pace-pro/640/480" alt="Pace Pro performance shoes" loading="lazy">
+              <ui-stack direction="vertical" gap="sm">
+                <h4>Pace Pro</h4>
+                <p>Responsive shoes for fast miles</p>
+                <p><strong>$172</strong></p>
+                <ui-button variant="primary" type="button">Add to cart</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+
+        <nav aria-label="Product pagination">
+          <ui-stack direction="horizontal" align="center" justify="center" gap="sm">
+            <ui-button variant="secondary" type="button" disabled>Previous</ui-button>
+            <ui-button variant="primary" type="button" aria-current="page">1</ui-button>
+            <ui-button variant="secondary" type="button">2</ui-button>
+            <ui-button variant="secondary" type="button">3</ui-button>
+            <ui-button variant="secondary" type="button">Next</ui-button>
+          </ui-stack>
+        </nav>
+      </ui-stack>
+    </main>
+
+    <footer>
+      <ui-stack direction="horizontal" align="center" justify="space-between" wrap gap="sm">
+        <small>© 2026 Stride &amp; Co.</small>
+        <small>Free shipping on orders over $100</small>
+      </ui-stack>
+    </footer>
+
+  </ui-stack>
+</body>
+</html>

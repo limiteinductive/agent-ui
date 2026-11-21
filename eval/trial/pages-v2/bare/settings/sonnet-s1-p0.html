@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Settings</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-container>
+  <ui-stack gap="lg">
+
+    <ui-stack gap="xs">
+      <h1>Account settings</h1>
+      <p>Manage your profile, notifications, billing and account.</p>
+    </ui-stack>
+
+    <ui-card>
+      <form onsubmit="event.preventDefault(); document.getElementById('saved').hidden = false;">
+        <ui-stack gap="md">
+          <h2>Profile</h2>
+
+          <ui-cluster gap="md" align="center">
+            <img id="avatar" src="https://picsum.photos/id/64/160/160" alt="Your avatar" width="80" height="80" style="border-radius:50%;object-fit:cover">
+            <ui-stack gap="xs">
+              <label for="avatar-file">Avatar</label>
+              <input id="avatar-file" type="file" accept="image/*">
+              <small>JPG or PNG, up to 2 MB.</small>
+            </ui-stack>
+          </ui-cluster>
+
+          <ui-grid cols="2" gap="md">
+            <ui-stack gap="xs">
+              <label for="name">Full name</label>
+              <input id="name" name="name" type="text" value="Amelia Hartwell" autocomplete="name">
+            </ui-stack>
+            <ui-stack gap="xs">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" value="amelia.hartwell@example.com" autocomplete="email">
+            </ui-stack>
+          </ui-grid>
+
+          <ui-stack gap="xs">
+            <label for="bio">Bio</label>
+            <textarea id="bio" name="bio" rows="4">Product designer based in Lisbon. I love building calm, accessible interfaces and mentoring junior designers.</textarea>
+          </ui-stack>
+
+          <ui-cluster gap="md" align="center">
+            <button type="submit">Save changes</button>
+            <span id="saved" hidden>Changes saved.</span>
+          </ui-cluster>
+        </ui-stack>
+      </form>
+    </ui-card>
+
+    <ui-card>
+      <ui-stack gap="md">
+        <h2>Notifications</h2>
+
+        <ui-cluster justify="between" align="center" wrap="false">
+          <ui-stack gap="xs">
+            <strong>Product updates</strong>
+            <small>News about new features and improvements.</small>
+          </ui-stack>
+          <ui-switch label="Product updates" checked></ui-switch>
+        </ui-cluster>
+
+        <hr>
+
+        <ui-cluster justify="between" align="center" wrap="false">
+          <ui-stack gap="xs">
+            <strong>Comments and mentions</strong>
+            <small>Get an email when someone mentions you.</small>
+          </ui-stack>
+          <ui-switch label="Comments and mentions" checked></ui-switch>
+        </ui-cluster>
+
+        <hr>
+
+        <ui-cluster justify="between" align="center" wrap="false">
+          <ui-stack gap="xs">
+            <strong>Weekly digest</strong>
+            <small>A summary of activity every Monday.</small>
+          </ui-stack>
+          <ui-switch label="Weekly digest"></ui-switch>
+        </ui-cluster>
+
+        <hr>
+
+        <ui-cluster justify="between" align="center" wrap="false">
+          <ui-stack gap="xs">
+            <strong>SMS security alerts</strong>
+            <small>Texts for sign-ins from new devices.</small>
+          </ui-stack>
+          <ui-switch label="SMS security alerts" checked></ui-switch>
+        </ui-cluster>
+      </ui-stack>
+    </ui-card>
+
+    <ui-card>
+      <ui-stack gap="md">
+        <ui-cluster justify="between" align="center">
+          <h2>Billing</h2>
+          <ui-badge>Pro plan</ui-badge>
+        </ui-cluster>
+
+        <ui-grid cols="3" gap="md">
+          <ui-stack gap="xs">
+            <small>Current plan</small>
+            <strong>Pro – $24 / month</strong>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <small>Next invoice</small>
+            <strong>December 14, 2026</strong>
+          </ui-stack>
+          <ui-stack gap="xs">
+            <small>Payment method</small>
+            <strong>Visa ending in 4242</strong>
+          </ui-stack>
+        </ui-grid>
+
+        <ui-cluster gap="sm">
+          <button type="button">Change plan</button>
+          <button type="button" class="secondary">View invoices</button>
+        </ui-cluster>
+      </ui-stack>
+    </ui-card>
+
+    <ui-card>
+      <ui-stack gap="md">
+        <h2>Danger zone</h2>
+        <p>Deleting your account permanently removes your projects, files and billing history. This action cannot be undone.</p>
+        <div>
+          <button type="button" onclick="if(confirm('Delete your account permanently?')) alert('Account deletion requested.')">Delete account</button>
+        </div>
+      </ui-stack>
+    </ui-card>
+
+  </ui-stack>
+</ui-container>
+
+<script>
+  document.getElementById('avatar-file').addEventListener('change', function (e) {
+    var f = e.target.files[0];
+    if (f) document.getElementById('avatar').src = URL.createObjectURL(f);
+  });
+</script>
+</body>
+</html>

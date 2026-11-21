@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Relay plans for project tracking, team planning, and cross-team reporting.">
+  <title>Pricing | Relay</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <ui-stack gap="xl">
+      <header id="top">
+        <ui-container>
+          <ui-stack gap="sm" padding="md">
+            <ui-row justify="space-between" gap="md" wrap>
+              <a href="#top" aria-label="Relay home"><strong>Relay</strong></a>
+              <nav aria-label="Main navigation">
+                <ui-row gap="md" wrap>
+                  <a href="#plans" aria-current="page">Pricing</a>
+                  <a href="#compare">Compare</a>
+                  <a href="#faq">FAQ</a>
+                </ui-row>
+              </nav>
+            </ui-row>
+          </ui-stack>
+          <hr>
+        </ui-container>
+      </header>
+
+      <main>
+        <ui-container>
+          <ui-stack gap="2xl">
+            <section aria-labelledby="pricing-title">
+              <ui-card variant="primary" rounded="xl" padding="xl">
+                <ui-stack gap="sm">
+                  <h1 id="pricing-title">A plan for the way your team works</h1>
+                  <p>Plan projects, share updates, and see who’s doing what in one workspace.</p>
+                </ui-stack>
+              </ui-card>
+            </section>
+
+            <section id="plans" aria-label="Pricing plans">
+              <ui-grid max-columns="3" min-item-width="16rem" gap="md">
+                <ui-card rounded="xl" gap="lg">
+                  <ui-stack gap="sm">
+                    <h2>Starter</h2>
+                    <p>For small teams that need a shared task list and project board.</p>
+                    <p><strong style="font-size: 2rem">$0</strong> <small>forever</small></p>
+                  </ui-stack>
+                  <ul grow>
+                    <li>Up to 5 members</li>
+                    <li>3 active projects</li>
+                    <li>List and board views</li>
+                    <li>Task comments and assignments</li>
+                  </ul>
+                  <ui-button variant="outline" rounded="md" data-plan="Starter">Request a workspace</ui-button>
+                </ui-card>
+
+                <ui-card variant="primary" elevated rounded="xl" gap="lg">
+                  <ui-stack gap="sm">
+                    <ui-row justify="space-between" gap="sm" wrap>
+                      <h2>Team</h2>
+                      <mark><small>Most popular</small></mark>
+                    </ui-row>
+                    <p>For teams that manage deadlines and recurring work across projects.</p>
+                    <p><strong style="font-size: 2rem">$12</strong> <small>per member/month</small></p>
+                  </ui-stack>
+                  <ul grow>
+                    <li>Unlimited active projects</li>
+                    <li>Calendar and timeline views</li>
+                    <li>100 automation runs per month</li>
+                    <li>Project templates and dependencies</li>
+                  </ul>
+                  <ui-button variant="primary" rounded="md" data-plan="Team">Request a trial</ui-button>
+                </ui-card>
+
+                <ui-card rounded="xl" gap="lg">
+                  <ui-stack gap="sm">
+                    <h2>Business</h2>
+                    <p>For organizations coordinating work across several teams.</p>
+                    <p><strong style="font-size: 2rem">$24</strong> <small>per member/month</small></p>
+                  </ui-stack>
+                  <ul grow>
+                    <li>Everything in Team</li>
+                    <li>Portfolio and workload reports</li>
+                    <li>1,000 automation runs per month</li>
+                    <li>SAML single sign-on</li>
+                  </ul>
+                  <ui-button variant="outline" rounded="md" data-plan="Business">Contact sales</ui-button>
+                </ui-card>
+              </ui-grid>
+            </section>
+
+            <section id="compare" aria-labelledby="compare-title">
+              <ui-stack gap="md">
+                <h2 id="compare-title">Compare plans</h2>
+                <div role="region" aria-labelledby="compare-title" tabindex="0" style="overflow-x: auto">
+                  <table style="min-width: 36rem">
+                    <thead>
+                      <tr>
+                        <th scope="col">Feature</th>
+                        <th scope="col">Starter</th>
+                        <th scope="col">Team</th>
+                        <th scope="col">Business</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Workspace members</th>
+                        <td>Up to 5</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Active projects</th>
+                        <td>3</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">List and board views</th>
+                        <td>Included</td>
+                        <td>Included</td>
+                        <td>Included</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Calendar and timeline views</th>
+                        <td>Unavailable</td>
+                        <td>Included</td>
+                        <td>Included</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Monthly automation runs</th>
+                        <td>0</td>
+                        <td>100</td>
+                        <td>1,000</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Portfolio and workload reports</th>
+                        <td>Unavailable</td>
+                        <td>Unavailable</td>
+                        <td>Included</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">SAML single sign-on</th>
+                        <td>Unavailable</td>
+                        <td>Unavailable</td>
+                        <td>Included</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Support</th>
+                        <td>Help center</td>
+                        <td>Email</td>
+                        <td>Priority email</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ui-stack>
+            </section>
+
+            <section id="faq" aria-labelledby="faq-title">
+              <ui-stack gap="md">
+                <h2 id="faq-title">Frequently asked questions</h2>
+                <ui-card rounded="lg" padding="lg" gap="md">
+                  <details>
+                    <summary><strong>How does per-member billing work?</strong></summary>
+                    <p>Team and Business are billed monthly for each member in your workspace. If you add a member mid-month, we prorate the charge for the rest of that billing period.</p>
+                  </details>
+                  <details>
+                    <summary><strong>Can I try Team before I pay?</strong></summary>
+                    <p>Yes. The Team trial lasts 14 days and requires no credit card. You can keep your projects on Starter after the trial by archiving any projects above the three-project limit.</p>
+                  </details>
+                  <details>
+                    <summary><strong>What counts as an automation run?</strong></summary>
+                    <p>Each time a rule fires, it counts as one run. For example, a rule that assigns a reviewer when a task moves to Review uses one run each time it fires. The allowance resets at the start of your billing period.</p>
+                  </details>
+                  <details>
+                    <summary><strong>When does cancellation take effect?</strong></summary>
+                    <p>You can cancel in workspace settings. Your paid features stay available through the end of the current billing period.</p>
+                  </details>
+                </ui-card>
+              </ui-stack>
+            </section>
+          </ui-stack>
+        </ui-container>
+      </main>
+
+      <footer>
+        <ui-container>
+          <hr>
+          <ui-stack padding="md" gap="sm">
+            <ui-row justify="space-between" gap="md" wrap>
+              <small>© 2026 Relay</small>
+              <nav aria-label="Footer navigation">
+                <ui-row gap="md" wrap>
+                  <a href="mailto:support@relay.example">Support</a>
+                  <a href="mailto:sales@relay.example">Sales</a>
+                  <a href="#top">Back to top</a>
+                </ui-row>
+              </nav>
+            </ui-row>
+          </ui-stack>
+        </ui-container>
+      </footer>
+    </ui-stack>
+
+    <dialog id="plan-dialog" aria-labelledby="plan-dialog-title">
+      <ui-stack gap="md">
+        <h2 id="plan-dialog-title">Contact Relay</h2>
+        <p>Tell us your team size and when you’d like to get started.</p>
+        <ui-row justify="space-between" gap="md" wrap>
+          <a id="plan-email" href="mailto:sales@relay.example">Open email</a>
+          <form method="dialog">
+            <button type="submit" autofocus>Close</button>
+          </form>
+        </ui-row>
+      </ui-stack>
+    </dialog>
+  </ui-page>
+
+  <script>
+    const planDialog = document.getElementById('plan-dialog');
+    const planTitle = document.getElementById('plan-dialog-title');
+    const planEmail = document.getElementById('plan-email');
+
+    document.querySelectorAll('[data-plan]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const plan = button.dataset.plan;
+        planTitle.textContent = `Get started with Relay ${plan}`;
+        planEmail.href = `mailto:sales@relay.example?subject=${encodeURIComponent(`Relay ${plan} inquiry`)}`;
+        planDialog.showModal();
+      });
+    });
+  </script>
+</body>
+</html>

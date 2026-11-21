@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride &amp; Co. – Shoes</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="sm">
+        <strong>Stride &amp; Co.</strong>
+        <ui-button variant="outline" aria-label="Cart, 0 items" id="cart-btn">🛒 Cart (<span id="cart-count">0</span>)</ui-button>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container>
+      <ui-stack gap="lg" padding="md">
+        <ui-stack gap="xs">
+          <h1>Shoes</h1>
+          <p>12 styles for every step, from trail to town.</p>
+        </ui-stack>
+
+        <ui-card padding="md" gap="md">
+          <ui-stack gap="xs">
+            <strong id="size-label">Size (US)</strong>
+            <ui-row wrap gap="sm" role="group" aria-labelledby="size-label" id="sizes">
+              <ui-button size="sm" variant="primary" data-size="all">All</ui-button>
+              <ui-button size="sm" variant="outline" data-size="7">7</ui-button>
+              <ui-button size="sm" variant="outline" data-size="8">8</ui-button>
+              <ui-button size="sm" variant="outline" data-size="9">9</ui-button>
+              <ui-button size="sm" variant="outline" data-size="10">10</ui-button>
+              <ui-button size="sm" variant="outline" data-size="11">11</ui-button>
+              <ui-button size="sm" variant="outline" data-size="12">12</ui-button>
+            </ui-row>
+          </ui-stack>
+          <ui-row wrap gap="lg" align="end">
+            <label grow>Max price: $<output id="price-out">200</output>
+              <input type="range" id="price" min="50" max="200" step="10" value="200">
+            </label>
+            <label>Sort by
+              <select id="sort">
+                <option value="featured">Featured</option>
+                <option value="low">Price: low to high</option>
+                <option value="high">Price: high to low</option>
+                <option value="name">Name</option>
+              </select>
+            </label>
+          </ui-row>
+        </ui-card>
+
+        <p id="count" role="status"></p>
+
+        <ui-grid max-columns="4" min-item-width="12rem" gap="md" id="grid"></ui-grid>
+
+        <ui-row justify="center" gap="sm" wrap id="pager">
+          <ui-button variant="outline" id="prev">Previous</ui-button>
+          <span id="page-info"></span>
+          <ui-button variant="outline" id="next">Next</ui-button>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+</ui-page>
+
+<script>
+const products = [
+  ["Aero Runner", 120, [7,8,9,10,11]],
+  ["Trail Blazer", 145, [8,9,10,11,12]],
+  ["City Loafer", 95, [7,8,9,10]],
+  ["Court Classic", 85, [8,9,10,11,12]],
+  ["Summit Hiker", 180, [9,10,11,12]],
+  ["Canvas Low", 55, [7,8,9,10,11,12]],
+  ["Cloud Walker", 130, [7,8,9]],
+  ["Midnight Chelsea", 160, [8,9,10,11]],
+  ["Sprint Pro", 150, [9,10,11]],
+  ["Daily Slip-On", 60, [7,8,9,10,11,12]],
+  ["Retro High", 110, [7,8,10,11]],
+  ["Storm Boot", 195, [8,9,10,11,12]]
+].map((p,i)=>({id:i,name:p[0],price:p[1],sizes:p[2],img:`https://picsum.photos/seed/shoe${i+1}/400/400`}));
+
+const PER = 8;
+let state = {size:"all", price:200, sort:"featured", page:1};
+let cart = 0;
+const $ = s => document.querySelector(s);
+
+function filtered(){
+  let l = products.filter(p => p.price <= state.price && (state.size==="all" || p.sizes.includes(+state.size)));
+  if(state.sort==="low") l.sort((a,b)=>a.price-b.price);
+  if(state.sort==="high") l.sort((a,b)=>b.price-a.price);
+  if(state.sort==="name") l.sort((a,b)=>a.name.localeCompare(b.name));
+  return l;
+}
+
+function render(){
+  const l = filtered();
+  const pages = Math.max(1, Math.ceil(l.length/PER));
+  if(state.page>pages) state.page = pages;
+  const slice = l.slice((state.page-1)*PER, state.page*PER);
+  $("#count").textContent = `${l.length} product${l.length===1?"":"s"}`;
+  $("#grid").innerHTML = slice.map(p=>`
+    <ui-card padding="sm" gap="sm">
+      <img src="${p.img}" alt="${p.name}" width="400" height="400" loading="lazy" style="width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:.5rem">
+      <ui-stack gap="xs" grow>
+        <strong>${p.name}</strong>
+        <span>$${p.price}</span>
+      </ui-stack>
+      <ui-button variant="primary" data-add="${p.id}">Add to cart</ui-button>
+    </ui-card>`).join("") || "<p>No shoes match these filters.</p>";
+  $("#page-info").textContent = `Page ${state.page} of ${pages}`;
+  $("#prev").toggleAttribute("disabled", state.page<=1);
+  $("#next").toggleAttribute("disabled", state.page>=pages);
+}
+
+$("#sizes").addEventListener("click", e=>{
+  const b = e.target.closest("ui-button"); if(!b) return;
+  state.size = b.dataset.size; state.page = 1;
+  document.querySelectorAll("#sizes ui-button").forEach(x=>x.setAttribute("variant", x===b?"primary":"outline"));
+  render();
+});
+$("#price").addEventListener("input", e=>{
+  state.price = +e.target.value; state.page = 1;
+  $("#price-out").textContent = state.price; render();
+});
+$("#sort").addEventListener("change", e=>{ state.sort = e.target.value; state.page = 1; render(); });
+$("#prev").addEventListener("click", ()=>{ if(state.page>1){state.page--; render(); scrollTo({top:0});} });
+$("#next").addEventListener("click", ()=>{ state.page++; render(); scrollTo({top:0}); });
+$("#grid").addEventListener("click", e=>{
+  const b = e.target.closest("[data-add]"); if(!b) return;
+  cart++; $("#cart-count").textContent = cart;
+  $("#cart-btn").setAttribute("aria-label", `Cart, ${cart} items`);
+});
+render();
+</script>
+</body>
+</html>

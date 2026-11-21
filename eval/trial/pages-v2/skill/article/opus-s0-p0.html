@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing for the Slow Network: Lessons from Shipping Offline-First | Fieldnotes</title>
+  <meta name="description" content="What three years of building offline-first web apps taught us about caching, conflict resolution, and honest loading states.">
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md" wrap>
+        <a href="#"><strong>Fieldnotes</strong></a>
+        <nav aria-label="Primary">
+          <ui-row gap="md" wrap>
+            <a href="#">Engineering</a>
+            <a href="#">Design</a>
+            <a href="#">Archive</a>
+            <a href="#">About</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <article>
+        <ui-stack gap="xl" padding="md">
+
+          <ui-stack gap="lg">
+            <ui-stack gap="sm">
+              <small><a href="#">Engineering</a> · 12 min read</small>
+              <h1>Designing for the Slow Network: Lessons from Shipping Offline-First</h1>
+              <p>What three years of building offline-first web apps taught us about caching, conflict resolution, and telling users the truth about loading.</p>
+            </ui-stack>
+
+            <ui-row gap="sm">
+              <img src="https://picsum.photos/seed/author-maya/96/96" alt="Portrait of Maya Okafor" width="48" height="48" style="border-radius:50%; object-fit:cover; flex:none">
+              <ui-stack gap="0">
+                <strong>Maya Okafor</strong>
+                <small>Staff Engineer · <time datetime="2026-11-14">November 14, 2026</time></small>
+              </ui-stack>
+            </ui-row>
+          </ui-stack>
+
+          <figure>
+            <ui-stack gap="sm">
+              <img src="https://picsum.photos/seed/slow-network-cover/1600/800" alt="A winding mountain road disappearing into fog" width="1600" height="800" style="width:100%; height:auto; display:block; border-radius:var(--ui-radius-lg)">
+              <figcaption><small>Most of the world's internet looks less like fiber and more like this road. Photo via Picsum.</small></figcaption>
+            </ui-stack>
+          </figure>
+
+          <div>
+            <ui-stack gap="md">
+              <p>When we started rebuilding our field-inspection app in 2023, our analytics told a story we had been ignoring for years: nearly 40% of sessions began on a connection slower than 3G, and almost one in ten started with no connection at all. Our users were inspectors working in basements, rural substations and concrete parking garages. For them, "the network" was a rumor.</p>
+              <p>This post is a collection of what we learned turning a conventional request-response app into one that treats the network as an optimization rather than a requirement. Some of it is technical. A surprising amount of it is about honesty.</p>
+
+              <h2>Start with the data model, not the cache</h2>
+              <p>The first instinct most teams have is to bolt a service worker onto an existing app and cache API responses. We tried that. It got us a working splash screen and a lot of stale data that users could not distinguish from fresh data.</p>
+              <p>The shift that actually worked was to make the local database the source of truth for the UI. Every screen reads from IndexedDB. The network's only job is to reconcile that local store with the server whenever it can. Once we made that change, an entire category of loading spinners simply disappeared, because there was nothing to wait for.</p>
+              <ul>
+                <li><strong>Reads</strong> always hit the local store first and render immediately.</li>
+                <li><strong>Writes</strong> go into an outbox table with a client-generated ID.</li>
+                <li><strong>Sync</strong> runs in the background and drains the outbox when connectivity returns.</li>
+              </ul>
+
+              <h2>The outbox pattern in practice</h2>
+              <p>The outbox is the heart of the system. Each mutation is recorded as an intent, not a final state, which makes it far easier to replay and to merge. Here is a simplified version of the queue we ship today:</p>
+
+              <div style="overflow:auto">
+<pre><code>// outbox.js — queue mutations locally, flush when online
+export async function enqueue(db, mutation) {
+  const entry = {
+    id: crypto.randomUUID(),
+    createdAt: Date.now(),
+    attempts: 0,
+    ...mutation,
+  };
+  await db.put("outbox", entry);
+  if (navigator.onLine) flush(db);
+  return entry.id;
+}
+
+export async function flush(db) {
+  const pending = await db.getAll("outbox");
+  for (const entry of pending.sort((a, b) =&gt; a.createdAt - b.createdAt)) {
+    try {
+      await fetch("/api/mutations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(entry),
+      });
+      await db.delete("outbox", entry.id);
+    } catch {
+      await db.put("outbox", { ...entry, attempts: entry.attempts + 1 });
+      break; // stop on first failure; keep ordering intact
+    }
+  }
+}
+
+window.addEventListener("online", () =&gt; flush(openDb()));</code></pre>
+              </div>
+
+              <p>Two details matter more than they look. First, the client generates the ID, so the UI can reference a record before the server has ever seen it. Second, we stop flushing on the first failure. Sending mutations out of order caused more bugs in our first prototype than every other issue combined.</p>
+
+              <blockquote>
+                <p><strong>"An offline-first app isn't one that works without the network. It's one that never lies to you about what the network has done."</strong></p>
+                <small>— From our internal design principles, v2</small>
+              </blockquote>
+
+              <h2>Conflicts are a product decision</h2>
+              <p>Engineers love to argue about CRDTs versus last-write-wins. In our experience, the right answer depended almost entirely on the field. For free-text notes, we merge. For a checkbox that says "hazard cleared," we never silently overwrite; we surface both values and ask a human.</p>
+              <p>We ended up categorizing every field in our schema into one of three buckets:</p>
+              <ol>
+                <li><strong>Mergeable</strong> — notes, photo collections, tags.</li>
+                <li><strong>Latest wins</strong> — cosmetic fields like a display color or sort order.</li>
+                <li><strong>Needs review</strong> — anything with safety or billing consequences.</li>
+              </ol>
+              <p>That table, written together with our product and compliance teams, was more valuable than any sync library we evaluated.</p>
+
+              <h2>Honest loading states</h2>
+              <p>Once local reads are instant, the remaining challenge is communicating sync status without nagging. We settled on a small, persistent indicator with three states: <em>Saved on this device</em>, <em>Syncing</em>, and <em>Up to date</em>. Users learned the vocabulary within a week, and support tickets about "lost" inspections dropped by 70%.</p>
+              <p>The lesson generalizes: people tolerate delay remarkably well. What they don't tolerate is uncertainty.</p>
+
+              <h3>What we would do differently</h3>
+              <p>We would have invested in tooling for inspecting the outbox far earlier. A tiny debug panel that shows pending mutations, retry counts and the last server error would have saved us weeks of guesswork during the beta. We'd also have tested on throttled connections from day one instead of treating it as a QA step.</p>
+
+              <h2>Closing thoughts</h2>
+              <p>Building for the slow network forced us to build a better app for everyone. The same architecture that keeps an inspector productive in a basement makes the app feel instant on office Wi-Fi. If you take one thing from this post, let it be this: design your data flow as if the network will fail, and you'll rarely be surprised when it does.</p>
+            </ui-stack>
+          </div>
+
+          <hr>
+
+          <ui-stack gap="sm">
+            <strong>Tags</strong>
+            <ui-row wrap gap="sm">
+              <ui-button size="sm" variant="outline" rounded>Offline-first</ui-button>
+              <ui-button size="sm" variant="outline" rounded>Service Workers</ui-button>
+              <ui-button size="sm" variant="outline" rounded>IndexedDB</ui-button>
+              <ui-button size="sm" variant="outline" rounded>Sync</ui-button>
+              <ui-button size="sm" variant="outline" rounded>Performance</ui-button>
+              <ui-button size="sm" variant="outline" rounded>UX Writing</ui-button>
+            </ui-row>
+          </ui-stack>
+
+          <ui-card sunken>
+            <ui-row gap="md" align="start">
+              <img src="https://picsum.photos/seed/author-maya/128/128" alt="" width="64" height="64" style="border-radius:50%; object-fit:cover; flex:none">
+              <ui-stack gap="xs" grow>
+                <strong>About Maya Okafor</strong>
+                <p>Maya leads the sync and storage team at Fieldnotes. She previously built mapping tools for disaster response and still keeps a 2G-throttled phone on her desk.</p>
+              </ui-stack>
+            </ui-row>
+          </ui-card>
+
+        </ui-stack>
+      </article>
+
+      <section aria-labelledby="related-heading" bleed="wide">
+        <ui-stack gap="md" padding="md">
+          <ui-row justify="space-between" wrap>
+            <h2 id="related-heading">Related posts</h2>
+            <a href="#">View all</a>
+          </ui-row>
+          <ui-row scroll item-width="md" gap="md" align="stretch">
+            <ui-card padding="0" gap="0" elevated>
+              <img src="https://picsum.photos/seed/related-1/640/360" alt="Server racks lit in blue" width="640" height="360" style="width:100%; height:auto; display:block">
+              <ui-stack gap="xs" padding="md">
+                <small>Engineering · 8 min</small>
+                <h3><a href="#">Conflict Resolution Without the PhD</a></h3>
+                <p>A pragmatic guide to merging edits when two people change the same record offline.</p>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="0" gap="0" elevated>
+              <img src="https://picsum.photos/seed/related-2/640/360" alt="Hands holding a phone outdoors" width="640" height="360" style="width:100%; height:auto; display:block">
+              <ui-stack gap="xs" padding="md">
+                <small>Design · 6 min</small>
+                <h3><a href="#">Writing Status Messages People Trust</a></h3>
+                <p>How three words replaced a dozen spinners and cut support tickets by 70%.</p>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="0" gap="0" elevated>
+              <img src="https://picsum.photos/seed/related-3/640/360" alt="A notebook and laptop on a desk" width="640" height="360" style="width:100%; height:auto; display:block">
+              <ui-stack gap="xs" padding="md">
+                <small>Engineering · 10 min</small>
+                <h3><a href="#">IndexedDB Migrations That Don't Hurt</a></h3>
+                <p>Versioning a client-side schema across thousands of devices you can't touch.</p>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="0" gap="0" elevated>
+              <img src="https://picsum.photos/seed/related-4/640/360" alt="Rain on a window at night" width="640" height="360" style="width:100%; height:auto; display:block">
+              <ui-stack gap="xs" padding="md">
+                <small>Performance · 7 min</small>
+                <h3><a href="#">Testing on Bad Networks, Every Day</a></h3>
+                <p>Our setup for throttled CI runs and why we stopped treating slow 3G as an edge case.</p>
+              </ui-stack>
+            </ui-card>
+            <ui-card padding="0" gap="0" elevated>
+              <img src="https://picsum.photos/seed/related-5/640/360" alt="A coastal road at sunset" width="640" height="360" style="width:100%; height:auto; display:block">
+              <ui-stack gap="xs" padding="md">
+                <small>Culture · 5 min</small>
+                <h3><a href="#">A Week in the Field with Our Users</a></h3>
+                <p>What our engineers learned riding along with inspectors in rural Ontario.</p>
+              </ui-stack>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </section>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-stack gap="sm" padding="md">
+        <hr>
+        <ui-row justify="space-between" wrap>
+          <small>© 2026 Fieldnotes. All rights reserved.</small>
+          <ui-row gap="md" wrap>
+            <a href="#">RSS</a>
+            <a href="#">Privacy</a>
+            <a href="#">Contact</a>
+          </ui-row>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

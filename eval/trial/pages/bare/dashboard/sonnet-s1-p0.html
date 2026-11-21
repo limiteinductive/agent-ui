@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Storefront Analytics</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-stack gap="0">
+
+  <ui-cluster justify="between" align="center" gap="3" wrap>
+    <ui-cluster align="center" gap="2">
+      <strong>Northwind Shop</strong>
+      <ui-badge>Analytics</ui-badge>
+    </ui-cluster>
+    <ui-cluster align="center" gap="3" wrap>
+      <input type="search" placeholder="Search orders, products, customers…" aria-label="Search">
+      <details>
+        <summary>
+          <ui-cluster align="center" gap="2">
+            <img src="https://picsum.photos/seed/avatar-maya/64/64" alt="" width="32" height="32">
+            <span>Maya Chen</span>
+          </ui-cluster>
+        </summary>
+        <ui-stack gap="1">
+          <a href="#profile">Profile</a>
+          <a href="#settings">Settings</a>
+          <a href="#billing">Billing</a>
+          <a href="#signout">Sign out</a>
+        </ui-stack>
+      </details>
+    </ui-cluster>
+  </ui-cluster>
+
+  <ui-sidebar-layout gap="4">
+    <aside>
+      <ui-card>
+        <ui-stack gap="3">
+          <h2>Filters</h2>
+          <label>Date range
+            <select>
+              <option>Last 7 days</option>
+              <option selected>Last 30 days</option>
+              <option>Last 90 days</option>
+              <option>Year to date</option>
+            </select>
+          </label>
+          <label>Channel
+            <select>
+              <option>All channels</option>
+              <option>Organic search</option>
+              <option>Paid ads</option>
+              <option>Email</option>
+              <option>Social</option>
+            </select>
+          </label>
+          <label>Category
+            <select>
+              <option>All categories</option>
+              <option>Apparel</option>
+              <option>Footwear</option>
+              <option>Accessories</option>
+              <option>Home</option>
+            </select>
+          </label>
+          <fieldset>
+            <legend>Order status</legend>
+            <ui-stack gap="1">
+              <label><input type="checkbox" checked> Paid</label>
+              <label><input type="checkbox" checked> Shipped</label>
+              <label><input type="checkbox" checked> Pending</label>
+              <label><input type="checkbox"> Refunded</label>
+            </ui-stack>
+          </fieldset>
+          <ui-cluster gap="2">
+            <button>Apply</button>
+            <button type="reset">Reset</button>
+          </ui-cluster>
+        </ui-stack>
+      </ui-card>
+    </aside>
+
+    <main>
+      <ui-stack gap="4">
+        <ui-stack gap="1">
+          <h1>Overview</h1>
+          <small>Oct 22 – Nov 21, 2026 · compared with previous 30 days</small>
+        </ui-stack>
+
+        <ui-grid min="14rem" gap="3">
+          <ui-card>
+            <ui-stack gap="1">
+              <small>Revenue</small>
+              <h2>$128,430</h2>
+              <ui-badge variant="success">▲ 12.4%</ui-badge>
+            </ui-stack>
+          </ui-card>
+          <ui-card>
+            <ui-stack gap="1">
+              <small>Orders</small>
+              <h2>2,847</h2>
+              <ui-badge variant="success">▲ 8.1%</ui-badge>
+            </ui-stack>
+          </ui-card>
+          <ui-card>
+            <ui-stack gap="1">
+              <small>Conversion rate</small>
+              <h2>3.42%</h2>
+              <ui-badge variant="danger">▼ 0.3%</ui-badge>
+            </ui-stack>
+          </ui-card>
+          <ui-card>
+            <ui-stack gap="1">
+              <small>Refunds</small>
+              <h2>$4,210</h2>
+              <ui-badge variant="success">▼ 5.7%</ui-badge>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+
+        <ui-grid min="20rem" gap="3">
+          <ui-card>
+            <ui-stack gap="3">
+              <h2>Recent orders</h2>
+              <div style="overflow-x:auto">
+                <table>
+                  <thead>
+                    <tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>#10482</td><td>Olivia Martin</td><td>Nov 21</td><td>$142.00</td><td><ui-badge variant="success">Paid</ui-badge></td></tr>
+                    <tr><td>#10481</td><td>Liam Johnson</td><td>Nov 21</td><td>$89.50</td><td><ui-badge>Pending</ui-badge></td></tr>
+                    <tr><td>#10480</td><td>Sofia Rossi</td><td>Nov 20</td><td>$236.90</td><td><ui-badge variant="success">Shipped</ui-badge></td></tr>
+                    <tr><td>#10479</td><td>Noah Williams</td><td>Nov 20</td><td>$54.00</td><td><ui-badge variant="danger">Refunded</ui-badge></td></tr>
+                    <tr><td>#10478</td><td>Emma Dubois</td><td>Nov 19</td><td>$318.25</td><td><ui-badge variant="success">Paid</ui-badge></td></tr>
+                    <tr><td>#10477</td><td>Lucas Kim</td><td>Nov 19</td><td>$72.40</td><td><ui-badge variant="success">Shipped</ui-badge></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack gap="3">
+              <h2>Top products</h2>
+              <ui-stack gap="3">
+                <ui-cluster align="center" gap="3" wrap="false">
+                  <img src="https://picsum.photos/seed/sneaker/80/80" alt="Trail runner sneakers" width="48" height="48">
+                  <ui-stack gap="0"><strong>Trail Runner Sneakers</strong><small>612 sold</small></ui-stack>
+                  <strong>$38.2k</strong>
+                </ui-cluster>
+                <ui-cluster align="center" gap="3" wrap="false">
+                  <img src="https://picsum.photos/seed/jacket/80/80" alt="Waxed canvas jacket" width="48" height="48">
+                  <ui-stack gap="0"><strong>Waxed Canvas Jacket</strong><small>428 sold</small></ui-stack>
+                  <strong>$31.5k</strong>
+                </ui-cluster>
+                <ui-cluster align="center" gap="3" wrap="false">
+                  <img src="https://picsum.photos/seed/backpack/80/80" alt="Everyday backpack" width="48" height="48">
+                  <ui-stack gap="0"><strong>Everyday Backpack</strong><small>395 sold</small></ui-stack>
+                  <strong>$19.8k</strong>
+                </ui-cluster>
+                <ui-cluster align="center" gap="3" wrap="false">
+                  <img src="https://picsum.photos/seed/mug/80/80" alt="Ceramic mug set" width="48" height="48">
+                  <ui-stack gap="0"><strong>Ceramic Mug Set</strong><small>351 sold</small></ui-stack>
+                  <strong>$9.4k</strong>
+                </ui-cluster>
+                <ui-cluster align="center" gap="3" wrap="false">
+                  <img src="https://picsum.photos/seed/watch/80/80" alt="Minimal watch" width="48" height="48">
+                  <ui-stack gap="0"><strong>Minimal Watch</strong><small>187 sold</small></ui-stack>
+                  <strong>$16.1k</strong>
+                </ui-cluster>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+        </ui-grid>
+      </ui-stack>
+    </main>
+  </ui-sidebar-layout>
+
+</ui-stack>
+</body>
+</html>

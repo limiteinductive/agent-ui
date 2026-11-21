@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Daymark plans for small teams, growing teams, and organizations managing work across departments.">
+  <title>Pricing | Daymark</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    ui-grid.plan-grid {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    }
+
+    ui-stack.wrapping-row {
+      flex-wrap: wrap;
+    }
+
+    .comparison-scroll {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    .comparison-scroll table {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <ui-container size="lg">
+    <ui-stack gap="xl">
+      <header>
+        <ui-stack class="wrapping-row" direction="horizontal" gap="md" align="center" justify="space-between">
+          <a href="#top" aria-label="Daymark home"><strong>Daymark</strong></a>
+          <nav aria-label="Main navigation">
+            <ui-stack class="wrapping-row" direction="horizontal" gap="md" align="center">
+              <a href="#plans">Plans</a>
+              <a href="#compare">Compare</a>
+              <a href="#faq">FAQ</a>
+            </ui-stack>
+          </nav>
+        </ui-stack>
+      </header>
+
+      <main id="top">
+        <ui-stack gap="xl">
+          <section aria-labelledby="page-title">
+            <ui-stack gap="sm" align="center">
+              <h1 id="page-title">A plan for the way your team works</h1>
+              <p>Plan projects, assign work, and see what’s on track in one shared workspace.</p>
+              <p>Start free or try Team for 14 days. No credit card required.</p>
+            </ui-stack>
+          </section>
+
+          <section id="plans" aria-labelledby="plans-title">
+            <ui-stack gap="md">
+              <h2 id="plans-title">Choose a plan</h2>
+              <ui-grid class="plan-grid" gap="md">
+                <ui-card>
+                  <ui-stack gap="md">
+                    <h3>Starter</h3>
+                    <p><strong>$0</strong> per month</p>
+                    <p>For small teams keeping track of tasks and deadlines.</p>
+                    <ui-button variant="secondary">
+                      <a href="mailto:hello@daymark.example?subject=Set%20up%20a%20Starter%20workspace">Start free</a>
+                    </ui-button>
+                    <ul>
+                      <li>Up to 5 members</li>
+                      <li>3 active projects</li>
+                      <li>List and board views</li>
+                      <li>Due dates and task assignments</li>
+                    </ul>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card variant="primary">
+                  <ui-stack gap="md">
+                    <ui-stack class="wrapping-row" direction="horizontal" gap="sm" align="center">
+                      <h3>Team</h3>
+                      <mark>Most popular</mark>
+                    </ui-stack>
+                    <p><strong>$12</strong> per member per month</p>
+                    <p>For teams coordinating deadlines across multiple projects.</p>
+                    <ui-button variant="primary">
+                      <a href="mailto:hello@daymark.example?subject=Start%20a%20Team%20trial">Try Team free</a>
+                    </ui-button>
+                    <ul>
+                      <li>Unlimited members and projects</li>
+                      <li>Timeline view and dependencies</li>
+                      <li>Recurring tasks and automations</li>
+                      <li>Project status dashboards</li>
+                    </ul>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card>
+                  <ui-stack gap="md">
+                    <h3>Business</h3>
+                    <p><strong>$24</strong> per member per month</p>
+                    <p>For organizations managing workloads and access across departments.</p>
+                    <ui-button variant="secondary">
+                      <a href="mailto:sales@daymark.example?subject=Daymark%20Business">Contact sales</a>
+                    </ui-button>
+                    <ul>
+                      <li>Everything in Team</li>
+                      <li>Portfolio and workload reporting</li>
+                      <li>SAML single sign-on</li>
+                      <li>Priority support</li>
+                    </ul>
+                  </ui-stack>
+                </ui-card>
+              </ui-grid>
+              <small>Prices are in USD. Paid plans are billed monthly.</small>
+            </ui-stack>
+          </section>
+
+          <section id="compare" aria-labelledby="compare-title">
+            <ui-stack gap="md">
+              <h2 id="compare-title">Compare features</h2>
+              <div class="comparison-scroll" role="region" aria-labelledby="compare-title" tabindex="0">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Feature</th>
+                      <th scope="col">Starter</th>
+                      <th scope="col">Team</th>
+                      <th scope="col">Business</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Members</th>
+                      <td>Up to 5</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Active projects</th>
+                      <td>3</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">List and board</th>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Timeline</th>
+                      <td>No</td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Automations</th>
+                      <td>No</td>
+                      <td>Yes</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Workload reports</th>
+                      <td>No</td>
+                      <td>No</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">SAML SSO</th>
+                      <td>No</td>
+                      <td>No</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Support</th>
+                      <td>Email</td>
+                      <td>Email</td>
+                      <td>Priority</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ui-stack>
+          </section>
+
+          <section id="faq" aria-labelledby="faq-title">
+            <ui-stack gap="md">
+              <h2 id="faq-title">Frequently asked questions</h2>
+              <details>
+                <summary>What happens when my trial ends?</summary>
+                <p>Choose a paid plan to keep using Team features. Otherwise, your workspace moves to Starter. You can still view your existing projects, but you’ll need to archive any projects above the Starter limit before you can edit them.</p>
+              </details>
+              <details>
+                <summary>Who counts as a paid member?</summary>
+                <p>Each workspace member who can create or edit work uses one paid seat. Guests with view-only access are free.</p>
+              </details>
+              <details>
+                <summary>Can I change plans or cancel?</summary>
+                <p>Yes. You can upgrade at any time. Downgrades and cancellations take effect at the end of your current billing period.</p>
+              </details>
+              <details>
+                <summary>Can I export my project data?</summary>
+                <p>Yes. Every plan lets you download project tasks as CSV, including assignees, due dates, and statuses.</p>
+              </details>
+            </ui-stack>
+          </section>
+        </ui-stack>
+      </main>
+
+      <footer>
+        <ui-stack class="wrapping-row" direction="horizontal" gap="md" align="center" justify="space-between">
+          <small>© 2026 Daymark</small>
+          <nav aria-label="Footer navigation">
+            <ui-stack class="wrapping-row" direction="horizontal" gap="md" align="center">
+              <a href="mailto:support@daymark.example">Support</a>
+              <a href="mailto:sales@daymark.example">Sales</a>
+              <a href="#top">Back to top</a>
+            </ui-stack>
+          </nav>
+        </ui-stack>
+      </footer>
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

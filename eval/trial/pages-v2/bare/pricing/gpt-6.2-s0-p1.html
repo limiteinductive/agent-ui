@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Waymark project management plans for small teams, growing teams, and organizations.">
+  <title>Pricing | Waymark</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Page-specific responsive layout and comparison table overflow. */
+    .page-shell {
+      box-sizing: border-box;
+      display: block;
+      max-inline-size: 72rem;
+      margin-inline: auto;
+      padding-inline: clamp(1rem, 4vw, 3rem);
+    }
+
+    .site-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem 1.5rem;
+    }
+
+    .site-bar nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .5rem 1rem;
+    }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    .plan-grid > ui-card {
+      box-sizing: border-box;
+      min-inline-size: 0;
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    .table-scroll table {
+      inline-size: 100%;
+      min-inline-size: 36rem;
+    }
+
+    @media (min-width: 54rem) {
+      .plan-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <ui-container class="page-shell">
+      <ui-stack gap="md" padding="md">
+        <div class="site-bar">
+          <a href="#top"><strong>Waymark</strong></a>
+          <nav aria-label="Main navigation">
+            <a href="#plans">Plans</a>
+            <a href="#compare">Compare</a>
+            <a href="#faq">FAQ</a>
+          </nav>
+        </div>
+      </ui-stack>
+    </ui-container>
+  </header>
+
+  <main id="top">
+    <ui-container class="page-shell">
+      <ui-stack gap="xl">
+        <section aria-labelledby="page-title">
+          <ui-stack gap="sm" padding="lg">
+            <h1 id="page-title">A plan for the way your team works</h1>
+            <p>Plan projects, assign work, and track what’s due in one shared workspace.</p>
+            <p><small>All prices are in USD. Paid plans are billed monthly.</small></p>
+          </ui-stack>
+        </section>
+
+        <section id="plans" aria-labelledby="plans-title">
+          <ui-stack gap="md">
+            <h2 id="plans-title">Choose your plan</h2>
+            <ui-grid class="plan-grid" gap="md">
+              <ui-card padding="lg" aria-labelledby="starter-title">
+                <ui-stack gap="md">
+                  <h3 id="starter-title">Starter</h3>
+                  <p>For small teams keeping shared work organized.</p>
+                  <p><strong>$0</strong> per workspace</p>
+                  <ul>
+                    <li>Up to 5 members</li>
+                    <li>3 active projects</li>
+                    <li>List and board views</li>
+                    <li>Community support</li>
+                  </ul>
+                  <a href="mailto:hello@waymark.example?subject=Starter%20workspace">Request a Starter workspace</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card variant="primary" padding="lg" aria-labelledby="team-title">
+                <ui-stack gap="md">
+                  <h3 id="team-title">Team</h3>
+                  <p><strong>Recommended for growing teams</strong></p>
+                  <p>For teams coordinating deadlines across multiple projects.</p>
+                  <p><strong>$12</strong> per member / month</p>
+                  <ul>
+                    <li>Unlimited active projects</li>
+                    <li>Timeline view and task dependencies</li>
+                    <li>250 automation runs per month</li>
+                    <li>Email support</li>
+                  </ul>
+                  <a href="mailto:hello@waymark.example?subject=Team%20trial">Request a 14-day Team trial</a>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card padding="lg" aria-labelledby="business-title">
+                <ui-stack gap="md">
+                  <h3 id="business-title">Business</h3>
+                  <p>For organizations managing work across departments.</p>
+                  <p><strong>$24</strong> per member / month</p>
+                  <ul>
+                    <li>Everything in Team</li>
+                    <li>Portfolio dashboards</li>
+                    <li>SAML single sign-on</li>
+                    <li>Priority support</li>
+                  </ul>
+                  <a href="mailto:sales@waymark.example?subject=Business%20plan">Contact sales</a>
+                </ui-stack>
+              </ui-card>
+            </ui-grid>
+          </ui-stack>
+        </section>
+
+        <section id="compare" aria-labelledby="compare-title">
+          <ui-stack gap="md">
+            <h2 id="compare-title">Compare plans</h2>
+            <div class="table-scroll" role="region" aria-labelledby="compare-title" tabindex="0">
+              <table aria-labelledby="compare-title">
+                <thead>
+                  <tr>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Starter</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Business</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Workspace members</th>
+                    <td>Up to 5</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Active projects</th>
+                    <td>3</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">List and board views</th>
+                    <td>Included</td>
+                    <td>Included</td>
+                    <td>Included</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Timeline and dependencies</th>
+                    <td>&mdash;</td>
+                    <td>Included</td>
+                    <td>Included</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Monthly automation runs</th>
+                    <td>0</td>
+                    <td>250</td>
+                    <td>2,500</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Portfolio dashboards</th>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
+                    <td>Included</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SAML single sign-on</th>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
+                    <td>Included</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Support</th>
+                    <td>Community</td>
+                    <td>Email</td>
+                    <td>Priority email</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ui-stack>
+        </section>
+
+        <section id="faq" aria-labelledby="faq-title">
+          <ui-stack gap="md">
+            <h2 id="faq-title">Frequently asked questions</h2>
+            <details>
+              <summary>Do I need a credit card to try Team?</summary>
+              <p>No. The Team trial lasts 14 days. At the end, you can subscribe or move to Starter. Starter supports up to five members and three active projects.</p>
+            </details>
+            <details>
+              <summary>Who counts as a billable member?</summary>
+              <p>Anyone with full workspace access counts as a member. Guests invited to view or comment on a specific project are free.</p>
+            </details>
+            <details>
+              <summary>Can I change or cancel my plan?</summary>
+              <p>You can upgrade at any time. Downgrades and cancellations take effect at the end of your current billing period.</p>
+            </details>
+          </ui-stack>
+        </section>
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container class="page-shell">
+      <ui-stack gap="md" padding="md">
+        <hr>
+        <div class="site-bar">
+          <small>&copy; 2026 Waymark</small>
+          <nav aria-label="Footer navigation">
+            <a href="mailto:hello@waymark.example">Contact</a>
+            <a href="#top">Back to top</a>
+          </nav>
+        </div>
+      </ui-stack>
+    </ui-container>
+  </footer>
+</body>
+</html>

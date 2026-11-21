@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flowline Pricing</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row wrap justify="space-between" gap="md" padding="md">
+          <a href="#" aria-label="Flowline home"><strong>Flowline</strong></a>
+          <nav aria-label="Main navigation">
+            <ui-row wrap gap="md">
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#faq">FAQ</a>
+              <a href="#">Sign in</a>
+              <ui-button variant="primary" size="sm">Start free</ui-button>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="2xl" padding="xl">
+          <section aria-labelledby="hero-title">
+            <ui-stack gap="md" align="center">
+              <span>Simple plans for focused teams</span>
+              <h1 id="hero-title">Make meaningful progress, together.</h1>
+              <p>Flowline brings projects, conversations, and priorities into one calm workspace. Start free, then scale when your team is ready.</p>
+              <ui-row wrap gap="sm" justify="center">
+                <ui-button variant="primary" size="lg">Start free</ui-button>
+                <ui-button variant="outline" size="lg">Book a demo</ui-button>
+              </ui-row>
+              <small>No credit card required. Free for up to 3 collaborators.</small>
+            </ui-stack>
+          </section>
+
+          <section id="pricing" aria-labelledby="pricing-title">
+            <ui-stack gap="lg">
+              <ui-stack gap="xs">
+                <h2 id="pricing-title">Plans that grow with your work</h2>
+                <p>Choose the tools your team needs today. Upgrade or downgrade anytime.</p>
+              </ui-stack>
+
+              <ui-grid max-columns="3" min-item-width="sm" gap="md">
+                <ui-card elevated padding="lg">
+                  <ui-stack gap="lg">
+                    <ui-stack gap="xs">
+                      <h3>Starter</h3>
+                      <p>For individuals and small teams building momentum.</p>
+                    </ui-stack>
+                    <p><strong>$0</strong> / forever</p>
+                    <ui-button variant="outline">Get started</ui-button>
+                    <hr>
+                    <ui-stack gap="sm">
+                      <strong>Includes:</strong>
+                      <ul>
+                        <li>Up to 3 collaborators</li>
+                        <li>Unlimited projects</li>
+                        <li>Basic task views</li>
+                        <li>7-day activity history</li>
+                      </ul>
+                    </ui-stack>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card elevated variant="primary" padding="lg">
+                  <ui-stack gap="lg">
+                    <ui-stack gap="sm">
+                      <span><mark>Most popular</mark></span>
+                      <h3>Growth</h3>
+                      <p>For growing teams that need clarity and speed.</p>
+                    </ui-stack>
+                    <p><strong>$12</strong> / user / month</p>
+                    <ui-button variant="secondary">Start 14-day trial</ui-button>
+                    <hr>
+                    <ui-stack gap="sm">
+                      <strong>Everything in Starter, plus:</strong>
+                      <ul>
+                        <li>Unlimited collaborators</li>
+                        <li>Timeline and workload views</li>
+                        <li>Automations and forms</li>
+                        <li>1-year activity history</li>
+                      </ul>
+                    </ui-stack>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card elevated padding="lg">
+                  <ui-stack gap="lg">
+                    <ui-stack gap="xs">
+                      <h3>Scale</h3>
+                      <p>For organizations coordinating complex portfolios.</p>
+                    </ui-stack>
+                    <p><strong>$24</strong> / user / month</p>
+                    <ui-button variant="outline">Talk to sales</ui-button>
+                    <hr>
+                    <ui-stack gap="sm">
+                      <strong>Everything in Growth, plus:</strong>
+                      <ul>
+                        <li>Advanced permissions</li>
+                        <li>Portfolio reporting</li>
+                        <li>Priority support</li>
+                        <li>Custom retention policies</li>
+                      </ul>
+                    </ui-stack>
+                  </ui-stack>
+                </ui-card>
+              </ui-grid>
+            </ui-stack>
+          </section>
+
+          <section id="features" aria-labelledby="features-title">
+            <ui-stack gap="lg">
+              <ui-stack gap="xs">
+                <h2 id="features-title">Compare features</h2>
+                <p>Everything you need to plan clearly and deliver consistently.</p>
+              </ui-stack>
+
+              <ui-row scroll gap="0">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Feature</th>
+                      <th scope="col">Starter</th>
+                      <th scope="col">Growth</th>
+                      <th scope="col">Scale</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Projects</th>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Collaborators</th>
+                      <td>3</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Task views</th>
+                      <td>List, board</td>
+                      <td>List, board, timeline</td>
+                      <td>All views</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Automations</th>
+                      <td>—</td>
+                      <td>25 per project</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Reporting</th>
+                      <td>Basic</td>
+                      <td>Team dashboards</td>
+                      <td>Portfolio analytics</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Support</th>
+                      <td>Community</td>
+                      <td>Email</td>
+                      <td>Priority email</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ui-row>
+            </ui-stack>
+          </section>
+
+          <section id="faq" aria-labelledby="faq-title">
+            <ui-stack gap="lg">
+              <ui-stack gap="xs">
+                <h2 id="faq-title">Frequently asked questions</h2>
+                <p>Still deciding? Here are the details teams ask about most.</p>
+              </ui-stack>
+
+              <ui-grid max-columns="2" min-item-width="sm" gap="md">
+                <ui-card padding="lg">
+                  <details>
+                    <summary>Can I try Growth before subscribing?</summary>
+                    <p>Yes. Every new workspace gets a 14-day Growth trial with no credit card required.</p>
+                  </details>
+                </ui-card>
+                <ui-card padding="lg">
+                  <details>
+                    <summary>What happens after the free plan limit?</summary>
+                    <p>Your workspace stays available. You can remove collaborators or upgrade when you are ready.</p>
+                  </details>
+                </ui-card>
+                <ui-card padding="lg">
+                  <details>
+                    <summary>Can I change plans later?</summary>
+                    <p>Absolutely. Change plans from workspace settings, and we will prorate the difference automatically.</p>
+                  </details>
+                </ui-card>
+                <ui-card padding="lg">
+                  <details>
+                    <summary>Do you offer annual billing?</summary>
+                    <p>Yes. Annual billing includes two months free on Growth and Scale plans.</p>
+                  </details>
+                </ui-card>
+              </ui-grid>
+            </ui-stack>
+          </section>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <ui-stack gap="lg" padding="xl">
+          <ui-row wrap justify="space-between" gap="lg">
+            <ui-stack gap="xs">
+              <strong>Flowline</strong>
+              <p>Clear work for teams that care about momentum.</p>
+            </ui-stack>
+            <ui-row wrap gap="md">
+              <a href="#">Product</a>
+              <a href="#">Security</a>
+              <a href="#">Contact</a>
+              <a href="#">Terms</a>
+            </ui-row>
+          </ui-row>
+          <hr>
+          <small>© 2026 Flowline, Inc. All rights reserved.</small>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Northstar Store Analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page layout="app">
+    <header>
+      <ui-container size="full">
+        <ui-row wrap justify="space-between" gap="md" padding="md">
+          <ui-row gap="sm">
+            <strong>Northstar</strong>
+            <span>Store analytics</span>
+          </ui-row>
+
+          <ui-row wrap gap="sm">
+            <form role="search">
+              <label>
+                <span>Search</span>
+                <input type="search" name="search" placeholder="Orders, products, customers">
+              </label>
+            </form>
+            <select name="account" aria-label="Account menu">
+              <option>Jane Doe</option>
+              <option>Store settings</option>
+              <option>Sign out</option>
+            </select>
+          </ui-row>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="full">
+        <ui-stack gap="lg" padding="md">
+          <ui-row wrap justify="space-between" gap="md">
+            <ui-stack gap="xs">
+              <h1>Overview</h1>
+              <p>Track how your store is performing this month.</p>
+            </ui-stack>
+            <ui-row wrap gap="sm">
+              <select name="period" aria-label="Reporting period">
+                <option>Last 30 days</option>
+                <option>Last 7 days</option>
+                <option>This quarter</option>
+                <option>This year</option>
+              </select>
+              <ui-button variant="primary">Export report</ui-button>
+            </ui-row>
+          </ui-row>
+
+          <ui-row wrap gap="lg" align="start">
+            <ui-card padding="lg">
+              <ui-stack gap="md">
+                <h2>Filters</h2>
+
+                <label>
+                  Date range
+                  <select name="date-range">
+                    <option>Last 30 days</option>
+                    <option>Last 7 days</option>
+                    <option>Last 90 days</option>
+                  </select>
+                </label>
+
+                <label>
+                  Sales channel
+                  <select name="channel">
+                    <option>All channels</option>
+                    <option>Online store</option>
+                    <option>Marketplace</option>
+                    <option>Social commerce</option>
+                  </select>
+                </label>
+
+                <label>
+                  Region
+                  <select name="region">
+                    <option>All regions</option>
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>United Kingdom</option>
+                  </select>
+                </label>
+
+                <fieldset>
+                  <legend>Order status</legend>
+                  <ui-stack gap="xs">
+                    <label><input type="checkbox" checked> Paid</label>
+                    <label><input type="checkbox" checked> Fulfilled</label>
+                    <label><input type="checkbox"> Refunded</label>
+                  </ui-stack>
+                </fieldset>
+
+                <ui-button variant="outline">Apply filters</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-stack grow gap="lg">
+              <ui-grid max-columns="4" min-item-width="xs" gap="md">
+                <ui-card variant="primary">
+                  <ui-stack gap="xs">
+                    <small>Total revenue</small>
+                    <h2>$84,392</h2>
+                    <small>↑ 12.8% vs. previous period</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card variant="success">
+                  <ui-stack gap="xs">
+                    <small>Orders</small>
+                    <h2>1,248</h2>
+                    <small>↑ 8.4% vs. previous period</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card variant="info">
+                  <ui-stack gap="xs">
+                    <small>Conversion rate</small>
+                    <h2>4.82%</h2>
+                    <small>↑ 0.64 pts vs. previous period</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card variant="warning">
+                  <ui-stack gap="xs">
+                    <small>Refunds</small>
+                    <h2>$2,146</h2>
+                    <small>↓ 3.1% vs. previous period</small>
+                  </ui-stack>
+                </ui-card>
+              </ui-grid>
+
+              <ui-row wrap stack-below="lg" gap="lg" align="start">
+                <ui-card grow>
+                  <ui-stack gap="md">
+                    <ui-row justify="space-between" gap="sm">
+                      <ui-stack gap="xs">
+                        <h2>Recent orders</h2>
+                        <p>Latest activity from your store.</p>
+                      </ui-stack>
+                      <a href="#">View all</a>
+                    </ui-row>
+
+                    <ui-row scroll>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Order</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>#NS-10482</td>
+                            <td>Olivia Martin</td>
+                            <td><time datetime="2026-11-21">Nov 21, 2026</time></td>
+                            <td><mark>Paid</mark></td>
+                            <td>$184.00</td>
+                          </tr>
+                          <tr>
+                            <td>#NS-10481</td>
+                            <td>Marcus Chen</td>
+                            <td><time datetime="2026-11-21">Nov 21, 2026</time></td>
+                            <td><mark>Fulfilled</mark></td>
+                            <td>$92.50</td>
+                          </tr>
+                          <tr>
+                            <td>#NS-10480</td>
+                            <td>Amelia Johnson</td>
+                            <td><time datetime="2026-11-20">Nov 20, 2026</time></td>
+                            <td><mark>Paid</mark></td>
+                            <td>$327.00</td>
+                          </tr>
+                          <tr>
+                            <td>#NS-10479</td>
+                            <td>Noah Williams</td>
+                            <td><time datetime="2026-11-20">Nov 20, 2026</time></td>
+                            <td><mark>Processing</mark></td>
+                            <td>$68.75</td>
+                          </tr>
+                          <tr>
+                            <td>#NS-10478</td>
+                            <td>Sophia Davis</td>
+                            <td><time datetime="2026-11-19">Nov 19, 2026</time></td>
+                            <td><mark>Fulfilled</mark></td>
+                            <td>$241.25</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </ui-row>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card>
+                  <ui-stack gap="md">
+                    <ui-row justify="space-between" gap="sm">
+                      <ui-stack gap="xs">
+                        <h2>Top products</h2>
+                        <p>Best sellers by revenue.</p>
+                      </ui-stack>
+                      <a href="#">Manage</a>
+                    </ui-row>
+
+                    <ui-stack gap="md">
+                      <ui-row gap="sm">
+                        <img src="https://picsum.photos/seed/ceramic-mug/64/64" alt="Handmade ceramic mug" width="64" height="64">
+                        <ui-stack grow gap="xs">
+                          <strong>Handmade Ceramic Mug</strong>
+                          <small>184 units sold</small>
+                        </ui-stack>
+                        <strong>$8,464</strong>
+                      </ui-row>
+
+                      <ui-row gap="sm">
+                        <img src="https://picsum.photos/seed/linen-shirt/64/64" alt="Relaxed linen shirt" width="64" height="64">
+                        <ui-stack grow gap="xs">
+                          <strong>Relaxed Linen Shirt</strong>
+                          <small>96 units sold</small>
+                        </ui-stack>
+                        <strong>$7,680</strong>
+                      </ui-row>
+
+                      <ui-row gap="sm">
+                        <img src="https://picsum.photos/seed/leather-tote/64/64" alt="Leather tote bag" width="64" height="64">
+                        <ui-stack grow gap="xs">
+                          <strong>Everyday Leather Tote</strong>
+                          <small>72 units sold</small>
+                        </ui-stack>
+                        <strong>$6,840</strong>
+                      </ui-row>
+
+                      <ui-row gap="sm">
+                        <img src="https://picsum.photos/seed/soy-candle/64/64" alt="Amber soy candle" width="64" height="64">
+                        <ui-stack grow gap="xs">
+                          <strong>Amber Soy Candle</strong>
+                          <small>141 units sold</small>
+                        </ui-stack>
+                        <strong>$4,935</strong>
+                      </ui-row>
+                    </ui-stack>
+                  </ui-stack>
+                </ui-card>
+              </ui-row>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+</body>
+</html>

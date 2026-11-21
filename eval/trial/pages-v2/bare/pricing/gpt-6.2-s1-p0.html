@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Fieldnote plans for organizing projects, tracking deadlines, and keeping your team in sync.">
+  <title>Pricing | Fieldnote</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Page-specific layout, responsive behavior, and brand details. */
+    ui-container.shell {
+      display: block;
+      box-sizing: border-box;
+      max-inline-size: 72rem;
+      margin-inline: auto;
+      padding-inline: clamp(1rem, 4vw, 3rem);
+    }
+
+    .header-row, .footer-row, .site-nav {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .75rem 1.25rem;
+    }
+
+    .header-row, .footer-row {
+      justify-content: space-between;
+      padding-block: 1.25rem;
+    }
+
+    .wordmark {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      color: inherit;
+      font-weight: 750;
+      text-decoration: none;
+    }
+
+    .wordmark::before {
+      content: "";
+      inline-size: 1.25rem;
+      block-size: 1.25rem;
+      border-radius: .3rem;
+      background: repeating-linear-gradient(135deg, #295748 0 3px, #cbe8d7 3px 5px);
+    }
+
+    .hero {
+      max-inline-size: 44rem;
+      margin-inline: auto;
+      padding-block: clamp(2.5rem, 7vw, 5rem);
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin-block: 0;
+      font-size: clamp(2.25rem, 6vw, 4.25rem);
+      line-height: 1.05;
+      letter-spacing: -.045em;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      max-inline-size: 37rem;
+      margin: 1rem auto 0;
+      text-wrap: pretty;
+    }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .plan-grid > ui-card {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-inline-size: 0;
+    }
+
+    .plan-grid h3 {
+      margin-block: 0;
+    }
+
+    .plan-grid ul {
+      padding-inline-start: 1.25rem;
+      margin-block: 1rem 1.5rem;
+    }
+
+    .plan-grid li + li {
+      margin-block-start: .4rem;
+    }
+
+    .plan-action {
+      display: block;
+      margin-block-start: auto;
+    }
+
+    .plan-action > a {
+      display: block;
+      padding: .65rem .85rem;
+      border: 1px solid currentColor;
+      border-radius: .4rem;
+      color: inherit;
+      text-align: center;
+      font-weight: 650;
+      text-underline-offset: .2em;
+    }
+
+    .featured {
+      outline: 2px solid #44826a;
+      outline-offset: -2px;
+    }
+
+    .featured .plan-action > a {
+      border-color: #234e3e;
+      background: #234e3e;
+      color: #fff;
+    }
+
+    .plan-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .4rem .75rem;
+    }
+
+    .price strong {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      letter-spacing: -.04em;
+    }
+
+    .comparison, .questions {
+      margin-block-start: clamp(2.75rem, 7vw, 5rem);
+    }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    .table-scroll table {
+      inline-size: 100%;
+      min-inline-size: 34rem;
+    }
+
+    .table-scroll th, .table-scroll td {
+      white-space: normal;
+      text-align: start;
+    }
+
+    .table-hint {
+      display: none;
+    }
+
+    .questions {
+      max-inline-size: 46rem;
+      margin-inline: auto;
+      padding-block-end: clamp(2.75rem, 7vw, 5rem);
+    }
+
+    .questions summary {
+      cursor: pointer;
+      font-weight: 650;
+    }
+
+    @media (max-width: 48rem) {
+      .plan-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 38rem) {
+      .table-hint {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="top">
+    <ui-container class="shell">
+      <div class="header-row">
+        <a class="wordmark" href="#top">Fieldnote</a>
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="#plans">Plans</a>
+          <a href="#compare">Compare</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+      </div>
+      <hr>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container class="shell">
+      <section class="hero" aria-labelledby="page-title">
+        <h1 id="page-title">A plan for the way your team works</h1>
+        <p>Give every project a home. Assign work, track deadlines, and see what’s moving across your team.</p>
+      </section>
+
+      <section id="plans" aria-labelledby="plans-title">
+        <ui-stack gap="sm">
+          <h2 id="plans-title">Choose your plan</h2>
+          <p>Prices are in USD and billed monthly. Change plans whenever you need to.</p>
+        </ui-stack>
+
+        <ui-grid class="plan-grid" columns="3" gap="md">
+          <ui-card padding="lg" role="article" aria-labelledby="starter-title">
+            <div class="plan-heading">
+              <h3 id="starter-title">Starter</h3>
+            </div>
+            <p>For freelancers and small teams keeping track of a few projects.</p>
+            <p class="price"><strong>$0</strong> / month</p>
+            <ul>
+              <li>Up to 5 team members</li>
+              <li>3 active projects</li>
+              <li>List and board views</li>
+              <li>1 GB of file storage</li>
+            </ul>
+            <ui-button class="plan-action" variant="secondary">
+              <a href="mailto:hello@fieldnote.example?subject=Start%20with%20Fieldnote%20Starter">Get started free</a>
+            </ui-button>
+          </ui-card>
+
+          <ui-card class="featured" padding="lg" variant="accent" role="article" aria-labelledby="team-title">
+            <div class="plan-heading">
+              <h3 id="team-title">Team</h3>
+              <ui-badge variant="accent">Most popular</ui-badge>
+            </div>
+            <p>For teams coordinating deadlines and handoffs across projects.</p>
+            <p class="price"><strong>$12</strong> / member / month</p>
+            <ul>
+              <li>Unlimited members and projects</li>
+              <li>Timeline and calendar views</li>
+              <li>100 automation runs per month</li>
+              <li>25 GB of file storage</li>
+            </ul>
+            <ui-button class="plan-action" variant="primary">
+              <a href="mailto:hello@fieldnote.example?subject=Fieldnote%20Team%20trial">Request a Team trial</a>
+            </ui-button>
+          </ui-card>
+
+          <ui-card padding="lg" role="article" aria-labelledby="business-title">
+            <div class="plan-heading">
+              <h3 id="business-title">Business</h3>
+            </div>
+            <p>For organizations that need shared reporting and centralized access controls.</p>
+            <p class="price"><strong>$24</strong> / member / month</p>
+            <ul>
+              <li>Everything in Team</li>
+              <li>Portfolio reports across projects</li>
+              <li>SAML single sign-on</li>
+              <li>Priority support and 100 GB of storage</li>
+            </ul>
+            <ui-button class="plan-action" variant="secondary">
+              <a href="mailto:sales@fieldnote.example?subject=Fieldnote%20Business%20pricing">Talk to sales</a>
+            </ui-button>
+          </ui-card>
+        </ui-grid>
+      </section>
+
+      <section class="comparison" id="compare" aria-labelledby="compare-title">
+        <h2 id="compare-title">Compare features</h2>
+        <p class="table-hint">Scroll sideways to see all plans.</p>
+        <div class="table-scroll" role="region" aria-labelledby="compare-title" tabindex="0">
+          <table aria-label="Features by plan">
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Starter</th>
+                <th scope="col">Team</th>
+                <th scope="col">Business</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Team members</th>
+                <td>Up to 5</td>
+                <td>Unlimited</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">Active projects</th>
+                <td>3</td>
+                <td>Unlimited</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <th scope="row">List and board views</th>
+                <td>Included</td>
+                <td>Included</td>
+                <td>Included</td>
+              </tr>
+              <tr>
+                <th scope="row">Timeline and calendar views</th>
+                <td>Unavailable</td>
+                <td>Included</td>
+                <td>Included</td>
+              </tr>
+              <tr>
+                <th scope="row">Automation runs per month</th>
+                <td>0</td>
+                <td>100</td>
+                <td>1,000</td>
+              </tr>
+              <tr>
+                <th scope="row">Storage per workspace</th>
+                <td>1 GB</td>
+                <td>25 GB</td>
+                <td>100 GB</td>
+              </tr>
+              <tr>
+                <th scope="row">Portfolio reports and SAML SSO</th>
+                <td>Unavailable</td>
+                <td>Unavailable</td>
+                <td>Included</td>
+              </tr>
+              <tr>
+                <th scope="row">Support</th>
+                <td>Help center</td>
+                <td>Email</td>
+                <td>Priority email</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="questions" id="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title">Frequently asked questions</h2>
+        <ui-stack gap="md">
+          <details>
+            <summary>How does the Team trial work?</summary>
+            <p>Your workspace gets 14 days of Team features without a credit card. At the end, you can subscribe or return to Starter.</p>
+          </details>
+          <details>
+            <summary>Who counts as a paid member?</summary>
+            <p>Anyone with full workspace access counts as a paid member. Guests invited to view or comment on individual projects are free.</p>
+          </details>
+          <details>
+            <summary>Can I change plans later?</summary>
+            <p>Yes. Upgrades take effect immediately, and downgrades take effect at the end of your current billing period. Projects above the new plan’s limit remain available to view and export.</p>
+          </details>
+          <details>
+            <summary>Can I bring in projects from another tool?</summary>
+            <p>Yes. All plans support importing tasks from a CSV, including assignees, due dates, and status.</p>
+          </details>
+        </ui-stack>
+      </section>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container class="shell">
+      <hr>
+      <div class="footer-row">
+        <a class="wordmark" href="#top">Fieldnote</a>
+        <small>© 2026 Fieldnote</small>
+        <nav class="site-nav" aria-label="Footer navigation">
+          <a href="mailto:hello@fieldnote.example">Contact</a>
+          <a href="#top">Back to top</a>
+        </nav>
+      </div>
+    </ui-container>
+  </footer>
+</body>
+</html>

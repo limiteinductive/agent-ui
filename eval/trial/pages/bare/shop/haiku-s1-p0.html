@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride & Co. | Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="column" gap="lg">
+
+    <!-- Header -->
+    <header>
+      <ui-stack direction="row" justify="space-between" align="center" gap="md" padding="md">
+        <ui-stack direction="row" align="center" gap="sm">
+          <ui-icon name="footprints"></ui-icon>
+          <ui-heading level="1">Stride &amp; Co.</ui-heading>
+        </ui-stack>
+        <nav aria-label="Main">
+          <ui-stack direction="row" gap="md" align="center">
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Kids</a>
+            <a href="#" aria-label="Cart, 2 items">
+              <ui-button variant="ghost">
+                <ui-icon name="shopping-cart"></ui-icon>
+                Cart <ui-badge>2</ui-badge>
+              </ui-button>
+            </a>
+          </ui-stack>
+        </nav>
+      </ui-stack>
+    </header>
+
+    <main>
+      <ui-stack direction="column" gap="lg" padding="md">
+
+        <ui-stack direction="column" gap="xs">
+          <ui-heading level="2">Running Shoes</ui-heading>
+          <ui-text tone="muted">48 styles · Free returns within 30 days</ui-text>
+        </ui-stack>
+
+        <!-- Filter bar -->
+        <form aria-label="Filter products">
+          <ui-card padding="md">
+            <ui-stack direction="column" gap="md">
+
+              <ui-stack direction="column" gap="sm">
+                <ui-text weight="semibold">Size (US)</ui-text>
+                <ui-stack direction="row" wrap="wrap" gap="xs">
+                  <button type="button" aria-pressed="false">6</button>
+                  <button type="button" aria-pressed="false">6.5</button>
+                  <button type="button" aria-pressed="true">7</button>
+                  <button type="button" aria-pressed="false">7.5</button>
+                  <button type="button" aria-pressed="false">8</button>
+                  <button type="button" aria-pressed="false">8.5</button>
+                  <button type="button" aria-pressed="false">9</button>
+                  <button type="button" aria-pressed="false">9.5</button>
+                  <button type="button" aria-pressed="false">10</button>
+                  <button type="button" aria-pressed="false">11</button>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="row" wrap="wrap" justify="space-between" align="end" gap="md">
+                <ui-stack direction="column" gap="xs">
+                  <label for="max-price"><ui-text weight="semibold">Max price: $180</ui-text></label>
+                  <input id="max-price" type="range" min="40" max="250" step="5" value="180">
+                  <ui-text tone="muted" size="sm">$40 – $250</ui-text>
+                </ui-stack>
+
+                <ui-stack direction="column" gap="xs">
+                  <label for="sort"><ui-text weight="semibold">Sort by</ui-text></label>
+                  <select id="sort">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: Low to high</option>
+                    <option value="price-desc">Price: High to low</option>
+                    <option value="rating">Top rated</option>
+                    <option value="newest">Newest</option>
+                  </select>
+                </ui-stack>
+              </ui-stack>
+
+            </ui-stack>
+          </ui-card>
+        </form>
+
+        <!-- Product grid -->
+        <ui-grid cols="2" cols-md="3" cols-lg="4" gap="md">
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe01/600/600" alt="Aero Glide runner in white" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Aero</ui-text>
+              <ui-heading level="3">Aero Glide 3</ui-heading>
+              <ui-text weight="semibold">$129.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe02/600/600" alt="Trailblaze GTX in olive" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Summit</ui-text>
+              <ui-heading level="3">Trailblaze GTX</ui-heading>
+              <ui-text weight="semibold">$154.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe03/600/600" alt="Cloudstep Daily in grey" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Nimbus</ui-text>
+              <ui-heading level="3">Cloudstep Daily</ui-heading>
+              <ui-text weight="semibold">$98.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe04/600/600" alt="Velocity Pro in black and volt" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Apex</ui-text>
+              <ui-heading level="3">Velocity Pro</ui-heading>
+              <ui-text weight="semibold">$175.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe05/600/600" alt="Harbor Canvas low in navy" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Harbor</ui-text>
+              <ui-heading level="3">Harbor Canvas Low</ui-heading>
+              <ui-text weight="semibold">$64.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe06/600/600" alt="Stride Court in cream leather" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Stride</ui-text>
+              <ui-heading level="3">Court Leather</ui-heading>
+              <ui-text weight="semibold">$110.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe07/600/600" alt="Pacer Lite in coral" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Pacer</ui-text>
+              <ui-heading level="3">Pacer Lite</ui-heading>
+              <ui-text weight="semibold">$119.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe08/600/600" alt="Ridge Hiker mid in tan" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Summit</ui-text>
+              <ui-heading level="3">Ridge Hiker Mid</ui-heading>
+              <ui-text weight="semibold">$189.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe09/600/600" alt="Metro Slip-On in charcoal" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Metro</ui-text>
+              <ui-heading level="3">Metro Slip-On</ui-heading>
+              <ui-text weight="semibold">$82.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe10/600/600" alt="Sprint Spike in red" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Apex</ui-text>
+              <ui-heading level="3">Sprint Spike</ui-heading>
+              <ui-text weight="semibold">$145.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe11/600/600" alt="Breeze Knit in mint" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Nimbus</ui-text>
+              <ui-heading level="3">Breeze Knit</ui-heading>
+              <ui-text weight="semibold">$105.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <img src="https://picsum.photos/seed/shoe12/600/600" alt="Canyon Trek in sand" width="600" height="600">
+            <ui-stack direction="column" gap="xs" padding="md">
+              <ui-text size="sm" tone="muted">Summit</ui-text>
+              <ui-heading level="3">Canyon Trek</ui-heading>
+              <ui-text weight="semibold">$166.00</ui-text>
+              <ui-button full-width>Add to cart</ui-button>
+            </ui-stack>
+          </ui-card>
+
+        </ui-grid>
+
+        <!-- Pagination -->
+        <nav aria-label="Pagination">
+          <ui-stack direction="row" justify="center" align="center" wrap="wrap" gap="xs">
+            <button type="button" disabled>Previous</button>
+            <button type="button" aria-current="page">1</button>
+            <button type="button">2</button>
+            <button type="button">3</button>
+            <ui-text tone="muted">…</ui-text>
+            <button type="button">4</button>
+            <button type="button">Next</button>
+          </ui-stack>
+        </nav>
+
+      </ui-stack>
+    </main>
+
+  </ui-stack>
+</body>
+</html>

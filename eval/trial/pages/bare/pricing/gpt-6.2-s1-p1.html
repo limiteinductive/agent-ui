@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Relay plans for project planning, team collaboration, and reporting.">
+  <title>Pricing | Relay</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <header>
+    <ui-container size="lg">
+      <ui-row gap="md" align="center" justify="space-between" wrap>
+        <a href="#top" aria-label="Relay, top of page"><strong>Relay</strong></a>
+        <nav aria-label="Main navigation">
+          <ui-row gap="md" align="center" wrap>
+            <a href="#plans">Plans</a>
+            <a href="#compare">Compare</a>
+            <a href="#faq">FAQ</a>
+          </ui-row>
+        </nav>
+        <a href="mailto:sales@relay.example?subject=Relay%20pricing">Talk to sales</a>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main id="top">
+    <ui-container size="lg">
+      <ui-stack gap="2xl">
+        <section aria-labelledby="pricing-title">
+          <ui-stack gap="sm" align="center">
+            <h1 id="pricing-title">A plan for every team</h1>
+            <p>Plan projects, assign work, and keep everyone up to date in one shared workspace.</p>
+            <p><small>Prices in USD. Paid plans are billed monthly per member.</small></p>
+          </ui-stack>
+        </section>
+
+        <section id="plans" aria-label="Pricing plans">
+          <ui-grid gap="lg" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr))">
+            <ui-card>
+              <article aria-labelledby="starter-title">
+                <ui-stack gap="md">
+                  <h2 id="starter-title">Starter</h2>
+                  <p>For small teams getting their first projects organized.</p>
+                  <p><strong>$0</strong> <small>per month</small></p>
+                  <a href="mailto:hello@relay.example?subject=Start%20with%20Relay%20Starter"><strong>Get started free</strong> <span aria-hidden="true">→</span></a>
+                  <ul>
+                    <li>Up to 5 members</li>
+                    <li>5 active projects</li>
+                    <li>List and board views</li>
+                    <li>Task comments and file attachments</li>
+                  </ul>
+                </ui-stack>
+              </article>
+            </ui-card>
+
+            <ui-card variant="primary">
+              <article aria-labelledby="team-title">
+                <ui-stack gap="md">
+                  <span><strong>Most popular</strong></span>
+                  <h2 id="team-title">Team</h2>
+                  <p>For teams coordinating deadlines across several projects.</p>
+                  <p><strong>$12</strong> <small>per member / month</small></p>
+                  <a href="mailto:hello@relay.example?subject=Relay%20Team%20trial"><strong>Start a 14-day trial</strong> <span aria-hidden="true">→</span></a>
+                  <ul>
+                    <li>Unlimited active projects and members</li>
+                    <li>Timeline view and task dependencies</li>
+                    <li>Recurring tasks and automations</li>
+                    <li>Project dashboards</li>
+                  </ul>
+                </ui-stack>
+              </article>
+            </ui-card>
+
+            <ui-card>
+              <article aria-labelledby="business-title">
+                <ui-stack gap="md">
+                  <h2 id="business-title">Business</h2>
+                  <p>For organizations that need shared reporting and access controls.</p>
+                  <p><strong>$24</strong> <small>per member / month</small></p>
+                  <a href="mailto:sales@relay.example?subject=Relay%20Business%20demo"><strong>Book a demo</strong> <span aria-hidden="true">→</span></a>
+                  <ul>
+                    <li>Everything in Team</li>
+                    <li>Portfolio reporting across projects</li>
+                    <li>SAML single sign-on</li>
+                    <li>Priority support</li>
+                  </ul>
+                </ui-stack>
+              </article>
+            </ui-card>
+          </ui-grid>
+        </section>
+
+        <section id="compare" aria-labelledby="compare-title">
+          <ui-stack gap="md">
+            <h2 id="compare-title">Compare plans</h2>
+            <div role="region" aria-labelledby="compare-title" tabindex="0" style="max-width: 100%; overflow-x: auto">
+              <table style="width: 100%">
+                <thead>
+                  <tr>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Starter</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Business</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Members</th>
+                    <td>Up to 5</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Active projects</th>
+                    <td>5</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">List and board views</th>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Timeline and dependencies</th>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Automation runs per month</th>
+                    <td>0</td>
+                    <td>500</td>
+                    <td>5,000</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Project dashboards</th>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Portfolio reporting</th>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SAML single sign-on</th>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Support</th>
+                    <td>Email</td>
+                    <td>Email</td>
+                    <td>Priority email</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ui-stack>
+        </section>
+
+        <section id="faq" aria-labelledby="faq-title">
+          <ui-stack gap="md">
+            <h2 id="faq-title">Frequently asked questions</h2>
+            <details>
+              <summary>Do I need a credit card to start a trial?</summary>
+              <p>No. You can try Team for 14 days without a credit card. At the end of the trial, you can choose a paid plan or switch to Starter.</p>
+            </details>
+            <details>
+              <summary>Who counts as a billable member?</summary>
+              <p>Workspace admins and members count toward your paid seats. View-only guests invited to individual projects are free.</p>
+            </details>
+            <details>
+              <summary>Can I switch plans or cancel?</summary>
+              <p>Yes. Upgrades take effect immediately, and we prorate the charge for the rest of the month. Downgrades and cancellations take effect at the end of your current billing period.</p>
+            </details>
+            <details>
+              <summary>Can I import an existing project?</summary>
+              <p>Yes. Every plan supports CSV imports for tasks, assignees, due dates, and statuses.</p>
+            </details>
+          </ui-stack>
+        </section>
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container size="lg">
+      <hr>
+      <ui-row gap="md" align="center" justify="space-between" wrap>
+        <small>© 2026 Relay Software</small>
+        <nav aria-label="Footer navigation">
+          <ui-row gap="md" wrap>
+            <a href="#plans">Pricing</a>
+            <a href="mailto:support@relay.example">Contact support</a>
+            <a href="#top">Back to top</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Account settings · Fieldnote</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Native images and checkboxes need these rules for avatar and switch styling. */
+    .avatar {
+      border-radius: var(--ui-radius-full, 999px);
+      object-fit: cover;
+    }
+
+    input.preference-switch {
+      appearance: none;
+      display: grid;
+      align-items: center;
+      flex: none;
+      box-sizing: border-box;
+      inline-size: 2.75rem;
+      block-size: 1.625rem;
+      margin: 0;
+      padding: 0 0.1875rem;
+      border: 1px solid var(--ui-ink-muted);
+      border-radius: var(--ui-radius-full, 999px);
+      background: var(--ui-surface);
+      cursor: pointer;
+    }
+
+    .preference-switch::before {
+      content: "";
+      inline-size: 1rem;
+      block-size: 1rem;
+      border-radius: 50%;
+      background: var(--ui-ink-muted);
+    }
+
+    .preference-switch:checked {
+      border-color: var(--ui-primary);
+    }
+
+    .preference-switch:checked::before {
+      justify-self: end;
+      background: var(--ui-primary);
+    }
+
+    .preference-switch:focus-visible {
+      outline: 2px solid var(--ui-primary);
+      outline-offset: 3px;
+    }
+
+    @media (forced-colors: active) {
+      input.preference-switch {
+        appearance: auto;
+        display: inline-block;
+        inline-size: 1.25rem;
+        block-size: 1.25rem;
+      }
+
+      .preference-switch::before {
+        content: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-stack gap="md" padding="md">
+          <ui-row gap="sm" wrap>
+            <strong>Fieldnote</strong>
+            <small>Personal workspace</small>
+          </ui-row>
+          <hr>
+        </ui-stack>
+      </ui-container>
+    </header>
+
+    <main>
+      <div id="settings">
+        <ui-container size="lg">
+          <ui-stack gap="lg" padding="md">
+            <ui-stack gap="xs">
+              <h1>Account settings</h1>
+              <p>Manage your profile, notifications, and subscription.</p>
+              <small>Demo account. Changes are saved in this browser.</small>
+            </ui-stack>
+
+            <nav aria-label="Settings sections">
+              <ui-row gap="md" wrap>
+                <a href="#profile">Profile</a>
+                <a href="#notifications">Notifications</a>
+                <a href="#billing">Billing</a>
+                <a href="#danger">Danger zone</a>
+              </ui-row>
+            </nav>
+
+            <ui-grid max-columns="2" min-item-width="24rem" gap="lg">
+              <section id="profile" aria-labelledby="profile-heading">
+                <ui-card padding="md" rounded="lg" elevated>
+                  <ui-stack gap="lg">
+                    <ui-stack gap="xs">
+                      <h2 id="profile-heading">Profile</h2>
+                      <p>Update your photo and personal details.</p>
+                    </ui-stack>
+
+                    <form id="profile-form">
+                      <ui-stack gap="md">
+                        <ui-row gap="md" wrap>
+                          <img
+                            id="avatar"
+                            class="avatar"
+                            src="https://picsum.photos/id/64/160/160"
+                            width="64"
+                            height="64"
+                            alt="Profile avatar"
+                          >
+                          <ui-stack gap="xs" align="start">
+                            <ui-button id="choose-avatar" variant="outline" size="sm">Change photo</ui-button>
+                            <small id="avatar-help">JPG, PNG, or WebP. Up to 1 MB.</small>
+                          </ui-stack>
+                        </ui-row>
+                        <input
+                          id="avatar-upload"
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          aria-label="Upload profile photo"
+                          hidden
+                        >
+
+                        <label>
+                          Full name
+                          <input id="name" name="name" autocomplete="name" value="Maya Chen" maxlength="80" required>
+                        </label>
+
+                        <label>
+                          Email address
+                          <input id="email" name="email" type="email" autocomplete="email" value="maya.chen@example.com" maxlength="254" required>
+                        </label>
+
+                        <label>
+                          Bio
+                          <textarea id="bio" name="bio" rows="4" maxlength="240" aria-describedby="bio-help">Product designer in Portland. Usually out on a trail or trying a new coffee shop.</textarea>
+                        </label>
+                        <small id="bio-help">Up to 240 characters.</small>
+
+                        <ui-row gap="sm" wrap>
+                          <ui-button id="save-profile" type="submit" variant="primary">Save changes</ui-button>
+                          <small id="profile-status" role="status"></small>
+                        </ui-row>
+                      </ui-stack>
+                    </form>
+                  </ui-stack>
+                </ui-card>
+              </section>
+
+              <ui-stack gap="lg">
+                <section id="notifications" aria-labelledby="notifications-heading">
+                  <ui-card padding="md" rounded="lg" elevated>
+                    <ui-stack gap="md">
+                      <ui-stack gap="xs">
+                        <h2 id="notifications-heading">Notifications</h2>
+                        <p>Choose which emails you’d like to receive.</p>
+                      </ui-stack>
+
+                      <ui-row justify="space-between" gap="sm">
+                        <ui-stack gap="xs" grow>
+                          <label for="activity"><strong>Account activity</strong></label>
+                          <small id="activity-help">New sign-ins and security alerts.</small>
+                        </ui-stack>
+                        <input id="activity" class="preference-switch" type="checkbox" role="switch" aria-describedby="activity-help" checked>
+                      </ui-row>
+                      <hr>
+                      <ui-row justify="space-between" gap="sm">
+                        <ui-stack gap="xs" grow>
+                          <label for="digest"><strong>Weekly digest</strong></label>
+                          <small id="digest-help">A Monday recap of your workspace activity.</small>
+                        </ui-stack>
+                        <input id="digest" class="preference-switch" type="checkbox" role="switch" aria-describedby="digest-help" checked>
+                      </ui-row>
+                      <hr>
+                      <ui-row justify="space-between" gap="sm">
+                        <ui-stack gap="xs" grow>
+                          <label for="updates"><strong>Product updates</strong></label>
+                          <small id="updates-help">New features and occasional announcements.</small>
+                        </ui-stack>
+                        <input id="updates" class="preference-switch" type="checkbox" role="switch" aria-describedby="updates-help">
+                      </ui-row>
+                      <small id="notification-status" role="status"></small>
+                    </ui-stack>
+                  </ui-card>
+                </section>
+
+                <section id="billing" aria-labelledby="billing-heading">
+                  <ui-card padding="md" rounded="lg" elevated>
+                    <ui-stack gap="md">
+                      <h2 id="billing-heading">Billing</h2>
+                      <ui-card variant="primary" padding="md" rounded="md">
+                        <ui-row justify="space-between" gap="sm" wrap>
+                          <ui-stack gap="xs">
+                            <small>Current plan</small>
+                            <strong>Fieldnote Plus</strong>
+                          </ui-stack>
+                          <span><strong>$12.00</strong> <small>/ month</small></span>
+                        </ui-row>
+                      </ui-card>
+                      <ui-row justify="space-between" gap="sm" wrap>
+                        <span>Next renewal</span>
+                        <time datetime="2026-12-12">December 12, 2026</time>
+                      </ui-row>
+                      <ui-row justify="space-between" gap="sm" wrap>
+                        <span>Payment method</span>
+                        <span>Visa ending in 4242</span>
+                      </ui-row>
+                    </ui-stack>
+                  </ui-card>
+                </section>
+              </ui-stack>
+            </ui-grid>
+
+            <section id="danger" aria-labelledby="danger-heading">
+              <ui-card variant="danger" padding="md" rounded="lg">
+                <ui-row justify="space-between" gap="md" wrap>
+                  <ui-stack gap="xs">
+                    <h2 id="danger-heading">Danger zone</h2>
+                    <p>Delete your demo account and remove your saved profile and preferences from this browser.</p>
+                  </ui-stack>
+                  <ui-button id="open-delete" variant="danger">Delete account</ui-button>
+                </ui-row>
+              </ui-card>
+            </section>
+          </ui-stack>
+        </ui-container>
+      </div>
+
+      <section id="deleted" hidden aria-labelledby="deleted-heading">
+        <ui-container size="sm">
+          <ui-stack gap="sm" padding="lg">
+            <h1 id="deleted-heading" tabindex="-1">Account deleted</h1>
+            <p>Your saved profile and preferences have been removed from this browser.</p>
+          </ui-stack>
+        </ui-container>
+      </section>
+    </main>
+
+    <dialog id="delete-dialog" aria-labelledby="delete-title" aria-describedby="delete-description">
+      <ui-stack gap="md">
+        <h2 id="delete-title">Delete your demo account?</h2>
+        <p id="delete-description">Your saved profile, photo, and notification preferences will be removed. This action can’t be undone.</p>
+        <ui-row gap="sm" justify="end" wrap>
+          <form method="dialog">
+            <button type="submit" autofocus>Cancel</button>
+          </form>
+          <ui-button id="confirm-delete" variant="danger">Delete account</ui-button>
+        </ui-row>
+        <small id="delete-status" role="status"></small>
+      </ui-stack>
+    </dialog>
+  </ui-page>
+
+  <script>
+    (() => {
+      const storageKey = "fieldnote-account-settings-v1";
+      const byId = (id) => document.getElementById(id);
+      const form = byId("profile-form");
+      const avatar = byId("avatar");
+      const avatarUpload = byId("avatar-upload");
+      const chooseAvatar = byId("choose-avatar");
+      const saveProfile = byId("save-profile");
+      const profileStatus = byId("profile-status");
+      const notificationStatus = byId("notification-status");
+      const deleteDialog = byId("delete-dialog");
+      const preferences = ["activity", "digest", "updates"].map(byId);
+      const profileFields = ["name", "email", "bio"].map(byId);
+      const allowedImages = ["image/jpeg", "image/png", "image/webp"];
+      let pendingPhoto;
+      let previewUrl;
+      let account = {
+        profile: {
+          ...Object.fromEntries(profileFields.map((field) => [field.id, field.value])),
+          avatar: avatar.getAttribute("src")
+        },
+        notifications: Object.fromEntries(
+          preferences.map((input) => [input.id, input.checked])
+        )
+      };
+
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        if (saved?.deleted) {
+          showDeleted();
+          return;
+        }
+        Object.assign(account.profile, saved?.profile);
+        Object.assign(account.notifications, saved?.notifications);
+      } catch {
+        profileStatus.textContent = "Saved settings couldn’t be loaded.";
+      }
+
+      for (const field of profileFields) field.value = account.profile[field.id];
+      for (const input of preferences) input.checked = account.notifications[input.id];
+      avatar.src = account.profile.avatar;
+
+      function saveAccount(nextAccount) {
+        localStorage.setItem(storageKey, JSON.stringify(nextAccount));
+        account = nextAccount;
+      }
+
+      function showDeleted() {
+        byId("settings").hidden = true;
+        byId("deleted").hidden = false;
+        byId("deleted-heading").focus();
+      }
+
+      function clearPreview() {
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        previewUrl = undefined;
+        pendingPhoto = undefined;
+        avatar.src = account.profile.avatar;
+      }
+
+      function readPhoto(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error);
+          reader.readAsDataURL(file);
+        });
+      }
+
+      chooseAvatar.addEventListener("click", () => avatarUpload.click());
+
+      avatarUpload.addEventListener("change", () => {
+        const file = avatarUpload.files[0];
+        avatarUpload.value = "";
+        if (!file) return;
+
+        if (!allowedImages.includes(file.type) || file.size > 1_000_000) {
+          profileStatus.textContent = "Choose a JPG, PNG, or WebP up to 1 MB.";
+          return;
+        }
+
+        clearPreview();
+        pendingPhoto = file;
+        previewUrl = URL.createObjectURL(file);
+        avatar.src = previewUrl;
+        profileStatus.textContent = "Save changes to keep your new photo.";
+      });
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (saveProfile.hasAttribute("loading")) return;
+        const name = byId("name").value.trim();
+        if (!name) {
+          profileStatus.textContent = "Enter your full name.";
+          byId("name").focus();
+          return;
+        }
+
+        const profile = {
+          name,
+          email: byId("email").value.trim(),
+          bio: byId("bio").value.trim(),
+          avatar: account.profile.avatar
+        };
+
+        saveProfile.setAttribute("loading", "");
+        chooseAvatar.setAttribute("disabled", "");
+
+        try {
+          if (pendingPhoto) {
+            await avatar.decode();
+            profile.avatar = await readPhoto(pendingPhoto);
+          }
+
+          if (account.deleted) return;
+          saveAccount({ ...account, profile });
+          clearPreview();
+          profileStatus.textContent = "Profile saved.";
+        } catch {
+          if (!account.deleted) {
+            profileStatus.textContent = "Couldn’t save your profile. Check the photo and try again.";
+          }
+        } finally {
+          saveProfile.removeAttribute("loading");
+          chooseAvatar.removeAttribute("disabled");
+        }
+      });
+
+      for (const input of preferences) {
+        input.addEventListener("change", () => {
+          const label = input.labels[0].textContent.trim();
+          try {
+            saveAccount({
+              ...account,
+              notifications: { ...account.notifications, [input.id]: input.checked }
+            });
+            notificationStatus.textContent = `${label} ${input.checked ? "on" : "off"}.`;
+          } catch {
+            input.checked = account.notifications[input.id];
+            notificationStatus.textContent = "Couldn’t save this preference.";
+          }
+        });
+      }
+
+      byId("open-delete").addEventListener("click", () => {
+        byId("delete-status").textContent = "";
+        deleteDialog.showModal();
+      });
+
+      byId("confirm-delete").addEventListener("click", () => {
+        try {
+          saveAccount({ deleted: true });
+        } catch {
+          byId("delete-status").textContent = "Couldn’t delete the account. Try again.";
+          return;
+        }
+
+        if (previewUrl) URL.revokeObjectURL(previewUrl);
+        deleteDialog.close();
+        showDeleted();
+        byId("settings").remove();
+      });
+    })();
+  </script>
+</body>
+</html>

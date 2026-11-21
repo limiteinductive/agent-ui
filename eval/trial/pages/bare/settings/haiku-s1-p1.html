@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <main>
+    <ui-stack gap="lg" padding="md">
+
+      <ui-stack gap="xs">
+        <h1>Account settings</h1>
+        <p>Manage your profile, notifications, billing, and account.</p>
+      </ui-stack>
+
+      <ui-grid min-item-width="320px" gap="lg">
+
+        <!-- Profile -->
+        <ui-card>
+          <form>
+            <ui-stack gap="md">
+              <h2>Profile</h2>
+              <p>This information is visible to your team members.</p>
+
+              <ui-stack direction="horizontal" gap="md" align="center" wrap="true">
+                <img src="https://picsum.photos/id/64/200/200" alt="Current avatar" width="72" height="72">
+                <ui-stack gap="xs" style="max-inline-size: 100%">
+                  <label for="avatar">Avatar</label>
+                  <input id="avatar" type="file" accept="image/png, image/jpeg, image/webp">
+                  <small>PNG, JPG or WebP. Max 2 MB.</small>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack gap="xs">
+                <label for="name">Full name</label>
+                <input id="name" type="text" value="Alex Morgan" autocomplete="name">
+              </ui-stack>
+
+              <ui-stack gap="xs">
+                <label for="email">Email address</label>
+                <input id="email" type="email" value="alex.morgan@example.com" autocomplete="email">
+              </ui-stack>
+
+              <ui-stack gap="xs">
+                <label for="bio">Bio</label>
+                <textarea id="bio" rows="4">Product designer based in Lisbon. Building tools that make small teams faster.</textarea>
+                <small>Up to 160 characters.</small>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" justify="end" gap="sm" wrap="true">
+                <button type="reset">Discard</button>
+                <button type="submit">Save changes</button>
+              </ui-stack>
+            </ui-stack>
+          </form>
+        </ui-card>
+
+        <!-- Notifications -->
+        <ui-card>
+          <ui-stack gap="md">
+            <ui-stack gap="xs">
+              <h2>Notifications</h2>
+              <p>Choose how you want to be notified about activity.</p>
+            </ui-stack>
+
+            <ui-stack gap="md">
+              <ui-stack direction="horizontal" justify="space-between" align="center" gap="md">
+                <ui-stack gap="xs">
+                  <strong>Email updates</strong>
+                  <small>Weekly summary of activity across your projects.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" aria-label="Email updates" checked>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" justify="space-between" align="center" gap="md">
+                <ui-stack gap="xs">
+                  <strong>Mentions</strong>
+                  <small>Get notified when someone mentions you in a comment.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" aria-label="Mentions" checked>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" justify="space-between" align="center" gap="md">
+                <ui-stack gap="xs">
+                  <strong>Product announcements</strong>
+                  <small>New features and release notes.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" aria-label="Product announcements">
+              </ui-stack>
+
+              <ui-stack direction="horizontal" justify="space-between" align="center" gap="md">
+                <ui-stack gap="xs">
+                  <strong>Security alerts</strong>
+                  <small>Sign-ins from new devices and password changes.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" aria-label="Security alerts" checked>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" justify="space-between" align="center" gap="md">
+                <ui-stack gap="xs">
+                  <strong>Marketing emails</strong>
+                  <small>Tips, webinars, and special offers.</small>
+                </ui-stack>
+                <input type="checkbox" role="switch" aria-label="Marketing emails">
+              </ui-stack>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Billing -->
+        <ui-card>
+          <ui-stack gap="md">
+            <ui-stack direction="horizontal" justify="space-between" align="center" gap="sm" wrap="true">
+              <h2>Billing</h2>
+              <mark>Active</mark>
+            </ui-stack>
+
+            <ui-stack gap="xs">
+              <strong>Current plan: Pro</strong>
+              <p>$24 per month, billed monthly. Up to 10 seats.</p>
+              <small>Next invoice on December 1, 2026</small>
+            </ui-stack>
+
+            <ui-stack gap="xs">
+              <small>Seats used: 7 of 10</small>
+              <progress max="10" value="7">7 of 10</progress>
+            </ui-stack>
+
+            <ui-stack gap="xs">
+              <small>Payment method</small>
+              <p>Visa ending in 4242 · Expires 08/2028</p>
+            </ui-stack>
+
+            <ui-stack direction="horizontal" gap="sm" wrap="true">
+              <button type="button">Change plan</button>
+              <button type="button">View invoices</button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Danger zone -->
+        <ui-card>
+          <ui-stack gap="md">
+            <ui-stack gap="xs">
+              <h2>Danger zone</h2>
+              <p>Deleting your account permanently removes your profile, projects, and billing history. This cannot be undone.</p>
+            </ui-stack>
+
+            <form>
+              <ui-stack gap="md">
+                <ui-stack gap="xs">
+                  <label for="confirm">Type <strong>DELETE</strong> to confirm</label>
+                  <input id="confirm" type="text" placeholder="DELETE" autocomplete="off">
+                </ui-stack>
+
+                <ui-stack direction="horizontal" justify="end" wrap="true">
+                  <button type="submit" variant="danger">Delete account</button>
+                </ui-stack>
+              </ui-stack>
+            </form>
+          </ui-stack>
+        </ui-card>
+
+      </ui-grid>
+    </ui-stack>
+  </main>
+</body>
+</html>

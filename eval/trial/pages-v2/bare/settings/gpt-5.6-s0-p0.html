@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <main>
+    <ui-stack direction="vertical" gap="large" padding="large" max-width="960">
+      <ui-stack direction="vertical" gap="small">
+        <ui-text size="display" weight="bold">Account settings</ui-text>
+        <ui-text tone="muted">Manage your profile, notifications, billing, and account security.</ui-text>
+      </ui-stack>
+
+      <form id="settings-form">
+        <ui-stack direction="vertical" gap="large">
+          <ui-card>
+            <ui-stack direction="vertical" gap="medium" padding="large">
+              <ui-stack direction="vertical" gap="small">
+                <ui-text size="heading" weight="bold">Profile</ui-text>
+                <ui-text tone="muted">Keep your personal information up to date.</ui-text>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" gap="medium" align="center" wrap>
+                <ui-avatar src="https://picsum.photos/seed/account-avatar/160/160" alt="Alex Morgan"></ui-avatar>
+                <ui-stack direction="vertical" gap="small">
+                  <ui-text weight="bold">Profile photo</ui-text>
+                  <ui-text tone="muted">JPG, PNG, or GIF. Maximum size 5 MB.</ui-text>
+                  <label>
+                    <span>Upload new photo</span>
+                    <input id="avatar-upload" type="file" accept="image/png,image/jpeg,image/gif">
+                  </label>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" gap="medium" wrap>
+                <ui-stack direction="vertical" gap="small" grow>
+                  <label for="name">Full name</label>
+                  <input id="name" name="name" type="text" value="Alex Morgan" autocomplete="name">
+                </ui-stack>
+                <ui-stack direction="vertical" gap="small" grow>
+                  <label for="email">Email address</label>
+                  <input id="email" name="email" type="email" value="alex.morgan@example.com" autocomplete="email">
+                </ui-stack>
+              </ui-stack>
+
+              <ui-stack direction="vertical" gap="small">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="4" placeholder="Tell people a little about yourself">Product designer building thoughtful tools for creative teams.</textarea>
+                <ui-text size="small" tone="muted">A short introduction shown on your public profile.</ui-text>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" justify="end">
+                <button type="submit">Save profile</button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="medium" padding="large">
+              <ui-stack direction="vertical" gap="small">
+                <ui-text size="heading" weight="bold">Notifications</ui-text>
+                <ui-text tone="muted">Choose how you want to hear from us.</ui-text>
+              </ui-stack>
+
+              <ui-stack direction="vertical" gap="medium">
+                <ui-stack direction="horizontal" justify="between" align="center" gap="medium">
+                  <ui-stack direction="vertical" gap="small">
+                    <ui-text weight="bold">Product updates</ui-text>
+                    <ui-text tone="muted">News about features, improvements, and releases.</ui-text>
+                  </ui-stack>
+                  <label>
+                    <span>Enable product updates</span>
+                    <input type="checkbox" checked>
+                  </label>
+                </ui-stack>
+
+                <ui-divider></ui-divider>
+
+                <ui-stack direction="horizontal" justify="between" align="center" gap="medium">
+                  <ui-stack direction="vertical" gap="small">
+                    <ui-text weight="bold">Weekly digest</ui-text>
+                    <ui-text tone="muted">A weekly summary of activity in your workspace.</ui-text>
+                  </ui-stack>
+                  <label>
+                    <span>Enable weekly digest</span>
+                    <input type="checkbox" checked>
+                  </label>
+                </ui-stack>
+
+                <ui-divider></ui-divider>
+
+                <ui-stack direction="horizontal" justify="between" align="center" gap="medium">
+                  <ui-stack direction="vertical" gap="small">
+                    <ui-text weight="bold">Security alerts</ui-text>
+                    <ui-text tone="muted">Important alerts about sign-ins and account changes.</ui-text>
+                  </ui-stack>
+                  <label>
+                    <span>Enable security alerts</span>
+                    <input type="checkbox" checked>
+                  </label>
+                </ui-stack>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card>
+            <ui-stack direction="vertical" gap="medium" padding="large">
+              <ui-stack direction="vertical" gap="small">
+                <ui-text size="heading" weight="bold">Billing</ui-text>
+                <ui-text tone="muted">Review your current subscription and payment details.</ui-text>
+              </ui-stack>
+
+              <ui-stack direction="horizontal" justify="between" align="center" gap="medium" wrap>
+                <ui-stack direction="vertical" gap="small">
+                  <ui-text size="large" weight="bold">Pro plan</ui-text>
+                  <ui-text tone="muted">$24 per member / month</ui-text>
+                  <ui-badge tone="positive">Active</ui-badge>
+                </ui-stack>
+                <ui-stack direction="vertical" gap="small" align="end">
+                  <ui-text weight="bold">Next payment</ui-text>
+                  <ui-text tone="muted">December 12, 2026</ui-text>
+                </ui-stack>
+              </ui-stack>
+
+              <ui-divider></ui-divider>
+
+              <ui-stack direction="horizontal" justify="between" align="center" gap="medium" wrap>
+                <ui-stack direction="vertical" gap="small">
+                  <ui-text weight="bold">Visa ending in 4242</ui-text>
+                  <ui-text tone="muted">Expires 08/28</ui-text>
+                </ui-stack>
+                <button type="button">Manage billing</button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+
+          <ui-card tone="danger">
+            <ui-stack direction="vertical" gap="medium" padding="large">
+              <ui-stack direction="vertical" gap="small">
+                <ui-text size="heading" weight="bold">Danger zone</ui-text>
+                <ui-text tone="muted">Permanently delete your account and all associated data.</ui-text>
+              </ui-stack>
+              <ui-stack direction="horizontal" justify="between" align="center" gap="medium" wrap>
+                <ui-text tone="muted">This action cannot be undone.</ui-text>
+                <button type="button" tone="danger" onclick="confirm('Are you sure you want to delete your account?') && alert('Account deletion requested.')">Delete account</button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+        </ui-stack>
+      </form>
+    </ui-stack>
+  </main>
+
+  <script>
+    document.getElementById('settings-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      alert('Profile saved successfully.');
+    });
+
+    document.getElementById('avatar-upload').addEventListener('change', function (event) {
+      const file = event.target.files[0];
+      if (file) {
+        const avatar = document.querySelector('ui-avatar');
+        avatar.setAttribute('src', URL.createObjectURL(file));
+      }
+    });
+  </script>
+</body>
+</html>

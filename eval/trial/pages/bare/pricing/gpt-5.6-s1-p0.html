@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flowboard Pricing</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <ui-container size="large">
+      <header>
+        <ui-stack direction="horizontal" align="center" justify="between" gap="large" wrap>
+          <a href="/" aria-label="Flowboard home">
+            <ui-stack direction="horizontal" align="center" gap="small">
+              <ui-badge color="primary">F</ui-badge>
+              <strong>Flowboard</strong>
+            </ui-stack>
+          </a>
+
+          <nav aria-label="Main navigation">
+            <ui-stack direction="horizontal" gap="large" wrap>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#faq">FAQ</a>
+              <a href="#customers">Customers</a>
+            </ui-stack>
+          </nav>
+
+          <ui-stack direction="horizontal" gap="small">
+            <ui-button variant="ghost">Sign in</ui-button>
+            <ui-button variant="primary">Start free</ui-button>
+          </ui-stack>
+        </ui-stack>
+      </header>
+
+      <main>
+        <ui-section>
+          <ui-grid columns="2" gap="xlarge" align="center" responsive="1">
+            <ui-stack gap="large">
+              <ui-badge color="primary">Simple, transparent pricing</ui-badge>
+              <h1>More progress.<br>Less project chaos.</h1>
+              <p>Flowboard gives growing teams one calm, connected place to plan work, share context, and ship better projects.</p>
+              <ui-stack direction="horizontal" gap="small" wrap>
+                <ui-button variant="primary" size="large">Start your 14-day trial</ui-button>
+                <ui-button variant="outline" size="large">Book a demo</ui-button>
+              </ui-stack>
+              <small>No credit card required · Cancel anytime</small>
+            </ui-stack>
+
+            <ui-card>
+              <img src="https://picsum.photos/seed/flowboard-team/900/620" alt="Team collaborating around a project plan">
+            </ui-card>
+          </ui-grid>
+        </ui-section>
+
+        <ui-section id="pricing">
+          <ui-stack gap="medium" align="center">
+            <ui-badge color="success">Plans for every stage</ui-badge>
+            <h2>Choose the way your team works best</h2>
+            <p>Start small, then add power as your projects grow.</p>
+          </ui-stack>
+
+          <ui-grid columns="3" gap="medium" responsive="1">
+            <ui-card>
+              <ui-stack gap="large">
+                <ui-stack gap="small">
+                  <h3>Starter</h3>
+                  <p>For individuals and small teams getting organized.</p>
+                </ui-stack>
+                <ui-stack direction="horizontal" align="baseline" gap="small">
+                  <strong>€8</strong><span>per user / month</span>
+                </ui-stack>
+                <ui-button variant="outline" full-width>Choose Starter</ui-button>
+                <ui-divider></ui-divider>
+                <strong>Includes:</strong>
+                <ul>
+                  <li>Unlimited projects</li>
+                  <li>Task lists and due dates</li>
+                  <li>Basic dashboards</li>
+                  <li>5 GB file storage</li>
+                  <li>Email support</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card tone="accent">
+              <ui-stack gap="large">
+                <ui-stack direction="horizontal" justify="between" align="center">
+                  <ui-badge color="primary">Most popular</ui-badge>
+                  <span>Best value</span>
+                </ui-stack>
+                <ui-stack gap="small">
+                  <h3>Team</h3>
+                  <p>For teams that need visibility and momentum.</p>
+                </ui-stack>
+                <ui-stack direction="horizontal" align="baseline" gap="small">
+                  <strong>€16</strong><span>per user / month</span>
+                </ui-stack>
+                <ui-button variant="primary" full-width>Start Team trial</ui-button>
+                <ui-divider></ui-divider>
+                <strong>Everything in Starter, plus:</strong>
+                <ul>
+                  <li>Timeline and workload views</li>
+                  <li>Custom workflows</li>
+                  <li>Automations and forms</li>
+                  <li>Unlimited integrations</li>
+                  <li>Priority support</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack gap="large">
+                <ui-stack gap="small">
+                  <h3>Business</h3>
+                  <p>For organizations managing complex work at scale.</p>
+                </ui-stack>
+                <ui-stack direction="horizontal" align="baseline" gap="small">
+                  <strong>€32</strong><span>per user / month</span>
+                </ui-stack>
+                <ui-button variant="outline" full-width>Choose Business</ui-button>
+                <ui-divider></ui-divider>
+                <strong>Everything in Team, plus:</strong>
+                <ul>
+                  <li>Advanced permissions</li>
+                  <li>Portfolio reporting</li>
+                  <li>Custom data exports</li>
+                  <li>Single sign-on</li>
+                  <li>Dedicated success manager</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <ui-alert variant="info">
+            Save 20% when you choose annual billing. Every plan includes a 14-day free trial.
+          </ui-alert>
+        </ui-section>
+
+        <ui-section id="features">
+          <ui-stack gap="medium" align="center">
+            <ui-badge color="neutral">Compare plans</ui-badge>
+            <h2>Everything you need to move work forward</h2>
+            <p>Clear capabilities, no confusing add-ons.</p>
+          </ui-stack>
+
+          <ui-table responsive>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Starter</th>
+                  <th scope="col">Team</th>
+                  <th scope="col">Business</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Projects</th>
+                  <td>Unlimited</td>
+                  <td>Unlimited</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Timeline view</th>
+                  <td>—</td>
+                  <td>Included</td>
+                  <td>Included</td>
+                </tr>
+                <tr>
+                  <th scope="row">Automations</th>
+                  <td>—</td>
+                  <td>25 rules</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Dashboards</th>
+                  <td>Basic</td>
+                  <td>Advanced</td>
+                  <td>Advanced</td>
+                </tr>
+                <tr>
+                  <th scope="row">Guest collaborators</th>
+                  <td>5 per project</td>
+                  <td>25 per project</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Storage</th>
+                  <td>5 GB</td>
+                  <td>100 GB</td>
+                  <td>1 TB</td>
+                </tr>
+                <tr>
+                  <th scope="row">Support</th>
+                  <td>Email</td>
+                  <td>Priority email</td>
+                  <td>Dedicated manager</td>
+                </tr>
+              </tbody>
+            </table>
+          </ui-table>
+        </ui-section>
+
+        <ui-section id="customers">
+          <ui-card tone="muted">
+            <ui-grid columns="2" gap="large" align="center" responsive="1">
+              <ui-stack gap="medium">
+                <ui-badge color="success">Loved by modern teams</ui-badge>
+                <blockquote>
+                  “Flowboard replaced three disconnected tools for us. Everyone knows what matters, who owns it, and what happens next.”
+                </blockquote>
+                <ui-stack direction="horizontal" align="center" gap="small">
+                  <ui-avatar src="https://picsum.photos/seed/maya/96/96" alt="Maya Chen"></ui-avatar>
+                  <ui-stack gap="none">
+                    <strong>Maya Chen</strong>
+                    <small>Head of Operations, Northstar Studio</small>
+                  </ui-stack>
+                </ui-stack>
+              </ui-stack>
+              <ui-stack direction="horizontal" justify="around" gap="large" wrap>
+                <ui-stack align="center" gap="small">
+                  <strong>42%</strong>
+                  <small>fewer status meetings</small>
+                </ui-stack>
+                <ui-stack align="center" gap="small">
+                  <strong>2.4×</strong>
+                  <small>faster handoffs</small>
+                </ui-stack>
+                <ui-stack align="center" gap="small">
+                  <strong>4.9/5</strong>
+                  <small>team satisfaction</small>
+                </ui-stack>
+              </ui-stack>
+            </ui-grid>
+          </ui-card>
+        </ui-section>
+
+        <ui-section id="faq">
+          <ui-stack gap="medium" align="center">
+            <ui-badge color="neutral">Questions, answered</ui-badge>
+            <h2>Frequently asked questions</h2>
+            <p>Still curious? Our team is happy to help.</p>
+          </ui-stack>
+
+          <ui-stack gap="small">
+            <ui-details>
+              <summary>Can I try Flowboard before paying?</summary>
+              <p>Yes. Every plan includes a 14-day free trial with full access to the plan's features. No credit card is required.</p>
+            </ui-details>
+            <ui-details>
+              <summary>Can I change plans later?</summary>
+              <p>Absolutely. You can upgrade or downgrade at any time. Changes are prorated automatically on your next invoice.</p>
+            </ui-details>
+            <ui-details>
+              <summary>Do you offer annual billing?</summary>
+              <p>Yes. Annual billing saves 20% compared with monthly billing, and you can switch billing periods whenever you like.</p>
+            </ui-details>
+            <ui-details>
+              <summary>Is Flowboard secure?</summary>
+              <p>Flowboard encrypts data in transit and at rest, provides role-based access controls, and maintains regular backups.</p>
+            </ui-details>
+            <ui-details>
+              <summary>Can guests join a project?</summary>
+              <p>Yes. Guests can collaborate on shared projects without needing access to your entire workspace.</p>
+            </ui-details>
+          </ui-stack>
+        </ui-section>
+
+        <ui-section>
+          <ui-card tone="accent">
+            <ui-stack align="center" gap="medium">
+              <h2>Ready to make work flow?</h2>
+              <p>Bring your projects, people, and priorities together in one place.</p>
+              <ui-stack direction="horizontal" gap="small" wrap>
+                <ui-button variant="primary" size="large">Start your free trial</ui-button>
+                <ui-button variant="outline" size="large">Talk to sales</ui-button>
+              </ui-stack>
+            </ui-stack>
+          </ui-card>
+        </ui-section>
+      </main>
+
+      <footer>
+        <ui-divider></ui-divider>
+        <ui-stack direction="horizontal" justify="between" gap="large" wrap>
+          <ui-stack gap="small">
+            <strong>Flowboard</strong>
+            <small>Make meaningful progress, together.</small>
+          </ui-stack>
+          <ui-stack direction="horizontal" gap="large" wrap>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">Help center</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+          </ui-stack>
+          <small>© 2026 Flowboard, Inc.</small>
+        </ui-stack>
+      </footer>
+    </ui-container>
+  </ui-page>
+</body>
+</html>

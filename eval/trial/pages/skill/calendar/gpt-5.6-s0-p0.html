@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="xl">
+        <ui-row justify="space-between" wrap gap="md">
+          <strong>Northstar Workspace</strong>
+          <nav aria-label="Primary navigation">
+            <ui-row gap="sm" wrap>
+              <a href="#calendar">Calendar</a>
+              <a href="#team">Team</a>
+              <a href="#projects">Projects</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main id="calendar">
+      <ui-container size="xl">
+        <ui-stack gap="xl" padding="lg">
+          <ui-row justify="space-between" align="end" wrap gap="md">
+            <ui-stack gap="xs">
+              <small>TEAM CALENDAR</small>
+              <h1>Plan the work, together.</h1>
+              <p>Keep track of meetings, milestones, and focus time across the team.</p>
+            </ui-stack>
+            <ui-button variant="primary" id="newEvent">+ New event</ui-button>
+          </ui-row>
+
+          <ui-row stack-below="52rem" align="stretch" gap="xl">
+            <ui-card grow padding="lg" gap="lg" id="calendarCard">
+              <ui-row justify="space-between" align="center" wrap gap="md">
+                <ui-row gap="sm" align="center">
+                  <ui-button id="previousMonth" aria-label="Previous month">‹</ui-button>
+                  <h2 id="monthTitle">November 2026</h2>
+                  <ui-button id="nextMonth" aria-label="Next month">›</ui-button>
+                </ui-row>
+                <ui-button variant="outline" id="todayButton">Today</ui-button>
+              </ui-row>
+
+              <ui-grid columns="7" gap="xs" id="calendarGrid" aria-label="Monthly calendar"></ui-grid>
+            </ui-card>
+
+            <ui-card padding="lg" gap="lg" id="upcoming">
+              <ui-stack gap="xs">
+                <h2>Upcoming</h2>
+                <p>Next events for your team</p>
+              </ui-stack>
+
+              <ui-stack gap="md">
+                <article>
+                  <ui-row gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/alex/48/48" alt="Alex Morgan" width="48" height="48">
+                    <ui-stack gap="xs">
+                      <strong>Product strategy sync</strong>
+                      <small>Today · 10:00–11:00 AM</small>
+                      <span>Conference Room A</span>
+                    </ui-stack>
+                  </ui-row>
+                </article>
+
+                <hr>
+
+                <article>
+                  <ui-row gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/priya/48/48" alt="Priya Shah" width="48" height="48">
+                    <ui-stack gap="xs">
+                      <strong>Design critique</strong>
+                      <small>Tomorrow · 2:00–3:00 PM</small>
+                      <span>Zoom · Product team</span>
+                    </ui-stack>
+                  </ui-row>
+                </article>
+
+                <hr>
+
+                <article>
+                  <ui-row gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/jordan/48/48" alt="Jordan Lee" width="48" height="48">
+                    <ui-stack gap="xs">
+                      <strong>Q4 launch milestone</strong>
+                      <small>Friday · All day</small>
+                      <span>Marketing launch</span>
+                    </ui-stack>
+                  </ui-row>
+                </article>
+
+                <hr>
+
+                <article>
+                  <ui-row gap="sm" align="start">
+                    <img src="https://picsum.photos/seed/sam/48/48" alt="Sam Rivera" width="48" height="48">
+                    <ui-stack gap="xs">
+                      <strong>Team lunch</strong>
+                      <small>Monday, Dec 7 · 12:30 PM</small>
+                      <span>Ferry Building</span>
+                    </ui-stack>
+                  </ui-row>
+                </article>
+              </ui-stack>
+
+              <a href="#all-events">View all events →</a>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="xl">
+        <small>Northstar Workspace · Pacific Time · Shared with 12 teammates</small>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    const calendarGrid = document.getElementById("calendarGrid");
+    const monthTitle = document.getElementById("monthTitle");
+    const previousMonth = document.getElementById("previousMonth");
+    const nextMonth = document.getElementById("nextMonth");
+    const todayButton = document.getElementById("todayButton");
+    const newEvent = document.getElementById("newEvent");
+
+    const eventSets = {
+      "2026-10": {
+        6: ["Sprint planning"],
+        13: ["Design critique"],
+        21: ["Customer interviews"],
+        28: ["Team retro"]
+      },
+      "2026-11": {
+        3: ["Product strategy sync"],
+        5: ["Design critique"],
+        9: ["Team lunch"],
+        12: ["Q4 launch milestone"],
+        17: ["Customer interviews"],
+        24: ["Team retro"],
+        30: ["Sprint planning"]
+      },
+      "2026-12": {
+        2: ["Product strategy sync"],
+        7: ["Team lunch"],
+        10: ["Design critique"],
+        15: ["Q4 wrap-up"],
+        18: ["Winter social"]
+      }
+    };
+
+    let visibleDate = new Date(2026, 10, 1);
+
+    function monthKey(date) {
+      return date.toISOString().slice(0, 7);
+    }
+
+    function renderCalendar() {
+      const year = visibleDate.getFullYear();
+      const month = visibleDate.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const previousDays = (firstDay.getDay() + 6) % 7;
+      const events = eventSets[monthKey(visibleDate)] || {};
+
+      monthTitle.textContent = visibleDate.toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric"
+      });
+
+      calendarGrid.replaceChildren();
+
+      ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].forEach(day => {
+        const label = document.createElement("strong");
+        label.textContent = day;
+        calendarGrid.append(label);
+      });
+
+      for (let index = 0; index < 42; index++) {
+        const dayNumber = index - previousDays + 1;
+        const cell = document.createElement("ui-card");
+        cell.setAttribute("padding", "sm");
+        cell.setAttribute("gap", "xs");
+        cell.setAttribute("rounded", "sm");
+
+        if (dayNumber < 1 || dayNumber > daysInMonth) {
+          cell.setAttribute("variant", "neutral");
+          cell.setAttribute("aria-hidden", "true");
+          const empty = document.createElement("small");
+          empty.textContent = " ";
+          cell.append(empty);
+        } else {
+          const date = new Date(year, month, dayNumber);
+          const number = document.createElement("strong");
+          number.textContent = dayNumber;
+          number.setAttribute("aria-label", date.toDateString());
+          cell.append(number);
+
+          (events[dayNumber] || []).forEach(eventName => {
+            const event = document.createElement("mark");
+            event.textContent = eventName;
+            cell.append(event);
+          });
+        }
+
+        calendarGrid.append(cell);
+      }
+    }
+
+    previousMonth.addEventListener("click", () => {
+      visibleDate = new Date(visibleDate.getFullYear(), visibleDate.getMonth() - 1, 1);
+      renderCalendar();
+    });
+
+    nextMonth.addEventListener("click", () => {
+      visibleDate = new Date(visibleDate.getFullYear(), visibleDate.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    todayButton.addEventListener("click", () => {
+      visibleDate = new Date();
+      visibleDate.setDate(1);
+      renderCalendar();
+    });
+
+    newEvent.addEventListener("click", () => {
+      alert("New event creation is ready for your team.");
+    });
+
+    renderCalendar();
+  </script>
+</body>
+</html>

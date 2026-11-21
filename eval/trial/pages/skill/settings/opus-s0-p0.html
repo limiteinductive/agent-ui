@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings · Northwind</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="sm">
+        <strong>Northwind</strong>
+        <nav>
+          <ui-row gap="md">
+            <a href="#">Dashboard</a>
+            <a href="#" aria-current="page">Settings</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="md">
+        <ui-stack gap="xs">
+          <h1>Account settings</h1>
+          <p>Manage your profile, notifications, and subscription.</p>
+        </ui-stack>
+
+        <!-- Profile -->
+        <ui-card elevated>
+          <ui-stack gap="xs">
+            <h2>Profile</h2>
+            <p><small>This information appears on your public profile and in shared workspaces.</small></p>
+          </ui-stack>
+          <form id="profile-form">
+            <ui-stack gap="lg">
+              <ui-row wrap gap="lg">
+                <img id="avatar-preview" src="https://picsum.photos/seed/maya-avatar/160/160" alt="Current avatar for Maya Chen" width="80" height="80">
+                <ui-stack gap="xs" grow>
+                  <label>Avatar
+                    <input type="file" name="avatar" id="avatar-input" accept="image/png, image/jpeg, image/webp">
+                  </label>
+                  <small>PNG, JPG or WebP. Square images work best, up to 2 MB.</small>
+                </ui-stack>
+              </ui-row>
+
+              <ui-grid max-columns="2" min-item-width="sm">
+                <label>Full name
+                  <input name="name" autocomplete="name" value="Maya Chen" required>
+                </label>
+                <label>Email address
+                  <input type="email" name="email" autocomplete="email" value="maya.chen@example.com" required>
+                </label>
+              </ui-grid>
+
+              <label>Bio
+                <textarea name="bio" rows="4" maxlength="280">Product designer based in Portland. I sketch interfaces by day and ride gravel trails on weekends.</textarea>
+              </label>
+              <small>Up to 280 characters.</small>
+
+              <ui-row wrap justify="end" gap="sm">
+                <ui-button type="reset" variant="ghost">Cancel</ui-button>
+                <ui-button type="submit" variant="primary" id="save-profile">Save changes</ui-button>
+              </ui-row>
+              <p id="profile-status" role="status" hidden>Profile saved.</p>
+            </ui-stack>
+          </form>
+        </ui-card>
+
+        <!-- Notifications -->
+        <ui-card elevated>
+          <ui-stack gap="xs">
+            <h2>Notifications</h2>
+            <p><small>Choose what we email you about. Security alerts are always sent.</small></p>
+          </ui-stack>
+          <ui-stack gap="md">
+            <ui-row gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n1">Product updates</strong>
+                <small>New features and improvements, about once a month.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify-updates" aria-labelledby="n1" checked>
+            </ui-row>
+            <hr>
+            <ui-row gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n2">Comments and mentions</strong>
+                <small>When someone replies to you or @mentions you.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify-mentions" aria-labelledby="n2" checked>
+            </ui-row>
+            <hr>
+            <ui-row gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n3">Weekly digest</strong>
+                <small>A Monday summary of activity across your projects.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify-digest" aria-labelledby="n3">
+            </ui-row>
+            <hr>
+            <ui-row gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n4">Billing reminders</strong>
+                <small>Upcoming renewals and failed payment notices.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify-billing" aria-labelledby="n4" checked>
+            </ui-row>
+            <hr>
+            <ui-row gap="md">
+              <ui-stack gap="0" grow>
+                <strong id="n5">Marketing emails</strong>
+                <small>Tips, case studies, and event invitations.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify-marketing" aria-labelledby="n5">
+            </ui-row>
+          </ui-stack>
+        </ui-card>
+
+        <!-- Billing -->
+        <ui-card elevated>
+          <ui-row wrap justify="space-between" gap="sm">
+            <h2>Billing</h2>
+            <mark>Active</mark>
+          </ui-row>
+          <ui-card sunken padding="md">
+            <ui-row wrap justify="space-between" gap="md">
+              <ui-stack gap="xs">
+                <small>Current plan</small>
+                <strong>Pro · Annual</strong>
+                <small>5 seats · 100 GB storage · priority support</small>
+              </ui-stack>
+              <ui-stack gap="xs">
+                <small>Price</small>
+                <strong>$144.00 / year</strong>
+              </ui-stack>
+            </ui-row>
+          </ui-card>
+          <ui-grid max-columns="3" min-item-width="xs" gap="md">
+            <ui-stack gap="xs">
+              <small>Next renewal</small>
+              <strong><time datetime="2027-03-14">Mar 14, 2027</time></strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Payment method</small>
+              <strong>Visa •••• 4242</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Seats used</small>
+              <strong>3 of 5</strong>
+            </ui-stack>
+          </ui-grid>
+          <ui-row wrap gap="sm">
+            <ui-button variant="primary">Change plan</ui-button>
+            <ui-button variant="outline">Update payment method</ui-button>
+            <ui-button variant="ghost">View invoices</ui-button>
+          </ui-row>
+        </ui-card>
+
+        <!-- Danger zone -->
+        <ui-card variant="danger">
+          <ui-stack gap="xs">
+            <h2>Danger zone</h2>
+            <p>Deleting your account permanently removes your profile, projects, and files. Your subscription will be cancelled immediately and this cannot be undone.</p>
+          </ui-stack>
+          <ui-row wrap>
+            <ui-button variant="danger" id="open-delete">Delete account</ui-button>
+          </ui-row>
+        </ui-card>
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <dialog id="delete-dialog" aria-labelledby="delete-title">
+    <form method="dialog" id="delete-form">
+      <ui-stack gap="md">
+        <h3 id="delete-title">Delete your account?</h3>
+        <p>This permanently deletes the account for <strong>maya.chen@example.com</strong> and all associated data.</p>
+        <label>Type DELETE to confirm
+          <input name="confirm" id="delete-confirm" autocomplete="off">
+        </label>
+        <ui-row wrap justify="end" gap="sm">
+          <ui-button type="submit" value="cancel" variant="ghost">Cancel</ui-button>
+          <ui-button variant="danger" id="confirm-delete" disabled>Delete permanently</ui-button>
+        </ui-row>
+      </ui-stack>
+    </form>
+  </dialog>
+</ui-page>
+
+<script>
+  const avatarInput = document.getElementById('avatar-input');
+  const avatarPreview = document.getElementById('avatar-preview');
+  avatarInput.addEventListener('change', () => {
+    const file = avatarInput.files && avatarInput.files[0];
+    if (file) avatarPreview.src = URL.createObjectURL(file);
+  });
+
+  const profileForm = document.getElementById('profile-form');
+  const status = document.getElementById('profile-status');
+  profileForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('save-profile');
+    btn.setAttribute('loading', '');
+    setTimeout(() => {
+      btn.removeAttribute('loading');
+      status.hidden = false;
+      setTimeout(() => { status.hidden = true; }, 3000);
+    }, 800);
+  });
+
+  const dialog = document.getElementById('delete-dialog');
+  const confirmInput = document.getElementById('delete-confirm');
+  const confirmBtn = document.getElementById('confirm-delete');
+  document.getElementById('open-delete').addEventListener('click', () => {
+    confirmInput.value = '';
+    confirmBtn.setAttribute('disabled', '');
+    dialog.showModal();
+  });
+  confirmInput.addEventListener('input', () => {
+    if (confirmInput.value.trim() === 'DELETE') confirmBtn.removeAttribute('disabled');
+    else confirmBtn.setAttribute('disabled', '');
+  });
+  confirmBtn.addEventListener('click', () => {
+    if (confirmBtn.hasAttribute('disabled')) return;
+    confirmBtn.setAttribute('loading', '');
+    setTimeout(() => {
+      confirmBtn.removeAttribute('loading');
+      dialog.close();
+      alert('Your account deletion has been scheduled.');
+    }, 1000);
+  });
+</script>
+</body>
+</html>

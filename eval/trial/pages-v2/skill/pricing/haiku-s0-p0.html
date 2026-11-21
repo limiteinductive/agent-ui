@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing · Taskforge</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" wrap gap="md" padding="md">
+          <a href="#" aria-label="Taskforge home">
+            <ui-row gap="xs">
+              <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+                <rect width="28" height="28" rx="7" fill="currentColor"/>
+                <path d="M8 14.5l4 4 8-9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <strong>Taskforge</strong>
+            </ui-row>
+          </a>
+          <nav>
+            <ui-row gap="md" wrap>
+              <a href="#features">Features</a>
+              <a href="#pricing" aria-current="page">Pricing</a>
+              <a href="#faq">FAQ</a>
+              <a href="#">Log in</a>
+            </ui-row>
+          </nav>
+          <ui-button variant="primary" size="sm">Start free trial</ui-button>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <ui-container>
+        <ui-row stack-below="40rem" gap="2xl" padding="xl" align="center">
+          <ui-stack grow gap="md">
+            <p><mark>New: annual plans save 20%</mark></p>
+            <h1>Simple pricing for teams that ship</h1>
+            <p>Plan projects, assign work, and track progress in one place. Start free and upgrade when your team grows.</p>
+            <ui-row wrap gap="sm">
+              <ui-button variant="primary" size="lg">Start free trial</ui-button>
+              <ui-button variant="outline" size="lg">Talk to sales</ui-button>
+            </ui-row>
+            <small>14-day free trial. No credit card required.</small>
+          </ui-stack>
+          <ui-card padding="0" rounded="lg">
+            <img src="https://picsum.photos/seed/taskforge-hero/960/720" alt="Team reviewing a project board" width="960" height="720">
+          </ui-card>
+        </ui-row>
+      </ui-container>
+
+      <!-- Plans -->
+      <section id="pricing">
+        <ui-container>
+          <ui-stack gap="xl" padding="xl">
+            <ui-stack gap="xs" align="center">
+              <h2>Plans for every stage</h2>
+              <p>Monthly or annual billing. Change plans at any time.</p>
+            </ui-stack>
+
+            <ui-grid max-columns="3" gap="lg">
+              <ui-card>
+                <ui-stack gap="md">
+                  <h3>Starter</h3>
+                  <p>For small teams getting organized.</p>
+                  <p><strong>$0</strong> / user / month</p>
+                  <ui-button>Get started</ui-button>
+                  <ul>
+                    <li>Up to 10 users</li>
+                    <li>5 projects</li>
+                    <li>Kanban and list views</li>
+                    <li>Email support</li>
+                  </ul>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card elevated variant="primary">
+                <ui-stack gap="md">
+                  <ui-row gap="sm">
+                    <h3>Team</h3>
+                    <mark>Most popular</mark>
+                  </ui-row>
+                  <p>For growing teams that need timelines.</p>
+                  <p><strong>$12</strong> / user / month</p>
+                  <ui-button variant="primary">Start free trial</ui-button>
+                  <ul>
+                    <li>Up to 50 users</li>
+                    <li>Unlimited projects</li>
+                    <li>Timeline and calendar views</li>
+                    <li>5,000 automations per month</li>
+                    <li>Guest access</li>
+                    <li>Priority email support</li>
+                  </ul>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack gap="md">
+                  <h3>Business</h3>
+                  <p>For organizations with security needs.</p>
+                  <p><strong>$24</strong> / user / month</p>
+                  <ui-button>Contact sales</ui-button>
+                  <ul>
+                    <li>Unlimited users</li>
+                    <li>Unlimited automations</li>
+                    <li>SSO and SAML</li>
+                    <li>Audit log</li>
+                    <li>24/7 phone support</li>
+                  </ul>
+                </ui-stack>
+              </ui-card>
+            </ui-grid>
+          </ui-stack>
+        </ui-container>
+      </section>
+
+      <!-- Comparison -->
+      <section id="features">
+        <ui-container>
+          <ui-stack gap="lg" padding="xl">
+            <h2>Compare plans</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Starter</th>
+                  <th scope="col">Team</th>
+                  <th scope="col">Business</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">Users</th><td>10</td><td>50</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Projects</th><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Timeline views</th><td>—</td><td>Yes</td><td>Yes</td></tr>
+                <tr><th scope="row">Automations</th><td>100 / mo</td><td>5,000 / mo</td><td>Unlimited</td></tr>
+                <tr><th scope="row">Guest access</th><td>—</td><td>Yes</td><td>Yes</td></tr>
+                <tr><th scope="row">SSO and SAML</th><td>—</td><td>—</td><td>Yes</td></tr>
+                <tr><th scope="row">Audit log</th><td>—</td><td>—</td><td>Yes</td></tr>
+                <tr><th scope="row">Support</th><td>Email</td><td>Priority email</td><td>24/7 phone</td></tr>
+              </tbody>
+            </table>
+          </ui-stack>
+        </ui-container>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq">
+        <ui-container>
+          <ui-stack gap="md" padding="xl">
+            <h2>Frequently asked questions</h2>
+            <details>
+              <summary>Can I change plans later?</summary>
+              <p>Yes. Upgrade or downgrade at any time from your billing settings. Upgrades take effect immediately, and downgrades apply at the start of your next billing cycle.</p>
+            </details>
+            <details>
+              <summary>Do you offer a free trial?</summary>
+              <p>Every paid plan includes a 14-day free trial with full access. No credit card is required to start.</p>
+            </details>
+            <details>
+              <summary>How does annual billing work?</summary>
+              <p>Annual plans are billed once per year and save 20% compared to monthly billing. You can switch between monthly and annual billing at any time.</p>
+            </details>
+            <details>
+              <summary>What happens to my data if I cancel?</summary>
+              <p>You can export all projects as CSV or JSON. Your workspace stays readable for 30 days after cancellation before it is permanently deleted.</p>
+            </details>
+            <details>
+              <summary>Do you offer discounts for nonprofits or schools?</summary>
+              <p>Yes. Verified nonprofits and educational institutions get 50% off the Team plan. Contact sales with your organization details to apply.</p>
+            </details>
+          </ui-stack>
+        </ui-container>
+      </section>
+    </main>
+
+    <footer>
+      <ui-container>
+        <ui-stack gap="xl" padding="xl">
+          <hr>
+          <ui-grid max-columns="4" min-item-width="sm" gap="xl">
+            <ui-stack gap="xs">
+              <strong>Product</strong>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#">Integrations</a>
+              <a href="#">Changelog</a>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <strong>Company</strong>
+              <a href="#">About</a>
+              <a href="#">Careers</a>
+              <a href="#">Press</a>
+              <a href="#">Contact</a>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <strong>Resources</strong>
+              <a href="#">Documentation</a>
+              <a href="#">Guides</a>
+              <a href="#">Community</a>
+              <a href="#">Status</a>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <strong>Legal</strong>
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+              <a href="#">Security</a>
+              <a href="#">Cookies</a>
+            </ui-stack>
+          </ui-grid>
+          <ui-row justify="space-between" wrap gap="md">
+            <small>© 2026 Taskforge, Inc. All rights reserved.</small>
+            <small>Made for teams who ship.</small>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

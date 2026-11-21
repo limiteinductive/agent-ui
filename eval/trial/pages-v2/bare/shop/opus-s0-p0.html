@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride & Co. — Shop Sneakers</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="0">
+    <!-- Header -->
+    <header>
+      <ui-container max-width="1280px" padding="md">
+        <ui-row justify="between" align="center" gap="md" wrap>
+          <ui-row align="center" gap="sm">
+            <strong>Stride &amp; Co.</strong>
+          </ui-row>
+          <nav aria-label="Main">
+            <ui-row gap="md" wrap>
+              <a href="#">Men</a>
+              <a href="#">Women</a>
+              <a href="#">Kids</a>
+              <a href="#">Sale</a>
+            </ui-row>
+          </nav>
+          <ui-button variant="outline" id="cart-button" aria-label="Cart">
+            🛒 Cart <ui-badge id="cart-count" variant="primary">0</ui-badge>
+          </ui-button>
+        </ui-row>
+      </ui-container>
+      <ui-divider></ui-divider>
+    </header>
+
+    <main>
+      <ui-container max-width="1280px" padding="md">
+        <ui-stack gap="lg">
+          <ui-stack gap="xs">
+            <h1>Running &amp; Lifestyle Sneakers</h1>
+            <p><ui-text tone="muted">Showing 1–12 of 48 products</ui-text></p>
+          </ui-stack>
+
+          <!-- Filter bar -->
+          <ui-card padding="md">
+            <ui-stack gap="md">
+              <ui-stack gap="xs">
+                <ui-text weight="bold" size="sm">Size (US)</ui-text>
+                <ui-row gap="xs" wrap id="size-chips">
+                  <ui-chip selectable value="6">6</ui-chip>
+                  <ui-chip selectable value="7">7</ui-chip>
+                  <ui-chip selectable value="8">8</ui-chip>
+                  <ui-chip selectable value="9" selected>9</ui-chip>
+                  <ui-chip selectable value="10">10</ui-chip>
+                  <ui-chip selectable value="11">11</ui-chip>
+                  <ui-chip selectable value="12">12</ui-chip>
+                  <ui-chip selectable value="13">13</ui-chip>
+                </ui-row>
+              </ui-stack>
+
+              <ui-row gap="md" wrap align="end">
+                <ui-stack gap="xs" grow>
+                  <label for="price-range"><ui-text weight="bold" size="sm">Max price: <span id="price-value">$200</span></ui-text></label>
+                  <input type="range" id="price-range" min="40" max="250" step="10" value="200">
+                </ui-stack>
+                <ui-stack gap="xs" grow>
+                  <label for="sort"><ui-text weight="bold" size="sm">Sort by</ui-text></label>
+                  <select id="sort">
+                    <option value="featured">Featured</option>
+                    <option value="new">Newest</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="rating">Top Rated</option>
+                  </select>
+                </ui-stack>
+                <ui-button variant="ghost" id="clear-filters">Clear filters</ui-button>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <!-- Product grid -->
+          <ui-grid min="160px" gap="md" id="product-grid"></ui-grid>
+
+          <!-- Pagination -->
+          <nav aria-label="Pagination">
+            <ui-row justify="center" gap="xs" wrap>
+              <ui-button variant="outline" size="sm" disabled>‹ Prev</ui-button>
+              <ui-button variant="primary" size="sm" aria-current="page">1</ui-button>
+              <ui-button variant="outline" size="sm">2</ui-button>
+              <ui-button variant="outline" size="sm">3</ui-button>
+              <ui-button variant="outline" size="sm">4</ui-button>
+              <ui-button variant="outline" size="sm">Next ›</ui-button>
+            </ui-row>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-divider></ui-divider>
+      <ui-container max-width="1280px" padding="md">
+        <ui-row justify="between" wrap gap="sm">
+          <ui-text size="sm" tone="muted">© 2026 Stride &amp; Co. Free shipping on orders over $75.</ui-text>
+          <ui-row gap="md">
+            <a href="#">Returns</a>
+            <a href="#">Size guide</a>
+            <a href="#">Contact</a>
+          </ui-row>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-stack>
+
+  <script>
+    const products = [
+      { name: "AeroPulse Runner", brand: "Velox", price: 129, seed: "shoe1", tag: "New" },
+      { name: "Trailblazer GTX", brand: "Summit", price: 159, seed: "shoe2" },
+      { name: "Classic Court Low", brand: "Heritage", price: 89, seed: "shoe3" },
+      { name: "CloudStep Knit", brand: "Nimbus", price: 115, seed: "shoe4", tag: "Bestseller" },
+      { name: "Urban Glide 2", brand: "Metro", price: 99, seed: "shoe5" },
+      { name: "Velocity Pro Carbon", brand: "Velox", price: 219, seed: "shoe6", tag: "New" },
+      { name: "Retro Jogger '84", brand: "Heritage", price: 95, seed: "shoe7" },
+      { name: "Canvas Slip-On", brand: "Coastline", price: 55, seed: "shoe8", tag: "Sale" },
+      { name: "HighTop Street", brand: "Metro", price: 110, seed: "shoe9" },
+      { name: "FlexFit Trainer", brand: "Core", price: 85, seed: "shoe10" },
+      { name: "Ridge Hiker Mid", brand: "Summit", price: 145, seed: "shoe11" },
+      { name: "Marathon Elite", brand: "Nimbus", price: 179, seed: "shoe12", tag: "Bestseller" }
+    ];
+
+    const grid = document.getElementById("product-grid");
+    const cartCount = document.getElementById("cart-count");
+    let cart = 0;
+
+    function render(list) {
+      grid.innerHTML = "";
+      list.forEach(p => {
+        const card = document.createElement("ui-card");
+        card.setAttribute("padding", "sm");
+        card.innerHTML = `
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/${p.seed}/400/400" alt="${p.name} sneaker"
+                 width="400" height="400" loading="lazy">
+            <ui-stack gap="xs">
+              <ui-row justify="between" align="center" gap="xs">
+                <ui-text size="sm" tone="muted">${p.brand}</ui-text>
+                ${p.tag ? `<ui-badge variant="${p.tag === "Sale" ? "danger" : "secondary"}">${p.tag}</ui-badge>` : ""}
+              </ui-row>
+              <ui-text weight="bold">${p.name}</ui-text>
+              <ui-text size="lg">$${p.price.toFixed(2)}</ui-text>
+            </ui-stack>
+            <ui-button variant="primary" block class="add-btn">Add to cart</ui-button>
+          </ui-stack>`;
+        card.querySelector(".add-btn").addEventListener("click", e => {
+          cart++;
+          cartCount.textContent = cart;
+          const btn = e.currentTarget;
+          btn.textContent = "Added ✓";
+          setTimeout(() => (btn.textContent = "Add to cart"), 1200);
+        });
+        grid.appendChild(card);
+      });
+      if (!list.length) {
+        grid.innerHTML = `<ui-text tone="muted">No shoes match your filters.</ui-text>`;
+      }
+    }
+
+    const range = document.getElementById("price-range");
+    const priceValue = document.getElementById("price-value");
+    const sort = document.getElementById("sort");
+
+    function apply() {
+      const max = +range.value;
+      priceValue.textContent = "$" + max;
+      let list = products.filter(p => p.price <= max);
+      if (sort.value === "price-asc") list.sort((a, b) => a.price - b.price);
+      if (sort.value === "price-desc") list.sort((a, b) => b.price - a.price);
+      if (sort.value === "new") list.sort((a, b) => (b.tag === "New") - (a.tag === "New"));
+      if (sort.value === "rating") list.sort((a, b) => (b.tag === "Bestseller") - (a.tag === "Bestseller"));
+      render(list);
+    }
+
+    range.addEventListener("input", apply);
+    sort.addEventListener("change", apply);
+
+    document.querySelectorAll("#size-chips ui-chip").forEach(chip => {
+      chip.setAttribute("role", "button");
+      chip.setAttribute("tabindex", "0");
+      const toggle = () => chip.toggleAttribute("selected");
+      chip.addEventListener("click", toggle);
+      chip.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+      });
+    });
+
+    document.getElementById("clear-filters").addEventListener("click", () => {
+      document.querySelectorAll("#size-chips ui-chip").forEach(c => c.removeAttribute("selected"));
+      range.value = 250;
+      sort.value = "featured";
+      apply();
+    });
+
+    apply();
+  </script>
+</body>
+</html>

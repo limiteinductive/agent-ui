@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings · Northwind</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="lg" padding="md">
+    <ui-stack gap="lg">
+
+      <!-- Header -->
+      <header>
+        <ui-stack gap="xs">
+          <h1>Account settings</h1>
+          <p>Manage your profile, notifications, billing, and account security.</p>
+        </ui-stack>
+      </header>
+
+      <!-- Profile -->
+      <ui-card>
+        <form id="profile-form">
+          <ui-stack gap="md">
+            <ui-stack gap="xs">
+              <h2>Profile</h2>
+              <p>This information appears on your public profile and in team workspaces.</p>
+            </ui-stack>
+
+            <ui-cluster gap="md" align="center">
+              <ui-avatar size="lg">
+                <img id="avatar-preview" src="https://picsum.photos/seed/maya-chen/160/160" alt="Current avatar for Maya Chen" width="80" height="80">
+              </ui-avatar>
+              <ui-stack gap="xs">
+                <label for="avatar">Avatar</label>
+                <input id="avatar" name="avatar" type="file" accept="image/png, image/jpeg, image/webp">
+                <small>PNG, JPG, or WebP. Max 2 MB. Square images look best.</small>
+              </ui-stack>
+            </ui-cluster>
+
+            <ui-grid min="240px" gap="md">
+              <ui-stack gap="xs">
+                <label for="name">Full name</label>
+                <input id="name" name="name" type="text" value="Maya Chen" autocomplete="name" required>
+              </ui-stack>
+              <ui-stack gap="xs">
+                <label for="email">Email address</label>
+                <input id="email" name="email" type="email" value="maya.chen@example.com" autocomplete="email" required>
+                <small>We'll send a confirmation link if you change this.</small>
+              </ui-stack>
+            </ui-grid>
+
+            <ui-stack gap="xs">
+              <label for="bio">Bio</label>
+              <textarea id="bio" name="bio" rows="4" maxlength="280">Product designer based in Portland. I care about accessible interfaces, good typography, and strong coffee. Currently leading design for the Northwind mobile app.</textarea>
+              <small><span id="bio-count">0</span>/280 characters</small>
+            </ui-stack>
+
+            <ui-cluster gap="sm" justify="end">
+              <button type="reset" variant="secondary">Cancel</button>
+              <button type="submit" variant="primary">Save profile</button>
+            </ui-cluster>
+            <p id="profile-status" role="status" aria-live="polite" hidden>
+              <ui-badge variant="success">Profile saved</ui-badge>
+            </p>
+          </ui-stack>
+        </form>
+      </ui-card>
+
+      <!-- Notifications -->
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-stack gap="xs">
+            <h2>Notification preferences</h2>
+            <p>Choose what you hear about and where.</p>
+          </ui-stack>
+
+          <ui-stack gap="sm">
+            <ui-cluster justify="between" align="center" gap="md" wrap="nowrap">
+              <ui-stack gap="none">
+                <label for="n-comments"><strong>Comments &amp; mentions</strong></label>
+                <small>When someone replies to you or @mentions you.</small>
+              </ui-stack>
+              <input id="n-comments" type="checkbox" role="switch" checked>
+            </ui-cluster>
+            <hr>
+            <ui-cluster justify="between" align="center" gap="md" wrap="nowrap">
+              <ui-stack gap="none">
+                <label for="n-digest"><strong>Weekly digest</strong></label>
+                <small>A Monday summary of activity across your projects.</small>
+              </ui-stack>
+              <input id="n-digest" type="checkbox" role="switch" checked>
+            </ui-cluster>
+            <hr>
+            <ui-cluster justify="between" align="center" gap="md" wrap="nowrap">
+              <ui-stack gap="none">
+                <label for="n-security"><strong>Security alerts</strong></label>
+                <small>New sign-ins and password changes. Recommended.</small>
+              </ui-stack>
+              <input id="n-security" type="checkbox" role="switch" checked>
+            </ui-cluster>
+            <hr>
+            <ui-cluster justify="between" align="center" gap="md" wrap="nowrap">
+              <ui-stack gap="none">
+                <label for="n-product"><strong>Product updates</strong></label>
+                <small>New features, tips, and occasional surveys.</small>
+              </ui-stack>
+              <input id="n-product" type="checkbox" role="switch">
+            </ui-cluster>
+            <hr>
+            <ui-cluster justify="between" align="center" gap="md" wrap="nowrap">
+              <ui-stack gap="none">
+                <label for="n-push"><strong>Push notifications</strong></label>
+                <small>Real-time alerts on your mobile devices.</small>
+              </ui-stack>
+              <input id="n-push" type="checkbox" role="switch">
+            </ui-cluster>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <!-- Billing -->
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-cluster justify="between" align="center" gap="sm">
+            <ui-stack gap="xs">
+              <h2>Billing</h2>
+              <p>Your subscription and payment details.</p>
+            </ui-stack>
+            <ui-badge variant="success">Active</ui-badge>
+          </ui-cluster>
+
+          <ui-grid min="150px" gap="md">
+            <ui-stack gap="xs">
+              <small>Current plan</small>
+              <strong>Pro · Annual</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Price</small>
+              <strong>$144 / year</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Next renewal</small>
+              <strong>March 14, 2027</strong>
+            </ui-stack>
+            <ui-stack gap="xs">
+              <small>Payment method</small>
+              <strong>Visa •••• 4242</strong>
+            </ui-stack>
+          </ui-grid>
+
+          <ui-stack gap="xs">
+            <ui-cluster justify="between">
+              <small>Storage used</small>
+              <small>38.2 GB of 100 GB</small>
+            </ui-cluster>
+            <progress value="38" max="100" aria-label="Storage used">38%</progress>
+          </ui-stack>
+
+          <table>
+            <caption>Recent invoices</caption>
+            <thead>
+              <tr><th scope="col">Date</th><th scope="col">Amount</th><th scope="col">Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Mar 14, 2026</td><td>$144.00</td><td><ui-badge variant="success">Paid</ui-badge></td></tr>
+              <tr><td>Mar 14, 2025</td><td>$144.00</td><td><ui-badge variant="success">Paid</ui-badge></td></tr>
+            </tbody>
+          </table>
+
+          <ui-cluster gap="sm" justify="end">
+            <button type="button" variant="secondary">Update payment method</button>
+            <button type="button" variant="primary">Change plan</button>
+          </ui-cluster>
+        </ui-stack>
+      </ui-card>
+
+      <!-- Danger zone -->
+      <ui-card variant="danger">
+        <ui-stack gap="md">
+          <ui-stack gap="xs">
+            <h2>Danger zone</h2>
+            <p>Deleting your account permanently removes your profile, projects, and files. Your subscription will be cancelled with no refund. This cannot be undone.</p>
+          </ui-stack>
+
+          <ui-alert variant="danger">
+            Type <strong>DELETE</strong> below to confirm.
+          </ui-alert>
+
+          <ui-stack gap="xs">
+            <label for="confirm-delete">Confirmation</label>
+            <input id="confirm-delete" type="text" placeholder="DELETE" autocomplete="off">
+          </ui-stack>
+
+          <ui-cluster justify="end">
+            <button id="delete-btn" type="button" variant="danger" disabled>Delete account</button>
+          </ui-cluster>
+          <p id="delete-status" role="status" aria-live="polite" hidden>
+            <ui-badge variant="danger">Account scheduled for deletion (demo only).</ui-badge>
+          </p>
+        </ui-stack>
+      </ui-card>
+
+    </ui-stack>
+  </ui-container>
+
+  <script>
+    // Avatar preview
+    const avatarInput = document.getElementById('avatar');
+    const avatarPreview = document.getElementById('avatar-preview');
+    avatarInput.addEventListener('change', () => {
+      const file = avatarInput.files[0];
+      if (file && file.type.startsWith('image/')) {
+        avatarPreview.src = URL.createObjectURL(file);
+        avatarPreview.alt = 'New avatar preview';
+      }
+    });
+
+    // Bio counter
+    const bio = document.getElementById('bio');
+    const bioCount = document.getElementById('bio-count');
+    const updateCount = () => { bioCount.textContent = bio.value.length; };
+    bio.addEventListener('input', updateCount);
+    updateCount();
+
+    // Profile save
+    const form = document.getElementById('profile-form');
+    const profileStatus = document.getElementById('profile-status');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      profileStatus.hidden = false;
+      setTimeout(() => { profileStatus.hidden = true; }, 3000);
+    });
+    form.addEventListener('reset', () => setTimeout(updateCount, 0));
+
+    // Delete confirmation
+    const confirmInput = document.getElementById('confirm-delete');
+    const deleteBtn = document.getElementById('delete-btn');
+    const deleteStatus = document.getElementById('delete-status');
+    confirmInput.addEventListener('input', () => {
+      deleteBtn.disabled = confirmInput.value.trim() !== 'DELETE';
+    });
+    deleteBtn.addEventListener('click', () => {
+      if (confirm('Permanently delete your account? This cannot be undone.')) {
+        deleteStatus.hidden = false;
+        deleteBtn.disabled = true;
+        confirmInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

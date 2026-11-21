@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team Calendar</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+<style>
+  /* Only what agent-ui can't express: responsive split + calendar cell internals */
+  .layout{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:900px){.layout{grid-template-columns:minmax(0,2fr) minmax(0,1fr);align-items:start}}
+  .grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+  .dow{text-align:center;font-size:.75rem;opacity:.7;padding:.25rem 0}
+  .cell{min-height:56px;padding:3px;border:1px solid rgba(128,128,128,.25);border-radius:6px;overflow:hidden;font-size:.8rem}
+  .cell.out{opacity:.35}
+  .cell.today{outline:2px solid currentColor}
+  .ev{display:block;font-size:.7rem;padding:1px 4px;margin-top:2px;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:rgba(80,120,255,.2)}
+  .ev.b{background:rgba(40,170,110,.25)}
+  .ev.c{background:rgba(240,150,40,.28)}
+  @media(max-width:639px){
+    .cell{min-height:48px}
+    .ev{height:6px;width:6px;padding:0;border-radius:50%;display:inline-block;margin:2px 1px 0 0;font-size:0;background:rgb(80,120,255)}
+    .ev.b{background:rgb(40,170,110)}
+    .ev.c{background:rgb(240,150,40)}
+  }
+  .up{display:flex;gap:.75rem;align-items:center}
+  .up img{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none}
+  .up div{min-width:0}
+</style>
+</head>
+<body>
+<ui-page>
+  <ui-container>
+    <ui-stack gap="md">
+      <ui-row justify="space-between" align="center" wrap>
+        <button id="prev" aria-label="Previous month">&larr; Prev</button>
+        <h1 id="title">Month</h1>
+        <button id="next" aria-label="Next month">Next &rarr;</button>
+      </ui-row>
+
+      <div class="layout">
+        <ui-card>
+          <div class="grid" id="cal" role="grid" aria-label="Month calendar"></div>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <h2>Upcoming events</h2>
+            <ui-stack gap="sm" id="upcoming"></ui-stack>
+          </ui-stack>
+        </ui-card>
+      </div>
+    </ui-stack>
+  </ui-container>
+</ui-page>
+
+<script>
+(function () {
+  var today = new Date();
+  var base = new Date(today.getFullYear(), today.getMonth(), 1);
+  var view = new Date(base);
+
+  // Events are defined relative to the current month (m = month offset)
+  var events = [
+    {m:0,d:3, t:"Sprint planning", time:"09:30", who:"Priya Nair", k:"a", img:11},
+    {m:0,d:5, t:"Design review", time:"14:00", who:"Marco Silva", k:"b", img:12},
+    {m:0,d:12,t:"Customer demo", time:"11:00", who:"Hannah Lee", k:"c", img:13},
+    {m:0,d:12,t:"1:1 with Sam", time:"16:00", who:"Sam Okafor", k:"a", img:14},
+    {m:0,d:19,t:"Retro", time:"15:00", who:"Priya Nair", k:"b", img:11},
+    {m:0,d:24,t:"Release v2.4", time:"10:00", who:"Tomás Ruiz", k:"c", img:15},
+    {m:0,d:26,t:"Team lunch", time:"12:30", who:"Hannah Lee", k:"b", img:13},
+    {m:0,d:30,t:"Quarterly OKRs", time:"13:00", who:"Marco Silva", k:"a", img:12},
+    {m:1,d:2, t:"Roadmap workshop", time:"10:00", who:"Sam Okafor", k:"a", img:14},
+    {m:1,d:9, t:"Holiday party", time:"18:00", who:"Everyone", k:"c", img:16},
+    {m:1,d:15,t:"Security training", time:"11:30", who:"Tomás Ruiz", k:"b", img:15},
+    {m:-1,d:8,t:"Offsite kickoff", time:"09:00", who:"Priya Nair", k:"a", img:11},
+    {m:-1,d:21,t:"Hiring sync", time:"14:30", who:"Hannah Lee", k:"b", img:13}
+  ].map(function (e) {
+    var dt = new Date(base.getFullYear(), base.getMonth() + e.m, e.d);
+    e.date = dt;
+    return e;
+  });
+
+  function same(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+  }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function renderCal() {
+    var cal = document.getElementById("cal");
+    cal.textContent = "";
+    document.getElementById("title").textContent =
+      view.toLocaleDateString("en-US", {month: "long", year: "numeric"});
+
+    ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].forEach(function (d) {
+      cal.appendChild(el("div", "dow", d));
+    });
+
+    var offset = (view.getDay() + 6) % 7; // Monday first
+    var start = new Date(view.getFullYear(), view.getMonth(), 1 - offset);
+    var daysInMonth = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+    var total = Math.ceil((offset + daysInMonth) / 7) * 7;
+
+    for (var i = 0; i < total; i++) {
+      var d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+      var cls = "cell";
+      if (d.getMonth() !== view.getMonth()) cls += " out";
+      if (same(d, today)) cls += " today";
+      var cell = el("div", cls);
+      cell.setAttribute("role", "gridcell");
+      cell.appendChild(el("div", "", String(d.getDate())));
+      events.filter(function (e) { return same(e.date, d); }).forEach(function (e) {
+        var ev = el("span", "ev " + (e.k === "a" ? "" : e.k), e.t);
+        ev.title = e.time + " · " + e.t;
+        cell.appendChild(ev);
+      });
+      cal.appendChild(cell);
+    }
+  }
+
+  function renderUpcoming() {
+    var box = document.getElementById("upcoming");
+    box.textContent = "";
+    var midnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    var list = events.filter(function (e) { return e.date >= midnight; })
+      .sort(function (a, b) { return a.date - b.date || a.time.localeCompare(b.time); })
+      .slice(0, 6);
+    list.forEach(function (e) {
+      var row = el("div", "up");
+      var img = el("img");
+      img.src = "https://picsum.photos/seed/team" + e.img + "/80/80";
+      img.alt = e.who;
+      img.width = 40; img.height = 40;
+      var info = el("div");
+      info.appendChild(el("strong", "", e.t));
+      info.appendChild(el("div", "", e.date.toLocaleDateString("en-US", {weekday:"short", month:"short", day:"numeric"}) + " · " + e.time));
+      info.appendChild(el("small", "", e.who));
+      row.appendChild(img);
+      row.appendChild(info);
+      box.appendChild(row);
+    });
+    if (!list.length) box.appendChild(el("p", "", "No upcoming events."));
+  }
+
+  document.getElementById("prev").addEventListener("click", function () {
+    view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+    renderCal();
+  });
+  document.getElementById("next").addEventListener("click", function () {
+    view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+    renderCal();
+  });
+
+  renderCal();
+  renderUpcoming();
+})();
+</script>
+</body>
+</html>

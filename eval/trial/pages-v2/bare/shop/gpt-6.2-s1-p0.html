@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f7f3">
+  <title>Shop Shoes | Mile &amp; Field</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container max-width="1200px">
+    <header>
+      <ui-row justify="between" align="center" gap="16" wrap>
+        <a href="./"><strong>Mile &amp; Field</strong></a>
+        <button id="open-cart" type="button" aria-haspopup="dialog">Cart (0)</button>
+      </ui-row>
+    </header>
+
+    <main id="shop">
+      <ui-stack gap="24">
+        <div>
+          <h1>Shop shoes</h1>
+          <p>Everyday sneakers, road runners, and trail shoes.</p>
+        </div>
+
+        <ui-card>
+          <form id="filters" aria-label="Filter shoes">
+            <ui-grid gap="16" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1rem">
+              <fieldset>
+                <legend>US size</legend>
+                <ui-row gap="8" wrap>
+                  <ui-chip><label><input type="checkbox" name="size" value="6"> 6</label></ui-chip>
+                  <ui-chip><label><input type="checkbox" name="size" value="7"> 7</label></ui-chip>
+                  <ui-chip><label><input type="checkbox" name="size" value="8"> 8</label></ui-chip>
+                  <ui-chip><label><input type="checkbox" name="size" value="9"> 9</label></ui-chip>
+                  <ui-chip><label><input type="checkbox" name="size" value="10"> 10</label></ui-chip>
+                  <ui-chip><label><input type="checkbox" name="size" value="11"> 11</label></ui-chip>
+                  <ui-chip><label><input type="checkbox" name="size" value="12"> 12</label></ui-chip>
+                  <ui-chip><label><input type="checkbox" name="size" value="13"> 13</label></ui-chip>
+                </ui-row>
+              </fieldset>
+
+              <ui-stack gap="8">
+                <div>
+                  <label for="max-price">Price range</label>
+                  <output id="price-range" for="max-price">$0–$200</output>
+                </div>
+                <input id="max-price" name="maxPrice" type="range" min="0" max="200" step="5" value="200"
+                  aria-valuetext="Up to 200 dollars">
+              </ui-stack>
+
+              <ui-stack gap="8">
+                <label for="sort">Sort by</label>
+                <select id="sort" name="sort">
+                  <option value="featured">Featured</option>
+                  <option value="low">Price: low to high</option>
+                  <option value="high">Price: high to low</option>
+                  <option value="name">Name: A to Z</option>
+                </select>
+              </ui-stack>
+            </ui-grid>
+          </form>
+        </ui-card>
+
+        <p id="results" role="status"></p>
+
+        <ui-grid id="products" aria-label="Shoes" gap="20"
+          style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1.25rem">
+        </ui-grid>
+
+        <nav id="pagination" aria-label="Product pages">
+          <ui-row justify="center" align="center" gap="12" wrap>
+            <button id="previous" type="button">Previous</button>
+            <span id="page-label"></span>
+            <button id="next" type="button">Next</button>
+          </ui-row>
+        </nav>
+      </ui-stack>
+    </main>
+  </ui-container>
+
+  <dialog id="cart" aria-labelledby="cart-title">
+    <ui-stack gap="16">
+      <ui-row justify="between" align="center" gap="16">
+        <h2 id="cart-title">Your cart</h2>
+        <form method="dialog">
+          <button type="submit" autofocus>Close</button>
+        </form>
+      </ui-row>
+      <p id="cart-empty">Your cart is empty.</p>
+      <ul id="cart-items"></ul>
+      <p id="subtotal" hidden></p>
+    </ui-stack>
+  </dialog>
+
+  <template id="product-card">
+    <ui-card>
+      <article>
+        <ui-stack gap="12">
+          <img alt="" width="640" height="480" decoding="async"
+            style="display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover">
+          <div>
+            <h2></h2>
+            <p class="product-detail"></p>
+            <p><strong class="product-price"></strong></p>
+          </div>
+          <form class="add-to-cart">
+            <ui-row gap="8" align="end" wrap>
+              <label>
+                US size
+                <select name="size" required></select>
+              </label>
+              <button type="submit">Add to cart</button>
+            </ui-row>
+          </form>
+        </ui-stack>
+      </article>
+    </ui-card>
+  </template>
+
+  <script>
+    const catalog = [
+      ['court-low', 'Court Low', 'Chalk / Forest', 85, [6, 7, 8, 9, 10, 11, 12]],
+      ['ridge-runner', 'Ridge Runner', 'Slate / Moss', 135, [7, 8, 9, 10, 11, 12, 13]],
+      ['pace-knit', 'Pace Knit', 'Ink / Cloud', 110, [6, 7, 8, 9, 10, 11]],
+      ['harbor-suede', 'Harbor Suede', 'Sand / Gum', 95, [6, 7, 8, 9, 10, 11, 12]],
+      ['switchback', 'Switchback', 'Olive / Charcoal', 150, [8, 9, 10, 11, 12, 13]],
+      ['daybreak', 'Daybreak', 'Cream / Rust', 90, [6, 7, 8, 9, 10]],
+      ['tempo-road', 'Tempo Road', 'Cobalt / White', 125, [7, 8, 9, 10, 11, 12, 13]],
+      ['market-slip-on', 'Market Slip-On', 'Washed Black', 65, [6, 7, 8, 9, 10, 11, 12]],
+      ['summit-trail', 'Summit Trail', 'Granite / Amber', 165, [7, 8, 9, 10, 11, 12, 13]],
+      ['station-mid', 'Station Mid', 'Tobacco / Bone', 120, [7, 8, 9, 10, 11, 12]],
+      ['lakeside-canvas', 'Lakeside Canvas', 'Natural / Navy', 75, [6, 7, 8, 9, 10, 11]],
+      ['stride-mesh', 'Stride Mesh', 'Mist / Lilac', 105, [6, 7, 8, 9, 10, 11, 12]],
+      ['alpine-gt', 'Alpine GT', 'Pine / Black', 175, [8, 9, 10, 11, 12, 13]],
+      ['club-classic', 'Club Classic', 'White / Bordeaux', 100, [6, 7, 8, 9, 10, 11, 12]],
+      ['coast-runner', 'Coast Runner', 'Aqua / Sand', 115, [6, 7, 8, 9, 10, 11]],
+      ['quarry-low', 'Quarry Low', 'Pebble / Gum', 95, [7, 8, 9, 10, 11, 12, 13]],
+      ['loop-canvas', 'Loop Canvas', 'Ochre / White', 70, [6, 7, 8, 9, 10]],
+      ['ascent-trail', 'Ascent Trail', 'Clay / Carbon', 145, [7, 8, 9, 10, 11, 12, 13]],
+      ['city-walker', 'City Walker', 'Black / Chalk', 115, [6, 7, 8, 9, 10, 11, 12]],
+      ['morning-mile', 'Morning Mile', 'Pearl / Coral', 130, [6, 7, 8, 9, 10, 11]],
+      ['courier-knit', 'Courier Knit', 'Heather / Indigo', 100, [7, 8, 9, 10, 11, 12]],
+      ['boardwalk', 'Boardwalk', 'Denim / Ecru', 80, [6, 7, 8, 9, 10, 11]],
+      ['overlook', 'Overlook', 'Fog / Evergreen', 155, [7, 8, 9, 10, 11, 12, 13]],
+      ['relay-road', 'Relay Road', 'Lemon / Asphalt', 140, [6, 7, 8, 9, 10, 11, 12]]
+    ].map(([id, name, color, price, sizes]) => ({ id, name, color, price, sizes }));
+
+    const formatPrice = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    });
+
+    const pageSize = 12;
+    const filters = document.querySelector('#filters');
+    const products = document.querySelector('#products');
+    const cardTemplate = document.querySelector('#product-card');
+    const priceInput = document.querySelector('#max-price');
+    const results = document.querySelector('#results');
+    const pagination = document.querySelector('#pagination');
+    const pageLabel = document.querySelector('#page-label');
+    const previous = document.querySelector('#previous');
+    const next = document.querySelector('#next');
+    const openCart = document.querySelector('#open-cart');
+    const cartDialog = document.querySelector('#cart');
+    const cartItems = document.querySelector('#cart-items');
+    const cartEmpty = document.querySelector('#cart-empty');
+    const subtotal = document.querySelector('#subtotal');
+    const cart = new Map();
+    let page = 1;
+
+    const sortOrders = {
+      low: (first, second) => first.price - second.price,
+      high: (first, second) => second.price - first.price,
+      name: (first, second) => first.name.localeCompare(second.name)
+    };
+
+    function renderProducts() {
+      const data = new FormData(filters);
+      const selectedSizes = data.getAll('size').map(Number);
+      const maxPrice = Number(priceInput.value);
+      const compare = sortOrders[data.get('sort')];
+      const matches = catalog.filter(product =>
+        product.price <= maxPrice &&
+        (selectedSizes.length === 0 || product.sizes.some(size => selectedSizes.includes(size)))
+      );
+
+      if (compare) {
+        matches.sort(compare);
+      }
+
+      const totalPages = Math.max(1, Math.ceil(matches.length / pageSize));
+      page = Math.min(page, totalPages);
+      const start = (page - 1) * pageSize;
+      const visible = matches.slice(start, start + pageSize);
+      const cards = document.createDocumentFragment();
+
+      for (const [index, product] of visible.entries()) {
+        const card = cardTemplate.content.cloneNode(true);
+        const photo = card.querySelector('img');
+        const title = card.querySelector('h2');
+        const form = card.querySelector('form');
+        const sizeSelect = form.elements.size;
+        const matchingSizes = product.sizes.filter(size =>
+          selectedSizes.length === 0 || selectedSizes.includes(size)
+        );
+
+        photo.loading = index < 4 ? 'eager' : 'lazy';
+        photo.src = `https://picsum.photos/seed/mile-field-${product.id}/640/480`;
+        title.textContent = product.name;
+        title.id = `title-${product.id}`;
+        card.querySelector('article').setAttribute('aria-labelledby', title.id);
+        card.querySelector('.product-detail').textContent = product.color;
+        card.querySelector('.product-price').textContent = formatPrice.format(product.price);
+        sizeSelect.add(new Option('Select', ''));
+        sizeSelect.options[0].disabled = true;
+        sizeSelect.options[0].selected = true;
+        for (const size of matchingSizes) {
+          sizeSelect.add(new Option(String(size), String(size)));
+        }
+        if (matchingSizes.length === 1) {
+          sizeSelect.value = String(matchingSizes[0]);
+        }
+
+        const addButton = form.querySelector('button');
+        addButton.setAttribute('aria-label', `Add to cart: ${product.name}`);
+        form.addEventListener('submit', event => {
+          event.preventDefault();
+          addToCart(product, sizeSelect.value);
+          addButton.textContent = 'Added';
+          addButton.setAttribute('aria-label', `Added ${product.name} to cart. Add another pair`);
+        });
+        sizeSelect.addEventListener('change', () => {
+          addButton.textContent = 'Add to cart';
+          addButton.setAttribute('aria-label', `Add to cart: ${product.name}`);
+        });
+        cards.append(card);
+      }
+
+      products.replaceChildren(cards);
+      results.textContent = matches.length
+        ? `Showing ${start + 1}–${start + visible.length} of ${matches.length} shoes`
+        : 'No shoes match these filters.';
+      pageLabel.textContent = `Page ${page} of ${totalPages}`;
+      pagination.hidden = totalPages === 1;
+      previous.disabled = page === 1;
+      next.disabled = page === totalPages;
+    }
+
+    function addToCart(product, size) {
+      const key = `${product.id}:${size}`;
+      const entry = cart.get(key) ?? { product, size, quantity: 0 };
+      entry.quantity += 1;
+      cart.set(key, entry);
+      renderCart();
+    }
+
+    function renderCart() {
+      const items = document.createDocumentFragment();
+      let count = 0;
+      let total = 0;
+
+      for (const [key, { product, size, quantity }] of cart) {
+        count += quantity;
+        total += product.price * quantity;
+
+        const item = document.createElement('li');
+        const summary = document.createElement('p');
+        summary.textContent = `${product.name}, US ${size} · Qty ${quantity} · ${formatPrice.format(product.price * quantity)}`;
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = 'Remove one';
+        remove.setAttribute('aria-label', `Remove one ${product.name}, US size ${size}`);
+        remove.addEventListener('click', () => {
+          const entry = cart.get(key);
+          entry.quantity -= 1;
+          if (entry.quantity === 0) {
+            cart.delete(key);
+          }
+          renderCart();
+          const focusTarget = cartItems.querySelector('button') ?? cartDialog.querySelector('[autofocus]');
+          focusTarget.focus();
+        });
+
+        item.append(summary, remove);
+        items.append(item);
+      }
+
+      cartItems.replaceChildren(items);
+      cartItems.hidden = count === 0;
+      cartEmpty.hidden = count > 0;
+      subtotal.hidden = count === 0;
+      subtotal.textContent = `Subtotal ${formatPrice.format(total)}`;
+      openCart.textContent = `Cart (${count})`;
+    }
+
+    function updateFilters() {
+      const maxPrice = Number(priceInput.value);
+      document.querySelector('#price-range').textContent = `$0–${formatPrice.format(maxPrice)}`;
+      priceInput.setAttribute('aria-valuetext', `Up to ${maxPrice} dollars`);
+      page = 1;
+      renderProducts();
+    }
+
+    function changePage(direction) {
+      page += direction;
+      renderProducts();
+      (direction > 0 ? (next.disabled ? previous : next) : (previous.disabled ? next : previous)).focus();
+      results.scrollIntoView({ block: 'start' });
+    }
+
+    filters.addEventListener('submit', event => event.preventDefault());
+    filters.addEventListener('input', updateFilters);
+    previous.addEventListener('click', () => changePage(-1));
+    next.addEventListener('click', () => changePage(1));
+    openCart.addEventListener('click', () => cartDialog.showModal());
+
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>

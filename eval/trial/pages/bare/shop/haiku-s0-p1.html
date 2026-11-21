@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stride & Co. | Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="lg" padding="md">
+
+    <header>
+      <ui-stack direction="horizontal" justify="space-between" align="center">
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <h1>Stride &amp; Co.</h1>
+        </ui-stack>
+        <nav>
+          <ui-stack direction="horizontal" gap="sm" align="center">
+            <ui-button variant="ghost" aria-label="Account">Account</ui-button>
+            <ui-button variant="outline" aria-label="Shopping cart, 2 items">
+              Cart <span>2</span>
+            </ui-button>
+          </ui-stack>
+        </nav>
+      </ui-stack>
+    </header>
+
+    <section aria-label="Filters">
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+            <h2>Men's Running Shoes</h2>
+            <ui-stack direction="horizontal" align="center" gap="sm">
+              <label for="sort">Sort by</label>
+              <select id="sort" name="sort">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="newest">Newest</option>
+                <option value="rating">Top Rated</option>
+              </select>
+            </ui-stack>
+          </ui-stack>
+
+          <ui-stack gap="xs">
+            <span>Size (US)</span>
+            <ui-stack direction="horizontal" wrap="wrap" gap="xs" role="group" aria-label="Shoe size">
+              <ui-button variant="outline" size="sm" aria-pressed="false">7</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="false">7.5</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="true">8</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="false">8.5</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="false">9</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="false">9.5</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="false">10</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="false">10.5</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="false">11</ui-button>
+              <ui-button variant="outline" size="sm" aria-pressed="false">12</ui-button>
+            </ui-stack>
+          </ui-stack>
+
+          <ui-stack gap="xs">
+            <label for="price-range">Max price: <output id="price-output" for="price-range">$180</output></label>
+            <input id="price-range" type="range" min="40" max="250" step="5" value="180">
+            <ui-stack direction="horizontal" justify="space-between" wrap="wrap" gap="sm">
+              <span>$40</span>
+              <span>$250</span>
+            </ui-stack>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+    </section>
+
+    <main>
+      <ui-stack direction="horizontal" justify="space-between" align="center">
+        <p>Showing 1–12 of 48 products</p>
+      </ui-stack>
+
+      <ui-grid gap="md" min-item-width="160px">
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-01/600/600" alt="Cloudrunner Pro in volt green" width="600" height="600" loading="lazy">
+            <h3>Cloudrunner Pro</h3>
+            <p>Volt Green</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$129.00</strong>
+              <ui-button size="sm" aria-label="Add Cloudrunner Pro to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-02/600/600" alt="Velocity Trail in graphite" width="600" height="600" loading="lazy">
+            <h3>Velocity Trail</h3>
+            <p>Graphite</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$149.00</strong>
+              <ui-button size="sm" aria-label="Add Velocity Trail to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-03/600/600" alt="Feather Lite in ivory" width="600" height="600" loading="lazy">
+            <h3>Feather Lite</h3>
+            <p>Ivory</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$98.00</strong>
+              <ui-button size="sm" aria-label="Add Feather Lite to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-04/600/600" alt="Apex Stability in midnight blue" width="600" height="600" loading="lazy">
+            <h3>Apex Stability</h3>
+            <p>Midnight Blue</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$165.00</strong>
+              <ui-button size="sm" aria-label="Add Apex Stability to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-05/600/600" alt="Summit Grip in rust orange" width="600" height="600" loading="lazy">
+            <h3>Summit Grip</h3>
+            <p>Rust Orange</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$139.00</strong>
+              <ui-button size="sm" aria-label="Add Summit Grip to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-06/600/600" alt="Sprint Zero in white" width="600" height="600" loading="lazy">
+            <h3>Sprint Zero</h3>
+            <p>White</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$110.00</strong>
+              <ui-button size="sm" aria-label="Add Sprint Zero to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-07/600/600" alt="Terra Max in sand" width="600" height="600" loading="lazy">
+            <h3>Terra Max</h3>
+            <p>Sand</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$175.00</strong>
+              <ui-button size="sm" aria-label="Add Terra Max to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-08/600/600" alt="Pulse Knit in coral" width="600" height="600" loading="lazy">
+            <h3>Pulse Knit</h3>
+            <p>Coral</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$92.00</strong>
+              <ui-button size="sm" aria-label="Add Pulse Knit to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-09/600/600" alt="Glide Road in slate" width="600" height="600" loading="lazy">
+            <h3>Glide Road</h3>
+            <p>Slate</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$135.00</strong>
+              <ui-button size="sm" aria-label="Add Glide Road to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-10/600/600" alt="Ridge Hiker in forest green" width="600" height="600" loading="lazy">
+            <h3>Ridge Hiker</h3>
+            <p>Forest Green</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$158.00</strong>
+              <ui-button size="sm" aria-label="Add Ridge Hiker to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-11/600/600" alt="Aero Flow in sky blue" width="600" height="600" loading="lazy">
+            <h3>Aero Flow</h3>
+            <p>Sky Blue</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$119.00</strong>
+              <ui-button size="sm" aria-label="Add Aero Flow to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+        <ui-card>
+          <ui-stack gap="sm">
+            <img src="https://picsum.photos/seed/stride-runner-12/600/600" alt="Canyon Fast in black" width="600" height="600" loading="lazy">
+            <h3>Canyon Fast</h3>
+            <p>Black</p>
+            <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="sm">
+              <strong>$145.00</strong>
+              <ui-button size="sm" aria-label="Add Canyon Fast to cart">Add to cart</ui-button>
+            </ui-stack>
+          </ui-stack>
+        </ui-card>
+
+      </ui-grid>
+    </main>
+
+    <nav aria-label="Pagination">
+      <ui-stack direction="horizontal" justify="center" align="center" wrap="wrap" gap="xs">
+        <ui-button variant="outline" size="sm" disabled>Previous</ui-button>
+        <ui-button variant="primary" size="sm" aria-current="page">1</ui-button>
+        <ui-button variant="outline" size="sm">2</ui-button>
+        <ui-button variant="outline" size="sm">3</ui-button>
+        <span>…</span>
+        <ui-button variant="outline" size="sm">4</ui-button>
+        <ui-button variant="outline" size="sm">Next</ui-button>
+      </ui-stack>
+    </nav>
+
+    <footer>
+      <p>&copy; 2026 Stride &amp; Co. All rights reserved.</p>
+    </footer>
+
+  </ui-stack>
+
+  <script>
+    const range = document.getElementById('price-range');
+    const output = document.getElementById('price-output');
+    range.addEventListener('input', () => {
+      output.textContent = '$' + range.value;
+    });
+
+    document.querySelectorAll('[role="group"] ui-button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const pressed = btn.getAttribute('aria-pressed') === 'true';
+        btn.setAttribute('aria-pressed', String(!pressed));
+      });
+    });
+  </script>
+</body>
+</html>

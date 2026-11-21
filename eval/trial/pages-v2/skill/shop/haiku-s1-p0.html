@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoes | Stride &amp; Co.</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" padding="md">
+          <strong>Stride &amp; Co.</strong>
+          <nav aria-label="Main">
+            <ui-row gap="md">
+              <a href="#men">Men</a>
+              <a href="#women">Women</a>
+              <a href="#kids">Kids</a>
+              <a href="#cart" aria-label="Cart, 2 items">Cart (2)</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container>
+        <ui-stack gap="lg" padding="md">
+          <ui-stack gap="xs">
+            <h1>Running &amp; Everyday Shoes</h1>
+            <p>Showing 1–12 of 48 styles</p>
+          </ui-stack>
+
+          <ui-card padding="md" rounded="lg">
+            <ui-stack gap="md">
+              <ui-stack gap="sm">
+                <strong>Size (US)</strong>
+                <ui-row wrap gap="sm" aria-label="Size">
+                  <ui-button variant="outline" size="sm" rounded aria-pressed="false">6</ui-button>
+                  <ui-button variant="outline" size="sm" rounded aria-pressed="false">7</ui-button>
+                  <ui-button variant="outline" size="sm" rounded aria-pressed="true">8</ui-button>
+                  <ui-button variant="outline" size="sm" rounded aria-pressed="false">9</ui-button>
+                  <ui-button variant="outline" size="sm" rounded aria-pressed="false">10</ui-button>
+                  <ui-button variant="outline" size="sm" rounded aria-pressed="false">11</ui-button>
+                  <ui-button variant="outline" size="sm" rounded aria-pressed="false">12</ui-button>
+                </ui-row>
+              </ui-stack>
+
+              <ui-row wrap gap="md" align="end">
+                <label>Max price
+                  <input type="range" name="max-price" min="40" max="200" step="5" value="200">
+                </label>
+                <label>Sort by
+                  <select name="sort">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: low to high</option>
+                    <option value="price-desc">Price: high to low</option>
+                    <option value="newest">Newest</option>
+                    <option value="rating">Best rated</option>
+                  </select>
+                </label>
+              </ui-row>
+            </ui-stack>
+          </ui-card>
+
+          <ui-grid max-columns="4" min-item-width="15rem" gap="md">
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-aero/400/400" width="100%" alt="Aero Runner Pro in white and orange">
+                <ui-stack gap="xs">
+                  <strong>Aero Runner Pro</strong>
+                  <span>Road running · Men's</span>
+                  <strong>$129.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-trail/400/400" width="100%" alt="Trail Ridge GTX in olive green">
+                <ui-stack gap="xs">
+                  <strong>Trail Ridge GTX</strong>
+                  <span>Waterproof trail · Unisex</span>
+                  <strong>$149.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-court/400/400" width="100%" alt="Court Classic Low in white leather">
+                <ui-stack gap="xs">
+                  <strong>Court Classic Low</strong>
+                  <span>Lifestyle · Unisex</span>
+                  <strong>$89.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-chelsea/400/400" width="100%" alt="Urban Chelsea Boot in black suede">
+                <ui-stack gap="xs">
+                  <strong>Urban Chelsea Boot</strong>
+                  <span>Boots · Men's</span>
+                  <strong>$169.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-cloud/400/400" width="100%" alt="Cloud Slip-On in sky blue">
+                <ui-stack gap="xs">
+                  <strong>Cloud Slip-On</strong>
+                  <span>Comfort · Women's</span>
+                  <strong>$69.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-hiker/400/400" width="100%" alt="Summit Hiker Mid in brown leather">
+                <ui-stack gap="xs">
+                  <strong>Summit Hiker Mid</strong>
+                  <span>Hiking · Men's</span>
+                  <strong>$159.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-velocity/400/400" width="100%" alt="Velocity Knit in black and red">
+                <ui-stack gap="xs">
+                  <strong>Velocity Knit</strong>
+                  <span>Training · Unisex</span>
+                  <strong>$119.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-suede/400/400" width="100%" alt="Retro Suede Runner in navy and cream">
+                <ui-stack gap="xs">
+                  <strong>Retro Suede Runner</strong>
+                  <span>Retro · Unisex</span>
+                  <strong>$99.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-canvas/400/400" width="100%" alt="Canvas High Top in red">
+                <ui-stack gap="xs">
+                  <strong>Canvas High Top</strong>
+                  <span>Canvas · Kids</span>
+                  <strong>$59.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-loafer/400/400" width="100%" alt="Metro Loafer in tan leather">
+                <ui-stack gap="xs">
+                  <strong>Metro Loafer</strong>
+                  <span>Dress · Men's</span>
+                  <strong>$135.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-spike/400/400" width="100%" alt="Sprint Spike X in neon green">
+                <ui-stack gap="xs">
+                  <strong>Sprint Spike X</strong>
+                  <span>Track · Unisex</span>
+                  <strong>$109.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated>
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/shoe-sandal/400/400" width="100%" alt="Harbor Sandal in tan and blue">
+                <ui-stack gap="xs">
+                  <strong>Harbor Sandal</strong>
+                  <span>Sandals · Women's</span>
+                  <strong>$45.00</strong>
+                </ui-stack>
+                <ui-button variant="primary">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <nav aria-label="Pagination">
+            <ui-row wrap justify="center" gap="sm">
+              <ui-button variant="ghost" size="sm" disabled>Previous</ui-button>
+              <ui-button variant="primary" size="sm" aria-current="page">1</ui-button>
+              <ui-button variant="outline" size="sm">2</ui-button>
+              <ui-button variant="outline" size="sm">3</ui-button>
+              <ui-button variant="outline" size="sm">4</ui-button>
+              <ui-button variant="ghost" size="sm">Next</ui-button>
+            </ui-row>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+</body>
+</html>

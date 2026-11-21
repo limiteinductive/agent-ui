@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="vertical" gap="lg" padding="lg">
+
+    <ui-stack direction="horizontal" justify="space-between" align="center" wrap="wrap" gap="md">
+      <ui-stack direction="vertical" gap="xs">
+        <h1>Team Calendar</h1>
+        <p>Shared schedule for the Product team</p>
+      </ui-stack>
+      <ui-stack direction="horizontal" align="center" gap="sm">
+        <ui-button id="prev" variant="outline" aria-label="Previous month">&larr;</ui-button>
+        <h2 id="month-title">November 2026</h2>
+        <ui-button id="next" variant="outline" aria-label="Next month">&rarr;</ui-button>
+      </ui-stack>
+    </ui-stack>
+
+    <ui-stack direction="horizontal" wrap="wrap" gap="lg" align="start">
+
+      <ui-card id="calendar-card" padding="md">
+        <ui-grid id="weekdays" columns="7" gap="xs">
+          <span>Mon</span>
+          <span>Tue</span>
+          <span>Wed</span>
+          <span>Thu</span>
+          <span>Fri</span>
+          <span>Sat</span>
+          <span>Sun</span>
+        </ui-grid>
+        <ui-grid id="days" columns="7" gap="xs"></ui-grid>
+      </ui-card>
+
+      <ui-card padding="md">
+        <ui-stack direction="vertical" gap="md">
+          <h2>Upcoming events</h2>
+          <ui-stack id="upcoming" direction="vertical" gap="sm"></ui-stack>
+        </ui-stack>
+      </ui-card>
+
+    </ui-stack>
+  </ui-stack>
+
+  <script>
+    const events = [
+      { date: "2026-11-12", title: "Team lunch", time: "12:30", place: "Cafe No. 9", owner: "Maya Chen", color: "neutral" },
+      { date: "2026-11-24", title: "Design review", time: "10:00", place: "Room Atlas", owner: "Jonas Weber", color: "primary" },
+      { date: "2026-11-24", title: "Onboarding: new hire", time: "15:00", place: "Zoom", owner: "Priya Nair", color: "success" },
+      { date: "2026-11-26", title: "Sprint planning", time: "09:30", place: "Room Orion", owner: "Liam O'Brien", color: "primary" },
+      { date: "2026-11-30", title: "Q4 retrospective", time: "14:00", place: "Room Atlas", owner: "Maya Chen", color: "warning" },
+      { date: "2026-12-02", title: "Client demo", time: "11:00", place: "Zoom", owner: "Sofia Rossi", color: "danger" },
+      { date: "2026-12-08", title: "Holiday potluck", time: "17:30", place: "Kitchen", owner: "Amir Haddad", color: "success" }
+    ];
+
+    const today = new Date(2026, 10, 21);
+    let viewYear = 2026;
+    let viewMonth = 10; // November (0-indexed)
+
+    const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const pad = n => String(n).padStart(2, "0");
+    const key = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+    function render() {
+      document.getElementById("month-title").textContent = `${monthNames[viewMonth]} ${viewYear}`;
+
+      const daysEl = document.getElementById("days");
+      daysEl.innerHTML = "";
+
+      const first = new Date(viewYear, viewMonth, 1);
+      const offset = (first.getDay() + 6) % 7; // Monday = 0
+      const start = new Date(viewYear, viewMonth, 1 - offset);
+
+      for (let i = 0; i < 42; i++) {
+        const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+        const dayEvents = events.filter(e => e.date === key(d));
+        const inMonth = d.getMonth() === viewMonth;
+        const isToday = key(d) === key(today);
+
+        const cell = document.createElement("ui-card");
+        cell.setAttribute("padding", "xs");
+        if (!inMonth) cell.setAttribute("variant", "neutral");
+        if (isToday) cell.setAttribute("variant", "primary");
+
+        const stack = document.createElement("ui-stack");
+        stack.setAttribute("direction", "vertical");
+        stack.setAttribute("gap", "xs");
+
+        const num = document.createElement(isToday ? "strong" : "span");
+        if (!inMonth) num.setAttribute("data-muted", "");
+        num.textContent = d.getDate();
+        stack.appendChild(num);
+
+        dayEvents.forEach(e => {
+          const badge = document.createElement("span");
+          badge.setAttribute("data-tone", e.color);
+          badge.textContent = e.title;
+          stack.appendChild(badge);
+        });
+
+        cell.appendChild(stack);
+        daysEl.appendChild(cell);
+      }
+
+      const upcomingEl = document.getElementById("upcoming");
+      upcomingEl.innerHTML = "";
+      const upcoming = events
+        .filter(e => new Date(e.date + "T00:00") >= today)
+        .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+
+      upcoming.forEach(e => {
+        const [y, m, dd] = e.date.split("-").map(Number);
+        const dateObj = new Date(y, m - 1, dd);
+        const label = dateObj.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+
+        const row = document.createElement("ui-stack");
+        row.setAttribute("direction", "horizontal");
+        row.setAttribute("gap", "md");
+        row.setAttribute("align", "center");
+
+        const avatar = document.createElement("img");
+        avatar.setAttribute("src", `https://picsum.photos/seed/${encodeURIComponent(e.owner)}/64/64`);
+        avatar.setAttribute("alt", e.owner);
+        avatar.setAttribute("width", "64");
+        avatar.setAttribute("height", "64");
+
+        const info = document.createElement("ui-stack");
+        info.setAttribute("direction", "vertical");
+        info.setAttribute("gap", "xs");
+
+        const title = document.createElement("strong");
+        title.textContent = e.title;
+
+        const meta = document.createElement("p");
+        meta.textContent = `${label} · ${e.time} · ${e.place}`;
+
+        info.appendChild(title);
+        info.appendChild(meta);
+        row.appendChild(avatar);
+        row.appendChild(info);
+        upcomingEl.appendChild(row);
+      });
+    }
+
+    document.getElementById("prev").addEventListener("click", () => {
+      viewMonth--;
+      if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+      render();
+    });
+
+    document.getElementById("next").addEventListener("click", () => {
+      viewMonth++;
+      if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

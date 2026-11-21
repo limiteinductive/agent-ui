@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stride &amp; Co. – Shoes</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-stack gap="lg">
+
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" align="center" wrap>
+        <ui-stack gap="0">
+          <h2>Stride &amp; Co.</h2>
+          <p>Footwear for every mile</p>
+        </ui-stack>
+        <ui-button variant="secondary" id="cart-btn">
+          🛒 Cart <span id="cart-count">0</span>
+        </ui-button>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <ui-container>
+    <ui-stack gap="lg">
+
+      <ui-stack gap="xs">
+        <h1>All Shoes</h1>
+        <p id="result-count">Showing 12 of 48 styles</p>
+      </ui-stack>
+
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-stack gap="xs">
+            <label>Size (US)</label>
+            <ui-row gap="xs" wrap id="size-chips">
+              <ui-button size="sm" variant="secondary" rounded aria-pressed="false">6</ui-button>
+              <ui-button size="sm" variant="secondary" rounded aria-pressed="false">7</ui-button>
+              <ui-button size="sm" variant="secondary" rounded aria-pressed="false">8</ui-button>
+              <ui-button size="sm" variant="secondary" rounded aria-pressed="false">9</ui-button>
+              <ui-button size="sm" variant="secondary" rounded aria-pressed="false">10</ui-button>
+              <ui-button size="sm" variant="secondary" rounded aria-pressed="false">11</ui-button>
+              <ui-button size="sm" variant="secondary" rounded aria-pressed="false">12</ui-button>
+            </ui-row>
+          </ui-stack>
+
+          <ui-grid min-item-width="200px" max-columns="2" gap="md">
+            <ui-stack gap="xs">
+              <label for="price">Max price: <strong id="price-label">$250</strong></label>
+              <input type="range" id="price" min="50" max="250" step="10" value="250">
+            </ui-stack>
+            <ui-stack gap="xs">
+              <label for="sort">Sort by</label>
+              <select id="sort">
+                <option>Featured</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Newest</option>
+                <option>Top Rated</option>
+              </select>
+            </ui-stack>
+          </ui-grid>
+        </ui-stack>
+      </ui-card>
+
+      <ui-grid min-item-width="240px" max-columns="4" gap="md" id="grid"></ui-grid>
+
+      <ui-row justify="center" gap="xs" wrap id="pagination">
+        <ui-button variant="secondary" size="sm">‹ Prev</ui-button>
+        <ui-button size="sm">1</ui-button>
+        <ui-button variant="secondary" size="sm">2</ui-button>
+        <ui-button variant="secondary" size="sm">3</ui-button>
+        <ui-button variant="secondary" size="sm">4</ui-button>
+        <ui-button variant="secondary" size="sm">Next ›</ui-button>
+      </ui-row>
+
+    </ui-stack>
+  </ui-container>
+
+  <footer>
+    <ui-container>
+      <p>© 2026 Stride &amp; Co. Free shipping on orders over $100.</p>
+    </ui-container>
+  </footer>
+
+</ui-stack>
+
+<script>
+  const products = [
+    ["Aero Runner 2", "Running", 129],
+    ["Metro Leather Derby", "Dress", 185],
+    ["Trail Blazer GTX", "Trail", 164],
+    ["Court Classic Low", "Sneakers", 89],
+    ["Cloudstep Walker", "Walking", 110],
+    ["Summit Hiking Boot", "Boots", 220],
+    ["Canvas Everyday", "Sneakers", 59],
+    ["Velocity Pro Racer", "Running", 199],
+    ["Harbor Loafer", "Casual", 135],
+    ["Urban Chelsea Boot", "Boots", 175],
+    ["Breeze Slip-On", "Casual", 69],
+    ["Stratus High-Top", "Sneakers", 120]
+  ];
+  const grid = document.getElementById('grid');
+  products.forEach(([name, cat, price], i) => {
+    const el = document.createElement('ui-card');
+    el.innerHTML = `
+      <ui-stack gap="sm">
+        <img src="https://picsum.photos/seed/shoe${i + 10}/400/300" alt="${name}" loading="lazy" width="400" height="300">
+        <p>${cat}</p>
+        <h4>${name}</h4>
+        <strong>$${price}.00</strong>
+        <ui-button class="add">Add to cart</ui-button>
+      </ui-stack>`;
+    grid.appendChild(el);
+  });
+
+  let count = 0;
+  grid.addEventListener('click', e => {
+    if (e.target.closest('.add')) {
+      document.getElementById('cart-count').textContent = ++count;
+    }
+  });
+
+  document.getElementById('price').addEventListener('input', e => {
+    document.getElementById('price-label').textContent = '$' + e.target.value;
+  });
+
+  document.getElementById('size-chips').addEventListener('click', e => {
+    const chip = e.target.closest('ui-button');
+    if (!chip) return;
+    const on = chip.getAttribute('aria-pressed') !== 'true';
+    chip.setAttribute('aria-pressed', String(on));
+    if (on) chip.removeAttribute('variant');
+    else chip.setAttribute('variant', 'secondary');
+  });
+</script>
+</body>
+</html>

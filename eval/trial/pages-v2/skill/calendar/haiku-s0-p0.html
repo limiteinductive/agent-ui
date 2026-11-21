@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" padding="md">
+          <strong>Northwind Product Team</strong>
+          <nav><a href="#">Settings</a></nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container>
+        <ui-stack gap="lg" padding="sm">
+
+          <ui-row justify="space-between" wrap gap="md">
+            <h1 id="month-label" aria-live="polite">November 2026</h1>
+            <ui-row gap="sm">
+              <ui-button id="prev" variant="outline" size="sm" aria-label="Previous month">‹ Prev</ui-button>
+              <ui-button id="today" variant="ghost" size="sm">Today</ui-button>
+              <ui-button id="next" variant="outline" size="sm" aria-label="Next month">Next ›</ui-button>
+            </ui-row>
+          </ui-row>
+
+          <ui-row stack-below="xl" gap="lg" align="start">
+
+            <ui-card padding="sm" gap="sm">
+              <ui-grid columns="7" gap="xs">
+                <small>Mon</small>
+                <small>Tue</small>
+                <small>Wed</small>
+                <small>Thu</small>
+                <small>Fri</small>
+                <small>Sat</small>
+                <small>Sun</small>
+              </ui-grid>
+              <ui-grid columns="7" gap="xs" id="days"></ui-grid>
+            </ui-card>
+
+            <ui-card padding="md" gap="md">
+              <h2>Upcoming</h2>
+              <ui-stack gap="sm" id="upcoming"></ui-stack>
+            </ui-card>
+
+          </ui-row>
+
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <script>
+    const EVENTS = [
+      { date: '2026-11-12', time: '16:00', title: 'Launch v2.4',       place: 'Main stage',   people: ['Ana', 'Ben', 'Chloe'] },
+      { date: '2026-11-23', time: '10:00', title: 'Sprint planning',   place: 'Room 4B',      people: ['Ana', 'Ben', 'Dev'] },
+      { date: '2026-11-24', time: '14:00', title: 'Design review',     place: 'Studio',       people: ['Chloe', 'Eli'] },
+      { date: '2026-11-26', time: '09:30', title: 'Customer demo',     place: 'Zoom',         people: ['Dev', 'Ben'] },
+      { date: '2026-11-26', time: '12:30', title: 'Lunch & learn',     place: 'Kitchen',      people: ['Ana', 'Eli', 'Chloe'] },
+      { date: '2026-11-26', time: '17:00', title: 'Metrics sync',      place: 'Room 3A',      people: ['Ben'] },
+      { date: '2026-11-27', time: '15:00', title: 'Q4 retro',          place: 'Room 2A',      people: ['Ana', 'Ben', 'Chloe', 'Dev'] },
+      { date: '2026-11-30', time: '09:00', title: 'Release freeze',    place: 'All teams',    people: ['Eli', 'Dev'] },
+      { date: '2026-12-02', time: '11:00', title: 'Hiring panel',      place: 'Room 1C',      people: ['Eli', 'Dev'] },
+      { date: '2026-12-08', time: '',      title: 'Team offsite',      place: 'Lakeside lodge', people: ['Ana', 'Ben', 'Chloe', 'Dev', 'Eli'] },
+      { date: '2026-12-14', time: '13:00', title: 'Budget review',     place: 'Finance room', people: ['Ben', 'Eli'] }
+    ];
+
+    const pad = n => String(n).padStart(2, '0');
+    const keyOf = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+
+    const now = new Date();
+    const todayKey = keyOf(now.getFullYear(), now.getMonth(), now.getDate());
+    let view = new Date(now.getFullYear(), now.getMonth(), 1);
+
+    const monthFmt = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' });
+    const dayFmt = new Intl.DateTimeFormat('en-US', { weekday: 'short', day: 'numeric', month: 'short' });
+
+    const monthLabel = document.getElementById('month-label');
+    const daysEl = document.getElementById('days');
+    const upcomingEl = document.getElementById('upcoming');
+
+    function renderCalendar() {
+      const y = view.getFullYear();
+      const m = view.getMonth();
+      monthLabel.textContent = monthFmt.format(view);
+
+      const offset = (new Date(y, m, 1).getDay() + 6) % 7; // Monday = 0
+      const start = new Date(y, m, 1 - offset);
+
+      const cells = [];
+      for (let i = 0; i < 42; i++) {
+        const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+        const k = keyOf(d.getFullYear(), d.getMonth(), d.getDate());
+        const inMonth = d.getMonth() === m;
+        const evs = EVENTS.filter(e => e.date === k);
+
+        const cell = document.createElement('ui-card');
+        cell.setAttribute('padding', 'xs');
+        cell.setAttribute('gap', 'xs');
+        cell.setAttribute('rounded', 'sm');
+        cell.toggleAttribute('sunken', !inMonth);
+        if (k === todayKey) cell.setAttribute('variant', 'info');
+        if (evs.length) {
+          cell.setAttribute('aria-label', `${evs.length} event${evs.length > 1 ? 's' : ''}: ${evs.map(e => e.title).join(', ')}`);
+        }
+
+        const dayNum = `<time datetime="${k}"><strong>${d.getDate()}</strong></time>`;
+        const dots = evs.length
+          ? `<small title="${evs.map(e => e.title).join(', ')}">${'●'.repeat(Math.min(evs.length, 3))}</small>`
+          : '';
+        cell.innerHTML = dayNum + dots;
+        cells.push(cell);
+      }
+      daysEl.replaceChildren(...cells);
+    }
+
+    function renderUpcoming() {
+      const list = EVENTS
+        .filter(e => e.date >= todayKey)
+        .sort((a, b) => (a.date + (a.time || '00:00')).localeCompare(b.date + (b.time || '00:00')))
+        .slice(0, 6);
+
+      if (!list.length) {
+        upcomingEl.innerHTML = '<p>No upcoming events.</p>';
+        return;
+      }
+
+      upcomingEl.innerHTML = list.map(e => {
+        const when = `${dayFmt.format(new Date(e.date + 'T00:00'))} · ${e.time || 'All day'}`;
+        const avatars = e.people.map(name =>
+          `<img src="https://picsum.photos/seed/${name.toLowerCase()}/48/48" width="24" height="24" alt="${name}" loading="lazy">`
+        ).join('');
+        return `
+          <ui-card padding="sm" gap="xs">
+            <small><time datetime="${e.date}${e.time ? 'T' + e.time : ''}">${when}</time></small>
+            <strong>${e.title}</strong>
+            <small>${e.place}</small>
+            <ui-row gap="xs">${avatars}</ui-row>
+          </ui-card>`;
+      }).join('');
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+      view = new Date(view.getFullYear(), view.getMonth() - 1, 1);
+      renderCalendar();
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+      view = new Date(view.getFullYear(), view.getMonth() + 1, 1);
+      renderCalendar();
+    });
+
+    document.getElementById('today').addEventListener('click', () => {
+      view = new Date(now.getFullYear(), now.getMonth(), 1);
+      renderCalendar();
+    });
+
+    renderCalendar();
+    renderUpcoming();
+  </script>
+</body>
+</html>

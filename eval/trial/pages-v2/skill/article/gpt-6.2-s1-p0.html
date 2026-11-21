@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="What a weekend without reception taught us about saving drafts, showing sync status, and designing for interrupted work.">
+  <title>Designing for the trailhead, where the signal ends | Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header id="top">
+      <ui-container size="lg">
+        <ui-row wrap justify="space-between" gap="sm" padding="md">
+          <strong>Field Notes</strong>
+          <nav aria-label="On this page">
+            <a href="#related">Related posts</a>
+          </nav>
+        </ui-row>
+        <hr>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-stack gap="2xl" padding="0">
+        <article aria-labelledby="article-title">
+          <ui-stack gap="xl">
+            <ui-container size="sm">
+              <header>
+                <ui-stack gap="md">
+                  <h1 id="article-title">Designing for the trailhead, where the signal ends</h1>
+                  <p>A weekend without reception changed how we think about saving drafts, showing sync status, and picking up where you left off.</p>
+                  <ui-row gap="md">
+                    <img
+                      src="https://picsum.photos/id/64/96/96"
+                      alt=""
+                      width="48"
+                      height="48"
+                      style="border-radius: var(--ui-radius-full); flex-shrink: 0;">
+                    <ui-stack gap="0">
+                      <strong>Maya Chen</strong>
+                      <small><time datetime="2026-09-18">September 18, 2026</time> · 5 min read</small>
+                    </ui-stack>
+                  </ui-row>
+                </ui-stack>
+              </header>
+            </ui-container>
+
+            <ui-container size="lg">
+              <img
+                src="https://picsum.photos/id/1018/1280/640"
+                srcset="https://picsum.photos/id/1018/480/240 480w,
+                        https://picsum.photos/id/1018/960/480 960w,
+                        https://picsum.photos/id/1018/1280/640 1280w"
+                sizes="(min-width: 72rem) 72rem, 100vw"
+                alt="A river winding through a steep mountain valley"
+                width="1280"
+                height="640"
+                fetchpriority="high"
+                style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-lg);">
+            </ui-container>
+
+            <ui-container size="sm">
+              <ui-stack gap="xl">
+                <p>At the trailhead on Saturday, I opened our trip journal to record a washed-out footbridge. I typed two sentences, put my phone away, and kept walking. At lunch I opened the app again. The entry was gone. Our save button had sent a request, the request had stalled, and the draft had been living in memory the whole time.</p>
+
+                <section aria-labelledby="save-first">
+                  <ui-stack gap="md">
+                    <h2 id="save-first">Save the note where it was written</h2>
+                    <p>Back at my desk, I could reproduce the bug without a mountain. I turned on airplane mode, entered a note, and reloaded the page. The team had tested whether failed requests displayed an error. Nobody had checked whether the words were still there after a reload.</p>
+                    <p>We moved the first save into IndexedDB. Once that transaction finishes, the editor can confirm the draft is on the device. A separate upload can run whenever the app has a usable connection. The next test was simple: write a note offline, close the tab, reopen it, and find every word exactly where we left it.</p>
+                  </ui-stack>
+                </section>
+
+                <ui-card variant="info" padding="lg" rounded="lg">
+                  <blockquote style="margin: 0;">
+                    <p><strong>“I’m about to put my phone in my pocket. Will those words be there when I take it out again?”</strong></p>
+                  </blockquote>
+                </ui-card>
+
+                <section aria-labelledby="sync-status">
+                  <ui-stack gap="md">
+                    <h2 id="sync-status">Show which version is saved</h2>
+                    <p>A single “Saved” label became confusing once the laptop and phone could hold different versions. We gave each edit a revision number. The editor compares the visible revision with the last one it stored locally and the last one the server acknowledged.</p>
+                    <pre tabindex="0" aria-label="JavaScript example for draft status" style="margin: 0; max-width: 100%; overflow: auto;"><code>function draftStatus(edit, local, remote) {
+  if (edit !== local) {
+    return "Saving on this device…";
+  }
+
+  if (edit === remote) {
+    return "Synced";
+  }
+
+  return "Saved on this device";
+}</code></pre>
+                    <p>These three labels cover the normal save path. A local write error gets its own message, and the editor keeps the text visible so the writer can retry or copy it. If an upload fails after the local write, the draft still says it’s saved on this device.</p>
+                  </ui-stack>
+                </section>
+
+                <section aria-labelledby="interruptions">
+                  <ui-stack gap="md">
+                    <h2 id="interruptions">Test the interruptions people actually have</h2>
+                    <p>Airplane mode caught the original bug. A throttled connection found another: if I kept typing during an upload, the old response could make my newest changes appear synced. Comparing the acknowledgment with the revision currently visible in the editor fixed the label.</p>
+                    <p>Now we run the same short test before shipping changes to the editor. Start a note offline, close and reopen the tab, reconnect on a slow network, and edit while the upload is still in flight. At each step, we check that the newest text survives and that the status matches where that version is stored.</p>
+                    <p>On the next hike, I recorded the location of a reliable water source. The note was still open when I took my phone out at lunch. It synced that evening while I was unpacking.</p>
+                  </ui-stack>
+                </section>
+
+                <footer>
+                  <ui-row wrap gap="sm" aria-label="Article tags">
+                    <span><strong>Tags</strong></span>
+                    <mark>Offline-first</mark>
+                    <mark>Frontend</mark>
+                    <mark>Product design</mark>
+                    <mark>Testing</mark>
+                  </ui-row>
+                </footer>
+              </ui-stack>
+            </ui-container>
+          </ui-stack>
+        </article>
+
+        <section id="related" aria-labelledby="related-title">
+          <ui-container size="lg">
+            <ui-stack gap="lg">
+              <hr>
+              <h2 id="related-title">Related posts</h2>
+
+              <ui-row scroll item-width="18rem" align="stretch" gap="md" padding="xs"
+                tabindex="0" role="region" aria-label="Related posts, horizontally scrollable">
+                <ui-card rounded="lg" padding="md">
+                  <img src="https://picsum.photos/id/1015/560/320" alt=""
+                    width="560" height="320" loading="lazy"
+                    style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-sm);">
+                  <h3>What happens when two people edit offline?</h3>
+                  <p>How a shared trip journal can help writers reconcile conflicting edits.</p>
+                  <details>
+                    <summary>Read an excerpt</summary>
+                    <p>Show both versions alongside the last shared draft. If the edits touch different paragraphs, start with a merged preview. If they overlap, let the writer choose which wording to keep.</p>
+                  </details>
+                </ui-card>
+
+                <ui-card rounded="lg" padding="md">
+                  <img src="https://picsum.photos/id/1016/560/320" alt=""
+                    width="560" height="320" loading="lazy"
+                    style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-sm);">
+                  <h3>Writing status messages people can trust</h3>
+                  <p>What to say when a draft is saved locally, waiting to upload, or stuck.</p>
+                  <details>
+                    <summary>Read an excerpt</summary>
+                    <p>Pick the wording after you name the event that triggers it. A finished local write warrants “Saved on this device.” Show “Synced” when the server acknowledges the version the writer sees.</p>
+                  </details>
+                </ui-card>
+
+                <ui-card rounded="lg" padding="md">
+                  <img src="https://picsum.photos/id/1036/560/320" alt=""
+                    width="560" height="320" loading="lazy"
+                    style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-sm);">
+                  <h3>A field test for your mobile web app</h3>
+                  <p>Five minutes with a real phone can uncover failures a desktop test skips.</p>
+                  <details>
+                    <summary>Read an excerpt</summary>
+                    <p>Begin an entry, lock the phone, and let it sit for a minute. Then unlock it and switch networks before returning to the browser. Check that the draft still opens and you can continue typing.</p>
+                  </details>
+                </ui-card>
+
+                <ui-card rounded="lg" padding="md">
+                  <img src="https://picsum.photos/id/1043/560/320" alt=""
+                    width="560" height="320" loading="lazy"
+                    style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-sm);">
+                  <h3>Keeping photo uploads out of the way</h3>
+                  <p>Let writers finish an entry while large attachments upload in the background.</p>
+                  <details>
+                    <summary>Read an excerpt</summary>
+                    <p>Give each attachment its own upload state. A stalled photo can stay queued while the text syncs, and a retry can target that one photo without resending the entire entry.</p>
+                  </details>
+                </ui-card>
+              </ui-row>
+            </ui-stack>
+          </ui-container>
+        </section>
+      </ui-stack>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <ui-row wrap justify="space-between" gap="md" padding="lg">
+          <small>© 2026 Field Notes</small>
+          <a href="#top">Back to top</a>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

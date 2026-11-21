@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Relayboard plans for managing projects, coordinating teams, and reporting on progress.">
+  <title>Pricing | Relayboard</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* The library has no controls for text alignment, type scale, or native table scrolling. */
+    .hero {
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.25rem, 1.5rem + 3vw, 4rem);
+      line-height: 1.06;
+      letter-spacing: -0.045em;
+      text-wrap: balance;
+    }
+
+    .price {
+      font-size: 2.5rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .comparison-scroll {
+      overflow-x: auto;
+    }
+
+    .comparison-scroll table {
+      width: 100%;
+      min-width: 35rem;
+    }
+  </style>
+</head>
+<body>
+  <ui-page layout="document" id="top">
+    <header>
+      <ui-container size="lg">
+        <ui-stack padding="md" gap="0">
+          <ui-row wrap justify="space-between" gap="md">
+            <a href="#top"><strong>Relayboard</strong></a>
+            <nav aria-label="Main navigation">
+              <ui-row wrap gap="md">
+                <a href="#pricing" aria-current="page">Pricing</a>
+                <a href="#compare">Compare</a>
+                <a href="#faq">FAQ</a>
+              </ui-row>
+            </nav>
+          </ui-row>
+        </ui-stack>
+        <hr>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="2xl" padding="xl">
+          <section id="pricing" aria-labelledby="pricing-title">
+            <ui-stack gap="xl">
+              <ui-container size="sm">
+                <ui-stack class="hero" align="center" gap="sm">
+                  <h1 id="pricing-title">A plan for every stage of work</h1>
+                  <p>Keep tasks, deadlines, and decisions in one place, from your first project to a portfolio of teams.</p>
+                  <small>Prices in USD, billed monthly.</small>
+                </ui-stack>
+              </ui-container>
+
+              <ui-grid max-columns="3" min-item-width="16rem" gap="md">
+                <ui-card rounded="xl" padding="lg" gap="md">
+                  <ui-stack gap="xs">
+                    <h2>Starter</h2>
+                    <p>For small teams getting their first projects organized.</p>
+                  </ui-stack>
+                  <ui-row wrap align="baseline" gap="sm">
+                    <strong class="price">$0</strong>
+                    <small>per workspace / month</small>
+                  </ui-row>
+                  <hr>
+                  <ul grow>
+                    <li>Up to 5 members</li>
+                    <li>3 active projects</li>
+                    <li>List and board views</li>
+                    <li>Task assignments and due dates</li>
+                  </ul>
+                  <ui-button variant="outline" rounded="md"
+                    onclick="window.location.href='mailto:hello@relayboard.example?subject=Starter%20workspace%20request'">
+                    Request a workspace
+                  </ui-button>
+                </ui-card>
+
+                <ui-card inverse rounded="xl" padding="lg" gap="md">
+                  <ui-stack gap="xs">
+                    <ui-row wrap justify="space-between" gap="xs">
+                      <h2>Team</h2>
+                      <small><mark>Most popular</mark></small>
+                    </ui-row>
+                    <p>For teams coordinating deadlines across multiple projects.</p>
+                  </ui-stack>
+                  <ui-row wrap align="baseline" gap="sm">
+                    <strong class="price">$12</strong>
+                    <small>per member / month</small>
+                  </ui-row>
+                  <hr>
+                  <ul grow>
+                    <li>Unlimited active projects</li>
+                    <li>Timeline views and task dependencies</li>
+                    <li>Custom fields and project templates</li>
+                    <li>100 automation runs per workspace each month</li>
+                  </ul>
+                  <ui-button variant="primary" rounded="md"
+                    onclick="window.location.href='mailto:hello@relayboard.example?subject=Team%20trial%20request'">
+                    Request a 14-day trial
+                  </ui-button>
+                </ui-card>
+
+                <ui-card rounded="xl" padding="lg" gap="md">
+                  <ui-stack gap="xs">
+                    <h2>Business</h2>
+                    <p>For organizations managing work across departments.</p>
+                  </ui-stack>
+                  <ui-row wrap align="baseline" gap="sm">
+                    <strong class="price">$24</strong>
+                    <small>per member / month</small>
+                  </ui-row>
+                  <hr>
+                  <ul grow>
+                    <li>Everything in Team</li>
+                    <li>Portfolio dashboards and reporting</li>
+                    <li>SAML single sign-on</li>
+                    <li>1,000 automation runs per workspace each month</li>
+                  </ul>
+                  <ui-button variant="outline" rounded="md"
+                    onclick="window.location.href='mailto:sales@relayboard.example?subject=Business%20plan%20inquiry'">
+                    Talk to sales
+                  </ui-button>
+                </ui-card>
+              </ui-grid>
+            </ui-stack>
+          </section>
+
+          <section id="compare" aria-labelledby="compare-title">
+            <ui-stack gap="md">
+              <h2 id="compare-title">Compare plan features</h2>
+              <div class="comparison-scroll" role="region" aria-labelledby="compare-title" tabindex="0">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Feature</th>
+                      <th scope="col">Starter</th>
+                      <th scope="col">Team</th>
+                      <th scope="col">Business</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Members</th>
+                      <td>Up to 5</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Active projects</th>
+                      <td>3</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">List and board views</th>
+                      <td>Included</td>
+                      <td>Included</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Timeline and dependencies</th>
+                      <td>—</td>
+                      <td>Included</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Custom fields and templates</th>
+                      <td>—</td>
+                      <td>Included</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Monthly automation runs</th>
+                      <td>0</td>
+                      <td>100</td>
+                      <td>1,000</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Portfolio reporting</th>
+                      <td>—</td>
+                      <td>—</td>
+                      <td>Included</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">SAML single sign-on</th>
+                      <td>—</td>
+                      <td>—</td>
+                      <td>Included</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </ui-stack>
+          </section>
+
+          <section id="faq" aria-labelledby="faq-title">
+            <ui-container size="sm">
+              <ui-stack gap="md">
+                <h2 id="faq-title">Frequently asked questions</h2>
+                <ui-card rounded="lg" padding="lg" gap="md">
+                  <details>
+                    <summary><strong>How does the Team trial work?</strong></summary>
+                    <p>Try every Team feature for 14 days without a credit card. After the trial, choose a paid plan or return to Starter.</p>
+                  </details>
+                  <hr>
+                  <details>
+                    <summary><strong>Who counts as a billable member?</strong></summary>
+                    <p>On paid plans, each active workspace member, including admins, counts as one paid seat. Pending invitations and deactivated accounts are excluded.</p>
+                  </details>
+                  <hr>
+                  <details>
+                    <summary><strong>Can I change plans later?</strong></summary>
+                    <p>Yes. Upgrades take effect immediately, with the difference prorated for the rest of the month. Downgrades take effect at your next billing date.</p>
+                  </details>
+                  <hr>
+                  <details>
+                    <summary><strong>What happens to my projects if I downgrade to Starter?</strong></summary>
+                    <p>Choose up to three projects to keep active. Relayboard archives the others so you can still read and export them.</p>
+                  </details>
+                </ui-card>
+              </ui-stack>
+            </ui-container>
+          </section>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <hr>
+        <ui-stack padding="md" gap="0">
+          <ui-row wrap justify="space-between" gap="md">
+            <small>© 2026 Relayboard</small>
+            <nav aria-label="Footer navigation">
+              <ui-row wrap gap="md">
+                <a href="mailto:support@relayboard.example">Contact support</a>
+                <a href="#top">Back to top</a>
+              </ui-row>
+            </nav>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

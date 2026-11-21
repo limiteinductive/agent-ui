@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar · Northwind Product</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Northwind · Product Team</strong>
+        <nav><a href="#">Calendar</a></nav>
+      </ui-row>
+    </ui-container>
+  </header>
+  <main>
+    <ui-container>
+      <ui-stack gap="lg" padding="md">
+        <ui-row wrap gap="lg" align="start">
+          <ui-card grow padding="md" gap="md">
+            <ui-row justify="space-between" gap="sm">
+              <ui-button variant="outline" size="sm" id="prev" aria-label="Previous month">‹ Prev</ui-button>
+              <h2 id="month-title" aria-live="polite">November 2026</h2>
+              <ui-button variant="outline" size="sm" id="next" aria-label="Next month">Next ›</ui-button>
+            </ui-row>
+            <ui-grid columns="7" gap="xs" id="weekdays">
+              <small><strong>Mon</strong></small>
+              <small><strong>Tue</strong></small>
+              <small><strong>Wed</strong></small>
+              <small><strong>Thu</strong></small>
+              <small><strong>Fri</strong></small>
+              <small><strong>Sat</strong></small>
+              <small><strong>Sun</strong></small>
+            </ui-grid>
+            <ui-grid columns="7" gap="xs" id="grid" role="grid" aria-labelledby="month-title"></ui-grid>
+            <small>Tap a highlighted day's label to see details in the upcoming list.</small>
+          </ui-card>
+
+          <ui-card padding="md" gap="md" elevated>
+            <h3>Upcoming events</h3>
+            <ui-stack gap="sm" id="upcoming"></ui-stack>
+          </ui-card>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+</ui-page>
+
+<script>
+  const TODAY = new Date(2026, 10, 21);
+  const events = [
+    { date: "2026-11-03", tag: "Plan", title: "Sprint 24 planning", time: "10:00", where: "Room Atlas" },
+    { date: "2026-11-06", tag: "1:1", title: "1:1 Maya & Jonas", time: "14:30", where: "Zoom" },
+    { date: "2026-11-11", tag: "Demo", title: "Checkout redesign demo", time: "16:00", where: "Main hall" },
+    { date: "2026-11-17", tag: "Retro", title: "Sprint 24 retro", time: "11:00", where: "Room Atlas" },
+    { date: "2026-11-21", tag: "Ship", title: "v3.8 release freeze", time: "09:00", where: "#release" },
+    { date: "2026-11-24", tag: "Plan", title: "Sprint 25 planning", time: "10:00", where: "Room Atlas" },
+    { date: "2026-11-26", tag: "Off", title: "Team offsite – Lisbon", time: "All day", where: "LX Factory" },
+    { date: "2026-11-30", tag: "Demo", title: "Analytics dashboard review", time: "15:00", where: "Zoom" },
+    { date: "2026-12-02", tag: "1:1", title: "1:1 Priya & Sam", time: "13:00", where: "Café corner" },
+    { date: "2026-12-08", tag: "Ship", title: "v3.8 public release", time: "09:00", where: "#release" },
+    { date: "2026-12-15", tag: "Retro", title: "Q4 retrospective", time: "11:00", where: "Main hall" },
+    { date: "2026-12-18", tag: "Party", title: "Holiday dinner", time: "19:00", where: "Taberna Real" }
+  ];
+
+  const pad = n => String(n).padStart(2, "0");
+  const key = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  let view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
+
+  function render() {
+    const title = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    document.getElementById("month-title").textContent = title;
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+    const offset = (view.getDay() + 6) % 7; // Monday first
+    const start = new Date(view.getFullYear(), view.getMonth(), 1 - offset);
+    const daysInMonth = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+    const total = Math.ceil((offset + daysInMonth) / 7) * 7;
+
+    for (let i = 0; i < total; i++) {
+      const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+      const inMonth = d.getMonth() === view.getMonth();
+      const isToday = key(d) === key(TODAY);
+      const card = document.createElement("ui-card");
+      card.setAttribute("padding", "xs");
+      card.setAttribute("gap", "xs");
+      card.setAttribute("rounded", "sm");
+      card.setAttribute("role", "gridcell");
+      if (isToday) card.setAttribute("variant", "primary");
+      else if (!inMonth) card.setAttribute("sunken", "");
+      const dayEvents = events.filter(e => e.date === key(d));
+      card.setAttribute("aria-label",
+        d.toDateString() + (dayEvents.length ? ": " + dayEvents.map(e => e.title).join(", ") : ""));
+      const num = document.createElement("small");
+      num.innerHTML = isToday ? `<strong>${d.getDate()}</strong>` : String(d.getDate());
+      card.appendChild(num);
+      dayEvents.forEach(e => {
+        const s = document.createElement("small");
+        s.innerHTML = `<mark title="${e.title}">${e.tag}</mark>`;
+        card.appendChild(s);
+      });
+      grid.appendChild(card);
+    }
+  }
+
+  function renderUpcoming() {
+    const list = document.getElementById("upcoming");
+    list.innerHTML = "";
+    events.filter(e => parse(e.date) >= TODAY).slice(0, 6).forEach(e => {
+      const d = parse(e.date);
+      const item = document.createElement("ui-card");
+      item.setAttribute("padding", "sm");
+      item.setAttribute("gap", "xs");
+      item.setAttribute("sunken", "");
+      item.innerHTML = `
+        <ui-row gap="sm" justify="space-between">
+          <small><strong>${d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}</strong></small>
+          <small><mark>${e.tag}</mark></small>
+        </ui-row>
+        <span>${e.title}</span>
+        <small>${e.time} · ${e.where}</small>`;
+      list.appendChild(item);
+    });
+  }
+
+  document.getElementById("prev").addEventListener("click", () => {
+    view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render();
+  });
+  document.getElementById("next").addEventListener("click", () => {
+    view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render();
+  });
+
+  render();
+  renderUpcoming();
+</script>
+</body>
+</html>

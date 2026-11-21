@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shoes | Common Ground</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-card inverse rounded="0" padding="0">
+        <ui-container size="lg">
+          <ui-row justify="space-between" padding="md">
+            <strong>Common Ground</strong>
+            <ui-button id="open-cart" variant="outline" rounded="full"
+                       aria-haspopup="dialog">Cart (0)</ui-button>
+          </ui-row>
+        </ui-container>
+      </ui-card>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="xl" padding="md">
+          <ui-stack gap="xs">
+            <h1>Shoes</h1>
+            <p>Everyday sneakers, road runners, and trail shoes.</p>
+          </ui-stack>
+
+          <section aria-label="Product filters">
+            <ui-card padding="md" rounded="lg">
+              <ui-row stack-below="44rem" gap="lg" align="stretch">
+                <div role="group" aria-labelledby="size-label">
+                  <ui-stack gap="sm">
+                    <strong id="size-label">Size (US)</strong>
+                    <ui-row id="sizes" wrap gap="xs">
+                      <ui-button size="sm" variant="outline" rounded="full" data-size="6" aria-pressed="false">6</ui-button>
+                      <ui-button size="sm" variant="outline" rounded="full" data-size="7" aria-pressed="false">7</ui-button>
+                      <ui-button size="sm" variant="outline" rounded="full" data-size="8" aria-pressed="false">8</ui-button>
+                      <ui-button size="sm" variant="outline" rounded="full" data-size="9" aria-pressed="false">9</ui-button>
+                      <ui-button size="sm" variant="outline" rounded="full" data-size="10" aria-pressed="false">10</ui-button>
+                      <ui-button size="sm" variant="outline" rounded="full" data-size="11" aria-pressed="false">11</ui-button>
+                      <ui-button size="sm" variant="outline" rounded="full" data-size="12" aria-pressed="false">12</ui-button>
+                    </ui-row>
+                  </ui-stack>
+                </div>
+
+                <ui-stack gap="sm">
+                  <label for="max-price"><strong>Maximum price</strong></label>
+                  <ui-row wrap gap="sm">
+                    <input id="max-price" type="range" min="50" max="200" step="5" value="200"
+                           style="min-inline-size: 0; max-inline-size: 100%">
+                    <output id="price-range" for="max-price">$0–$200</output>
+                  </ui-row>
+                </ui-stack>
+
+                <ui-stack gap="sm" align="start" style="min-inline-size: 0; max-inline-size: 100%">
+                  <label for="sort"><strong>Sort by</strong></label>
+                  <select id="sort" style="min-inline-size: 0; max-inline-size: 100%">
+                    <option value="featured">Featured</option>
+                    <option value="price-asc">Price: low to high</option>
+                    <option value="price-desc">Price: high to low</option>
+                    <option value="name">Name: A to Z</option>
+                  </select>
+                </ui-stack>
+              </ui-row>
+            </ui-card>
+          </section>
+
+          <section aria-label="Shoe catalog">
+            <ui-stack gap="md">
+              <p id="results" role="status" tabindex="-1"></p>
+              <ui-grid id="products" max-columns="4" min-item-width="14rem" gap="md"></ui-grid>
+              <div id="empty-state" hidden>
+                <ui-card sunken padding="md" rounded="lg">
+                  <p>No shoes match these filters.</p>
+                  <ui-button id="reset-filters" variant="outline">Clear filters</ui-button>
+                </ui-card>
+              </div>
+            </ui-stack>
+          </section>
+
+          <nav id="pagination" aria-label="Product pages">
+            <ui-row justify="center" wrap gap="sm">
+              <ui-button id="previous-page" variant="outline" size="sm">Previous</ui-button>
+              <ui-row id="page-numbers" wrap gap="xs"></ui-row>
+              <ui-button id="next-page" variant="outline" size="sm">Next</ui-button>
+            </ui-row>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <dialog id="size-dialog" aria-labelledby="size-dialog-title">
+    <form id="add-form">
+      <ui-stack gap="md">
+        <h2 id="size-dialog-title">Choose a size</h2>
+        <p id="selected-product"></p>
+        <ui-stack gap="xs">
+          <label for="product-size">Size (US)</label>
+          <select id="product-size" name="size" required></select>
+        </ui-stack>
+        <ui-row wrap gap="sm" justify="end">
+          <ui-button id="cancel-add" variant="outline">Cancel</ui-button>
+          <ui-button type="submit" variant="primary">Add to cart</ui-button>
+        </ui-row>
+      </ui-stack>
+    </form>
+  </dialog>
+
+  <dialog id="cart-dialog" aria-labelledby="cart-title">
+    <ui-stack gap="md">
+      <ui-row wrap justify="space-between">
+        <h2 id="cart-title">Your cart</h2>
+        <ui-button id="close-cart" variant="ghost" size="sm">Close</ui-button>
+      </ui-row>
+      <ui-stack id="cart-items" gap="sm"></ui-stack>
+      <strong id="cart-total" role="status"></strong>
+    </ui-stack>
+  </dialog>
+
+  <template id="product-template">
+    <ui-card padding="sm" gap="sm" rounded="lg">
+      <img alt="" width="640" height="480" loading="lazy" decoding="async"
+           style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-md)">
+      <ui-stack grow gap="xs" padding="xs">
+        <small></small>
+        <h2></h2>
+        <strong></strong>
+      </ui-stack>
+      <ui-button variant="primary" rounded="md" aria-haspopup="dialog">Add to cart</ui-button>
+    </ui-card>
+  </template>
+
+  <script>
+    const products = [
+      ['Court 82', 'Leather sneaker', 89, [6, 7, 8, 9, 10, 11]],
+      ['Pace Daily', 'Road running', 112, [7, 8, 9, 10, 11, 12]],
+      ['Ridge Low', 'Trail shoe', 135, [6, 7, 9, 10, 11, 12]],
+      ['Harbor Canvas', 'Canvas sneaker', 64, [6, 7, 8, 9, 10]],
+      ['Metro Suede', 'Suede sneaker', 98, [7, 8, 9, 10, 11]],
+      ['Tempo Knit', 'Road running', 124, [6, 7, 8, 10, 11, 12]],
+      ['Summit GTX', 'Waterproof trail shoe', 168, [7, 8, 9, 10, 12]],
+      ['Desert Court', 'Leather sneaker', 105, [6, 8, 9, 10, 11, 12]],
+      ['Boardwalk Slip', 'Canvas slip-on', 58, [6, 7, 8, 9, 11]],
+      ['Aero Mile', 'Road running', 145, [7, 8, 9, 10, 11, 12]],
+      ['Field 76', 'Suede sneaker', 92, [6, 7, 8, 9, 10, 12]],
+      ['Canyon Trek', 'Trail shoe', 128, [7, 9, 10, 11, 12]],
+      ['Parkside Low', 'Leather sneaker', 86, [6, 7, 8, 9, 10]],
+      ['Coast Runner', 'Road running', 118, [7, 8, 10, 11, 12]],
+      ['Foothill Mesh', 'Trail shoe', 125, [6, 7, 8, 9, 11]],
+      ['Market Canvas', 'Canvas sneaker', 62, [6, 8, 9, 10, 12]],
+      ['Terrace Suede', 'Suede sneaker', 104, [7, 8, 9, 10, 11]],
+      ['Stride Flow', 'Road running', 138, [6, 7, 8, 10, 11, 12]],
+      ['Granite Mid', 'Waterproof hiking shoe', 178, [7, 8, 9, 10, 11, 12]],
+      ['Union Court', 'Leather sneaker', 109, [6, 8, 9, 10, 11]],
+      ['Pier Slip', 'Canvas slip-on', 55, [6, 7, 8, 9, 10]],
+      ['Distance Pro', 'Road running', 165, [8, 9, 10, 11, 12]],
+      ['Club 90', 'Suede sneaker', 94, [6, 7, 8, 9, 11, 12]],
+      ['Switchback Low', 'Trail shoe', 142, [7, 8, 9, 10, 11, 12]]
+    ].map(([name, category, price, sizes], index) => ({
+      name, category, price, sizes, id: index + 1
+    }));
+
+    const byId = id => document.getElementById(id);
+    const money = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    });
+    const pageSize = 12;
+    const selectedSizes = new Set();
+    const cart = new Map();
+    const sizeButtons = [...document.querySelectorAll('#sizes [data-size]')];
+    const priceSlider = byId('max-price');
+    const sort = byId('sort');
+    const results = byId('results');
+    const grid = byId('products');
+    const template = byId('product-template');
+    const sizeDialog = byId('size-dialog');
+    const sizeSelect = byId('product-size');
+    const cartDialog = byId('cart-dialog');
+    const cartButton = byId('open-cart');
+    const closeCart = byId('close-cart');
+    let page = 1;
+    let pageCount = 1;
+    let pendingProduct;
+
+    const comparators = {
+      featured: (a, b) => a.id - b.id,
+      'price-asc': (a, b) => a.price - b.price,
+      'price-desc': (a, b) => b.price - a.price,
+      name: (a, b) => a.name.localeCompare(b.name)
+    };
+
+    function renderProducts() {
+      const maxPrice = Number(priceSlider.value);
+      byId('price-range').value = `$0–${money.format(maxPrice)}`;
+
+      const matches = products.filter(product =>
+        product.price <= maxPrice &&
+        (selectedSizes.size === 0 || product.sizes.some(size => selectedSizes.has(size)))
+      ).sort(comparators[sort.value]);
+
+      pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
+      page = Math.min(page, pageCount);
+      const start = (page - 1) * pageSize;
+      const visible = matches.slice(start, start + pageSize);
+
+      results.textContent = matches.length
+        ? `Showing ${start + 1}–${start + visible.length} of ${matches.length} shoes`
+        : '0 shoes';
+      byId('empty-state').hidden = matches.length > 0;
+      grid.replaceChildren(...visible.map(createCard));
+      renderPagination();
+    }
+
+    function createCard(product) {
+      const card = template.content.cloneNode(true);
+      const image = card.querySelector('img');
+      image.src = `https://picsum.photos/seed/common-ground-${product.id}/640/480`;
+      card.querySelector('small').textContent = product.category;
+      card.querySelector('h2').textContent = product.name;
+      card.querySelector('strong').textContent = money.format(product.price);
+
+      const add = card.querySelector('ui-button');
+      add.setAttribute('aria-label', `Add ${product.name} to cart`);
+      add.addEventListener('click', () => {
+        pendingProduct = product;
+        byId('selected-product').textContent = `${product.name} · ${money.format(product.price)}`;
+        sizeSelect.replaceChildren(new Option('Select a size', ''));
+        for (const size of product.sizes) {
+          sizeSelect.add(new Option(String(size), String(size)));
+        }
+        const matchingSizes = product.sizes.filter(size => selectedSizes.has(size));
+        if (matchingSizes.length === 1) {
+          sizeSelect.value = String(matchingSizes[0]);
+        }
+        sizeDialog.showModal();
+        sizeSelect.focus();
+      });
+
+      return card;
+    }
+
+    function goToPage(nextPage) {
+      if (nextPage < 1 || nextPage > pageCount || nextPage === page) return;
+      page = nextPage;
+      renderProducts();
+      results.focus();
+    }
+
+    function renderPagination() {
+      byId('pagination').hidden = pageCount <= 1;
+      byId('previous-page').toggleAttribute('disabled', page === 1);
+      byId('next-page').toggleAttribute('disabled', page === pageCount);
+
+      const numbers = byId('page-numbers');
+      numbers.replaceChildren();
+      for (let number = 1; number <= pageCount; number += 1) {
+        const button = document.createElement('ui-button');
+        button.textContent = String(number);
+        button.setAttribute('size', 'sm');
+        button.setAttribute('rounded', 'full');
+        button.setAttribute('variant', number === page ? 'primary' : 'outline');
+        button.setAttribute('aria-label', `Page ${number}`);
+        if (number === page) button.setAttribute('aria-current', 'page');
+        button.addEventListener('click', () => goToPage(number));
+        numbers.append(button);
+      }
+    }
+
+    function updateFilters() {
+      for (const button of sizeButtons) {
+        const active = selectedSizes.has(Number(button.dataset.size));
+        button.setAttribute('aria-pressed', String(active));
+        button.setAttribute('variant', active ? 'primary' : 'outline');
+      }
+      page = 1;
+      renderProducts();
+    }
+
+    for (const button of sizeButtons) {
+      button.addEventListener('click', () => {
+        const size = Number(button.dataset.size);
+        if (selectedSizes.has(size)) selectedSizes.delete(size);
+        else selectedSizes.add(size);
+        updateFilters();
+      });
+    }
+
+    priceSlider.addEventListener('input', updateFilters);
+    sort.addEventListener('change', updateFilters);
+    byId('reset-filters').addEventListener('click', () => {
+      selectedSizes.clear();
+      priceSlider.value = priceSlider.max;
+      sort.value = 'featured';
+      updateFilters();
+      results.focus();
+    });
+    byId('previous-page').addEventListener('click', () => goToPage(page - 1));
+    byId('next-page').addEventListener('click', () => goToPage(page + 1));
+    byId('cancel-add').addEventListener('click', () => sizeDialog.close());
+    cartButton.addEventListener('click', () => cartDialog.showModal());
+    closeCart.addEventListener('click', () => cartDialog.close());
+
+    byId('add-form').addEventListener('submit', event => {
+      event.preventDefault();
+      const size = Number(sizeSelect.value);
+      if (!pendingProduct || !pendingProduct.sizes.includes(size)) return;
+
+      const key = `${pendingProduct.id}-${size}`;
+      const quantity = (cart.get(key)?.quantity ?? 0) + 1;
+      cart.set(key, { product: pendingProduct, size, quantity });
+      renderCart();
+      sizeDialog.close();
+      cartDialog.showModal();
+    });
+
+    function renderCart() {
+      const items = byId('cart-items');
+      items.replaceChildren();
+      let count = 0;
+      let subtotal = 0;
+
+      for (const [key, { product, size, quantity }] of cart) {
+        count += quantity;
+        subtotal += product.price * quantity;
+
+        const row = document.createElement('ui-row');
+        row.setAttribute('wrap', '');
+        row.setAttribute('justify', 'space-between');
+
+        const details = document.createElement('ui-stack');
+        details.setAttribute('gap', 'xs');
+        const name = document.createElement('strong');
+        name.textContent = product.name;
+        const description = document.createElement('small');
+        description.textContent = `US ${size} · Qty ${quantity} · ${money.format(product.price * quantity)}`;
+        details.append(name, description);
+
+        const remove = document.createElement('ui-button');
+        remove.textContent = 'Remove one';
+        remove.setAttribute('size', 'sm');
+        remove.setAttribute('variant', 'outline');
+        remove.setAttribute('aria-label', `Remove one ${product.name}, size ${size}`);
+        remove.addEventListener('click', () => {
+          if (quantity === 1) cart.delete(key);
+          else cart.set(key, { product, size, quantity: quantity - 1 });
+          renderCart();
+          closeCart.focus();
+        });
+
+        row.append(details, remove);
+        items.append(row);
+      }
+
+      if (count === 0) {
+        const empty = document.createElement('p');
+        empty.textContent = 'Your cart is empty.';
+        items.append(empty);
+      }
+
+      cartButton.textContent = `Cart (${count})`;
+      byId('cart-total').textContent = count ? `Subtotal ${money.format(subtotal)}` : '';
+    }
+
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>

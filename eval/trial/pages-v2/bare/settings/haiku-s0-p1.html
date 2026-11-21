@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container>
+    <ui-stack direction="vertical" gap="lg">
+
+      <ui-stack direction="vertical" gap="xs">
+        <h1>Account settings</h1>
+        <p>Manage your profile, notifications, and billing.</p>
+      </ui-stack>
+
+      <!-- Profile -->
+      <ui-card>
+        <form action="#" method="post">
+          <ui-stack direction="vertical" gap="lg">
+            <ui-stack direction="vertical" gap="xs">
+              <h2>Profile</h2>
+              <p>This information is visible to other members of your workspace.</p>
+            </ui-stack>
+
+            <ui-stack direction="horizontal" gap="md" align="center" wrap="true">
+              <img src="https://picsum.photos/id/64/200/200" alt="Current avatar" width="96" height="96">
+              <ui-stack direction="vertical" gap="xs">
+                <label for="avatar">Avatar</label>
+                <input id="avatar" name="avatar" type="file" accept="image/png, image/jpeg, image/webp">
+                <small>PNG, JPG or WebP up to 4 MB.</small>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-grid min-item-width="280px" gap="md">
+              <ui-stack direction="vertical" gap="xs">
+                <label for="name">Full name</label>
+                <input id="name" name="name" type="text" value="Alex Morgan" autocomplete="name">
+              </ui-stack>
+              <ui-stack direction="vertical" gap="xs">
+                <label for="email">Email address</label>
+                <input id="email" name="email" type="email" value="alex.morgan@example.com" autocomplete="email">
+              </ui-stack>
+            </ui-grid>
+
+            <ui-stack direction="vertical" gap="xs">
+              <label for="bio">Bio</label>
+              <textarea id="bio" name="bio" rows="4" maxlength="280">Product designer based in Lisbon. Building tools for small teams and coffee enthusiast.</textarea>
+              <small>Up to 280 characters.</small>
+            </ui-stack>
+
+            <ui-stack direction="horizontal" gap="sm" justify="end" wrap="true">
+              <button type="reset">Discard</button>
+              <button type="submit">Save changes</button>
+            </ui-stack>
+          </ui-stack>
+        </form>
+      </ui-card>
+
+      <!-- Notifications -->
+      <ui-card>
+        <ui-stack direction="vertical" gap="lg">
+          <ui-stack direction="vertical" gap="xs">
+            <h2>Notifications</h2>
+            <p>Choose what we should notify you about.</p>
+          </ui-stack>
+
+          <ui-stack direction="vertical" gap="md">
+            <ui-stack direction="horizontal" gap="md" justify="space-between" align="center">
+              <ui-stack direction="vertical" gap="xs">
+                <strong>Comments and mentions</strong>
+                <small>When someone mentions you or replies to your thread.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_mentions" aria-label="Comments and mentions" checked>
+            </ui-stack>
+
+            <hr>
+
+            <ui-stack direction="horizontal" gap="md" justify="space-between" align="center">
+              <ui-stack direction="vertical" gap="xs">
+                <strong>Task assignments</strong>
+                <small>When a task is assigned to you or its status changes.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_tasks" aria-label="Task assignments" checked>
+            </ui-stack>
+
+            <hr>
+
+            <ui-stack direction="horizontal" gap="md" justify="space-between" align="center">
+              <ui-stack direction="vertical" gap="xs">
+                <strong>Weekly digest</strong>
+                <small>A summary of activity every Monday morning.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_digest" aria-label="Weekly digest">
+            </ui-stack>
+
+            <hr>
+
+            <ui-stack direction="horizontal" gap="md" justify="space-between" align="center">
+              <ui-stack direction="vertical" gap="xs">
+                <strong>Product updates</strong>
+                <small>New features and release announcements.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_product" aria-label="Product updates">
+            </ui-stack>
+
+            <hr>
+
+            <ui-stack direction="horizontal" gap="md" justify="space-between" align="center">
+              <ui-stack direction="vertical" gap="xs">
+                <strong>Security alerts</strong>
+                <small>Sign-ins from new devices and password changes. Always on for your safety.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" name="notify_security" aria-label="Security alerts" checked disabled>
+            </ui-stack>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <!-- Billing -->
+      <ui-card>
+        <ui-stack direction="vertical" gap="lg">
+          <ui-stack direction="vertical" gap="xs">
+            <h2>Billing</h2>
+            <p>Your subscription and payment details.</p>
+          </ui-stack>
+
+          <ui-grid min-item-width="280px" gap="md">
+            <ui-stack direction="vertical" gap="sm">
+              <ui-stack direction="horizontal" gap="sm" align="center" wrap="true">
+                <strong>Current plan:</strong>
+                <span>Pro</span>
+              </ui-stack>
+              <p>$24 per user / month, billed monthly.</p>
+              <small>Next invoice on December 21, 2026</small>
+              <ui-stack direction="horizontal" gap="sm" wrap="true">
+                <button type="button">Change plan</button>
+                <button type="button">View invoices</button>
+              </ui-stack>
+            </ui-stack>
+
+            <ui-stack direction="vertical" gap="sm">
+              <strong>Seats used</strong>
+              <progress value="7" max="10">7 of 10</progress>
+              <small>7 of 10 seats in use</small>
+              <hr>
+              <strong>Payment method</strong>
+              <p>Visa ending in 4242 &middot; Expires 08/2028</p>
+              <button type="button">Update payment method</button>
+            </ui-stack>
+          </ui-grid>
+        </ui-stack>
+      </ui-card>
+
+      <!-- Danger zone -->
+      <ui-card variant="danger">
+        <ui-stack direction="vertical" gap="lg">
+          <ui-stack direction="vertical" gap="xs">
+            <h2>Danger zone</h2>
+            <p>Deleting your account permanently removes your profile, workspace data, and billing history. This cannot be undone.</p>
+          </ui-stack>
+
+          <ui-stack direction="horizontal" gap="md" justify="space-between" align="center" wrap="true">
+            <ui-stack direction="vertical" gap="xs">
+              <strong>Delete account</strong>
+              <small>Export your data before deleting. Your subscription will be cancelled immediately.</small>
+            </ui-stack>
+            <button type="button">Delete account</button>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

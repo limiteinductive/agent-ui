@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Quiet Cost of Clever Caching — Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* agent-ui 0.1.0 has no scroll-area, avatar or badge element. These rules cover the horizontal rail, round avatars, tag chips and image/code overflow. */
+    .rail { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: .75rem; -webkit-overflow-scrolling: touch; }
+    .rail > * { flex: 0 0 min(78vw, 280px); scroll-snap-align: start; }
+    img { max-width: 100%; height: auto; display: block; }
+    .avatar { border-radius: 50%; flex: none; }
+    .tag { display: inline-block; padding: .125rem .5rem; border: 1px solid currentColor; border-radius: 999px; font-size: .8125rem; opacity: .8; }
+    pre { overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <ui-container size="md">
+    <ui-stack gap="xl">
+
+      <header>
+        <ui-stack gap="md">
+          <ui-row gap="sm" align="center" wrap>
+            <span class="tag"><strong>Engineering</strong></span>
+            <small>9 min read</small>
+          </ui-row>
+
+          <h1>The Quiet Cost of Clever Caching</h1>
+
+          <p>How a well-intentioned cache layer doubled our p99 latency, and the three rules we now follow before adding one.</p>
+
+          <ui-row gap="sm" align="center">
+            <img class="avatar" src="https://picsum.photos/seed/author-maya/96/96" width="48" height="48" alt="Maya Okonkwo">
+            <ui-stack gap="0">
+              <strong>Maya Okonkwo</strong>
+              <small>Staff Engineer · <time datetime="2026-11-18">November 18, 2026</time></small>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+      </header>
+
+      <figure>
+        <img src="https://picsum.photos/seed/cache-cover/1200/630" width="1200" height="630" alt="Server racks lit in blue in a dark data center">
+        <figcaption><small>Every cache is a promise that the past is a good guess for the future.</small></figcaption>
+      </figure>
+
+      <article>
+        <ui-stack gap="md">
+          <p>Last spring our checkout service started missing its latency target. Not by a lot at first — a few milliseconds at the median, nothing anyone would page on. But the tail was another story. Over six weeks, p99 crept from 180ms to just over 400ms, and nobody had shipped anything that looked remotely risky.</p>
+
+          <p>The culprit, it turned out, was a cache. Specifically, a read-through cache we had added a quarter earlier to <em>reduce</em> latency. This post is about how that happened, why it was hard to see, and what we changed.</p>
+
+          <h2>The setup</h2>
+          <p>Checkout needs pricing data for every line item: base price, active promotions, regional tax rules. That data lives in a pricing service that, on a good day, answers in about 25ms. Multiply by a cart of eight items and you have a meaningful chunk of your budget spent waiting on the network.</p>
+          <p>The fix seemed obvious. We wrapped the pricing client in an in-process LRU cache with a five-minute TTL. Hit rates looked fantastic on the dashboard — north of 92% — and median latency dropped by almost 40%. We wrote a short celebratory post in the team channel and moved on.</p>
+
+          <h2>What the dashboard didn't show</h2>
+          <p>A 92% hit rate sounds like a win until you ask what happens on the other 8%. In our case, a miss didn't just mean one call to the pricing service. Because keys expired on a fixed TTL, popular products tended to expire <em>together</em>, and every request that arrived in that window triggered its own fetch.</p>
+
+          <blockquote>
+            <ui-stack gap="sm">
+              <p><strong>“A cache doesn't remove load. It reshapes it — usually into spikes you weren't measuring.”</strong></p>
+              <small>— A note now pinned to our team's design-review template</small>
+            </ui-stack>
+          </blockquote>
+
+          <p>This is the classic thundering herd, and we'd walked right into it. Worse, the pricing service had its own connection pool limit, so those synchronized misses queued up behind each other. The median stayed great. The tail paid for everyone.</p>
+
+          <h2>The fix: coalesce, then jitter</h2>
+          <p>We made two small changes. First, concurrent misses for the same key now share a single in-flight promise. Second, every TTL gets a random jitter of up to 20%, so entries written together no longer expire together.</p>
+
+          <pre><code>const inflight = new Map();
+
+async function getPrice(sku) {
+  const hit = cache.get(sku);
+  if (hit) return hit;
+
+  if (inflight.has(sku)) return inflight.get(sku);
+
+  const request = pricing.fetch(sku)
+    .then((price) =&gt; {
+      const jitter = 1 + Math.random() * 0.2;
+      cache.set(sku, price, { ttl: BASE_TTL * jitter });
+      return price;
+    })
+    .finally(() =&gt; inflight.delete(sku));
+
+  inflight.set(sku, request);
+  return request;
+}</code></pre>
+
+          <p>Twenty-odd lines of code. Within a day of deploying, p99 was back under 170ms — better than before the cache existed — and peak load on the pricing service dropped by roughly a third.</p>
+
+          <h2>Three rules we follow now</h2>
+          <h3>1. Measure the miss path, not the hit rate</h3>
+          <p>Hit rate is a vanity metric on its own. We now chart miss latency and the number of concurrent misses per key alongside it. If those aren't on the dashboard, the cache doesn't ship.</p>
+
+          <h3>2. Assume expiry is correlated</h3>
+          <p>Anything written in a burst will expire in a burst. Jitter is cheap; add it by default and remove it only with a reason.</p>
+
+          <h3>3. Write down what “stale” costs</h3>
+          <p>Every cache trades freshness for speed. Before adding one, we write a single sentence describing the worst outcome of serving stale data. For pricing, that sentence was uncomfortable enough that we also added event-driven invalidation for promotion changes.</p>
+
+          <h2>Closing thoughts</h2>
+          <p>None of this is new. Request coalescing and TTL jitter are decades-old ideas. What surprised us was how convincingly a healthy-looking metric hid an unhealthy system. The lesson wasn't really about caching — it was about choosing what to look at.</p>
+        </ui-stack>
+      </article>
+
+      <hr>
+
+      <ui-stack gap="sm">
+        <small>Tagged</small>
+        <ui-row gap="sm" wrap>
+          <span class="tag">caching</span>
+          <span class="tag">performance</span>
+          <span class="tag">distributed-systems</span>
+          <span class="tag">postmortem</span>
+          <span class="tag">javascript</span>
+        </ui-row>
+      </ui-stack>
+
+      <ui-card padding="md">
+        <ui-row gap="md" align="center">
+          <img class="avatar" src="https://picsum.photos/seed/author-maya/96/96" width="64" height="64" alt="Maya Okonkwo">
+          <ui-stack gap="xs">
+            <strong>Written by Maya Okonkwo</strong>
+            <small>Maya leads the platform reliability group and spends too much time staring at latency histograms.</small>
+          </ui-stack>
+        </ui-row>
+      </ui-card>
+
+      <section aria-labelledby="related-heading">
+        <ui-stack gap="md">
+          <ui-row justify="space-between" align="center" wrap>
+            <h2 id="related-heading">Related posts</h2>
+            <small>Scroll →</small>
+          </ui-row>
+
+          <div class="rail" role="region" aria-label="Related posts" tabindex="0">
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-1/560/320" width="560" height="320" alt="">
+              <ui-stack gap="xs" padding="md">
+                <small>Observability</small>
+                <h3><a href="#">Histograms Lie Less Than Averages</a></h3>
+                <small>Oct 30, 2026 · 6 min</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-2/560/320" width="560" height="320" alt="">
+              <ui-stack gap="xs" padding="md">
+                <small>Architecture</small>
+                <h3><a href="#">When Not to Split the Monolith</a></h3>
+                <small>Oct 12, 2026 · 11 min</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-3/560/320" width="560" height="320" alt="">
+              <ui-stack gap="xs" padding="md">
+                <small>Performance</small>
+                <h3><a href="#">Connection Pools, Explained with Coffee</a></h3>
+                <small>Sep 24, 2026 · 7 min</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-4/560/320" width="560" height="320" alt="">
+              <ui-stack gap="xs" padding="md">
+                <small>Postmortem</small>
+                <h3><a href="#">The Retry Storm of Black Friday</a></h3>
+                <small>Sep 2, 2026 · 9 min</small>
+              </ui-stack>
+            </ui-card>
+            <ui-card>
+              <img src="https://picsum.photos/seed/related-5/560/320" width="560" height="320" alt="">
+              <ui-stack gap="xs" padding="md">
+                <small>JavaScript</small>
+                <h3><a href="#">Promises You Should Share</a></h3>
+                <small>Aug 15, 2026 · 5 min</small>
+              </ui-stack>
+            </ui-card>
+          </div>
+        </ui-stack>
+      </section>
+
+      <footer>
+        <small>© 2026 Field Notes Engineering Blog</small>
+      </footer>
+
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flowmark — Project management for focused teams</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="0" min-height="100vh">
+
+    <header>
+      <ui-stack direction="row" align="center" justify="space-between" gap="medium" padding="medium large" wrap>
+        <a href="/" aria-label="Flowmark home">
+          <ui-stack direction="row" align="center" gap="small">
+            <ui-badge variant="primary">F</ui-badge>
+            <strong>Flowmark</strong>
+          </ui-stack>
+        </a>
+
+        <nav aria-label="Main navigation">
+          <ui-stack direction="row" align="center" gap="medium" wrap>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href="#resources">Resources</a>
+          </ui-stack>
+        </nav>
+
+        <ui-stack direction="row" gap="small" align="center">
+          <a href="#login">Log in</a>
+          <ui-button variant="primary" href="#pricing">Start free</ui-button>
+        </ui-stack>
+      </ui-stack>
+    </header>
+
+    <main>
+      <section aria-labelledby="hero-title">
+        <ui-stack align="center" gap="medium" padding="xlarge large">
+          <ui-badge variant="secondary">Project management, without the busywork</ui-badge>
+          <h1 id="hero-title">Move important work forward, together.</h1>
+          <p>Flowmark brings tasks, timelines, docs, and team conversations into one calm workspace.</p>
+          <ui-stack direction="row" gap="small" wrap justify="center">
+            <ui-button variant="primary" size="large" href="#pricing">Try Flowmark free</ui-button>
+            <ui-button variant="secondary" size="large" href="#features">Explore features</ui-button>
+          </ui-stack>
+          <small>No credit card required · Free for teams of up to 5</small>
+        </ui-stack>
+      </section>
+
+      <section id="pricing" aria-labelledby="pricing-title">
+        <ui-stack gap="large" padding="large">
+          <ui-stack align="center" gap="small">
+            <h2 id="pricing-title">Simple plans that scale with your team</h2>
+            <p>Start small, add power when you need it, and keep every project in view.</p>
+          </ui-stack>
+
+          <ui-grid columns="3" gap="medium">
+            <ui-card padding="large">
+              <ui-stack gap="medium">
+                <ui-stack gap="small">
+                  <h3>Starter</h3>
+                  <p>For individuals and small teams building their workflow.</p>
+                </ui-stack>
+                <p><strong>$0</strong> / forever</p>
+                <ui-button variant="secondary" href="#signup-starter">Get started</ui-button>
+                <ui-divider></ui-divider>
+                <strong>Includes:</strong>
+                <ul>
+                  <li>Up to 5 members</li>
+                  <li>Unlimited projects</li>
+                  <li>Basic task views</li>
+                  <li>1 GB file storage</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card variant="elevated" padding="large">
+              <ui-stack gap="medium">
+                <ui-badge variant="primary">Most popular</ui-badge>
+                <ui-stack gap="small">
+                  <h3>Team</h3>
+                  <p>For growing teams that need clarity and momentum.</p>
+                </ui-stack>
+                <p><strong>$12</strong> <small>per user / month</small></p>
+                <ui-button variant="primary" href="#signup-team">Start 14-day trial</ui-button>
+                <ui-divider></ui-divider>
+                <strong>Everything in Starter, plus:</strong>
+                <ul>
+                  <li>Unlimited members</li>
+                  <li>Timeline and workload views</li>
+                  <li>Automations and forms</li>
+                  <li>100 GB file storage</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="large">
+              <ui-stack gap="medium">
+                <ui-stack gap="small">
+                  <h3>Business</h3>
+                  <p>For organizations coordinating complex portfolios.</p>
+                </ui-stack>
+                <p><strong>$28</strong> <small>per user / month</small></p>
+                <ui-button variant="secondary" href="#signup-business">Choose Business</ui-button>
+                <ui-divider></ui-divider>
+                <strong>Everything in Team, plus:</strong>
+                <ul>
+                  <li>Portfolio reporting</li>
+                  <li>Advanced permissions</li>
+                  <li>Single sign-on</li>
+                  <li>Unlimited storage</li>
+                </ul>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <small align="center">Annual billing saves 20%. All prices are in USD.</small>
+        </ui-stack>
+      </section>
+
+      <section id="features" aria-labelledby="features-title">
+        <ui-stack gap="large" padding="large">
+          <ui-stack align="center" gap="small">
+            <h2 id="features-title">Compare features</h2>
+            <p>Everything your team needs to plan clearly and deliver consistently.</p>
+          </ui-stack>
+
+          <ui-card padding="small">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Feature</th>
+                  <th scope="col">Starter</th>
+                  <th scope="col">Team</th>
+                  <th scope="col">Business</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Projects</th>
+                  <td>Unlimited</td>
+                  <td>Unlimited</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Task views</th>
+                  <td>List, board</td>
+                  <td>List, board, timeline</td>
+                  <td>All views</td>
+                </tr>
+                <tr>
+                  <th scope="row">Automations</th>
+                  <td>—</td>
+                  <td>25 rules</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Guest access</th>
+                  <td>—</td>
+                  <td>5 guests</td>
+                  <td>Unlimited</td>
+                </tr>
+                <tr>
+                  <th scope="row">Reporting</th>
+                  <td>Basic</td>
+                  <td>Project reports</td>
+                  <td>Portfolio reports</td>
+                </tr>
+                <tr>
+                  <th scope="row">Support</th>
+                  <td>Community</td>
+                  <td>Email</td>
+                  <td>Priority support</td>
+                </tr>
+              </tbody>
+            </table>
+          </ui-card>
+        </ui-stack>
+      </section>
+
+      <section aria-labelledby="quote-title">
+        <ui-card padding="xlarge">
+          <ui-stack align="center" gap="medium">
+            <img src="https://picsum.photos/seed/flowmark-team/960/360" alt="Team collaborating around a table" width="960" height="360">
+            <blockquote>
+              <p id="quote-title">“Flowmark gave us one shared source of truth. We spend less time asking for updates and more time doing the work.”</p>
+              <cite>— Maya Chen, Head of Operations at Northstar Studio</cite>
+            </blockquote>
+          </ui-stack>
+        </ui-card>
+      </section>
+
+      <section id="faq" aria-labelledby="faq-title">
+        <ui-stack gap="large" padding="large">
+          <ui-stack align="center" gap="small">
+            <h2 id="faq-title">Frequently asked questions</h2>
+            <p>Still deciding? Here are the details teams ask about most.</p>
+          </ui-stack>
+
+          <ui-stack gap="small">
+            <ui-card padding="medium">
+              <details>
+                <summary>Can I try Flowmark before paying?</summary>
+                <p>Yes. Team and Business plans include a 14-day free trial, and no credit card is required. Starter is free forever.</p>
+              </details>
+            </ui-card>
+            <ui-card padding="medium">
+              <details>
+                <summary>Can I change plans later?</summary>
+                <p>Absolutely. You can upgrade, downgrade, or add seats whenever your team changes. Billing adjustments are prorated automatically.</p>
+              </details>
+            </ui-card>
+            <ui-card padding="medium">
+              <details>
+                <summary>Is my team's data secure?</summary>
+                <p>Flowmark encrypts data in transit and at rest, provides role-based permissions, and maintains daily backups.</p>
+              </details>
+            </ui-card>
+            <ui-card padding="medium">
+              <details>
+                <summary>Do you offer help moving from another tool?</summary>
+                <p>Yes. Team and Business customers can import projects from common project-management tools, with guided onboarding available.</p>
+              </details>
+            </ui-card>
+          </ui-stack>
+        </ui-stack>
+      </section>
+
+      <section aria-labelledby="cta-title">
+        <ui-card variant="primary" padding="xlarge">
+          <ui-stack align="center" gap="medium">
+            <h2 id="cta-title">Make your next project feel lighter.</h2>
+            <p>Bring your team, tasks, and plans into focus with Flowmark.</p>
+            <ui-button variant="inverted" size="large" href="#signup">Start for free</ui-button>
+          </ui-stack>
+        </ui-card>
+      </section>
+    </main>
+
+    <footer id="resources">
+      <ui-stack gap="large" padding="xlarge large">
+        <ui-grid columns="4" gap="large">
+          <ui-stack gap="small">
+            <strong>Flowmark</strong>
+            <p>Calm, capable project management for modern teams.</p>
+          </ui-stack>
+          <ui-stack gap="small">
+            <strong>Product</strong>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#integrations">Integrations</a>
+          </ui-stack>
+          <ui-stack gap="small">
+            <strong>Company</strong>
+            <a href="#about">About</a>
+            <a href="#careers">Careers</a>
+            <a href="#contact">Contact</a>
+          </ui-stack>
+          <ui-stack gap="small">
+            <strong>Resources</strong>
+            <a href="#guides">Guides</a>
+            <a href="#help">Help center</a>
+            <a href="#status">System status</a>
+          </ui-stack>
+        </ui-grid>
+        <ui-divider></ui-divider>
+        <ui-stack direction="row" justify="space-between" gap="medium" wrap>
+          <small>© 2026 Flowmark, Inc. All rights reserved.</small>
+          <ui-stack direction="row" gap="medium" wrap>
+            <a href="#privacy">Privacy</a>
+            <a href="#terms">Terms</a>
+            <a href="#security">Security</a>
+          </ui-stack>
+        </ui-stack>
+      </ui-stack>
+    </footer>
+
+  </ui-stack>
+</body>
+</html>

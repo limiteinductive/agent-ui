@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A practical guide to using CSS container queries for components that appear in more than one layout.">
+  <title>When a component needs its own breakpoint | Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page layout="document">
+    <ui-stack gap="xl">
+      <header>
+        <ui-container size="lg">
+          <ui-stack gap="0">
+            <ui-row justify="space-between" padding="md" wrap>
+              <strong>Field Notes</strong>
+              <nav aria-label="Page navigation">
+                <a href="#related">Related posts</a>
+              </nav>
+            </ui-row>
+            <hr>
+          </ui-stack>
+        </ui-container>
+      </header>
+
+      <main>
+        <ui-stack gap="2xl">
+          <article aria-labelledby="article-title">
+            <ui-stack gap="xl">
+              <header>
+                <ui-container size="sm">
+                  <ui-stack gap="md">
+                    <h1 id="article-title">When a component needs its own breakpoint</h1>
+                    <p>A card can have room for a photo beside its text in the main column and need a stacked layout in the sidebar. CSS container queries let the same component do both.</p>
+                    <ui-row gap="sm" wrap>
+                      <img
+                        src="https://picsum.photos/id/64/96/96"
+                        width="44"
+                        height="44"
+                        alt=""
+                        style="border-radius: var(--ui-radius-full); object-fit: cover;"
+                      >
+                      <ui-stack gap="xs">
+                        <strong>Maya Chen</strong>
+                        <small><time datetime="2026-09-17">September 17, 2026</time></small>
+                      </ui-stack>
+                    </ui-row>
+                  </ui-stack>
+                </ui-container>
+              </header>
+
+              <ui-container size="lg">
+                <img
+                  src="https://picsum.photos/id/1018/1440/640"
+                  srcset="https://picsum.photos/id/1018/640/400 640w, https://picsum.photos/id/1018/1440/640 1440w"
+                  sizes="(min-width: 72rem) 72rem, 100vw"
+                  width="1440"
+                  height="640"
+                  alt="Layers of mountain ridges overlooking a valley"
+                  fetchpriority="high"
+                  style="display: block; width: 100%; height: clamp(12rem, 38vw, 28rem); object-fit: cover; border-radius: var(--ui-radius-xl);"
+                >
+              </ui-container>
+
+              <ui-container size="sm">
+                <ui-stack gap="xl">
+                  <section aria-labelledby="available-space">
+                    <ui-stack gap="sm">
+                      <h2 id="available-space">Start with the space the card gets</h2>
+                      <p>We first noticed the problem on our journal homepage. The lead story card looked good on a laptop, so we reused it in the sidebar on article pages. At the same browser width, its thumbnail took up nearly half the sidebar, leaving a narrow column for the headline. A headline that fit on two lines in the main feed ran to five lines alongside the photo.</p>
+                      <p>Both cards were following the same viewport breakpoint. Once the browser crossed that threshold, both switched to the side-by-side layout. We wanted the sidebar card to stay stacked for as long as its own column was narrow, even when the rest of the page had plenty of room.</p>
+                    </ui-stack>
+                  </section>
+
+                  <ui-card variant="primary" padding="lg" rounded="lg">
+                    <blockquote style="margin: 0;">
+                      <p><strong>“Start with the headline that barely fits. It will tell you more about the breakpoint than the width of the laptop on your desk.”</strong></p>
+                    </blockquote>
+                  </ui-card>
+
+                  <section aria-labelledby="container-query">
+                    <ui-stack gap="sm">
+                      <h2 id="container-query">Let the card’s wrapper set the breakpoint</h2>
+                      <p>Wrap each card in an element with the class <code>story-slot</code>. The wrapper becomes the query container, and the <code>story-card</code> inside it changes layout when the wrapper is wide enough. Give the card two direct children, one for the image and one for the text, so they can sit in separate grid columns.</p>
+                      <ui-card sunken padding="md" rounded="lg">
+                        <pre tabindex="0" aria-label="CSS container query example" style="margin: 0; max-width: 100%; min-width: 0; overflow: auto;"><code>.story-slot {
+  container: story / inline-size;
+}
+
+.story-card {
+  display: grid;
+  gap: 1rem;
+}
+
+@container story (min-width: 32rem) {
+  .story-card {
+    grid-template-columns:
+      10rem minmax(0, 1fr);
+    align-items: start;
+  }
+}</code></pre>
+                      </ui-card>
+                      <p>Below <code>32rem</code>, the grid has one implicit column and the image sits above the text. At <code>32rem</code>, the image column takes <code>10rem</code> and the text gets the remaining space after the gap. The stacked layout also serves as the fallback where container queries are unsupported.</p>
+                    </ui-stack>
+                  </section>
+
+                  <section aria-labelledby="testing-breakpoint">
+                    <ui-stack gap="sm">
+                      <h2 id="testing-breakpoint">Test around the threshold</h2>
+                      <p>Put two copies of the card on the same page, one in a narrow column and one in a wide column. Drag the divider between them or adjust their widths in the browser inspector. Watching one card switch while the other stays put makes it easy to see whether the query is responding to the intended wrapper.</p>
+                      <p>Check the widths just below and above the threshold with a long headline, a short one, and an image that fails to load. Try the page at 200% zoom as well. In our case, the longest headline still felt cramped when the photo moved beside it, so we raised the threshold until the text could wrap comfortably.</p>
+                    </ui-stack>
+                  </section>
+
+                  <section aria-labelledby="page-breakpoints">
+                    <ui-stack gap="sm">
+                      <h2 id="page-breakpoints">Keep page decisions at the page level</h2>
+                      <p>The journal still uses a viewport breakpoint to decide when the main column and sidebar sit side by side. The card’s query handles what happens after it lands in either column. When we added a third placement beneath the article, the card picked up the right layout as soon as it had a wrapper.</p>
+                    </ui-stack>
+                  </section>
+
+                  <footer aria-label="Article tags">
+                    <ui-row gap="sm" wrap>
+                      <small><strong>Tags</strong></small>
+                      <mark>CSS</mark>
+                      <mark>Responsive design</mark>
+                      <mark>Container queries</mark>
+                    </ui-row>
+                  </footer>
+                </ui-stack>
+              </ui-container>
+            </ui-stack>
+          </article>
+
+          <section id="related" aria-labelledby="related-title">
+            <ui-container size="lg">
+              <ui-stack gap="lg" padding="md">
+                <hr>
+                <h2 id="related-title">Related posts</h2>
+                <ui-row gap="md" align="stretch" scroll item-width="16rem"
+                  tabindex="0" role="region" aria-label="Horizontally scrollable list of related posts">
+                  <ui-card padding="md" rounded="lg">
+                    <img src="https://picsum.photos/id/1015/480/270" width="480" height="270"
+                      alt="" loading="lazy" decoding="async"
+                      style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-md);">
+                    <h3>Set breakpoints with real headlines</h3>
+                    <p>Use a handful of actual stories to decide when a card has enough room to change layout.</p>
+                  </ui-card>
+
+                  <ui-card padding="md" rounded="lg">
+                    <img src="https://picsum.photos/id/1016/480/270" width="480" height="270"
+                      alt="" loading="lazy" decoding="async"
+                      style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-md);">
+                    <h3>Why a grid column won’t shrink</h3>
+                    <p>Trace how a long URL or a wide code sample can push a flexible track past its container.</p>
+                  </ui-card>
+
+                  <ui-card padding="md" rounded="lg">
+                    <img src="https://picsum.photos/id/1043/480/270" width="480" height="270"
+                      alt="" loading="lazy" decoding="async"
+                      style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-md);">
+                    <h3>One image, several crops</h3>
+                    <p>Plan image ratios for a homepage feature, an article cover, and a compact card.</p>
+                  </ui-card>
+
+                  <ui-card padding="md" rounded="lg">
+                    <img src="https://picsum.photos/id/1036/480/270" width="480" height="270"
+                      alt="" loading="lazy" decoding="async"
+                      style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-md);">
+                    <h3>Test a layout at 200% zoom</h3>
+                    <p>Walk through navigation, article text, and scrollable sections with a magnified viewport.</p>
+                  </ui-card>
+
+                  <ui-card padding="md" rounded="lg">
+                    <img src="https://picsum.photos/id/1040/480/270" width="480" height="270"
+                      alt="" loading="lazy" decoding="async"
+                      style="display: block; width: 100%; height: auto; border-radius: var(--ui-radius-md);">
+                    <h3>A fallback for missing thumbnails</h3>
+                    <p>Keep a story card readable when an editor leaves the image field empty or a request fails.</p>
+                  </ui-card>
+                </ui-row>
+              </ui-stack>
+            </ui-container>
+          </section>
+        </ui-stack>
+      </main>
+    </ui-stack>
+  </ui-page>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Return of Server-Rendered Interfaces</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Fieldnotes</strong>
+        <nav>
+          <ui-row gap="md">
+            <a href="#">Articles</a>
+            <a href="#">About</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="lg">
+        <article>
+          <ui-stack gap="xl">
+            <ui-stack gap="md">
+              <ui-row wrap gap="sm">
+                <span>Engineering</span>
+                <span>·</span>
+                <span>9 min read</span>
+              </ui-row>
+              <h1>The Quiet Return of Server-Rendered Interfaces</h1>
+              <p>After a decade of shipping ever-larger JavaScript bundles, teams are rediscovering that the fastest code is the code that never has to run in the browser.</p>
+
+              <ui-row gap="md">
+                <img src="https://picsum.photos/seed/author-maya/96/96" alt="Maya Okafor" width="48" height="48" loading="lazy">
+                <ui-stack gap="0">
+                  <strong>Maya Okafor</strong>
+                  <small><time datetime="2026-11-12">November 12, 2026</time></small>
+                </ui-stack>
+              </ui-row>
+            </ui-stack>
+
+            <img src="https://picsum.photos/seed/server-render-cover/1200/630" alt="A quiet data center corridor lit in blue" width="1200" height="630">
+
+            <ui-stack gap="md">
+              <p>For years, the default answer to "how do we build this screen?" was a single-page application. The browser downloaded a shell, fetched a pile of JSON, and assembled the interface itself. It felt modern, and for a certain class of product it still is. But the costs piled up quietly: slow first loads on mid-range phones, tangled state management, and a testing surface that grew faster than the features it covered.</p>
+
+              <h2>What changed</h2>
+              <p>Three things shifted at once. Networks got faster, but devices did not keep pace, so parsing and executing JavaScript became the bottleneck. Frameworks learned to stream HTML and hydrate only the parts of a page that actually need interactivity. And browsers themselves absorbed features we used to polyfill: view transitions, dialogs, form validation, and container queries.</p>
+              <p>The result is that a plain HTML response, enhanced with a few kilobytes of script, now covers an astonishing range of products. A checkout flow, a dashboard, a documentation site: all of them can be delivered as markup first and behavior second.</p>
+
+              <blockquote>
+                <p>"The best loading spinner is the one your user never sees because the page arrived already finished."</p>
+              </blockquote>
+
+              <h2>Where the complexity went</h2>
+              <p>Moving rendering to the server does not delete complexity; it relocates it. Data fetching becomes a server concern, close to the database, where it is easier to cache and cheaper to batch. Authorization checks live next to the data they protect. The client keeps what only the client can do: focus, animation, optimistic feedback.</p>
+              <p>This split is easier to reason about than it sounds. When a component needs no interactivity, it ships no code. When it does, you opt in explicitly, and the cost is visible in the bundle report rather than hidden in a global store.</p>
+
+              <h3>A small example</h3>
+              <p>Here is a route handler that renders a list of articles directly into HTML, with a tiny progressive enhancement for the search field:</p>
+
+<pre><code>export async function GET(request) {
+  const url = new URL(request.url);
+  const query = url.searchParams.get("q") ?? "";
+
+  const posts = await db.posts.search(query, { limit: 20 });
+
+  return html`
+    &lt;form method="get"&gt;
+      &lt;input name="q" value="${query}" type="search"&gt;
+      &lt;button&gt;Search&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;ul&gt;
+      ${posts.map((p) =&gt; html`&lt;li&gt;&lt;a href="/posts/${p.slug}"&gt;${p.title}&lt;/a&gt;&lt;/li&gt;`)}
+    &lt;/ul&gt;
+  `;
+}</code></pre>
+
+              <p>There is no client-side router, no loading state, and no duplicated data model. The form works with JavaScript disabled, and the back button does exactly what people expect.</p>
+
+              <h2>When not to do this</h2>
+              <p>Server rendering is not a universal answer. Collaborative editors, real-time canvases, and offline-first tools need rich client state, and fighting that with round trips will hurt. The useful question is not "which architecture is best?" but "where does this particular screen spend its time?"</p>
+              <p>Start with the page, measure what the user waits for, and add client code only when a real interaction demands it. You will likely ship less than you expected, and your phone-bound users will thank you.</p>
+            </ui-stack>
+
+            <ui-row wrap gap="sm">
+              <span>#html</span>
+              <span>#performance</span>
+              <span>#architecture</span>
+              <span>#web-platform</span>
+              <span>#progressive-enhancement</span>
+            </ui-row>
+          </ui-stack>
+        </article>
+
+        <hr>
+
+        <section>
+          <ui-stack gap="md">
+            <h2>Related posts</h2>
+            <ui-row scroll item-width="sm" gap="md" align="stretch">
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-1/480/270" alt="Laptop on a desk with code" width="480" height="270" loading="lazy">
+                <ui-stack gap="xs" padding="md">
+                  <h3>Islands, explained</h3>
+                  <p>Partial hydration without the buzzwords.</p>
+                  <small>6 min read</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-2/480/270" alt="Stopwatch on a table" width="480" height="270" loading="lazy">
+                <ui-stack gap="xs" padding="md">
+                  <h3>Measuring what users wait for</h3>
+                  <p>A practical guide to interaction metrics.</p>
+                  <small>8 min read</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-3/480/270" alt="Mountain landscape at dawn" width="480" height="270" loading="lazy">
+                <ui-stack gap="xs" padding="md">
+                  <h3>Forms that just work</h3>
+                  <p>Native validation covers more than you think.</p>
+                  <small>5 min read</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-4/480/270" alt="Abstract geometric shapes" width="480" height="270" loading="lazy">
+                <ui-stack gap="xs" padding="md">
+                  <h3>Container queries in practice</h3>
+                  <p>Components that respond to their own space.</p>
+                  <small>7 min read</small>
+                </ui-stack>
+              </ui-card>
+              <ui-card padding="0" gap="0">
+                <img src="https://picsum.photos/seed/related-5/480/270" alt="City street at night" width="480" height="270" loading="lazy">
+                <ui-stack gap="xs" padding="md">
+                  <h3>Caching at the edge</h3>
+                  <p>Fresh HTML, close to every reader.</p>
+                  <small>10 min read</small>
+                </ui-stack>
+              </ui-card>
+            </ui-row>
+          </ui-stack>
+        </section>
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-row justify="center" padding="lg">
+        <small>© 2026 Fieldnotes. All rights reserved.</small>
+      </ui-row>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

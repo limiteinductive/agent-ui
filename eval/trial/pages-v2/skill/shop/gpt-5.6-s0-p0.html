@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stride & Co. Shoes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="xl">
+        <ui-row justify="space-between" padding="md">
+          <a href="#" aria-label="Stride and Co. home"><strong>Stride &amp; Co.</strong></a>
+          <ui-button id="cart-button" variant="outline" size="sm" rounded="md">
+            Cart (<span id="cart-count">0</span>)
+          </ui-button>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-stack gap="xl" padding="lg">
+          <ui-stack gap="xs">
+            <h1>Find your next pair</h1>
+            <p>Comfortable, everyday shoes designed to keep you moving.</p>
+          </ui-stack>
+
+          <form id="filters">
+            <ui-card padding="md" rounded="lg" variant="neutral">
+              <ui-row wrap gap="md" align="end">
+                <ui-stack gap="xs">
+                  <strong>Size</strong>
+                  <ui-row wrap gap="xs">
+                    <ui-button type="button" variant="primary" size="sm" rounded="md">7</ui-button>
+                    <ui-button type="button" variant="outline" size="sm" rounded="md">8</ui-button>
+                    <ui-button type="button" variant="outline" size="sm" rounded="md">9</ui-button>
+                    <ui-button type="button" variant="outline" size="sm" rounded="md">10</ui-button>
+                    <ui-button type="button" variant="outline" size="sm" rounded="md">11</ui-button>
+                  </ui-row>
+                </ui-stack>
+
+                <ui-row wrap gap="sm" align="end">
+                  <label>Min price
+                    <input type="number" name="min-price" min="0" value="0" inputmode="numeric">
+                  </label>
+                  <label>Max price
+                    <input type="number" name="max-price" min="0" value="250" inputmode="numeric">
+                  </label>
+                </ui-row>
+
+                <label>Sort by
+                  <select name="sort">
+                    <option>Featured</option>
+                    <option>Price: Low to high</option>
+                    <option>Price: High to low</option>
+                    <option>Newest</option>
+                  </select>
+                </label>
+
+                <ui-button type="submit" variant="secondary" size="sm" rounded="md">Apply filters</ui-button>
+              </ui-row>
+            </ui-card>
+          </form>
+
+          <ui-grid max-columns="3" min-item-width="sm" gap="lg">
+            <ui-card padding="sm" rounded="lg" elevated data-price="128">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner1/640/480" alt="Aero Knit Runner in charcoal" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Aero Knit Runner</h2>
+                  <p><strong>$128</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="154">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner2/640/480" alt="Cloudwalk Trainer in cream" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Cloudwalk Trainer</h2>
+                  <p><strong>$154</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="98">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner3/640/480" alt="Harbor Canvas Low in navy" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Harbor Canvas Low</h2>
+                  <p><strong>$98</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="182">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner4/640/480" alt="Summit Trail Shoe in moss" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Summit Trail Shoe</h2>
+                  <p><strong>$182</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="116">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner5/640/480" alt="Daily Court Sneaker in white" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Daily Court Sneaker</h2>
+                  <p><strong>$116</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="210">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner6/640/480" alt="Lumen Leather Derby in black" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Lumen Leather Derby</h2>
+                  <p><strong>$210</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="142">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner7/640/480" alt="Ridge Flex Hiker in sand" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Ridge Flex Hiker</h2>
+                  <p><strong>$142</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="88">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner8/640/480" alt="Metro Slip-On in olive" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Metro Slip-On</h2>
+                  <p><strong>$88</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="174">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner9/640/480" alt="Vista Walking Shoe in blue" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Vista Walking Shoe</h2>
+                  <p><strong>$174</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="132">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner10/640/480" alt="Pace Knit Trainer in red" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Pace Knit Trainer</h2>
+                  <p><strong>$132</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="196">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner11/640/480" alt="Northline Chelsea Boot in brown" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Northline Chelsea Boot</h2>
+                  <p><strong>$196</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm" rounded="lg" elevated data-price="124">
+              <ui-stack gap="sm">
+                <img src="https://picsum.photos/seed/runner12/640/480" alt="Coastline Sandal in tan" width="640" height="480" loading="lazy">
+                <ui-stack gap="xs">
+                  <h2>Coastline Sandal</h2>
+                  <p><strong>$124</strong></p>
+                </ui-stack>
+                <ui-button class="add-to-cart" variant="primary" size="sm" rounded="md">Add to cart</ui-button>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+
+          <nav aria-label="Pagination">
+            <ui-row justify="center" wrap gap="xs">
+              <ui-button variant="outline" size="sm" rounded="md" disabled>Previous</ui-button>
+              <ui-button variant="primary" size="sm" rounded="md" aria-current="page">1</ui-button>
+              <ui-button variant="outline" size="sm" rounded="md">2</ui-button>
+              <ui-button variant="outline" size="sm" rounded="md">3</ui-button>
+              <ui-button variant="outline" size="sm" rounded="md">Next</ui-button>
+            </ui-row>
+          </nav>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="xl">
+        <p><small>&copy; 2026 Stride &amp; Co. Free shipping on orders over $100.</small></p>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    const cartCount = document.getElementById("cart-count");
+    let count = 0;
+
+    document.querySelectorAll(".add-to-cart").forEach((button) => {
+      button.addEventListener("click", () => {
+        count += 1;
+        cartCount.textContent = count;
+        button.textContent = "Added";
+        button.setAttribute("variant", "success");
+      });
+    });
+
+    document.getElementById("filters").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      const min = Number(form.get("min-price")) || 0;
+      const max = Number(form.get("max-price")) || Infinity;
+      const sort = form.get("sort");
+      const grid = document.querySelector("ui-grid");
+      const cards = [...grid.children];
+
+      cards.forEach((card) => {
+        const price = Number(card.dataset.price);
+        card.hidden = price < min || price > max;
+      });
+
+      if (sort === "Price: Low to high" || sort === "Price: High to low") {
+        cards.sort((a, b) => {
+          const difference = Number(a.dataset.price) - Number(b.dataset.price);
+          return sort === "Price: Low to high" ? difference : -difference;
+        });
+        cards.forEach((card) => grid.appendChild(card));
+      }
+    });
+  </script>
+</body>
+</html>

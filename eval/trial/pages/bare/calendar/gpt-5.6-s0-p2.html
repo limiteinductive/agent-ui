@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack gap="lg" padding="lg">
+    <header>
+      <ui-stack direction="horizontal" justify="space-between" align="center" wrap gap="md">
+        <ui-stack gap="sm">
+          <p>Workspace / Team planning</p>
+          <h1>November 2026</h1>
+          <p>Keep everyone aligned on launches, reviews, and team moments.</p>
+        </ui-stack>
+
+        <ui-stack direction="horizontal" gap="sm">
+          <ui-button aria-label="Previous month">←</ui-button>
+          <ui-button variant="secondary">Today</ui-button>
+          <ui-button aria-label="Next month">→</ui-button>
+        </ui-stack>
+      </ui-stack>
+    </header>
+
+    <ui-stack direction="horizontal" wrap gap="lg" align="start">
+      <ui-card grow>
+        <ui-stack gap="md" padding="md">
+          <ui-stack direction="horizontal" justify="space-between" align="center" wrap>
+            <h2>November 2026</h2>
+            <span>Team calendar</span>
+          </ui-stack>
+
+          <ui-grid columns="7" gap="sm">
+            <strong>Mon</strong>
+            <strong>Tue</strong>
+            <strong>Wed</strong>
+            <strong>Thu</strong>
+            <strong>Fri</strong>
+            <strong>Sat</strong>
+            <strong>Sun</strong>
+
+            <ui-card><small>26</small></ui-card>
+            <ui-card><small>27</small></ui-card>
+            <ui-card><small>28</small></ui-card>
+            <ui-card><small>29</small></ui-card>
+            <ui-card><small>30</small></ui-card>
+            <ui-card><small>31</small></ui-card>
+            <ui-card><small>1</small></ui-card>
+
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>2</strong>
+                <span>Sprint planning</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>3</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>4</strong>
+                <span>Design review</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>5</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>6</strong>
+                <span>Demo day</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>7</strong></ui-card>
+            <ui-card><strong>8</strong></ui-card>
+
+            <ui-card><strong>9</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>10</strong>
+                <span>Product sync</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>11</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>12</strong>
+                <span>Release prep</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>13</strong></ui-card>
+            <ui-card><strong>14</strong></ui-card>
+            <ui-card><strong>15</strong></ui-card>
+
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>16</strong>
+                <span>Sprint planning</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>17</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>18</strong>
+                <span>Design review</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>19</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>20</strong>
+                <span>Demo day</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>21</strong></ui-card>
+            <ui-card><strong>22</strong></ui-card>
+
+            <ui-card><strong>23</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>24</strong>
+                <span>Customer call</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>25</strong></ui-card>
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>26</strong>
+                <span>Thanksgiving</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><strong>27</strong></ui-card>
+            <ui-card><strong>28</strong></ui-card>
+            <ui-card><strong>29</strong></ui-card>
+
+            <ui-card>
+              <ui-stack gap="sm">
+                <strong>30</strong>
+                <span>Sprint planning</span>
+              </ui-stack>
+            </ui-card>
+            <ui-card><small>1</small></ui-card>
+            <ui-card><small>2</small></ui-card>
+            <ui-card><small>3</small></ui-card>
+            <ui-card><small>4</small></ui-card>
+            <ui-card><small>5</small></ui-card>
+            <ui-card><small>6</small></ui-card>
+          </ui-grid>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <ui-stack gap="md" padding="md">
+          <ui-stack direction="horizontal" justify="space-between" align="center" wrap>
+            <h2>Upcoming</h2>
+            <ui-button variant="ghost">View all</ui-button>
+          </ui-stack>
+
+          <ui-stack gap="md">
+            <ui-stack direction="horizontal" gap="sm" align="start">
+              <img src="https://picsum.photos/seed/sprint/64/64" alt="Team planning workspace" width="56" height="56" />
+              <ui-stack gap="sm">
+                <strong>Sprint planning</strong>
+                <small>Mon, Nov 2 · 10:00 AM</small>
+                <small>Product team · Zoom</small>
+              </ui-stack>
+            </ui-stack>
+
+            <hr />
+
+            <ui-stack direction="horizontal" gap="sm" align="start">
+              <img src="https://picsum.photos/seed/design/64/64" alt="Design review materials" width="56" height="56" />
+              <ui-stack gap="sm">
+                <strong>Design review</strong>
+                <small>Wed, Nov 4 · 2:00 PM</small>
+                <small>Design studio · Room 3B</small>
+              </ui-stack>
+            </ui-stack>
+
+            <hr />
+
+            <ui-stack direction="horizontal" gap="sm" align="start">
+              <img src="https://picsum.photos/seed/demo/64/64" alt="Product demo presentation" width="56" height="56" />
+              <ui-stack gap="sm">
+                <strong>Product demo day</strong>
+                <small>Fri, Nov 6 · 3:30 PM</small>
+                <small>All hands · Main stage</small>
+              </ui-stack>
+            </ui-stack>
+
+            <hr />
+
+            <ui-stack direction="horizontal" gap="sm" align="start">
+              <img src="https://picsum.photos/seed/sync/64/64" alt="Team meeting notes" width="56" height="56" />
+              <ui-stack gap="sm">
+                <strong>Product sync</strong>
+                <small>Tue, Nov 10 · 11:00 AM</small>
+                <small>Core team · Conference room</small>
+              </ui-stack>
+            </ui-stack>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+    </ui-stack>
+  </ui-stack>
+</body>
+</html>

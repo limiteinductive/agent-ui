@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Designing Resilient Frontends: Lessons from Shipping at Scale</title>
+  <meta name="description" content="What we learned rebuilding our frontend architecture to survive flaky networks, partial outages, and very large teams.">
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="md">
+    <ui-stack gap="lg" padding="md">
+
+      <ui-stack gap="sm">
+        <ui-stack direction="horizontal" gap="xs" wrap>
+          <span>Engineering</span>
+          <span>Frontend</span>
+        </ui-stack>
+
+        <h1>Designing Resilient Frontends: Lessons from Shipping at Scale</h1>
+        <p>What we learned rebuilding our frontend architecture to survive flaky networks, partial outages, and a team that grew from six engineers to sixty.</p>
+
+        <ui-stack direction="horizontal" gap="sm" align="center">
+          <img src="https://picsum.photos/seed/maya-chen/96/96" alt="Maya Chen" width="48" height="48">
+          <ui-stack gap="xs">
+            <strong>Maya Chen</strong>
+            <ui-stack direction="horizontal" gap="xs" align="center">
+              <span>Staff Engineer</span>
+              <span aria-hidden="true">·</span>
+              <time datetime="2026-11-14">November 14, 2026</time>
+              <span aria-hidden="true">·</span>
+              <span>12 min read</span>
+            </ui-stack>
+          </ui-stack>
+        </ui-stack>
+      </ui-stack>
+
+      <img
+        src="https://picsum.photos/seed/resilient-frontends/1280/640"
+        alt="Abstract illustration of interconnected server nodes glowing across a dark grid"
+        width="1280"
+        height="640">
+
+      <article>
+        <ui-stack gap="md">
+          <p>Two years ago, our customer dashboard was a single-page application that worked beautifully on fast office Wi-Fi and fell apart everywhere else. A subway commute could leave a user staring at a spinner. A failed analytics request could blank out an entire panel. A slow CDN region could make the whole product feel broken. We didn't have a single catastrophic bug. We had a thousand small assumptions that the network would behave.</p>
+          <p>This article describes how we changed those assumptions. It is not a story about adopting a new framework. Most of the wins came from treating the browser as a hostile, unreliable environment and designing each layer to degrade gracefully.</p>
+
+          <h2>Start from the failure modes</h2>
+          <p>Before writing any code, we spent two weeks cataloguing how our product actually failed. We pulled six months of error reports, session replays, and support tickets, then grouped them into categories. The biggest bucket was not JavaScript exceptions. It was requests that hung, responses that arrived out of order, and components that rendered stale data after a user had already moved on.</p>
+          <p>That exercise changed our priorities. Instead of asking "how do we make this feature faster," we started asking "what should the user see when this specific dependency is unavailable?" Every screen got a short written answer to that question, and those answers became acceptance criteria.</p>
+
+          <blockquote>
+            <p>Reliability is not a property you add at the end. It is the shape of every decision you make about loading, caching, and showing data.</p>
+            <footer>Maya Chen, in our internal architecture review</footer>
+          </blockquote>
+
+          <h2>Separate what is loaded from what is shown</h2>
+          <p>The most useful refactor we made was splitting our data layer into two concerns. The first is a cache that holds the last known good value for every query, keyed by its parameters. The second is a presentation layer that always renders from the cache first and only then reconciles with the network. Users almost never see an empty screen after their first visit, even when the network is gone.</p>
+          <p>The pattern is simple to describe and surprisingly easy to get wrong. Stale data must be visibly marked as stale, otherwise users will make decisions based on numbers that no longer reflect reality. We added a small, consistent indicator and a timestamp, and we made sure every component that displays cached data uses the same one.</p>
+
+          <p>Here is the core of the fetch wrapper that every feature now uses:</p>
+
+          <pre><code class="language-ts">export async function resilientFetch&lt;T&gt;(
+  key: string,
+  loader: (signal: AbortSignal) =&gt; Promise&lt;T&gt;,
+  { timeoutMs = 8000, retries = 2 }: Options = {}
+): Promise&lt;Result&lt;T&gt;&gt; {
+  const cached = cache.get&lt;T&gt;(key);
+
+  for (let attempt = 0; attempt &lt;= retries; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() =&gt; controller.abort(), timeoutMs);
+    try {
+      const data = await loader(controller.signal);
+      cache.set(key, data);
+      return { status: "fresh", data };
+    } catch (err) {
+      if (attempt === retries) break;
+      await sleep(backoff(attempt));
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  return cached
+    ? { status: "stale", data: cached.value, updatedAt: cached.updatedAt }
+    : { status: "unavailable" };
+}</code></pre>
+
+          <p>Notice what the function does not do. It never throws into the render tree. It returns a discriminated union that forces each consumer to decide how to present fresh, stale, and unavailable states. That decision is where most of our resilience now lives.</p>
+
+          <h2>Make timeouts a product decision</h2>
+          <p>Default timeouts in browsers are effectively infinite from a user's perspective. We set explicit budgets for each category of request, and we tied them to the experience we wanted rather than to whatever number seemed reasonable. A search suggestion that takes more than 800 milliseconds is worse than no suggestion at all, so it gets a short budget and silently falls back. A checkout confirmation gets a much longer budget, because abandoning it is far more expensive.</p>
+          <p>Every timeout is recorded as a metric tagged with the screen and the dependency. Within a month, the dashboard showed us exactly which third-party scripts and internal services were causing the most user-visible delay, and we had concrete numbers to bring to vendor conversations.</p>
+
+          <h2>Isolate failures at the component boundary</h2>
+          <p>Error boundaries existed in our codebase before this project, but they were used sparingly, usually at the root. A single failing widget could take down the entire page. We moved boundaries down to every independent panel, so a broken revenue chart no longer prevents a user from reading their invoices.</p>
+          <p>The rule we settled on is simple: any component that depends on a network resource must be wrapped in a boundary that owns its own fallback. The fallback is designed, not generic. It explains what is unavailable, offers a retry, and links to a status page when one exists.</p>
+
+          <h2>What we would do differently</h2>
+          <p>If we were starting again, we would invest in observability before we invested in architecture. We built most of the resilience layer blind, and we could only tune it after we had good data about how it behaved in the wild. We would also write the degraded-state designs earlier, because they surfaced product questions that engineering could not answer alone.</p>
+          <p>Finally, we would test with real bad networks much sooner. Throttling in developer tools is a useful start, but nothing replaces a phone on a train with three bars of signal. Our most valuable bug reports in the last year came from people who were deliberately trying to break the app on slow connections.</p>
+          <p>Resilience is not a feature we shipped and moved on from. It is a habit we practice in every review, every design, and every postmortem. The good news is that the habit compounds. Each fallback we design makes the next one faster to build, and each outage we survive quietly becomes part of how the team thinks.</p>
+        </ui-stack>
+      </article>
+
+      <ui-stack direction="horizontal" gap="xs" wrap aria-label="Tags">
+        <span>Performance</span>
+        <span>Architecture</span>
+        <span>Caching</span>
+        <span>Error handling</span>
+        <span>Web platform</span>
+      </ui-stack>
+
+      <section aria-labelledby="related-heading">
+        <ui-stack gap="md">
+          <h2 id="related-heading">Related posts</h2>
+          <ui-stack direction="horizontal" gap="md" scroll>
+
+            <ui-card padding="sm">
+              <img
+                src="https://picsum.photos/seed/offline-first/640/360"
+                alt="Smartphone showing an offline indicator"
+                width="640"
+                height="360">
+              <ui-stack gap="xs">
+                <span>Offline</span>
+                <h3><a href="#">Offline-first sync without the headaches</a></h3>
+                <p>Conflict resolution strategies that respect what users actually typed.</p>
+                <time datetime="2026-10-02">October 2, 2026</time>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm">
+              <img
+                src="https://picsum.photos/seed/bundle-size/640/360"
+                alt="Colorful stacked blocks representing JavaScript bundles"
+                width="640"
+                height="360">
+              <ui-stack gap="xs">
+                <span>Performance</span>
+                <h3><a href="#">Shrinking our bundle by 41 percent</a></h3>
+                <p>Route-level splitting, dependency audits, and the one library we removed.</p>
+                <time datetime="2026-09-18">September 18, 2026</time>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm">
+              <img
+                src="https://picsum.photos/seed/design-tokens/640/360"
+                alt="Grid of color swatches and typography samples"
+                width="640"
+                height="360">
+              <ui-stack gap="xs">
+                <span>Design systems</span>
+                <h3><a href="#">Tokens that survive a rebrand</a></h3>
+                <p>How we structured our design tokens so themes could change without rewrites.</p>
+                <time datetime="2026-08-27">August 27, 2026</time>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm">
+              <img
+                src="https://picsum.photos/seed/observability/640/360"
+                alt="Line chart showing performance metrics over time"
+                width="640"
+                height="360">
+              <ui-stack gap="xs">
+                <span>Observability</span>
+                <h3><a href="#">Real user monitoring that engineers trust</a></h3>
+                <p>Choosing metrics that predict complaints instead of vanity numbers.</p>
+                <time datetime="2026-07-15">July 15, 2026</time>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card padding="sm">
+              <img
+                src="https://picsum.photos/seed/team-process/640/360"
+                alt="Team members collaborating around a whiteboard"
+                width="640"
+                height="360">
+              <ui-stack gap="xs">
+                <span>Teams</span>
+                <h3><a href="#">Running architecture reviews that stick</a></h3>
+                <p>A lightweight process for deciding things once and writing them down.</p>
+                <time datetime="2026-06-30">June 30, 2026</time>
+              </ui-stack>
+            </ui-card>
+
+          </ui-stack>
+        </ui-stack>
+      </section>
+
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

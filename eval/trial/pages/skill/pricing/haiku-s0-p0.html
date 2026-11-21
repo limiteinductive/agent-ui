@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pricing · Taskflow</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container>
+        <ui-row justify="space-between" wrap padding="md">
+          <a href="#top">
+            <ui-row gap="sm">
+              <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+                <rect width="28" height="28" rx="7" fill="currentColor"/>
+                <path d="M8 14.5l4 4 8-9" fill="none" stroke="Canvas" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <strong>Taskflow</strong>
+            </ui-row>
+          </a>
+          <nav aria-label="Primary">
+            <ui-row gap="md" wrap>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#faq">FAQ</a>
+              <a href="#">Log in</a>
+              <ui-button variant="primary" size="sm">Get started</ui-button>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main id="top">
+      <ui-container>
+        <ui-stack gap="2xl" padding="md">
+
+          <!-- Hero -->
+          <ui-stack gap="lg" align="center" padding="xl">
+            <p><mark>New: Timelines are now on every paid plan</mark></p>
+            <h1>Simple pricing for teams that ship</h1>
+            <p>Plan, track, and deliver projects in one place. Start free, upgrade when your team grows, and cancel anytime.</p>
+            <ui-row gap="sm" wrap justify="center">
+              <ui-button variant="primary" size="lg">Start free trial</ui-button>
+              <ui-button variant="outline" size="lg">Talk to sales</ui-button>
+            </ui-row>
+            <img src="https://picsum.photos/seed/taskflow-hero/1200/640" alt="A product team reviewing a project board together" width="100%" loading="lazy">
+          </ui-stack>
+
+          <!-- Plans -->
+          <section id="pricing">
+            <ui-stack gap="lg">
+              <ui-stack gap="xs" align="center">
+                <h2>Plans for every stage</h2>
+                <p>Billed monthly in USD. Save 20% with annual billing.</p>
+              </ui-stack>
+
+              <ui-grid max-columns="3" gap="lg">
+                <ui-card>
+                  <ui-stack gap="md">
+                    <h3>Starter</h3>
+                    <p>For individuals and small projects.</p>
+                    <p><strong>$0</strong> per user / month</p>
+                    <ul>
+                      <li>Up to 5 projects</li>
+                      <li>Board and list views</li>
+                      <li>2 GB of storage</li>
+                      <li>Community support</li>
+                    </ul>
+                    <ui-button variant="outline">Start for free</ui-button>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card elevated variant="primary">
+                  <ui-stack gap="md">
+                    <ui-row justify="space-between" wrap>
+                      <h3>Team</h3>
+                      <mark>Most popular</mark>
+                    </ui-row>
+                    <p>For growing teams that run many projects.</p>
+                    <p><strong>$12</strong> per user / month</p>
+                    <ul>
+                      <li>Unlimited projects</li>
+                      <li>Timelines and Gantt charts</li>
+                      <li>50 GB of storage</li>
+                      <li>100 automations per month</li>
+                      <li>Priority email support</li>
+                    </ul>
+                    <ui-button variant="primary">Start 14-day trial</ui-button>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card>
+                  <ui-stack gap="md">
+                    <h3>Enterprise</h3>
+                    <p>For organizations with security and scale needs.</p>
+                    <p><strong>Custom</strong> pricing</p>
+                    <ul>
+                      <li>Everything in Team</li>
+                      <li>Single sign-on (SSO) and SCIM</li>
+                      <li>Audit logs and data export</li>
+                      <li>Dedicated success manager</li>
+                      <li>99.99% uptime SLA</li>
+                    </ul>
+                    <ui-button variant="outline">Contact sales</ui-button>
+                  </ui-stack>
+                </ui-card>
+              </ui-grid>
+            </ui-stack>
+          </section>
+
+          <!-- Comparison -->
+          <section id="features">
+            <ui-stack gap="lg">
+              <h2>Compare plans</h2>
+              <ui-row scroll>
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Feature</th>
+                      <th scope="col">Starter</th>
+                      <th scope="col">Team</th>
+                      <th scope="col">Enterprise</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Projects</th>
+                      <td>5</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Members</th>
+                      <td>Up to 10</td>
+                      <td>Unlimited</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Storage</th>
+                      <td>2 GB</td>
+                      <td>50 GB</td>
+                      <td>Custom</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Board and list views</th>
+                      <td>✓</td>
+                      <td>✓</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Timelines and Gantt</th>
+                      <td>—</td>
+                      <td>✓</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Automations</th>
+                      <td>—</td>
+                      <td>100 per month</td>
+                      <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Guest access</th>
+                      <td>—</td>
+                      <td>✓</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Single sign-on (SSO)</th>
+                      <td>—</td>
+                      <td>—</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Audit logs</th>
+                      <td>—</td>
+                      <td>—</td>
+                      <td>✓</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Support</th>
+                      <td>Community</td>
+                      <td>Priority email</td>
+                      <td>24/7 with success manager</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ui-row>
+            </ui-stack>
+          </section>
+
+          <!-- FAQ -->
+          <section id="faq">
+            <ui-stack gap="md">
+              <h2>Frequently asked questions</h2>
+              <details>
+                <summary>Can I change plans later?</summary>
+                <p>Yes. Upgrades take effect immediately, and downgrades apply at your next billing date.</p>
+              </details>
+              <details>
+                <summary>Do you offer a free trial?</summary>
+                <p>Every paid plan includes a 14-day free trial. No credit card is required to start.</p>
+              </details>
+              <details>
+                <summary>What happens to my data if I cancel?</summary>
+                <p>Your workspace stays readable for 30 days. You can export everything at any time from settings.</p>
+              </details>
+              <details>
+                <summary>Do you offer discounts for nonprofits or education?</summary>
+                <p>Yes. Verified nonprofits and schools get 50% off the Team plan. Contact sales to apply.</p>
+              </details>
+            </ui-stack>
+          </section>
+
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container>
+        <ui-stack gap="xl" padding="xl">
+          <ui-grid max-columns="3" gap="xl">
+            <ui-stack gap="sm">
+              <strong>Product</strong>
+              <a href="#features">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#">Integrations</a>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <strong>Company</strong>
+              <a href="#">About</a>
+              <a href="#">Careers</a>
+              <a href="#">Contact</a>
+            </ui-stack>
+            <ui-stack gap="sm">
+              <strong>Resources</strong>
+              <a href="#">Help center</a>
+              <a href="#">Blog</a>
+              <a href="#">Status</a>
+            </ui-stack>
+          </ui-grid>
+          <ui-row justify="space-between" wrap gap="md">
+            <small>© 2026 Taskflow, Inc. All rights reserved.</small>
+            <ui-row gap="md">
+              <a href="#">Privacy</a>
+              <a href="#">Terms</a>
+            </ui-row>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en" data-scheme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare Dayline plans for managing projects, deadlines, and team workloads.">
+  <title>Pricing | Dayline</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ui-canvas: #f7f8f4;
+      --ui-surface: #fff;
+      --ui-ink: #172d26;
+      --ui-ink-muted: #4e6158;
+      --ui-primary: #1b6047;
+      --dayline-line: #d6e1d9;
+      --dayline-tint: #e8f3eb;
+    }
+
+    body {
+      background: var(--ui-canvas);
+      color: var(--ui-ink);
+      font-family: system-ui, sans-serif;
+    }
+
+    .site-header {
+      border-block-end: 1px solid var(--dayline-line);
+    }
+
+    .site-footer {
+      border-block-start: 1px solid var(--dayline-line);
+    }
+
+    .brand {
+      color: var(--ui-ink);
+      font-size: 1.125rem;
+      font-weight: 750;
+      letter-spacing: -.04em;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      inline-size: 1.75rem;
+      block-size: 1.75rem;
+      border-radius: var(--ui-radius-sm);
+      background: var(--ui-primary);
+      color: white;
+      font-size: .9rem;
+    }
+
+    .nav-link {
+      color: var(--ui-ink-muted);
+      font-size: .875rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .nav-link:hover,
+    .nav-link[aria-current="page"] {
+      color: var(--ui-primary);
+      text-decoration: underline;
+      text-underline-offset: .25em;
+    }
+
+    .hero,
+    .billing-note {
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--ui-primary);
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.75rem);
+      font-weight: 750;
+      letter-spacing: -.065em;
+      line-height: 1;
+      text-wrap: balance;
+    }
+
+    .hero p {
+      max-inline-size: 44ch;
+      color: var(--ui-ink-muted);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      text-wrap: pretty;
+    }
+
+    .plan-description,
+    .price-unit,
+    .billing-note,
+    .footer-copy {
+      color: var(--ui-ink-muted);
+    }
+
+    @media (min-width: 60rem) {
+      .plan-description {
+        min-block-size: 3em;
+      }
+    }
+
+    .featured-plan {
+      border-color: var(--ui-primary);
+      background: var(--dayline-tint);
+    }
+
+    .plan-heading {
+      min-block-size: 2rem;
+    }
+
+    .plan-badge {
+      padding: var(--ui-space-xs) var(--ui-space-sm);
+      border-radius: var(--ui-radius-full);
+      background: var(--ui-primary);
+      color: white;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .amount {
+      font-size: 3rem;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -.06em;
+      line-height: 1;
+    }
+
+    .plan-action {
+      display: block;
+      padding: .7rem var(--ui-space-md);
+      border: 1px solid var(--ui-primary);
+      border-radius: var(--ui-radius-md);
+      background: var(--ui-surface);
+      color: var(--ui-primary);
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .featured-action {
+      background: var(--ui-primary);
+      color: white;
+    }
+
+    .plan-action:hover {
+      text-decoration: underline;
+      text-underline-offset: .2em;
+    }
+
+    .plan-features {
+      padding-inline-start: 1.35rem;
+    }
+
+    .plan-features li::marker {
+      content: "✓  ";
+      color: var(--ui-primary);
+    }
+
+    .plan-features li + li {
+      margin-block-start: var(--ui-space-sm);
+    }
+
+    .comparison {
+      inline-size: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+      overflow-wrap: anywhere;
+      font-size: clamp(.75rem, 1.5vw, .95rem);
+    }
+
+    .comparison col:first-child {
+      inline-size: 34%;
+    }
+
+    .comparison th,
+    .comparison td {
+      padding: .75rem clamp(.25rem, 1.25vw, 1rem);
+      border-block-end: 1px solid var(--dayline-line);
+      text-align: center;
+    }
+
+    .comparison th:first-child {
+      text-align: start;
+    }
+
+    .comparison thead th {
+      background: var(--ui-surface);
+    }
+
+    .comparison tr > :nth-child(3) {
+      background: var(--dayline-tint);
+    }
+
+    .faq-item + .faq-item {
+      border-block-start: 1px solid var(--dayline-line);
+    }
+
+    .faq-item summary {
+      padding-block: var(--ui-space-md);
+      cursor: pointer;
+      font-weight: 650;
+    }
+
+    .faq-item p {
+      padding-block-end: var(--ui-space-md);
+      color: var(--ui-ink-muted);
+    }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <header class="site-header">
+      <ui-container size="lg">
+        <ui-row wrap justify="space-between" gap="md" padding="md">
+          <a class="brand" href="#top">
+            <ui-row gap="sm">
+              <span class="brand-mark" aria-hidden="true">◆</span>
+              <span>Dayline</span>
+            </ui-row>
+          </a>
+          <nav aria-label="Main navigation">
+            <ui-row wrap gap="md">
+              <a class="nav-link" href="#plans" aria-current="page">Pricing</a>
+              <a class="nav-link" href="#compare">Compare</a>
+              <a class="nav-link" href="#faq">FAQ</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main id="top">
+      <ui-container size="lg">
+        <ui-stack gap="2xl">
+          <section class="hero" aria-labelledby="page-title">
+            <ui-stack align="center" gap="md" padding="xl">
+              <small class="eyebrow">Plans &amp; pricing</small>
+              <h1 id="page-title">A plan for every team</h1>
+              <p>Organize tasks, deadlines, and handoffs in one workspace. Start free and upgrade when your team needs more room.</p>
+            </ui-stack>
+          </section>
+
+          <section id="plans" aria-label="Dayline plans">
+            <ui-stack gap="md">
+              <ui-grid max-columns="3" min-item-width="17rem" gap="md">
+                <ui-card role="article" aria-labelledby="starter-title" rounded="xl" padding="lg" gap="lg">
+                  <ui-stack gap="sm">
+                    <ui-row class="plan-heading">
+                      <h2 id="starter-title">Starter</h2>
+                    </ui-row>
+                    <p class="plan-description">For freelancers and small teams keeping a few projects on track.</p>
+                  </ui-stack>
+                  <ui-row wrap align="baseline" gap="sm">
+                    <strong class="amount">$0</strong>
+                    <span class="price-unit">/ month</span>
+                  </ui-row>
+                  <a class="plan-action" href="https://dayline.example/signup?plan=starter">Start for free</a>
+                  <ul class="plan-features">
+                    <li>Up to 5 workspace members</li>
+                    <li>3 active projects</li>
+                    <li>List and board views</li>
+                    <li>Due dates and reminders</li>
+                  </ul>
+                </ui-card>
+
+                <ui-card class="featured-plan" role="article" aria-labelledby="team-title" variant="primary" elevated rounded="xl" padding="lg" gap="lg">
+                  <ui-stack gap="sm">
+                    <ui-row class="plan-heading" wrap justify="space-between" gap="sm">
+                      <h2 id="team-title">Team</h2>
+                      <span class="plan-badge">Most popular</span>
+                    </ui-row>
+                    <p class="plan-description">For growing teams coordinating deadlines across multiple projects.</p>
+                  </ui-stack>
+                  <ui-row wrap align="baseline" gap="sm">
+                    <strong class="amount">$12</strong>
+                    <span class="price-unit">/ member / month</span>
+                  </ui-row>
+                  <a class="plan-action featured-action" href="https://dayline.example/signup?plan=team">Try Team free</a>
+                  <ul class="plan-features">
+                    <li>Unlimited active projects</li>
+                    <li>Timeline and task dependencies</li>
+                    <li>Recurring tasks and automations</li>
+                    <li>Project dashboards</li>
+                  </ul>
+                </ui-card>
+
+                <ui-card role="article" aria-labelledby="business-title" rounded="xl" padding="lg" gap="lg">
+                  <ui-stack gap="sm">
+                    <ui-row class="plan-heading">
+                      <h2 id="business-title">Business</h2>
+                    </ui-row>
+                    <p class="plan-description">For departments managing shared workloads and workspace access.</p>
+                  </ui-stack>
+                  <ui-row wrap align="baseline" gap="sm">
+                    <strong class="amount">$24</strong>
+                    <span class="price-unit">/ member / month</span>
+                  </ui-row>
+                  <a class="plan-action" href="https://dayline.example/signup?plan=business">Try Business free</a>
+                  <ul class="plan-features">
+                    <li>Everything in Team</li>
+                    <li>Workload and capacity planning</li>
+                    <li>SAML single sign-on</li>
+                    <li>Priority email support</li>
+                  </ul>
+                </ui-card>
+              </ui-grid>
+              <p class="billing-note"><small>Prices in USD. Paid plans are billed monthly and include a 14-day trial.</small></p>
+            </ui-stack>
+          </section>
+
+          <section id="compare" aria-labelledby="compare-title">
+            <ui-stack gap="md">
+              <h2 id="compare-title">Compare features</h2>
+              <table class="comparison" aria-labelledby="compare-title">
+                <colgroup>
+                  <col>
+                  <col>
+                  <col>
+                  <col>
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Starter</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Business</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Workspace members</th>
+                    <td>Up to 5</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Active projects</th>
+                    <td>3</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">List and board views</th>
+                    <td>Included</td>
+                    <td>Included</td>
+                    <td>Included</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Timeline view</th>
+                    <td>No</td>
+                    <td>Included</td>
+                    <td>Included</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Automation runs</th>
+                    <td>No</td>
+                    <td>500 / month</td>
+                    <td>5,000 / month</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Workload planning</th>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Included</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SAML single sign-on</th>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Included</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Support</th>
+                    <td>Help center</td>
+                    <td>Email</td>
+                    <td>Priority email</td>
+                  </tr>
+                </tbody>
+              </table>
+            </ui-stack>
+          </section>
+
+          <section id="faq" aria-labelledby="faq-title">
+            <ui-container size="sm">
+              <ui-stack gap="md">
+                <h2 id="faq-title">Frequently asked questions</h2>
+                <ui-card rounded="xl" padding="lg" gap="0">
+                  <details class="faq-item">
+                    <summary>Do I need a credit card to start a trial?</summary>
+                    <p>No. You get 14 days to try the features in Team or Business. At the end of the trial, choose a paid plan or switch to Starter.</p>
+                  </details>
+                  <details class="faq-item">
+                    <summary>Who counts as a billable member?</summary>
+                    <p>Workspace owners, admins, and members count toward your bill. Guests invited to a single project are free.</p>
+                  </details>
+                  <details class="faq-item">
+                    <summary>Can I change plans later?</summary>
+                    <p>Yes. Upgrades take effect immediately and are prorated. Downgrades take effect at the end of your billing period. If you have more than three active projects when you switch to Starter, you can choose which three stay active. The rest are archived.</p>
+                  </details>
+                  <details class="faq-item">
+                    <summary>What happens if I cancel?</summary>
+                    <p>You keep access to paid features until the end of your billing period. You can export your project data from workspace settings at any time.</p>
+                  </details>
+                </ui-card>
+              </ui-stack>
+            </ui-container>
+          </section>
+
+          <ui-stack padding="xs" aria-hidden="true"></ui-stack>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer class="site-footer">
+      <ui-container size="lg">
+        <ui-row wrap justify="space-between" gap="md" padding="lg">
+          <small class="footer-copy">© 2026 Dayline</small>
+          <nav aria-label="Footer navigation">
+            <ui-row wrap gap="md">
+              <a class="nav-link" href="mailto:support@dayline.example">Contact support</a>
+              <a class="nav-link" href="#top">Back to top ↑</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>

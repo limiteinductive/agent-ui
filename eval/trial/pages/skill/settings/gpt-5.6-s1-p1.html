@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row wrap justify="space-between" padding="md">
+          <strong>Northstar</strong>
+          <nav aria-label="Primary navigation">
+            <ui-row gap="md">
+              <a href="#">Dashboard</a>
+              <a href="#">Projects</a>
+              <a href="#" aria-current="page">Settings</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="lg">
+        <ui-stack gap="xl" padding="xl">
+          <ui-stack gap="xs">
+            <p><a href="#">Account</a> / Settings</p>
+            <h1>Account settings</h1>
+            <p>Manage your profile, notifications, subscription, and account security.</p>
+          </ui-stack>
+
+          <ui-grid max-columns="2" min-item-width="sm" gap="lg">
+            <ui-card elevated>
+              <ui-stack gap="lg">
+                <ui-stack gap="xs">
+                  <h2>Profile</h2>
+                  <p>Keep your personal information up to date.</p>
+                </ui-stack>
+
+                <form id="profile-form">
+                  <ui-stack gap="md">
+                    <ui-row wrap stack-below="sm" align="start" gap="lg">
+                      <ui-stack align="center" gap="sm">
+                        <img src="https://picsum.photos/seed/alex-profile/128/128" alt="Alex Morgan profile photo" width="96" height="96">
+                        <label>
+                          <span>Avatar</span>
+                          <input type="file" name="avatar" accept="image/*">
+                        </label>
+                      </ui-stack>
+
+                      <ui-stack gap="md" grow>
+                        <label>
+                          Full name
+                          <input type="text" name="name" value="Alex Morgan" autocomplete="name" required>
+                        </label>
+
+                        <label>
+                          Email address
+                          <input type="email" name="email" value="alex.morgan@example.com" autocomplete="email" required>
+                        </label>
+                      </ui-stack>
+                    </ui-row>
+
+                    <label>
+                      Bio
+                      <textarea name="bio" rows="4" maxlength="240">Product designer building calm, useful tools for creative teams.</textarea>
+                    </label>
+
+                    <ui-row wrap justify="end" gap="sm">
+                      <ui-button type="reset" variant="ghost">Discard</ui-button>
+                      <ui-button type="submit" variant="primary">Save changes</ui-button>
+                    </ui-row>
+                    <p id="profile-status" role="status" aria-live="polite"></p>
+                  </ui-stack>
+                </form>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated>
+              <ui-stack gap="lg">
+                <ui-stack gap="xs">
+                  <h2>Notifications</h2>
+                  <p>Choose how Northstar keeps you informed.</p>
+                </ui-stack>
+
+                <form id="notifications-form">
+                  <ui-stack gap="md">
+                    <ui-row justify="space-between" align="start" gap="md">
+                      <ui-stack gap="xs" grow>
+                        <strong>Product updates</strong>
+                        <small>New features, improvements, and tips.</small>
+                      </ui-stack>
+                      <label>
+                        <span>Product updates</span>
+                        <input type="checkbox" name="product_updates" role="switch" checked>
+                      </label>
+                    </ui-row>
+
+                    <hr>
+
+                    <ui-row justify="space-between" align="start" gap="md">
+                      <ui-stack gap="xs" grow>
+                        <strong>Project activity</strong>
+                        <small>Comments, mentions, and assignment changes.</small>
+                      </ui-stack>
+                      <label>
+                        <span>Project activity</span>
+                        <input type="checkbox" name="project_activity" role="switch" checked>
+                      </label>
+                    </ui-row>
+
+                    <hr>
+
+                    <ui-row justify="space-between" align="start" gap="md">
+                      <ui-stack gap="xs" grow>
+                        <strong>Weekly summary</strong>
+                        <small>A Monday overview of your team's progress.</small>
+                      </ui-stack>
+                      <label>
+                        <span>Weekly summary</span>
+                        <input type="checkbox" name="weekly_summary" role="switch">
+                      </label>
+                    </ui-row>
+
+                    <hr>
+
+                    <ui-row justify="space-between" align="start" gap="md">
+                      <ui-stack gap="xs" grow>
+                        <strong>Security alerts</strong>
+                        <small>Important sign-in and account notifications.</small>
+                      </ui-stack>
+                      <label>
+                        <span>Security alerts</span>
+                        <input type="checkbox" name="security_alerts" role="switch" checked>
+                      </label>
+                    </ui-row>
+
+                    <ui-button type="submit" variant="primary">Save preferences</ui-button>
+                    <p id="notification-status" role="status" aria-live="polite"></p>
+                  </ui-stack>
+                </form>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card elevated>
+              <ui-stack gap="lg">
+                <ui-stack gap="xs">
+                  <h2>Billing</h2>
+                  <p>Your subscription and payment details.</p>
+                </ui-stack>
+
+                <ui-card variant="info" padding="md">
+                  <ui-row wrap justify="space-between" gap="md">
+                    <ui-stack gap="xs">
+                      <small>Current plan</small>
+                      <h3>Pro plan</h3>
+                      <p>$24 per member / month</p>
+                    </ui-stack>
+                    <span>Active</span>
+                  </ui-row>
+                </ui-card>
+
+                <ui-stack gap="sm">
+                  <ui-row justify="space-between" gap="md">
+                    <span>Next billing date</span>
+                    <strong>December 1, 2026</strong>
+                  </ui-row>
+                  <ui-row justify="space-between" gap="md">
+                    <span>Payment method</span>
+                    <strong>Visa ending in 4242</strong>
+                  </ui-row>
+                </ui-stack>
+
+                <ui-row wrap gap="sm">
+                  <ui-button variant="primary">Manage billing</ui-button>
+                  <ui-button variant="outline">View invoices</ui-button>
+                </ui-row>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card variant="danger" elevated>
+              <ui-stack gap="lg">
+                <ui-stack gap="xs">
+                  <h2>Danger zone</h2>
+                  <p>Deleting your account is permanent and removes all projects, files, and billing history.</p>
+                </ui-stack>
+
+                <ui-row wrap justify="space-between" align="center" gap="md">
+                  <small>Need a break? You can export your data before deleting.</small>
+                  <ui-button type="button" variant="danger" id="delete-account">Delete account</ui-button>
+                </ui-row>
+                <p id="delete-status" role="status" aria-live="polite"></p>
+              </ui-stack>
+            </ui-card>
+          </ui-grid>
+        </ui-stack>
+      </ui-container>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <p><small>© 2026 Northstar. Need help? <a href="#">Contact support</a>.</small></p>
+      </ui-container>
+    </footer>
+  </ui-page>
+
+  <script>
+    document.querySelector("#profile-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      document.querySelector("#profile-status").textContent = "Profile changes saved.";
+    });
+
+    document.querySelector("#notifications-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      document.querySelector("#notification-status").textContent = "Notification preferences saved.";
+    });
+
+    document.querySelector("#delete-account").addEventListener("click", function () {
+      const confirmed = window.confirm("Are you sure you want to permanently delete your account?");
+      document.querySelector("#delete-status").textContent = confirmed
+        ? "Account deletion requested. Support will contact you to confirm."
+        : "Account deletion canceled.";
+    });
+  </script>
+</body>
+</html>

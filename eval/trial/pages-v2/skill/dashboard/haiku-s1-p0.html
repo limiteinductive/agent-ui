@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Northwind Analytics</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-row wrap gap="md" padding="md" justify="space-between">
+        <strong>Northwind Analytics</strong>
+        <label>Search <input type="search" name="q" placeholder="Orders, products, customers"></label>
+        <details>
+          <summary><img src="https://picsum.photos/seed/maya-chen/64/64" alt="" width="28" height="28"> Maya Chen</summary>
+          <ui-stack gap="xs" padding="sm">
+            <a href="#">Profile</a>
+            <a href="#">Account settings</a>
+            <a href="#">Sign out</a>
+          </ui-stack>
+        </details>
+      </ui-row>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-row wrap gap="lg" align="start" padding="md">
+
+          <aside>
+            <ui-card gap="md" padding="md">
+              <h2>Filters</h2>
+              <form>
+                <ui-stack gap="md">
+                  <label>Date range
+                    <select name="range">
+                      <option>Last 7 days</option>
+                      <option selected>Last 30 days</option>
+                      <option>Quarter to date</option>
+                      <option>Year to date</option>
+                    </select>
+                  </label>
+                  <label>Status
+                    <select name="status">
+                      <option>All statuses</option>
+                      <option>Paid</option>
+                      <option>Shipped</option>
+                      <option>Refunded</option>
+                    </select>
+                  </label>
+                  <label>Category
+                    <select name="category">
+                      <option>All categories</option>
+                      <option>Apparel</option>
+                      <option>Home</option>
+                      <option>Accessories</option>
+                    </select>
+                  </label>
+                  <fieldset>
+                    <legend>Channel</legend>
+                    <ui-stack gap="xs">
+                      <label><input type="checkbox" name="channel" value="web" checked> Online store</label>
+                      <label><input type="checkbox" name="channel" value="app" checked> Mobile app</label>
+                      <label><input type="checkbox" name="channel" value="market"> Marketplace</label>
+                    </ui-stack>
+                  </fieldset>
+                  <ui-row wrap gap="sm">
+                    <ui-button variant="primary" type="submit">Apply</ui-button>
+                    <ui-button variant="ghost" type="reset">Reset</ui-button>
+                  </ui-row>
+                </ui-stack>
+              </form>
+            </ui-card>
+          </aside>
+
+          <main grow>
+            <ui-stack gap="lg">
+              <ui-row wrap justify="space-between" gap="md">
+                <ui-stack gap="xs">
+                  <h1>Store overview</h1>
+                  <p>Nov 1 – Nov 21, 2026 · All channels</p>
+                </ui-stack>
+                <ui-button variant="outline">Export CSV</ui-button>
+              </ui-row>
+
+              <ui-grid max-columns="4" min-item-width="sm" gap="md">
+                <ui-card gap="xs" padding="md">
+                  <small>Revenue</small>
+                  <p><strong>$184,220</strong></p>
+                  <small>▲ 12.4% vs previous 30 days</small>
+                </ui-card>
+                <ui-card gap="xs" padding="md">
+                  <small>Orders</small>
+                  <p><strong>3,482</strong></p>
+                  <small>▲ 8.1% vs previous 30 days</small>
+                </ui-card>
+                <ui-card gap="xs" padding="md">
+                  <small>Conversion</small>
+                  <p><strong>3.1%</strong></p>
+                  <small>▲ 0.3 pts vs previous 30 days</small>
+                </ui-card>
+                <ui-card gap="xs" padding="md">
+                  <small>Refunds</small>
+                  <p><strong>$6,140</strong></p>
+                  <small>▼ 0.8% vs previous 30 days</small>
+                </ui-card>
+              </ui-grid>
+
+              <ui-row wrap gap="lg" align="start">
+                <ui-card gap="md" padding="md" grow>
+                  <ui-row wrap justify="space-between" gap="sm">
+                    <h2>Recent orders</h2>
+                    <a href="#">View all</a>
+                  </ui-row>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Order</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>#10482</strong><br><small>Maya Patel</small></td>
+                        <td>$128.00</td>
+                        <td><mark>Shipped</mark></td>
+                      </tr>
+                      <tr>
+                        <td><strong>#10481</strong><br><small>Liam O'Connor</small></td>
+                        <td>$54.50</td>
+                        <td><mark>Paid</mark></td>
+                      </tr>
+                      <tr>
+                        <td><strong>#10480</strong><br><small>Sofia Rossi</small></td>
+                        <td>$212.00</td>
+                        <td><mark>Shipped</mark></td>
+                      </tr>
+                      <tr>
+                        <td><strong>#10479</strong><br><small>Kenji Mori</small></td>
+                        <td>$39.90</td>
+                        <td><mark>Refunded</mark></td>
+                      </tr>
+                      <tr>
+                        <td><strong>#10478</strong><br><small>Amara Okafor</small></td>
+                        <td>$96.25</td>
+                        <td><mark>Paid</mark></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ui-card>
+
+                <ui-card gap="md" padding="md">
+                  <h2>Top products</h2>
+                  <ui-stack gap="md">
+                    <ui-row gap="md">
+                      <img src="https://picsum.photos/seed/linen-overshirt/96/96" alt="" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Linen overshirt</strong>
+                        <small>412 sold</small>
+                      </ui-stack>
+                      <span>$86</span>
+                    </ui-row>
+                    <ui-row gap="md">
+                      <img src="https://picsum.photos/seed/ceramic-vase/96/96" alt="" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Ceramic vase</strong>
+                        <small>286 sold</small>
+                      </ui-stack>
+                      <span>$48</span>
+                    </ui-row>
+                    <ui-row gap="md">
+                      <img src="https://picsum.photos/seed/canvas-tote/96/96" alt="" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Canvas tote</strong>
+                        <small>241 sold</small>
+                      </ui-stack>
+                      <span>$32</span>
+                    </ui-row>
+                    <ui-row gap="md">
+                      <img src="https://picsum.photos/seed/wool-throw/96/96" alt="" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Wool throw</strong>
+                        <small>198 sold</small>
+                      </ui-stack>
+                      <span>$120</span>
+                    </ui-row>
+                    <ui-row gap="md">
+                      <img src="https://picsum.photos/seed/brass-lamp/96/96" alt="" width="48" height="48">
+                      <ui-stack gap="xs" grow>
+                        <strong>Brass desk lamp</strong>
+                        <small>157 sold</small>
+                      </ui-stack>
+                      <span>$145</span>
+                    </ui-row>
+                  </ui-stack>
+                </ui-card>
+              </ui-row>
+            </ui-stack>
+          </main>
+
+        </ui-row>
+      </ui-container>
+    </main>
+  </ui-page>
+</body>
+</html>

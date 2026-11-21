@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store Analytics | Northline Goods</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js" defer></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-card variant="primary" rounded="0" padding="0">
+        <ui-container size="xl">
+          <ui-row wrap gap="sm" padding="sm" align="start">
+            <ui-row>
+              <strong>Northline Goods</strong>
+            </ui-row>
+
+            <div role="search" grow style="flex-basis: 9rem; min-width: 0">
+              <input id="order-search" type="search" aria-label="Search recent orders"
+                     aria-controls="orders-body" placeholder="Search orders"
+                     autocomplete="off" style="width: 100%; min-width: 0">
+            </div>
+
+            <details>
+              <summary>Alex</summary>
+              <ui-stack gap="xs" padding="sm">
+                <strong>Alex Morgan</strong>
+                <small>Store administrator</small>
+                <a href="mailto:support@northline.example">Contact support</a>
+              </ui-stack>
+            </details>
+          </ui-row>
+        </ui-container>
+      </ui-card>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-stack gap="lg" padding="md">
+          <ui-stack gap="xs">
+            <h1>Store analytics</h1>
+            <small id="period-label">October 12–18, 2025 compared with October 5–11, 2025</small>
+          </ui-stack>
+
+          <ui-row wrap align="start" gap="md">
+            <aside aria-labelledby="filters-heading" style="flex: 1 1 12rem; min-width: 0">
+              <ui-card padding="md" rounded="lg">
+                <h2 id="filters-heading">Filters</h2>
+                <form id="filters">
+                  <ui-stack gap="md">
+                    <label>
+                      Date range
+                      <select id="period" name="period">
+                        <option value="0">Oct 12–18, 2025</option>
+                        <option value="1">Oct 5–11, 2025</option>
+                      </select>
+                    </label>
+                    <label>
+                      Sales channel
+                      <select id="channel" name="channel">
+                        <option value="all">All channels</option>
+                        <option value="store">Online store</option>
+                        <option value="market">Marketplace</option>
+                      </select>
+                    </label>
+                  </ui-stack>
+                </form>
+              </ui-card>
+            </aside>
+
+            <ui-stack grow gap="md" style="flex: 4 1 43rem; min-width: 0">
+              <section aria-label="Key metrics">
+                <ui-grid max-columns="4" min-item-width="8.5rem" gap="sm">
+                  <ui-card padding="md" gap="xs" rounded="lg" elevated>
+                    <small>Revenue</small>
+                    <strong id="revenue-value" style="font-size: 1.375rem"></strong>
+                    <small id="revenue-trend"></small>
+                  </ui-card>
+                  <ui-card padding="md" gap="xs" rounded="lg" elevated>
+                    <small>Orders</small>
+                    <strong id="orders-value" style="font-size: 1.375rem"></strong>
+                    <small id="orders-trend"></small>
+                  </ui-card>
+                  <ui-card padding="md" gap="xs" rounded="lg" elevated>
+                    <small>Conversion</small>
+                    <strong id="conversion-value" style="font-size: 1.375rem"></strong>
+                    <small id="conversion-trend"></small>
+                  </ui-card>
+                  <ui-card padding="md" gap="xs" rounded="lg" elevated>
+                    <small>Refunds</small>
+                    <strong id="refunds-value" style="font-size: 1.375rem"></strong>
+                    <small id="refunds-trend"></small>
+                  </ui-card>
+                </ui-grid>
+              </section>
+
+              <ui-row wrap align="stretch" gap="md">
+                <section grow aria-labelledby="orders-heading" style="flex: 3 1 29rem; min-width: 0">
+                  <ui-card padding="md" rounded="lg">
+                    <ui-row wrap justify="space-between" gap="xs">
+                      <h2 id="orders-heading">Recent orders</h2>
+                      <small id="order-count" role="status"></small>
+                    </ui-row>
+                    <div role="region" aria-labelledby="orders-heading" tabindex="0"
+                         style="overflow-x: auto">
+                      <table style="width: 100%; min-width: 27rem">
+                        <thead>
+                          <tr>
+                            <th scope="col">Order</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody id="orders-body"></tbody>
+                      </table>
+                    </div>
+                  </ui-card>
+                </section>
+
+                <section aria-labelledby="products-heading" style="flex: 1 1 15rem; min-width: 0">
+                  <ui-card padding="md" rounded="lg">
+                    <ui-stack gap="xs">
+                      <h2 id="products-heading">Top products</h2>
+                      <small>Ranked by units sold</small>
+                    </ui-stack>
+                    <ol id="products"></ol>
+                  </ui-card>
+                </section>
+              </ui-row>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <template id="product-template">
+    <li>
+      <ui-row wrap gap="sm">
+        <img alt="" width="36" height="36" loading="lazy">
+        <ui-stack grow gap="0">
+          <strong></strong>
+          <small></small>
+        </ui-stack>
+      </ui-row>
+    </li>
+  </template>
+
+  <script>
+    const periods = [
+      {
+        label: "October 12–18, 2025",
+        store: { revenue: 32486, orders: 346, visits: 10620, refunds: 8, units: [88, 72, 61, 42] },
+        market: { revenue: 16106, orders: 166, visits: 6460, refunds: 5, units: [36, 24, 42, 18] }
+      },
+      {
+        label: "October 5–11, 2025",
+        store: { revenue: 28910, orders: 313, visits: 10130, refunds: 10, units: [74, 59, 52, 36] },
+        market: { revenue: 14610, orders: 157, visits: 6660, refunds: 6, units: [30, 20, 45, 16] }
+      },
+      {
+        label: "September 28–October 4, 2025",
+        store: { revenue: 27108, orders: 292, visits: 9910, refunds: 11 },
+        market: { revenue: 14050, orders: 149, visits: 6400, refunds: 6 }
+      }
+    ];
+
+    const products = [
+      { name: "Weekender Tote", price: 64, seed: "northline-weekender" },
+      { name: "Ridge Bottle", price: 32, seed: "northline-ridge" },
+      { name: "Trail Daypack", price: 88, seed: "northline-trail" },
+      { name: "Merino Crew Socks", price: 22, seed: "northline-merino" }
+    ];
+
+    const recentOrders = [
+      { id: 4821, customer: "Maya Chen", date: "2025-10-18", status: "Fulfilled", total: 128, channel: "store" },
+      { id: 4820, customer: "Jordan Ellis", date: "2025-10-18", status: "Processing", total: 88, channel: "market" },
+      { id: 4819, customer: "Priya Patel", date: "2025-10-17", status: "Fulfilled", total: 96, channel: "store" },
+      { id: 4818, customer: "Owen Brooks", date: "2025-10-17", status: "Refunded", total: 64, channel: "store" },
+      { id: 4817, customer: "Sam Rivera", date: "2025-10-16", status: "Fulfilled", total: 54, channel: "market" },
+      { id: 4655, customer: "Amelia Park", date: "2025-10-11", status: "Fulfilled", total: 110, channel: "store" },
+      { id: 4654, customer: "Luis Moreno", date: "2025-10-11", status: "Fulfilled", total: 32, channel: "market" },
+      { id: 4653, customer: "Alexis Reed", date: "2025-10-10", status: "Refunded", total: 88, channel: "market" },
+      { id: 4652, customer: "Noah Singh", date: "2025-10-10", status: "Fulfilled", total: 150, channel: "store" },
+      { id: 4651, customer: "Leah Miller", date: "2025-10-09", status: "Fulfilled", total: 64, channel: "store" }
+    ];
+
+    const channelNames = { store: "Online store", market: "Marketplace" };
+    const periodStarts = ["2025-10-12", "2025-10-05"];
+    const periodEnds = ["2025-10-18", "2025-10-11"];
+    const wholeDollars = new Intl.NumberFormat("en-US", {
+      style: "currency", currency: "USD", maximumFractionDigits: 0
+    });
+    const dollars = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" });
+    const number = new Intl.NumberFormat("en-US");
+    const shortDate = new Intl.DateTimeFormat("en-US", {
+      month: "short", day: "numeric", timeZone: "UTC"
+    });
+
+    const byId = (id) => document.getElementById(id);
+    const filters = byId("filters");
+    const period = byId("period");
+    const channel = byId("channel");
+    const search = byId("order-search");
+    const ordersBody = byId("orders-body");
+    const productList = byId("products");
+    const productTemplate = byId("product-template");
+
+    function sum(periodData, channels, key) {
+      return channels.reduce((total, name) => total + periodData[name][key], 0);
+    }
+
+    function percentChange(current, previous) {
+      return ((current - previous) / previous) * 100;
+    }
+
+    function showMetric(name, value, change, unit = "%") {
+      const precision = unit === " pp" ? 2 : 1;
+      const amount = Math.abs(change).toFixed(precision);
+      const direction = change > 0 ? "Up" : "Down";
+      byId(`${name}-value`).textContent = value;
+      byId(`${name}-trend`).textContent = Number(amount) === 0
+        ? "Flat vs. prior week"
+        : `${direction} ${amount}${unit}`;
+    }
+
+    function renderOrders() {
+      const selectedPeriod = Number(period.value);
+      const query = search.value.trim().toLowerCase();
+      const matches = recentOrders.filter((order) => {
+        const inRange = order.date >= periodStarts[selectedPeriod]
+          && order.date <= periodEnds[selectedPeriod];
+        const inChannel = channel.value === "all" || order.channel === channel.value;
+        const searchable = `#${order.id} ${order.customer} ${order.status} ${channelNames[order.channel]}`;
+        return inRange && inChannel && searchable.toLowerCase().includes(query);
+      });
+
+      const rows = matches.map((order) => {
+        const row = document.createElement("tr");
+        const id = document.createElement("th");
+        id.scope = "row";
+        id.textContent = `#${order.id}`;
+        row.append(id);
+        row.insertCell().textContent = order.customer;
+
+        const date = document.createElement("time");
+        date.dateTime = order.date;
+        date.textContent = shortDate.format(new Date(order.date));
+        row.insertCell().append(date);
+
+        row.insertCell().textContent = order.status;
+        row.insertCell().textContent = dollars.format(order.total);
+        return row;
+      });
+
+      ordersBody.replaceChildren(...rows);
+      byId("order-count").textContent = `${matches.length} shown`;
+
+      if (rows.length === 0) {
+        const cell = ordersBody.insertRow().insertCell();
+        cell.colSpan = 5;
+        cell.textContent = "No recent orders match your search and filters.";
+      }
+    }
+
+    function renderDashboard() {
+      const selectedPeriod = Number(period.value);
+      const current = periods[selectedPeriod];
+      const previous = periods[selectedPeriod + 1];
+      const channels = channel.value === "all" ? Object.keys(channelNames) : [channel.value];
+      const currentOrders = sum(current, channels, "orders");
+      const previousOrders = sum(previous, channels, "orders");
+      const currentConversion = 100 * currentOrders / sum(current, channels, "visits");
+      const previousConversion = 100 * previousOrders / sum(previous, channels, "visits");
+      const revenue = sum(current, channels, "revenue");
+      const refunds = sum(current, channels, "refunds");
+
+      byId("period-label").textContent = `${current.label} compared with ${previous.label}`;
+      showMetric("revenue", wholeDollars.format(revenue),
+        percentChange(revenue, sum(previous, channels, "revenue")));
+      showMetric("orders", number.format(currentOrders), percentChange(currentOrders, previousOrders));
+      showMetric("conversion", `${currentConversion.toFixed(2)}%`,
+        currentConversion - previousConversion, " pp");
+      showMetric("refunds", number.format(refunds),
+        percentChange(refunds, sum(previous, channels, "refunds")));
+
+      const rankedProducts = products.map((product, index) => ({
+        ...product,
+        units: channels.reduce((total, name) => total + current[name].units[index], 0)
+      })).sort((first, second) => second.units - first.units);
+
+      const items = rankedProducts.map((product) => {
+        const item = productTemplate.content.firstElementChild.cloneNode(true);
+        item.querySelector("img").src = `https://picsum.photos/seed/${product.seed}/72/72`;
+        item.querySelector("strong").textContent = product.name;
+        item.querySelector("small").textContent =
+          `${number.format(product.units)} sold · ${wholeDollars.format(product.units * product.price)}`;
+        return item;
+      });
+
+      productList.replaceChildren(...items);
+      renderOrders();
+    }
+
+    filters.addEventListener("submit", (event) => event.preventDefault());
+    filters.addEventListener("change", renderDashboard);
+    search.addEventListener("input", renderOrders);
+    renderDashboard();
+  </script>
+</body>
+</html>

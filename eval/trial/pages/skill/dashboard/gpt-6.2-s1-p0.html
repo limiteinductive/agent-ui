@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store overview | Fieldwork</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Intrinsic sizing for unequal columns and native form controls. */
+    .filters { flex: 1 1 12rem; }
+    .dashboard { flex: 999 1 44rem; min-width: 0; }
+    .orders { flex: 999 1 29rem; min-width: 0; }
+    .products { flex: 1 1 15rem; min-width: 0; }
+    .filters label, .filters select, .search input { display: block; width: 100%; box-sizing: border-box; }
+    .search { min-width: 0; max-width: 24rem; }
+    @media (max-width: 36rem) {
+      .search { order: 1; flex: 1 0 100%; max-width: none; }
+    }
+
+    /* Native account disclosure, scrollable table, and metric typography. */
+    .account { position: relative; }
+    .account summary { cursor: pointer; }
+    .account-panel { position: absolute; inset-block-start: calc(100% + var(--ui-space-sm)); inset-inline-end: 0; z-index: 2; width: 13rem; }
+    .avatar, .thumbnail { object-fit: cover; flex: none; border-radius: var(--ui-radius-md); }
+    .avatar { border-radius: var(--ui-radius-full); vertical-align: middle; }
+    .muted { color: var(--ui-ink-muted); }
+    .metric-value { font-size: clamp(1.35rem, 2.2vw, 1.9rem); line-height: 1.15; letter-spacing: -.04em; }
+    .metric-value, .numeric { font-variant-numeric: tabular-nums; }
+    .favorable { color: light-dark(#176544, #83ddb0); }
+    .unfavorable { color: light-dark(#a1323e, #ffabb2); }
+    .sparkline { display: block; }
+    .table-scroll { overflow: auto; }
+    .orders-table { width: 100%; min-width: 27rem; }
+    .orders-table th { text-align: start; }
+    .orders-table .numeric { text-align: end; white-space: nowrap; }
+    .products-list { list-style: none; padding: 0; margin: 0; }
+    .products-list li + li { border-block-start: 1px solid color-mix(in srgb, var(--ui-ink) 14%, transparent); }
+  </style>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-card inverse rounded="0" padding="0">
+        <ui-container size="xl">
+          <ui-row wrap justify="space-between" gap="md" padding="sm">
+            <ui-row gap="sm">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 8h14l1 12H4L5 8Z M9 9V6a3 3 0 0 1 6 0v3 M9 15h6"/>
+              </svg>
+              <strong>Fieldwork</strong>
+            </ui-row>
+
+            <div class="search" grow>
+              <input id="order-search" type="search" placeholder="Search orders" aria-label="Search by order number or customer" aria-controls="order-results" autocomplete="off">
+            </div>
+
+            <details class="account" id="account">
+              <summary>
+                <img class="avatar" src="https://picsum.photos/id/64/64/64" width="28" height="28" alt="">
+                Maya Chen
+              </summary>
+              <ui-card class="account-panel" elevated padding="md">
+                <ui-stack gap="xs">
+                  <strong>Maya Chen</strong>
+                  <small class="muted">Store manager</small>
+                  <small>maya@fieldwork.example</small>
+                </ui-stack>
+                <ui-button id="close-account" variant="outline" size="sm">Close account menu</ui-button>
+              </ui-card>
+            </details>
+          </ui-row>
+        </ui-container>
+      </ui-card>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-stack gap="lg" padding="md">
+          <ui-stack gap="xs">
+            <h1>Store overview</h1>
+            <p class="muted" id="report-period">Oct 25 – Nov 21, 2026</p>
+          </ui-stack>
+
+          <ui-row wrap align="start" gap="lg">
+            <aside class="filters" aria-labelledby="filters-heading">
+              <ui-card padding="md" rounded="lg">
+                <form id="filters">
+                  <ui-stack gap="md">
+                    <h2 id="filters-heading">Filters</h2>
+                    <label>
+                      Date range
+                      <select id="date-range" name="days">
+                        <option value="7">Last 7 days</option>
+                        <option value="14">Last 14 days</option>
+                        <option value="28" selected>Last 28 days</option>
+                      </select>
+                    </label>
+                    <label>
+                      Sales channel
+                      <select id="sales-channel" name="channel">
+                        <option value="all">All channels</option>
+                        <option value="web">Online store</option>
+                        <option value="marketplace">Marketplace</option>
+                        <option value="social">Social shop</option>
+                      </select>
+                    </label>
+                    <ui-button id="reset-filters" variant="outline" size="sm">Reset filters</ui-button>
+                  </ui-stack>
+                </form>
+              </ui-card>
+            </aside>
+
+            <ui-stack class="dashboard" grow gap="lg">
+              <section aria-label="Key metrics">
+                <ui-stack gap="sm">
+                  <p class="muted" id="comparison-period">Compared with the previous 28 days</p>
+                  <ui-grid max-columns="4" min-item-width="8.75rem" gap="sm">
+                    <ui-card variant="primary" rounded="lg" padding="md" data-metric="revenue">
+                      <ui-stack gap="xs">
+                        <span>Net revenue</span>
+                        <strong class="metric-value" data-value></strong>
+                        <small data-trend></small>
+                        <svg class="sparkline" width="100%" height="24" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
+                          <polyline fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+                        </svg>
+                      </ui-stack>
+                    </ui-card>
+                    <ui-card rounded="lg" padding="md" data-metric="orders">
+                      <ui-stack gap="xs">
+                        <span>Orders</span>
+                        <strong class="metric-value" data-value></strong>
+                        <small data-trend></small>
+                        <svg class="sparkline" width="100%" height="24" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
+                          <polyline fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+                        </svg>
+                      </ui-stack>
+                    </ui-card>
+                    <ui-card rounded="lg" padding="md" data-metric="conversion">
+                      <ui-stack gap="xs">
+                        <span>Conversion</span>
+                        <strong class="metric-value" data-value></strong>
+                        <small data-trend></small>
+                        <svg class="sparkline" width="100%" height="24" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
+                          <polyline fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+                        </svg>
+                      </ui-stack>
+                    </ui-card>
+                    <ui-card rounded="lg" padding="md" data-metric="refunds">
+                      <ui-stack gap="xs">
+                        <span>Refunds</span>
+                        <strong class="metric-value" data-value></strong>
+                        <small data-trend></small>
+                        <svg class="sparkline" width="100%" height="24" viewBox="0 0 120 24" preserveAspectRatio="none" aria-hidden="true">
+                          <polyline fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
+                        </svg>
+                      </ui-stack>
+                    </ui-card>
+                  </ui-grid>
+                </ui-stack>
+              </section>
+
+              <ui-row wrap gap="md" align="stretch">
+                <section class="orders" grow aria-labelledby="orders-heading">
+                  <ui-card rounded="lg" padding="md">
+                    <ui-stack gap="sm">
+                      <h2 id="orders-heading">Recent orders</h2>
+                      <small class="muted" id="order-count" role="status"></small>
+                      <div class="table-scroll" role="region" aria-label="Scrollable recent orders table" tabindex="0">
+                        <table class="orders-table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Order</th>
+                              <th scope="col">Customer</th>
+                              <th scope="col">Status</th>
+                              <th scope="col" class="numeric">Total</th>
+                            </tr>
+                          </thead>
+                          <tbody id="order-results"></tbody>
+                        </table>
+                      </div>
+                    </ui-stack>
+                  </ui-card>
+                </section>
+
+                <section class="products" aria-labelledby="products-heading">
+                  <ui-card rounded="lg" padding="md">
+                    <ui-stack gap="sm">
+                      <h2 id="products-heading">Top products</h2>
+                      <small class="muted">Ranked by net revenue</small>
+                      <ul class="products-list" id="top-products" role="list"></ul>
+                    </ui-stack>
+                  </ui-card>
+                </section>
+              </ui-row>
+            </ui-stack>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+
+  <script>
+    const catalog = [
+      { name: "Ridge Daypack", price: 84, image: "https://picsum.photos/seed/ridge-daypack/96/96" },
+      { name: "Everyday Bottle", price: 32, image: "https://picsum.photos/seed/everyday-bottle/96/96" },
+      { name: "Trail Fleece", price: 98, image: "https://picsum.photos/seed/trail-fleece/96/96" },
+      { name: "Canvas Market Tote", price: 38, image: "https://picsum.photos/seed/canvas-market-tote/96/96" },
+      { name: "Camp Mug", price: 24, image: "https://picsum.photos/seed/camp-mug/96/96" }
+    ];
+
+    const customers = [
+      "Olivia Patel", "Mateo Rivera", "Hannah Kim", "Jamal Brooks",
+      "Nora Jensen", "Ethan Wong", "Sofia Costa", "Leah Nguyen",
+      "Amir Haddad", "Isabel Flores", "Theo Martin", "Zoe Okafor"
+    ];
+
+    const channelVolumes = [
+      { id: "web", sessions: 260 },
+      { id: "marketplace", sessions: 95 },
+      { id: "social", sessions: 55 }
+    ];
+
+    const dayLength = 86400000;
+    const reportEnd = Date.UTC(2026, 10, 21);
+    const dateFormat = new Intl.DateTimeFormat("en-US", {
+      month: "short", day: "numeric", year: "numeric", timeZone: "UTC"
+    });
+    const shortDate = new Intl.DateTimeFormat("en-US", {
+      month: "short", day: "numeric", timeZone: "UTC"
+    });
+    const money = new Intl.NumberFormat("en-US", {
+      style: "currency", currency: "USD"
+    });
+    const wholeDollars = new Intl.NumberFormat("en-US", {
+      style: "currency", currency: "USD", maximumFractionDigits: 0
+    });
+    const integer = new Intl.NumberFormat("en-US");
+
+    // Generate the same 56 days of sample activity every time the page loads.
+    let seed = 173;
+    let orderNumber = 4180;
+
+    function random() {
+      seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+      return seed / 4294967296;
+    }
+
+    function sample(items) {
+      return items[Math.floor(random() * items.length)];
+    }
+
+    const days = Array.from({ length: 56 }, (_, index) => {
+      const age = 55 - index;
+      const date = new Date(reportEnd - age * dayLength);
+
+      const channels = channelVolumes.map(channel => {
+        const sessions = Math.round(channel.sessions * (0.7 + random() * 0.6));
+        const conversion = 0.025 + index * 0.00025 + random() * 0.016;
+        const orderCount = Math.round(sessions * conversion);
+
+        const orders = Array.from({ length: orderCount }, () => {
+          const product = sample(catalog);
+          const quantity = random() < 0.15 ? 2 : 1;
+          const refundRate = index < 28 ? 0.075 : 0.035;
+          const refunded = random() < refundRate;
+
+          return {
+            id: ++orderNumber,
+            date,
+            product,
+            quantity,
+            total: product.price * quantity,
+            customer: sample(customers),
+            status: refunded ? "Refunded" : age < 3 && random() < 0.35 ? "Processing" : "Fulfilled"
+          };
+        });
+
+        return { id: channel.id, sessions, orders };
+      });
+
+      return { date, channels };
+    });
+
+    const rangeSelect = document.getElementById("date-range");
+    const channelSelect = document.getElementById("sales-channel");
+    const search = document.getElementById("order-search");
+    const metricCards = [...document.querySelectorAll("[data-metric]")];
+    const account = document.getElementById("account");
+    let currentOrders = [];
+
+    function summarize(period, channelId) {
+      const channels = period.flatMap(day =>
+        day.channels.filter(channel => channelId === "all" || channel.id === channelId)
+      );
+      const sessions = channels.reduce((total, channel) => total + channel.sessions, 0);
+      const allOrders = channels.flatMap(channel => channel.orders);
+      const netOrders = allOrders.filter(order => order.status !== "Refunded");
+
+      return {
+        allOrders,
+        netOrders,
+        revenue: netOrders.reduce((total, order) => total + order.total, 0),
+        orders: allOrders.length,
+        conversion: sessions ? allOrders.length / sessions * 100 : 0,
+        refunds: allOrders.length - netOrders.length
+      };
+    }
+
+    const metricFormats = {
+      revenue: value => wholeDollars.format(value),
+      orders: value => integer.format(value),
+      conversion: value => `${value.toFixed(2)}%`,
+      refunds: value => integer.format(value)
+    };
+
+    function renderMetric(card, current, previous, history) {
+      const metric = card.dataset.metric;
+      const value = current[metric];
+      const baseline = previous[metric];
+      const isConversion = metric === "conversion";
+      const change = isConversion ? value - baseline : (value - baseline) / baseline * 100;
+      const precision = isConversion ? 2 : 1;
+      const roundedChange = Number(change.toFixed(precision));
+      const favorable = metric === "refunds" ? roundedChange < 0 : roundedChange > 0;
+      const trend = card.querySelector("[data-trend]");
+      const sparkline = card.querySelector("svg");
+
+      card.querySelector("[data-value]").textContent = metricFormats[metric](value);
+      let description = "No change";
+
+      if (!isConversion && baseline === 0 && value > 0) {
+        description = "↑ From zero";
+      } else if (Number.isFinite(roundedChange) && roundedChange !== 0) {
+        const direction = roundedChange > 0 ? "↑" : "↓";
+        const unit = isConversion ? " pp" : "%";
+        description = `${direction} ${Math.abs(roundedChange).toFixed(precision)}${unit}`;
+      }
+
+      const tone = description === "No change" ? "muted" : favorable ? "favorable" : "unfavorable";
+      trend.className = tone;
+      trend.textContent = description;
+      sparkline.setAttribute("class", `sparkline ${tone}`);
+
+      const values = history.map(bucket => bucket[metric]);
+      const minimum = Math.min(...values);
+      const span = Math.max(...values) - minimum;
+      const points = values.map((point, index) => {
+        const x = 2 + index * 116 / (values.length - 1);
+        const y = span ? 21 - (point - minimum) / span * 18 : 12;
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+      });
+      sparkline.querySelector("polyline").setAttribute("points", points.join(" "));
+    }
+
+    function renderOrders() {
+      const query = search.value.trim().toLowerCase();
+      const matches = currentOrders.filter(order =>
+        `#FW-${order.id} ${order.customer}`.toLowerCase().includes(query)
+      );
+      const visible = matches.slice(0, 6);
+
+      document.getElementById("order-count").textContent = matches.length
+        ? `Showing ${visible.length} of ${integer.format(matches.length)} ${query ? "matching " : ""}orders`
+        : "0 orders found";
+
+      document.getElementById("order-results").innerHTML = visible.length
+        ? visible.map(order => `
+          <tr>
+            <td>
+              <strong>#FW-${order.id}</strong><br>
+              <small class="muted"><time datetime="${order.date.toISOString().slice(0, 10)}">${shortDate.format(order.date)}</time></small>
+            </td>
+            <td>${order.customer}</td>
+            <td><span class="${order.status === "Fulfilled" ? "favorable" : order.status === "Refunded" ? "unfavorable" : "muted"}">${order.status}</span></td>
+            <td class="numeric">${money.format(order.total)}</td>
+          </tr>
+        `).join("")
+        : `<tr><td colspan="4">${query ? "No orders match your search." : "No orders in this period."}</td></tr>`;
+    }
+
+    function renderProducts(orders) {
+      const totals = new Map();
+      for (const order of orders) {
+        const tally = totals.get(order.product) ?? { revenue: 0, units: 0 };
+        tally.revenue += order.total;
+        tally.units += order.quantity;
+        totals.set(order.product, tally);
+      }
+
+      const topProducts = [...totals.entries()]
+        .sort((left, right) => right[1].revenue - left[1].revenue)
+        .slice(0, 4);
+
+      document.getElementById("top-products").innerHTML = topProducts.length
+        ? topProducts.map(([product, tally]) => `
+          <li>
+            <ui-stack gap="xs" padding="sm">
+              <ui-row gap="sm">
+                <img class="thumbnail" src="${product.image}" alt="" width="36" height="36">
+                <ui-stack grow gap="0">
+                  <strong>${product.name}</strong>
+                  <small class="muted">${integer.format(tally.units)} sold</small>
+                </ui-stack>
+              </ui-row>
+              <ui-row justify="end">
+                <strong class="numeric">${wholeDollars.format(tally.revenue)}</strong>
+              </ui-row>
+            </ui-stack>
+          </li>
+        `).join("")
+        : "<li>No product sales in this period.</li>";
+    }
+
+    function renderDashboard() {
+      const range = Number(rangeSelect.value);
+      const channel = channelSelect.value;
+      const period = days.slice(-range);
+      const current = summarize(period, channel);
+      const previous = summarize(days.slice(-2 * range, -range), channel);
+      const bucketSize = range / 7;
+      const history = Array.from({ length: 7 }, (_, index) =>
+        summarize(period.slice(index * bucketSize, (index + 1) * bucketSize), channel)
+      );
+
+      document.getElementById("report-period").textContent =
+        dateFormat.formatRange(period[0].date, period[period.length - 1].date);
+      document.getElementById("comparison-period").textContent =
+        `Compared with the previous ${range} days`;
+
+      for (const card of metricCards) renderMetric(card, current, previous, history);
+      currentOrders = current.allOrders.slice().reverse();
+      renderOrders();
+      renderProducts(current.netOrders);
+    }
+
+    function closeAccount() {
+      account.open = false;
+      account.querySelector("summary").focus();
+    }
+
+    document.getElementById("filters").addEventListener("change", renderDashboard);
+    document.getElementById("reset-filters").addEventListener("click", () => {
+      document.getElementById("filters").reset();
+      renderDashboard();
+    });
+    search.addEventListener("input", renderOrders);
+    document.getElementById("close-account").addEventListener("click", closeAccount);
+    account.addEventListener("keydown", event => {
+      if (event.key === "Escape" && account.open) closeAccount();
+    });
+
+    renderDashboard();
+  </script>
+</body>
+</html>

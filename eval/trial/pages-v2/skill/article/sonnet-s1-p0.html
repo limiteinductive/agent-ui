@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Craft of Resilient Interfaces — Field Notes</title>
+<script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+<ui-page>
+  <header>
+    <ui-container>
+      <ui-row justify="space-between" padding="md">
+        <strong>Field Notes</strong>
+        <nav>
+          <ui-row gap="md">
+            <a href="#">Articles</a>
+            <a href="#">About</a>
+          </ui-row>
+        </nav>
+      </ui-row>
+    </ui-container>
+  </header>
+
+  <main>
+    <ui-container size="md">
+      <ui-stack gap="xl" padding="lg">
+        <article>
+          <ui-stack gap="lg">
+            <ui-row wrap gap="sm">
+              <span>Engineering</span>
+              <span>·</span>
+              <span>9 min read</span>
+            </ui-row>
+
+            <h1>The Quiet Craft of Resilient Interfaces</h1>
+            <p>Most interface bugs are not clever. They are small assumptions about width, language, speed and attention that quietly stop being true. Here is how we design for the moments when they break.</p>
+
+            <ui-row gap="md">
+              <img src="https://picsum.photos/seed/author-mara/96/96" alt="Portrait of Mara Lindqvist" width="48" height="48">
+              <ui-stack gap="0">
+                <strong>Mara Lindqvist</strong>
+                <small><time datetime="2026-11-14">November 14, 2026</time> · Staff Frontend Engineer</small>
+              </ui-stack>
+            </ui-row>
+
+            <img src="https://picsum.photos/seed/resilient-ui/1600/900" alt="A desk with a laptop showing a responsive layout beside printed wireframes" width="1600" height="900">
+
+            <ui-stack gap="md">
+              <p>Every team has a screenshot of the day their beautiful dashboard met a real user: a 360px phone, a name with forty characters, a connection that took eleven seconds. The design had not been wrong, exactly. It had simply never been asked a hard question.</p>
+              <p>Resilience is the habit of asking those questions early. It is less about heroic engineering and more about a handful of defaults that make the right outcome the easy one.</p>
+
+              <h2>Start with the narrowest screen</h2>
+              <p>Designing the smallest viewport first forces a ranking of what matters. If the title, the byline and the primary action fit in 360 pixels, the desktop layout is an act of generosity rather than a rescue mission.</p>
+              <p>Wide layouts then become additive: a second column, a larger measure, a sidebar. Nothing essential lives only in the space you gained.</p>
+
+              <blockquote>
+                <p>“A layout that survives the worst content on the smallest screen has already survived most of what the world will throw at it.”</p>
+              </blockquote>
+
+              <h2>Let content decide the shape</h2>
+              <p>Fixed pixel breakpoints age badly. Prefer layouts that respond to the space they are actually given: grids that drop columns when tiles get too small, rows that stack when they cannot fit, rails that scroll rather than squash.</p>
+              <ul>
+                <li>Let text wrap; never assume a label is one word.</li>
+                <li>Give media an intrinsic ratio so nothing jumps when it loads.</li>
+                <li>Prefer gaps over margins so spacing stays predictable.</li>
+              </ul>
+
+              <h2>Make failure states first-class</h2>
+              <p>Images fail. Requests time out. Lists come back empty. Each of these deserves a deliberate design, not a blank rectangle. A short message and a clear next step turns a dead end into a pause.</p>
+
+              <h3>A small, honest retry helper</h3>
+              <p>Retrying is only kind if it is bounded and polite. This helper backs off exponentially, adds jitter, and gives up with a useful error.</p>
+
+              <pre><code>async function fetchWithRetry(url, { retries = 3, base = 300 } = {}) {
+  for (let attempt = 0; attempt &lt;= retries; attempt++) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      if (attempt === retries) throw err;
+      const delay = base * 2 ** attempt + Math.random() * 100;
+      await new Promise((r) =&gt; setTimeout(r, delay));
+    }
+  }
+}</code></pre>
+
+              <h2>Measure what you ship</h2>
+              <p>Resilience is a claim, and claims need evidence. Resize the window, throttle the network, paste in the longest name you can find. Automated checks catch overflow and broken images; your own eyes catch the rest.</p>
+              <p>Do this before launch, then again after. The interface your users meet is rarely the one you tested, and the gap between them is where the interesting work lives.</p>
+            </ui-stack>
+
+            <ui-row wrap gap="sm">
+              <span>#frontend</span>
+              <span>#responsive</span>
+              <span>#resilience</span>
+              <span>#css</span>
+              <span>#design-systems</span>
+            </ui-row>
+          </ui-stack>
+        </article>
+      </ui-stack>
+    </ui-container>
+
+    <ui-container size="lg">
+      <ui-stack gap="md" padding="lg">
+        <h2>Related posts</h2>
+        <ui-row scroll item-width="md" gap="md" align="stretch">
+          <ui-card padding="0" gap="0">
+            <img src="https://picsum.photos/seed/rel-grid/640/360" alt="Abstract grid of colored tiles" width="640" height="360">
+            <ui-stack gap="sm" padding="md">
+              <small>Layout · 6 min read</small>
+              <h3>Grids that drop columns gracefully</h3>
+              <p>Stop writing breakpoints for every card layout.</p>
+              <a href="#">Read more</a>
+            </ui-stack>
+          </ui-card>
+          <ui-card padding="0" gap="0">
+            <img src="https://picsum.photos/seed/rel-type/640/360" alt="Typography specimen on paper" width="640" height="360">
+            <ui-stack gap="sm" padding="md">
+              <small>Typography · 5 min read</small>
+              <h3>Choosing a comfortable measure</h3>
+              <p>Why 65 characters still wins for long reading.</p>
+              <a href="#">Read more</a>
+            </ui-stack>
+          </ui-card>
+          <ui-card padding="0" gap="0">
+            <img src="https://picsum.photos/seed/rel-a11y/640/360" alt="Hands using a keyboard" width="640" height="360">
+            <ui-stack gap="sm" padding="md">
+              <small>Accessibility · 8 min read</small>
+              <h3>Keyboard paths nobody tests</h3>
+              <p>A tour of focus traps, skipped links and quiet dead ends.</p>
+              <a href="#">Read more</a>
+            </ui-stack>
+          </ui-card>
+          <ui-card padding="0" gap="0">
+            <img src="https://picsum.photos/seed/rel-perf/640/360" alt="Mountain road at dawn" width="640" height="360">
+            <ui-stack gap="sm" padding="md">
+              <small>Performance · 7 min read</small>
+              <h3>Designing for the slow connection</h3>
+              <p>Skeletons, budgets and the cost of one more font.</p>
+              <a href="#">Read more</a>
+            </ui-stack>
+          </ui-card>
+          <ui-card padding="0" gap="0">
+            <img src="https://picsum.photos/seed/rel-sys/640/360" alt="Colorful building blocks" width="640" height="360">
+            <ui-stack gap="sm" padding="md">
+              <small>Systems · 10 min read</small>
+              <h3>Tokens over magic numbers</h3>
+              <p>Spacing scales that keep a team speaking one language.</p>
+              <a href="#">Read more</a>
+            </ui-stack>
+          </ui-card>
+        </ui-row>
+      </ui-stack>
+    </ui-container>
+  </main>
+
+  <footer>
+    <ui-container>
+      <ui-row justify="center" padding="lg">
+        <small>© 2026 Field Notes. Written slowly, on purpose.</small>
+      </ui-row>
+    </ui-container>
+  </footer>
+</ui-page>
+</body>
+</html>

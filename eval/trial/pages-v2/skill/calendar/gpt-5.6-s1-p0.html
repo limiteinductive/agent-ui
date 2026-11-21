@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Team Calendar</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-page>
+    <header>
+      <ui-container size="xl">
+        <ui-row justify="space-between" wrap gap="sm">
+          <ui-row gap="sm">
+            <strong>Northstar</strong>
+            <small>Team Calendar</small>
+          </ui-row>
+          <nav aria-label="Primary navigation">
+            <ui-row gap="sm" wrap>
+              <a href="#">Calendar</a>
+              <a href="#">Teams</a>
+              <a href="#">Settings</a>
+            </ui-row>
+          </nav>
+        </ui-row>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-container size="xl">
+        <ui-stack gap="lg">
+          <ui-row justify="space-between" wrap gap="md">
+            <ui-stack gap="xs">
+              <small>Workspace schedule</small>
+              <h1>November 2026</h1>
+              <p>Keep the team aligned on launches, reviews, and time together.</p>
+            </ui-stack>
+
+            <ui-row gap="sm">
+              <ui-button aria-label="Previous month">←</ui-button>
+              <ui-button variant="outline">Today</ui-button>
+              <ui-button aria-label="Next month">→</ui-button>
+            </ui-row>
+          </ui-row>
+
+          <ui-row stack-below="lg" align="start" gap="lg">
+            <ui-card grow padding="md" gap="md">
+              <ui-row justify="space-between" wrap gap="sm">
+                <h2>November 2026</h2>
+                <ui-row gap="sm" wrap>
+                  <small>● Product</small>
+                  <small>● Design</small>
+                  <small>● Company</small>
+                </ui-row>
+              </ui-row>
+
+              <ui-grid columns="7" gap="xs" data-ui-allow="grid/cramped">
+                <strong>Mon</strong>
+                <strong>Tue</strong>
+                <strong>Wed</strong>
+                <strong>Thu</strong>
+                <strong>Fri</strong>
+                <strong>Sat</strong>
+                <strong>Sun</strong>
+
+                <ui-card padding="sm" variant="neutral"><small>26</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>27</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>28</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>29</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>30</small></ui-card>
+                <ui-card padding="sm"><small>31</small></ui-card>
+                <ui-card padding="sm"><strong>1</strong></ui-card>
+
+                <ui-card padding="sm"><small>2</small></ui-card>
+                <ui-card padding="sm"><small>3</small></ui-card>
+                <ui-card padding="sm"><small>4</small><small>Design sync</small></ui-card>
+                <ui-card padding="sm"><small>5</small></ui-card>
+                <ui-card padding="sm" variant="primary"><small>6</small><small>Release v2.4</small></ui-card>
+                <ui-card padding="sm"><small>7</small></ui-card>
+                <ui-card padding="sm"><small>8</small></ui-card>
+
+                <ui-card padding="sm"><small>9</small></ui-card>
+                <ui-card padding="sm"><small>10</small><small>Hiring panel</small></ui-card>
+                <ui-card padding="sm"><small>11</small></ui-card>
+                <ui-card padding="sm"><small>12</small><small>Research review</small></ui-card>
+                <ui-card padding="sm"><small>13</small></ui-card>
+                <ui-card padding="sm"><small>14</small></ui-card>
+                <ui-card padding="sm"><small>15</small></ui-card>
+
+                <ui-card padding="sm"><small>16</small><small>Roadmap</small></ui-card>
+                <ui-card padding="sm"><small>17</small></ui-card>
+                <ui-card padding="sm" variant="success"><small>18</small><small>Team lunch</small></ui-card>
+                <ui-card padding="sm"><small>19</small></ui-card>
+                <ui-card padding="sm"><small>20</small></ui-card>
+                <ui-card padding="sm"><small>21</small></ui-card>
+                <ui-card padding="sm"><small>22</small></ui-card>
+
+                <ui-card padding="sm"><small>23</small></ui-card>
+                <ui-card padding="sm"><small>24</small><small>All-hands</small></ui-card>
+                <ui-card padding="sm"><small>25</small></ui-card>
+                <ui-card padding="sm"><small>26</small></ui-card>
+                <ui-card padding="sm"><small>27</small></ui-card>
+                <ui-card padding="sm"><small>28</small></ui-card>
+                <ui-card padding="sm"><small>29</small></ui-card>
+
+                <ui-card padding="sm"><small>30</small><small>Planning</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>1</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>2</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>3</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>4</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>5</small></ui-card>
+                <ui-card padding="sm" variant="neutral"><small>6</small></ui-card>
+              </ui-grid>
+            </ui-card>
+
+            <ui-card padding="md" gap="md">
+              <ui-row justify="space-between" gap="md">
+                <h2>Upcoming</h2>
+                <a href="#">View all</a>
+              </ui-row>
+
+              <ui-stack gap="md">
+                <ui-card variant="primary" padding="md">
+                  <ui-stack gap="xs">
+                    <small>FRI, NOV 6 · 9:00 AM</small>
+                    <h3>Release v2.4</h3>
+                    <p>Product launch and customer announcement.</p>
+                    <small>Product team · Conference Room A</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="md">
+                  <ui-stack gap="xs">
+                    <small>TUE, NOV 10 · 2:00 PM</small>
+                    <h3>Hiring panel</h3>
+                    <p>Frontend engineer interviews with the platform team.</p>
+                    <small>People ops · Zoom</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card padding="md">
+                  <ui-stack gap="xs">
+                    <small>THU, NOV 12 · 11:00 AM</small>
+                    <h3>Research review</h3>
+                    <p>Share usability findings and agree on next steps.</p>
+                    <small>Design team · Studio 2</small>
+                  </ui-stack>
+                </ui-card>
+
+                <ui-card variant="success" padding="md">
+                  <ui-stack gap="xs">
+                    <small>WED, NOV 18 · 12:30 PM</small>
+                    <h3>Team lunch</h3>
+                    <p>A casual lunch to welcome our newest teammates.</p>
+                    <small>Everyone · Harbor House</small>
+                  </ui-stack>
+                </ui-card>
+              </ui-stack>
+            </ui-card>
+          </ui-row>
+        </ui-stack>
+      </ui-container>
+    </main>
+  </ui-page>
+</body>
+</html>

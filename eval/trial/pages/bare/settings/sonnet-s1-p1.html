@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Account Settings</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-container size="md">
+    <ui-stack gap="lg">
+
+      <ui-stack gap="xs">
+        <h1>Account settings</h1>
+        <p>Manage your profile, notifications, billing and account.</p>
+      </ui-stack>
+
+      <ui-card>
+        <ui-stack gap="md">
+          <h2>Profile</h2>
+          <form>
+            <ui-stack gap="md">
+              <ui-row gap="md" align="center">
+                <img src="https://picsum.photos/id/64/160/160" alt="Current avatar" width="80" height="80">
+                <ui-stack gap="xs">
+                  <label for="avatar">Avatar</label>
+                  <input type="file" id="avatar" name="avatar" accept="image/*">
+                  <small>JPG or PNG, up to 2 MB.</small>
+                </ui-stack>
+              </ui-row>
+
+              <ui-grid min-item-width="240px" gap="md">
+                <ui-stack gap="xs">
+                  <label for="name">Full name</label>
+                  <input type="text" id="name" name="name" value="Hannah Moreau" autocomplete="name">
+                </ui-stack>
+                <ui-stack gap="xs">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" value="hannah.moreau@example.com" autocomplete="email">
+                </ui-stack>
+              </ui-grid>
+
+              <ui-stack gap="xs">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="4">Product designer based in Lyon. I love typography, trail running and making small tools for small teams.</textarea>
+              </ui-stack>
+
+              <ui-row gap="sm" justify="end">
+                <button type="reset">Cancel</button>
+                <button type="submit">Save changes</button>
+              </ui-row>
+            </ui-stack>
+          </form>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <ui-stack gap="md">
+          <h2>Notifications</h2>
+          <ui-stack gap="sm">
+            <ui-row justify="between" align="center" gap="md" wrap>
+              <ui-stack gap="0">
+                <strong>Product updates</strong>
+                <small>News about new features and improvements.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" aria-label="Product updates" checked>
+            </ui-row>
+            <hr>
+            <ui-row justify="between" align="center" gap="md" wrap>
+              <ui-stack gap="0">
+                <strong>Weekly activity digest</strong>
+                <small>A summary of your workspace every Monday.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" aria-label="Weekly activity digest" checked>
+            </ui-row>
+            <hr>
+            <ui-row justify="between" align="center" gap="md" wrap>
+              <ui-stack gap="0">
+                <strong>Comments and mentions</strong>
+                <small>Get notified when someone mentions you.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" aria-label="Comments and mentions" checked>
+            </ui-row>
+            <hr>
+            <ui-row justify="between" align="center" gap="md" wrap>
+              <ui-stack gap="0">
+                <strong>SMS security alerts</strong>
+                <small>Text messages for sign-ins from new devices.</small>
+              </ui-stack>
+              <input type="checkbox" role="switch" aria-label="SMS security alerts">
+            </ui-row>
+          </ui-stack>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <ui-stack gap="md">
+          <ui-row justify="between" align="center" gap="sm" wrap>
+            <h2>Billing</h2>
+            <span>Active</span>
+          </ui-row>
+          <ui-grid min-item-width="160px" gap="md">
+            <ui-stack gap="0">
+              <small>Current plan</small>
+              <strong>Pro (monthly)</strong>
+            </ui-stack>
+            <ui-stack gap="0">
+              <small>Price</small>
+              <strong>$24.00 / month</strong>
+            </ui-stack>
+            <ui-stack gap="0">
+              <small>Next invoice</small>
+              <strong>December 14, 2026</strong>
+            </ui-stack>
+            <ui-stack gap="0">
+              <small>Payment method</small>
+              <strong>Visa ending in 4242</strong>
+            </ui-stack>
+          </ui-grid>
+          <ui-row gap="sm" wrap>
+            <button type="button">Change plan</button>
+            <button type="button">View invoices</button>
+          </ui-row>
+        </ui-stack>
+      </ui-card>
+
+      <ui-card>
+        <ui-stack gap="sm">
+          <h2>Danger zone</h2>
+          <ui-card variant="danger" role="status">
+            Deleting your account permanently removes your profile, projects and billing history. This action cannot be undone.
+          </ui-card>
+          <ui-row>
+            <button type="button" data-variant="danger" onclick="if(confirm('Permanently delete your account? This cannot be undone.')){alert('Account deletion requested.');}">Delete account</button>
+          </ui-row>
+        </ui-stack>
+      </ui-card>
+
+    </ui-stack>
+  </ui-container>
+</body>
+</html>

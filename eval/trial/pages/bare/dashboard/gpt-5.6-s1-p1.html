@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Store Analytics Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+</head>
+<body>
+  <ui-stack direction="vertical" gap="0" padding="0">
+
+    <header>
+      <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" wrap padding="md">
+        <ui-stack direction="horizontal" align="center" gap="sm">
+          <strong>Northstar</strong>
+          <span>Store analytics</span>
+        </ui-stack>
+
+        <ui-stack direction="horizontal" align="center" gap="sm" wrap>
+          <label>
+            <span>Search</span>
+            <input type="search" placeholder="Search orders, products..." aria-label="Search">
+          </label>
+          <button type="button">Notifications</button>
+          <button type="button" aria-label="Open user menu">Jane Doe ▾</button>
+        </ui-stack>
+      </ui-stack>
+    </header>
+
+    <main>
+      <ui-stack direction="horizontal" align="start" gap="lg" wrap padding="md">
+
+        <aside>
+          <ui-card>
+            <ui-stack direction="vertical" gap="md" padding="md">
+              <ui-stack direction="horizontal" align="center" justify="space-between">
+                <strong>Filters</strong>
+                <button type="button">Reset</button>
+              </ui-stack>
+
+              <label>
+                <span>Date range</span>
+                <select>
+                  <option>Last 30 days</option>
+                  <option>Last 7 days</option>
+                  <option>This quarter</option>
+                  <option>Year to date</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Sales channel</span>
+                <select>
+                  <option>All channels</option>
+                  <option>Online store</option>
+                  <option>Mobile app</option>
+                  <option>Marketplaces</option>
+                </select>
+              </label>
+
+              <fieldset>
+                <legend>Order status</legend>
+                <label><input type="checkbox" checked> Completed</label>
+                <label><input type="checkbox" checked> Processing</label>
+                <label><input type="checkbox"> Refunded</label>
+                <label><input type="checkbox"> Cancelled</label>
+              </fieldset>
+
+              <label>
+                <span>Region</span>
+                <select>
+                  <option>All regions</option>
+                  <option>North America</option>
+                  <option>Europe</option>
+                  <option>Asia Pacific</option>
+                </select>
+              </label>
+
+              <button type="button">Apply filters</button>
+            </ui-stack>
+          </ui-card>
+        </aside>
+
+        <section style="max-inline-size: 100%;">
+          <ui-stack direction="vertical" gap="lg">
+
+            <ui-stack direction="horizontal" align="center" justify="space-between" wrap>
+              <ui-stack direction="vertical" gap="0">
+                <h1>Overview</h1>
+                <p>Performance for Oct 23 – Nov 21, 2026</p>
+              </ui-stack>
+              <button type="button">Export report</button>
+            </ui-stack>
+
+            <ui-stack direction="horizontal" gap="md" wrap>
+              <ui-card>
+                <ui-stack direction="vertical" gap="sm" padding="md">
+                  <span>Revenue</span>
+                  <strong>$84,392.18</strong>
+                  <span>↗ 18.4% vs previous period</span>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack direction="vertical" gap="sm" padding="md">
+                  <span>Orders</span>
+                  <strong>1,284</strong>
+                  <span>↗ 12.7% vs previous period</span>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack direction="vertical" gap="sm" padding="md">
+                  <span>Conversion rate</span>
+                  <strong>4.86%</strong>
+                  <span>↗ 0.8% vs previous period</span>
+                </ui-stack>
+              </ui-card>
+
+              <ui-card>
+                <ui-stack direction="vertical" gap="sm" padding="md">
+                  <span>Refunds</span>
+                  <strong>$2,184.60</strong>
+                  <span>↘ 6.2% vs previous period</span>
+                </ui-stack>
+              </ui-card>
+            </ui-stack>
+
+            <ui-card>
+              <ui-stack direction="vertical" gap="md" padding="md">
+                <ui-stack direction="horizontal" align="center" justify="space-between" wrap>
+                  <ui-stack direction="vertical" gap="0">
+                    <h2>Recent orders</h2>
+                    <p>Your latest customer activity</p>
+                  </ui-stack>
+                  <a href="#orders">View all orders</a>
+                </ui-stack>
+
+                <div style="overflow: auto;">
+                  <table id="orders">
+                    <thead>
+                      <tr>
+                        <th>Order</th>
+                        <th>Customer</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>#NS-10482</td>
+                        <td>Olivia Chen</td>
+                        <td>Nov 21, 2026</td>
+                        <td><mark>Completed</mark></td>
+                        <td>$248.00</td>
+                      </tr>
+                      <tr>
+                        <td>#NS-10481</td>
+                        <td>Marcus Williams</td>
+                        <td>Nov 21, 2026</td>
+                        <td><mark>Processing</mark></td>
+                        <td>$96.50</td>
+                      </tr>
+                      <tr>
+                        <td>#NS-10480</td>
+                        <td>Sofia Martinez</td>
+                        <td>Nov 20, 2026</td>
+                        <td><mark>Completed</mark></td>
+                        <td>$412.75</td>
+                      </tr>
+                      <tr>
+                        <td>#NS-10479</td>
+                        <td>James Park</td>
+                        <td>Nov 20, 2026</td>
+                        <td><mark>Completed</mark></td>
+                        <td>$79.99</td>
+                      </tr>
+                      <tr>
+                        <td>#NS-10478</td>
+                        <td>Amelia Brown</td>
+                        <td>Nov 19, 2026</td>
+                        <td><mark>Refunded</mark></td>
+                        <td>$154.20</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </ui-stack>
+            </ui-card>
+
+            <ui-card>
+              <ui-stack direction="vertical" gap="md" padding="md">
+                <ui-stack direction="horizontal" align="center" justify="space-between" wrap>
+                  <ui-stack direction="vertical" gap="0">
+                    <h2>Top products</h2>
+                    <p>Best sellers by revenue this month</p>
+                  </ui-stack>
+                  <a href="#products">Manage products</a>
+                </ui-stack>
+
+                <ui-stack direction="vertical" gap="sm" id="products">
+                  <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" wrap>
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/linen-shirt/64/64" alt="Linen overshirt" width="64" height="64">
+                      <ui-stack direction="vertical" gap="0">
+                        <strong>Linen Overshirt</strong>
+                        <span>124 units sold</span>
+                      </ui-stack>
+                    </ui-stack>
+                    <strong>$12,840</strong>
+                  </ui-stack>
+
+                  <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" wrap>
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/ceramic-mug/64/64" alt="Stoneware mug set" width="64" height="64">
+                      <ui-stack direction="vertical" gap="0">
+                        <strong>Stoneware Mug Set</strong>
+                        <span>98 units sold</span>
+                      </ui-stack>
+                    </ui-stack>
+                    <strong>$8,624</strong>
+                  </ui-stack>
+
+                  <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" wrap>
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/leather-bag/64/64" alt="Leather commuter bag" width="64" height="64">
+                      <ui-stack direction="vertical" gap="0">
+                        <strong>Leather Commuter Bag</strong>
+                        <span>67 units sold</span>
+                      </ui-stack>
+                    </ui-stack>
+                    <strong>$7,965</strong>
+                  </ui-stack>
+
+                  <ui-stack direction="horizontal" align="center" justify="space-between" gap="md" wrap>
+                    <ui-stack direction="horizontal" align="center" gap="sm">
+                      <img src="https://picsum.photos/seed/wool-throw/64/64" alt="Wool throw blanket" width="64" height="64">
+                      <ui-stack direction="vertical" gap="0">
+                        <strong>Wool Throw Blanket</strong>
+                        <span>54 units sold</span>
+                      </ui-stack>
+                    </ui-stack>
+                    <strong>$6,480</strong>
+                  </ui-stack>
+                </ui-stack>
+              </ui-stack>
+            </ui-card>
+
+          </ui-stack>
+        </section>
+
+      </ui-stack>
+    </main>
+
+    <footer>
+      <ui-stack direction="horizontal" justify="space-between" wrap padding="md">
+        <span>Northstar Commerce</span>
+        <span>Last updated just now</span>
+      </ui-stack>
+    </footer>
+
+  </ui-stack>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How a trail guide made its route previews easier to browse on phones, laptops, and keyboards.">
+  <title>Designing a horizontal rail that’s easy to browse | Field Notes</title>
+  <script src="https://cdn.jsdelivr.net/gh/limiteinductive/agent-ui@12c1c47/packages/core/dist/agent-ui.js"></script>
+  <style>
+    /* Editorial type, image crops, and code overflow have no agent-ui attributes. */
+    .headline {
+      max-inline-size: 21ch;
+      font: 700 clamp(2.25rem, 5.4vw, 4.75rem)/1.04 Georgia, serif;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+
+    .standfirst {
+      max-inline-size: 58ch;
+      color: var(--ui-ink-muted);
+      font-size: 1.125rem;
+    }
+
+    .muted {
+      color: var(--ui-ink-muted);
+    }
+
+    .avatar {
+      display: block;
+      inline-size: 2.75rem;
+      block-size: 2.75rem;
+      border-radius: var(--ui-radius-full);
+      object-fit: cover;
+    }
+
+    .cover,
+    .card-image {
+      display: block;
+      inline-size: 100%;
+      object-fit: cover;
+      border-radius: var(--ui-radius-md);
+    }
+
+    .cover {
+      block-size: auto;
+      aspect-ratio: 2.35;
+    }
+
+    .card-image {
+      block-size: auto;
+      aspect-ratio: 16 / 9;
+    }
+
+    .pull-quote {
+      margin: 0;
+      font: 400 clamp(1.5rem, 3vw, 2.25rem)/1.2 Georgia, serif;
+    }
+
+    .code-sample {
+      margin: 0;
+      max-inline-size: 100%;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .code-sample code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    .related-rail {
+      min-inline-size: 0;
+    }
+
+    .related-rail:focus-visible,
+    .code-sample:focus-visible {
+      outline: 2px solid var(--ui-primary);
+      outline-offset: -2px;
+    }
+
+    @media (max-width: 40rem) {
+      .cover {
+        aspect-ratio: 4 / 3;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+  <ui-page>
+    <header>
+      <ui-container size="lg">
+        <ui-row justify="space-between" padding="md">
+          <strong>Field Notes</strong>
+          <nav aria-label="On this page">
+            <a href="#related">Related posts</a>
+          </nav>
+        </ui-row>
+        <hr>
+      </ui-container>
+    </header>
+
+    <main>
+      <ui-stack gap="2xl" padding="md">
+        <article aria-labelledby="article-title">
+          <ui-stack gap="2xl">
+            <ui-container size="lg">
+              <ui-stack gap="lg">
+                <header>
+                  <ui-stack gap="md">
+                    <h1 class="headline" id="article-title">Designing a horizontal rail that’s easy to browse</h1>
+                    <p class="standfirst">When we redesigned our weekend trail guide, we needed room for more routes. The hardest part was making the next card easy to find.</p>
+                    <ui-row gap="sm">
+                      <img class="avatar" src="https://picsum.photos/id/64/96/96" width="44" height="44" alt="">
+                      <ui-stack gap="0">
+                        <strong>Maya Chen</strong>
+                        <small class="muted"><time datetime="2026-09-17">September 17, 2026</time></small>
+                      </ui-stack>
+                    </ui-row>
+                  </ui-stack>
+                </header>
+                <img class="cover" src="https://picsum.photos/id/1015/1600/800" width="1600" height="800" alt="A river bends between steep, wooded mountain slopes." fetchpriority="high">
+              </ui-stack>
+            </ui-container>
+
+            <ui-container size="sm">
+              <ui-stack gap="xl">
+                <ui-stack gap="md">
+                  <p>Last spring, we added six short hikes to our weekend trail guide. On a laptop, the previews fit neatly into a grid. On a phone, the same grid became a long list that pushed the parking and weather notes several screens down. We moved those optional previews into a horizontal rail and kept the information people needed for their chosen hike in the main reading flow.</p>
+                  <p>The first prototype showed one full card on a phone. During a walkthrough, a friend read the first preview and kept scrolling down the page. She was looking for a shorter route and assumed we had only included one. A second person found the extra cards by swiping the photo, then struggled to return to the first one. Both observations changed how we sized and aligned the cards.</p>
+                </ui-stack>
+
+                <section aria-labelledby="next-card">
+                  <ui-stack gap="md">
+                    <h2 id="next-card">Leave room for the next card</h2>
+                    <p>We sized the cards so the first one could show a route name, distance, and a short description with a sliver of the second photo still visible. The gap between cards mattered. If we made it too wide, the next image disappeared at 360 pixels. If we made it too narrow, the second image looked attached to the first card.</p>
+                    <ui-card variant="primary" padding="lg" rounded="lg">
+                      <blockquote class="pull-quote">“Show enough of the next card that someone can tell where a swipe will take them.”</blockquote>
+                    </ui-card>
+                    <p>We checked the layout with the longest route name and with larger browser text. At both sizes, the trail name could wrap and the distance stayed visible. The photograph could get smaller because the name and distance did most of the work when someone was comparing routes.</p>
+                  </ui-stack>
+                </section>
+
+                <section aria-labelledby="native-scroll">
+                  <ui-stack gap="md">
+                    <h2 id="native-scroll">Let the browser handle scrolling</h2>
+                    <p>We used agent-ui’s <code>scroll</code> row with an explicit <code>item-width</code>. The row handles horizontal overflow and card snapping. The rail has an accessible name from its heading, and <code>tabindex="0"</code> gives keyboard users a place to focus before using the arrow keys.</p>
+                    <ui-card sunken padding="md" rounded="md">
+                      <pre class="code-sample" tabindex="0" aria-label="HTML example of a scrollable route rail"><code>&lt;h2 id="routes"&gt;More routes&lt;/h2&gt;
+&lt;ui-row scroll item-width="17rem"
+        gap="md" tabindex="0"
+        role="region"
+        aria-labelledby="routes"&gt;
+  &lt;ui-card&gt;
+    &lt;h3&gt;Creek Loop&lt;/h3&gt;
+    &lt;p&gt;2.4 miles · Easy&lt;/p&gt;
+  &lt;/ui-card&gt;
+  &lt;ui-card&gt;
+    &lt;h3&gt;Lower Ridge&lt;/h3&gt;
+    &lt;p&gt;4.1 miles · Moderate&lt;/p&gt;
+  &lt;/ui-card&gt;
+&lt;/ui-row&gt;</code></pre>
+                    </ui-card>
+                    <p>On a laptop, start at the heading and press Tab until the rail has focus. Arrow across to the final card and back again. Then try the links or controls inside the cards in order. On a phone, start a vertical swipe over a card and check that the page still scrolls naturally.</p>
+                  </ui-stack>
+                </section>
+
+                <section aria-labelledby="card-content">
+                  <ui-stack gap="md">
+                    <h2 id="card-content">Make each card easy to compare</h2>
+                    <p>We kept the same order on every preview: photo, trail name, distance, and one detail worth knowing. For Creek Loop, that detail was shade for most of the walk. For Lower Ridge, it was a steep stretch near the end. Those specifics gave people a reason to pick one route over another.</p>
+                    <p>After the change, we gave a reader a simple task: find a route under three miles with some shade. She found Creek Loop and went back to the original hike without losing her place. We kept that task for later reviews because it tests whether the cards help someone make a decision.</p>
+                  </ui-stack>
+                </section>
+
+                <footer aria-labelledby="tags-title">
+                  <ui-stack gap="sm">
+                    <h2 id="tags-title">Tags</h2>
+                    <ui-row wrap gap="sm" role="list" aria-labelledby="tags-title">
+                      <ui-card role="listitem" padding="sm" rounded="full"><small>Responsive design</small></ui-card>
+                      <ui-card role="listitem" padding="sm" rounded="full"><small>Accessibility</small></ui-card>
+                      <ui-card role="listitem" padding="sm" rounded="full"><small>Frontend</small></ui-card>
+                    </ui-row>
+                  </ui-stack>
+                </footer>
+              </ui-stack>
+            </ui-container>
+          </ui-stack>
+        </article>
+
+        <ui-container size="lg">
+          <section id="related" aria-labelledby="related-title">
+            <ui-stack gap="md">
+              <hr>
+              <h2 id="related-title">Related posts</h2>
+              <ui-row class="related-rail" scroll item-width="17rem" gap="md" align="start" tabindex="0" role="region" aria-labelledby="related-title">
+                <ui-card padding="md" gap="sm" rounded="lg">
+                  <img class="card-image" src="https://picsum.photos/id/29/640/360" width="640" height="360" alt="" loading="lazy">
+                  <h3>How we crop trail photos</h3>
+                  <p>Keep the landmark visible when a wide photo becomes a small preview.</p>
+                  <details>
+                    <summary>Read post</summary>
+                    <p>We pick the feature that helps a hiker recognize the route, such as a bridge or a fork in the path. Then we preview the crop at phone size. If that feature disappears, we reposition the crop or choose another frame.</p>
+                  </details>
+                </ui-card>
+
+                <ui-card padding="md" gap="sm" rounded="lg">
+                  <img class="card-image" src="https://picsum.photos/id/28/640/360" width="640" height="360" alt="" loading="lazy">
+                  <h3>A keyboard pass before launch</h3>
+                  <p>Walk through the page the way a keyboard user would.</p>
+                  <details>
+                    <summary>Read post</summary>
+                    <p>Start at the top and use Tab to move forward and Shift+Tab to go back. Check that focus stays visible and the order follows the page. Open a preview, close it, and see where focus lands before you continue.</p>
+                  </details>
+                </ui-card>
+
+                <ui-card padding="md" gap="sm" rounded="lg">
+                  <img class="card-image" src="https://picsum.photos/id/10/640/360" width="640" height="360" alt="" loading="lazy">
+                  <h3>Writing better route previews</h3>
+                  <p>Give readers one detail that will help them choose a hike.</p>
+                  <details>
+                    <summary>Read post</summary>
+                    <p>Put distance and difficulty in a predictable spot. Use the description for something specific to the route, such as a muddy crossing after rain or a bench halfway up the climb.</p>
+                  </details>
+                </ui-card>
+
+                <ui-card padding="md" gap="sm" rounded="lg">
+                  <img class="card-image" src="https://picsum.photos/id/15/640/360" width="640" height="360" alt="" loading="lazy">
+                  <h3>Checking a guide at 360 pixels</h3>
+                  <p>Catch clipped labels and hidden controls before they reach a reader.</p>
+                  <details>
+                    <summary>Read post</summary>
+                    <p>Use a narrow viewport and load the guide with real route names. Try the longest title, expand a preview, and run through the page again with larger text. Pay attention to the route details people need before they leave home.</p>
+                  </details>
+                </ui-card>
+
+                <ui-card padding="md" gap="sm" rounded="lg">
+                  <img class="card-image" src="https://picsum.photos/id/16/640/360" width="640" height="360" alt="" loading="lazy">
+                  <h3>When a grid works better</h3>
+                  <p>Choose a layout based on how people compare the options.</p>
+                  <details>
+                    <summary>Read post</summary>
+                    <p>For our route finder, people often compare several hikes by distance and elevation. A grid lets them scan more options at once. On an individual route page, a rail keeps the optional suggestions close to the guide without taking up several screens.</p>
+                  </details>
+                </ui-card>
+              </ui-row>
+            </ui-stack>
+          </section>
+        </ui-container>
+      </ui-stack>
+    </main>
+
+    <footer>
+      <ui-container size="lg">
+        <hr>
+        <ui-row justify="space-between" padding="md">
+          <small>Field Notes</small>
+          <a href="#top">Back to top</a>
+        </ui-row>
+      </ui-container>
+    </footer>
+  </ui-page>
+</body>
+</html>
